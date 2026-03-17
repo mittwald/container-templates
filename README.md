@@ -34,7 +34,7 @@ Beschreibt das Template mit folgenden Feldern:
 | `support` | Support-URL |
 | `license` | Lizenz der Software |
 | `icon` | Pfad zum Icon (SVG), z.B. `icon.svg` |
-| `categories` | Kategorien (z.B. `productivity`, `ai`, `development`) |
+| `categories` | Kategorien: `productivity`, `development`, `ai`, `security`, `monitoring`, `communication`, `media`, `ecommerce` |
 | `domains` | Domain-Zuordnung zu Services und Ports |
 | `userInputs` | Vom Benutzer konfigurierte Werte |
 | `systemInputs` | Automatisch vom System generierte Werte (Passwörter, Tokens) |

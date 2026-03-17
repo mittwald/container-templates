@@ -13,7 +13,7 @@ website: https://umami.is
 repository: https://github.com/umami-software/umami
 license: MIT
 categories:
-  - productivity
+  - monitoring
 domains:
   - userInput: HOST
     service: umami

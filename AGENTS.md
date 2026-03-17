@@ -29,7 +29,15 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 - `tagline` und `description` sind zweisprachig (de/en).
 - `version` ist eine Anzeige-Version (z.B. `"2.x.x"`), keine exakte Versionspinning.
 - `icon` verweist auf eine SVG-Datei im Template-Ordner (üblicherweise `icon.svg`). Icons stammen bevorzugt von [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0).
-- `categories` sind auf vordefinierte Werte beschränkt.
+- `categories` sind auf folgende Werte beschränkt:
+  - `productivity` — Workflow-Automatisierung, Dokumentenmanagement, Projekttools
+  - `development` — Datenbanken, Suchplattformen, CMS, Dev-Tools
+  - `ai` — KI/ML-spezifische Tools und Infrastruktur
+  - `security` — Passwort-Manager, Authentifizierung, Verschlüsselung
+  - `monitoring` — Analytics, Uptime-Monitoring, Observability
+  - `communication` — Chat, Messaging, Kollaboration
+  - `media` — Foto-/Video-/Dateiverwaltung
+  - `ecommerce` — Shops, Payment, POS
 - `domains` verknüpft User-Inputs mit Services und Ports für automatisches Domain-Routing.
 - `userInputs` definiert Werte, die der Benutzer bei der Installation konfiguriert.
 - `systemInputs` definiert Werte, die das System automatisch generiert (z.B. Passwörter, Tokens), mit Regeln für Länge, Zeichenklassen und Muster.
