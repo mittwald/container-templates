@@ -1,0 +1,50 @@
+manifestVersion: 1.0
+name: vikunja
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Open-Source Task- und Projektmanagement
+  en: Open-source task and project management
+description:
+  de: Vikunja ist eine Open-Source To-Do- und Projektmanagement-Anwendung mit Listen, Kanban-Boards, Gantt-Charts und Kalenderansicht. Dieses Template enthält Vikunja mit PostgreSQL-Backend.
+  en: Vikunja is an open-source to-do and project management application with lists, Kanban boards, Gantt charts and calendar view. This template includes Vikunja with a PostgreSQL backend.
+developer: Vikunja
+website: https://vikunja.io
+repository: https://kolaente.dev/vikunja/vikunja
+license: AGPL-3.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: vikunja
+    port: 3456
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1

@@ -2,13 +2,13 @@
 
 ## productivity
 
-- [ ] NocoDB — https://nocodb.com/
+- [x] NocoDB — https://nocodb.com/
 - [ ] Postiz — https://postiz.com/
 - [ ] Twenty CRM — https://twenty.com/
-- [ ] HedgeDoc — https://github.com/hedgedoc/hedgedoc
-- [ ] Vikunja — https://vikunja.io/
+- [x] HedgeDoc — https://github.com/hedgedoc/hedgedoc
+- [x] Vikunja — https://vikunja.io/
 - [ ] Collabora — https://hub.docker.com/r/collabora/code
-- [ ] Docmost — https://docmost.com/
+- [x] Docmost — https://docmost.com/
 - [ ] Outline — https://www.getoutline.com/
 - [ ] Linkwarden — https://linkwarden.app/
 - [ ] Kutt — https://github.com/thedevs-network/kutt
@@ -28,8 +28,8 @@
 - [ ] Supabase — https://supabase.com/
 - [ ] Mailpit — https://mailpit.axllent.org/
 - [ ] code-server (VS Code) — https://github.com/coder/code-server
-- [ ] BentoPDF — https://github.com/alam00000/bentopdf
-- [ ] Gotenberg — https://gotenberg.dev/
+- [x] BentoPDF — https://github.com/alam00000/bentopdf
+- [x] Gotenberg — https://gotenberg.dev/
 - [ ] Nginx Proxy Manager — https://nginxproxymanager.com/
 - [ ] Varnish — https://www.varnish-software.com
 - [ ] OpenCode Web — https://github.com/anomalyco/opencode
@@ -49,14 +49,14 @@
 
 ## monitoring
 
-- [ ] Uptime Kuma — https://uptime.kuma.pet/
+- [x] Uptime Kuma — https://uptime.kuma.pet/
 - [ ] Healthchecks — https://github.com/healthchecks/healthchecks
 - [ ] Plausible — https://plausible.io/
 - [ ] Rybbit — https://rybbit.com/
 
 ## communication
 
-- [ ] Listmonk — https://listmonk.app/
+- [x] Listmonk — https://listmonk.app/
 - [ ] ntfy.sh — https://ntfy.sh/
 - [ ] Apprise — https://github.com/caronc/apprise
 - [ ] Chatwoot — https://www.chatwoot.com/

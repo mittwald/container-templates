@@ -1,0 +1,40 @@
+services:
+  docmost:
+    image: docmost/docmost:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - APP_URL=https://${HOST}
+      - APP_SECRET=${APP_SECRET}
+      - DATABASE_URL=postgresql://docmost:${POSTGRES_PASSWORD}@postgres:5432/docmost
+      - REDIS_URL=redis://redis:6379
+      - DISABLE_TELEMETRY=true
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - docmost_data:/app/data/storage
+  postgres:
+    image: postgres:18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=docmost
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=docmost
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+  redis:
+    image: redis:8
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - redis_data:/data
+volumes:
+  docmost_data:
+  postgres_data:
+  redis_data:

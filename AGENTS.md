@@ -10,7 +10,7 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 <template-name>/
 ├── docker-compose.yml
 ├── manifest.yaml
-└── icon.svg
+└── icon.svg / icon.png
 ```
 
 ## Konventionen
@@ -28,7 +28,7 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 - `manifestVersion` ist aktuell immer `1.0`.
 - `tagline` und `description` sind zweisprachig (de/en).
 - `version` ist eine Anzeige-Version (z.B. `"2.x.x"`), keine exakte Versionspinning.
-- `icon` verweist auf eine SVG-Datei im Template-Ordner (üblicherweise `icon.svg`). Icons stammen bevorzugt von [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0).
+- `icon` verweist auf eine Bilddatei im Template-Ordner. Bevorzugt SVG (`icon.svg`), alternativ PNG (`icon.png`) falls kein SVG verfügbar ist. Icons stammen bevorzugt von [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0).
 - `categories` sind auf folgende Werte beschränkt:
   - `productivity` — Workflow-Automatisierung, Dokumentenmanagement, Projekttools
   - `development` — Datenbanken, Suchplattformen, CMS, Dev-Tools

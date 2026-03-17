@@ -1,0 +1,5 @@
+services:
+  bentopdf:
+    image: ghcr.io/alam00000/bentopdf:latest
+    ports:
+      - "8080:8080"

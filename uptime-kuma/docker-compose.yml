@@ -1,0 +1,36 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - UPTIME_KUMA_DB_TYPE=mariadb
+      - UPTIME_KUMA_DB_HOSTNAME=mariadb
+      - UPTIME_KUMA_DB_PORT=3306
+      - UPTIME_KUMA_DB_NAME=uptime_kuma
+      - UPTIME_KUMA_DB_USERNAME=uptime_kuma
+      - UPTIME_KUMA_DB_PASSWORD=${MARIADB_PASSWORD}
+    depends_on:
+      - mariadb
+    volumes:
+      - uptime_kuma_data:/app/data
+  mariadb:
+    image: mariadb:lts
+    environment:
+      - TZ=Europe/Berlin
+      - MARIADB_DATABASE=uptime_kuma
+      - MARIADB_USER=uptime_kuma
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_AUTO_UPGRADE=1
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/mysql/backups && \
+        mariadb-dump -u "$MARIADB_USER" -p"$MARIADB_PASSWORD" "$MARIADB_DATABASE" \
+          > /var/lib/mysql/backups/backup.sql'
+volumes:
+  uptime_kuma_data:
+  mariadb_data:

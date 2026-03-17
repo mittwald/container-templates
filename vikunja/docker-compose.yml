@@ -1,0 +1,40 @@
+services:
+  vikunja:
+    image: vikunja/vikunja
+    ports:
+      - "3456:3456"
+    environment:
+      - TZ=Europe/Berlin
+      - VIKUNJA_SERVICE_PUBLICURL=https://${HOST}
+      - VIKUNJA_SERVICE_JWTSECRET=${JWT_SECRET}
+      - VIKUNJA_DATABASE_TYPE=postgres
+      - VIKUNJA_DATABASE_HOST=postgres
+      - VIKUNJA_DATABASE_USER=vikunja
+      - VIKUNJA_DATABASE_PASSWORD=${POSTGRES_PASSWORD}
+      - VIKUNJA_DATABASE_DATABASE=vikunja
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - vikunja_files:/app/vikunja/files
+  postgres:
+    image: postgres:18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=vikunja
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=vikunja
+    healthcheck:
+      test: pg_isready -U "$$POSTGRES_USER"
+      interval: 2s
+      start_period: 30s
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+volumes:
+  vikunja_files:
+  postgres_data:

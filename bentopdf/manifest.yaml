@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: bentopdf
+version: "latest"
+icon: icon.svg
+tagline:
+  de: PDF-Generierung als Service
+  en: PDF generation as a service
+description:
+  de: BentoPDF ist ein leichtgewichtiger PDF-Generierungsservice, der HTML in PDF-Dokumente umwandelt. Ideal als Microservice für Webanwendungen, die PDF-Export benötigen.
+  en: BentoPDF is a lightweight PDF generation service that converts HTML to PDF documents. Ideal as a microservice for web applications that require PDF export.
+developer: alam00000
+website: https://github.com/alam00000/bentopdf
+repository: https://github.com/alam00000/bentopdf
+license: MIT
+categories:
+  - development
+domains:
+  - userInput: HOST
+    service: bentopdf
+    port: 8080
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
