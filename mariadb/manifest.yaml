@@ -1,0 +1,51 @@
+manifestVersion: 1.0
+name: mariadb
+version: "lts"
+icon: icon.svg
+tagline:
+  de: Relationale Open-Source Datenbank
+  en: Open-source relational database
+description:
+  de: MariaDB ist eine leistungsstarke relationale Open-Source Datenbank, die als Drop-in-Ersatz für MySQL dient. Ideal für Webanwendungen und datenintensive Workloads.
+  en: MariaDB is a powerful open-source relational database that serves as a drop-in replacement for MySQL. Ideal for web applications and data-intensive workloads.
+developer: MariaDB Foundation
+website: https://mariadb.org
+repository: https://github.com/MariaDB/server
+license: GPL-2.0
+categories:
+  - development
+systemInputs:
+  - name: "MARIADB_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+  - name: "MARIADB_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1

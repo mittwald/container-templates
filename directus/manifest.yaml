@@ -1,0 +1,59 @@
+manifestVersion: 1.0
+name: directus
+version: "11.x.x"
+icon: icon.svg
+tagline:
+  de: Headless CMS und Datenplattform
+  en: Headless CMS and data platform
+description:
+  de: Directus ist eine Open-Source Datenplattform, die jede SQL-Datenbank in eine API und ein intuitives Admin-Interface verwandelt. Dieses Template enthält Directus mit PostgreSQL und Redis für Caching.
+  en: Directus is an open-source data platform that turns any SQL database into an API and an intuitive admin interface. This template includes Directus with PostgreSQL and Redis for caching.
+developer: Monospace Inc.
+website: https://directus.io
+repository: https://github.com/directus/directus
+support: https://directus.io/support/
+license: BSL-1.1
+categories:
+  - development
+domains:
+  - userInput: HOST
+    service: directus
+    port: 8055
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    positionMeta: { step: "common", index: 3 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 8 }'
+systemInputs:
+  - name: "DIRECTUS_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1

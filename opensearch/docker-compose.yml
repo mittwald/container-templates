@@ -1,0 +1,14 @@
+services:
+  opensearch:
+    image: opensearchproject/opensearch:3
+    environment:
+      - TZ=Europe/Berlin
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch-node-1
+      - discovery.type=single-node
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD}
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+volumes:
+  opensearch_data:

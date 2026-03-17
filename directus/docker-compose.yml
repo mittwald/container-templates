@@ -1,0 +1,46 @@
+services:
+  directus:
+    image: directus/directus:11
+    ports:
+      - "8055:8055"
+    environment:
+      - TZ=Europe/Berlin
+      - DB_CLIENT=pg
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=directus
+      - DB_USER=directus
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - CACHE_STORE=redis
+      - CACHE_ENABLED=true
+      - CACHE_AUTO_PURGE=true
+      - REDIS=redis://redis:6379
+      - TELEMETRY=false
+      - LOG_LEVEL=warn
+      - SECRET=${DIRECTUS_SECRET}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - PUBLIC_URL=https://${HOST}
+    volumes:
+      - directus_uploads:/directus/uploads
+      - directus_extensions:/directus/extensions
+  postgres:
+    image: postgres:18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=directus
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=directus
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+  redis:
+    image: redis:latest
+volumes:
+  directus_uploads:
+  directus_extensions:
+  postgres_data:

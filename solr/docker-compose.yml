@@ -1,0 +1,12 @@
+services:
+  solr:
+    image: solr:9
+    environment:
+      - TZ=Europe/Berlin
+      - SOLR_HEAP=512m
+      - SOLR_CONFIG_LIB_ENABLED=true
+      - SOLR_MODULES=scripting,analytics,analysis-extras,langid,clustering,extraction
+    volumes:
+      - solr_data:/var/solr
+volumes:
+  solr_data:

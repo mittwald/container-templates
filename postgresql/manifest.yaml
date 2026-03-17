@@ -1,0 +1,34 @@
+manifestVersion: 1.0
+name: postgresql
+version: "18.x.x"
+icon: icon.svg
+tagline:
+  de: Leistungsstarke relationale Open-Source Datenbank
+  en: Powerful open-source relational database
+description:
+  de: PostgreSQL ist eine leistungsstarke, objektrelationale Open-Source Datenbank mit über 35 Jahren aktiver Entwicklung. Ideal als Backend für Webanwendungen, Analyseplattformen und geschäftskritische Systeme.
+  en: PostgreSQL is a powerful open-source object-relational database with over 35 years of active development. Ideal as a backend for web applications, analytics platforms and business-critical systems.
+developer: PostgreSQL Global Development Group
+website: https://www.postgresql.org
+repository: https://github.com/postgres/postgres
+license: PostgreSQL License
+categories:
+  - development
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1

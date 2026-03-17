@@ -1,0 +1,16 @@
+manifestVersion: 1.0
+name: chroma
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Open-Source Vektordatenbank für KI-Anwendungen
+  en: Open-source vector database for AI applications
+description:
+  de: Chroma ist eine Open-Source Vektordatenbank, die für KI-Anwendungen und Embedding-Speicherung optimiert ist. Ideal für Retrieval Augmented Generation (RAG) und semantische Suche.
+  en: Chroma is an open-source vector database optimized for AI applications and embedding storage. Ideal for Retrieval Augmented Generation (RAG) and semantic search.
+developer: Chroma
+website: https://www.trychroma.com
+repository: https://github.com/chroma-core/chroma
+license: Apache-2.0
+categories:
+  - ai

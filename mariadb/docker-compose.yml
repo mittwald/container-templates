@@ -1,0 +1,19 @@
+services:
+  mariadb:
+    image: mariadb:lts
+    environment:
+      - TZ=Europe/Berlin
+      - MARIADB_DATABASE=mariadb
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_USER=mariadb
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_AUTO_UPGRADE=1
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/mysql/backups && \
+        mariadb-dump -u "$MARIADB_USER" -p"$MARIADB_PASSWORD" "$MARIADB_DATABASE" \
+          > /var/lib/mysql/backups/backup.sql'
+volumes:
+  mariadb_data:

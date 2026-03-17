@@ -1,0 +1,16 @@
+manifestVersion: 1.0
+name: solr
+version: "9.x.x"
+icon: icon.svg
+tagline:
+  de: Enterprise-Suchplattform
+  en: Enterprise search platform
+description:
+  de: Apache Solr ist eine leistungsstarke Open-Source Suchplattform auf Basis von Apache Lucene. Optimiert für Volltextsuche, Facettierung und Echtzeit-Indexierung mit erweiterten Modulen für Analytics, Spracherkennung und Clustering.
+  en: Apache Solr is a powerful open-source search platform based on Apache Lucene. Optimized for full-text search, faceting and real-time indexing with extended modules for analytics, language detection and clustering.
+developer: Apache Software Foundation
+website: https://solr.apache.org
+repository: https://github.com/apache/solr
+license: Apache-2.0
+categories:
+  - development

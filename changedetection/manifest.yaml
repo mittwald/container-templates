@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: changedetection
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Website-Änderungen automatisch erkennen
+  en: Detect website changes automatically
+description:
+  de: changedetection.io überwacht Websites auf Änderungen und benachrichtigt dich bei Aktualisierungen. Mit integriertem Headless-Browser (Playwright) werden auch JavaScript-gerenderte Seiten zuverlässig erfasst.
+  en: changedetection.io monitors websites for changes and notifies you of updates. With an integrated headless browser (Playwright), JavaScript-rendered pages are reliably captured.
+developer: dgtlmoon
+website: https://changedetection.io
+repository: https://github.com/dgtlmoon/changedetection.io
+license: Apache-2.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: changedetection
+    port: 5000
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'

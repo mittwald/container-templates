@@ -1,0 +1,34 @@
+manifestVersion: 1.0
+name: opensearch
+version: "3.x.x"
+icon: icon.svg
+tagline:
+  de: Verteilte Such- und Analyse-Engine
+  en: Distributed search and analytics engine
+description:
+  de: OpenSearch ist eine verteilte Such- und Analyse-Engine, die auf Apache Lucene basiert. Geeignet für Log-Analyse, Volltextsuche und Observability-Lösungen.
+  en: OpenSearch is a distributed search and analytics engine based on Apache Lucene. Suitable for log analysis, full-text search and observability solutions.
+developer: OpenSearch Project
+website: https://opensearch.org
+repository: https://github.com/opensearch-project/OpenSearch
+license: Apache-2.0
+categories:
+  - development
+systemInputs:
+  - name: "OPENSEARCH_ADMIN_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1

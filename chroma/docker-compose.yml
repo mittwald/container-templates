@@ -1,0 +1,9 @@
+services:
+  chroma:
+    image: chromadb/chroma:latest
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - chroma_data:/data
+volumes:
+  chroma_data:
