@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: docuseal
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Open-Source Plattform für digitale Dokumentensignaturen
+  en: Open-source platform for digital document signatures
+description:
+  de: DocuSeal ist eine Open-Source Plattform für digitale Dokumentensignaturen. Ermöglicht das Erstellen, Ausfüllen und Signieren von PDF-Dokumenten direkt im Browser.
+  en: DocuSeal is an open-source platform for digital document signatures. Enables creating, filling and signing PDF documents right in the browser.
+developer: DocuSeal
+website: https://www.docuseal.com
+repository: https://github.com/docusealco/docuseal
+license: AGPL-3.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: docuseal
+    port: 3000
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'

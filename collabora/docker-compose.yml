@@ -1,0 +1,8 @@
+services:
+  collabora:
+    image: collabora/code
+    ports:
+      - "9980:9980"
+    environment:
+      - TZ=Europe/Berlin
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true --o:net.post_allow.host[0]=.+ --o:storage.wopi.host[0]=.+ --o:server_name=${HOST}

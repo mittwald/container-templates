@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: ntfy
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Push-Benachrichtigungsdienst mit HTTP-API
+  en: Push notification service with HTTP API
+description:
+  de: ntfy ist ein einfacher, selbst gehosteter Push-Benachrichtigungsdienst mit HTTP-basierter Publish-Subscribe-API. Sende Benachrichtigungen an Smartphones und Desktops per einfachem HTTP-Request, ohne App-Registrierung oder API-Schlüssel.
+  en: ntfy is a simple, self-hosted push notification service with an HTTP-based publish-subscribe API. Send notifications to smartphones and desktops via simple HTTP requests, without app registration or API keys.
+developer: Philipp C. Heckel
+website: https://ntfy.sh
+repository: https://github.com/binwiederhier/ntfy
+license: Apache-2.0/GPL-2.0
+categories:
+  - communication
+domains:
+  - userInput: HOST
+    service: ntfy
+    port: 80
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'

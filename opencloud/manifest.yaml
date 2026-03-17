@@ -1,0 +1,30 @@
+manifestVersion: 1.0
+name: opencloud
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Open-Source Cloud-Plattform für Dateien und Zusammenarbeit
+  en: Open-source cloud platform for files and collaboration
+description:
+  de: OpenCloud ist eine Open-Source Cloud-Plattform für Dateiverwaltung und Zusammenarbeit. Mit integriertem Identity Management, WebDAV-Unterstützung und optionaler Office-Integration.
+  en: OpenCloud is an open-source cloud platform for file management and collaboration. With built-in identity management, WebDAV support and optional office integration.
+developer: OpenCloud
+website: https://opencloud.eu
+repository: https://github.com/opencloud-eu/opencloud
+license: Apache-2.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: opencloud
+    port: 9200
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 8 }'

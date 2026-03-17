@@ -1,0 +1,33 @@
+services:
+  rybbit:
+    image: ghcr.io/rybbit-io/rybbit:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - DATABASE_URL=postgresql://rybbit:${POSTGRES_PASSWORD}@postgres:5432/rybbit
+      - BASE_URL=https://${HOST}
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=rybbit
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=rybbit
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "rybbit", "-U", "rybbit"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+volumes:
+  postgres_data:

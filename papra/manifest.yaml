@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: papra
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Minimalistisches Dokumentenmanagement
+  en: Minimalist document management
+description:
+  de: Papra ist ein minimalistisches, selbst gehostetes Dokumentenmanagement-Tool zum Organisieren und Verwalten von Dokumenten und Belegen.
+  en: Papra is a minimalist, self-hosted document management tool for organizing and managing documents and receipts.
+developer: Papra
+website: https://www.papra.app
+repository: https://github.com/papra-hq/papra
+license: Apache-2.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: papra
+    port: 1221
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'

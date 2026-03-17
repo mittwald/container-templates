@@ -1,0 +1,9 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - qdrant_data:/qdrant/storage
+volumes:
+  qdrant_data:

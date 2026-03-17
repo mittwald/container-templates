@@ -1,0 +1,12 @@
+services:
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
+    environment:
+      - TZ=Europe/Berlin
+      - MP_DATABASE=/data/mailpit.db
+    volumes:
+      - mailpit_data:/data
+volumes:
+  mailpit_data:

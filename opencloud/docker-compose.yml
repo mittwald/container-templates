@@ -1,0 +1,25 @@
+services:
+  opencloud:
+    image: opencloudeu/opencloud-rolling:latest
+    ports:
+      - "9200:9200"
+    environment:
+      - TZ=Europe/Berlin
+      - OC_URL=https://${HOST}
+      - PROXY_HTTP_ADDR=0.0.0.0:9200
+      - PROXY_TLS=false
+      - OC_INSECURE=false
+      - OC_LOG_LEVEL=info
+      - IDM_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - OC_PASSWORD_POLICY_MIN_CHARACTERS=8
+      - OC_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS=1
+      - OC_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS=1
+      - OC_PASSWORD_POLICY_MIN_DIGITS=1
+    entrypoint: ["/bin/sh"]
+    command: ["-c", "opencloud init || true; opencloud server"]
+    volumes:
+      - opencloud_config:/etc/opencloud
+      - opencloud_data:/var/lib/opencloud
+volumes:
+  opencloud_config:
+  opencloud_data:

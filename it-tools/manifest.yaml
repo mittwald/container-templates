@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: it-tools
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Praktische Online-Tools für Entwickler
+  en: Handy online tools for developers
+description:
+  de: IT-Tools ist eine Sammlung praktischer Online-Tools für Entwickler, darunter Encoder/Decoder, Konverter, Generatoren und viele weitere Werkzeuge direkt im Browser.
+  en: IT-Tools is a collection of handy online tools for developers, including encoders/decoders, converters, generators and many more utilities right in the browser.
+developer: Corentin Thomasset
+website: https://it-tools.tech
+repository: https://github.com/CorentinTh/it-tools
+license: GPL-3.0
+categories:
+  - development
+domains:
+  - userInput: HOST
+    service: it-tools
+    port: 80
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'

@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: collabora
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Online-Office-Suite für kollaboratives Arbeiten
+  en: Online office suite for collaborative editing
+description:
+  de: Collabora Online ist eine leistungsstarke Online-Office-Suite basierend auf LibreOffice. Ermöglicht kollaboratives Bearbeiten von Dokumenten, Tabellen und Präsentationen direkt im Browser. Ideal zur Integration mit Nextcloud oder anderen WOPI-kompatiblen Plattformen.
+  en: Collabora Online is a powerful online office suite based on LibreOffice. Enables collaborative editing of documents, spreadsheets and presentations directly in the browser. Ideal for integration with Nextcloud or other WOPI-compatible platforms.
+developer: Collabora Productivity
+website: https://www.collaboraoffice.com
+repository: https://github.com/CollaboraOnline/online
+license: MPL-2.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: collabora
+    port: 9980
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'

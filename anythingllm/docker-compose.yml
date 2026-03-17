@@ -1,0 +1,13 @@
+services:
+  anythingllm:
+    image: mintplexlabs/anythingllm:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - TZ=Europe/Berlin
+      - STORAGE_DIR=/app/server/storage
+      - SERVER_PORT=3001
+    volumes:
+      - anythingllm_data:/app/server/storage
+volumes:
+  anythingllm_data:

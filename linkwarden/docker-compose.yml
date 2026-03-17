@@ -1,0 +1,36 @@
+services:
+  linkwarden:
+    image: ghcr.io/linkwarden/linkwarden:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - DATABASE_URL=postgresql://linkwarden:${POSTGRES_PASSWORD}@postgres:5432/linkwarden
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=https://${HOST}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - linkwarden_data:/data/data
+  postgres:
+    image: postgres:18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=linkwarden
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=linkwarden
+    healthcheck:
+      test: pg_isready -U "$$POSTGRES_USER"
+      interval: 2s
+      start_period: 30s
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+volumes:
+  linkwarden_data:
+  postgres_data:

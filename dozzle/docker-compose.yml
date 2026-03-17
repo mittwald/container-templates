@@ -1,0 +1,9 @@
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro

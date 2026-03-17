@@ -1,0 +1,40 @@
+services:
+  gitea:
+    image: gitea/gitea:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=postgres:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=${POSTGRES_PASSWORD}
+      - GITEA__server__ROOT_URL=https://${HOST}
+      - GITEA__server__DOMAIN=${HOST}
+    volumes:
+      - gitea_data:/data
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=gitea
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "gitea", "-U", "gitea"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+volumes:
+  gitea_data:
+  postgres_data:

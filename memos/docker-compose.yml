@@ -1,0 +1,11 @@
+services:
+  memos:
+    image: neosmemo/memos:stable
+    ports:
+      - "5230:5230"
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - memos_data:/var/opt/memos
+volumes:
+  memos_data:

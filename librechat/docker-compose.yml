@@ -1,0 +1,78 @@
+services:
+  librechat:
+    image: ghcr.io/danny-avila/librechat:latest
+    ports:
+      - "3080:3080"
+    environment:
+      - TZ=Europe/Berlin
+      - HOST=0.0.0.0
+      - PORT=3080
+      - MONGO_URI=mongodb://mongodb:27017/LibreChat
+      - MEILI_HOST=http://meilisearch:7700
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - RAG_API_URL=http://rag_api:8000
+      - RAG_PORT=8000
+      - CREDS_KEY=${CREDS_KEY}
+      - CREDS_IV=${CREDS_IV}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+    volumes:
+      - librechat_images:/app/client/public/images
+      - librechat_uploads:/app/uploads
+      - librechat_logs:/app/logs
+    depends_on:
+      - mongodb
+      - rag_api
+  mongodb:
+    image: mongo:8
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - mongodb_data:/data/db
+    command: mongod --noauth
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    environment:
+      - TZ=Europe/Berlin
+      - MEILI_HOST=http://meilisearch:7700
+      - MEILI_NO_ANALYTICS=true
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+    volumes:
+      - meilisearch_data:/meili_data
+  vectordb:
+    image: pgvector/pgvector:pg16
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_DB=librechat_rag
+      - POSTGRES_USER=librechat
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - vectordb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "librechat_rag", "-U", "librechat"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+  rag_api:
+    image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
+    environment:
+      - TZ=Europe/Berlin
+      - DB_HOST=vectordb
+      - RAG_PORT=8000
+      - POSTGRES_DB=librechat_rag
+      - POSTGRES_USER=librechat
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - vectordb
+volumes:
+  librechat_images:
+  librechat_uploads:
+  librechat_logs:
+  mongodb_data:
+  meilisearch_data:
+  vectordb_data:

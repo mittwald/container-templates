@@ -1,0 +1,44 @@
+manifestVersion: 1.0
+name: gitea
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Leichtgewichtiger selbst gehosteter Git-Service
+  en: Lightweight self-hosted Git service
+description:
+  de: Gitea ist ein leichtgewichtiger, selbst gehosteter Git-Service. Eine schmerzfreie Alternative zu GitHub, GitLab und Bitbucket, die einfach zu installieren und zu betreiben ist. Dieses Template enthält Gitea mit PostgreSQL.
+  en: Gitea is a lightweight, self-hosted Git service. A painless alternative to GitHub, GitLab and Bitbucket that is easy to install and operate. This template includes Gitea with PostgreSQL.
+developer: Gitea
+website: https://gitea.io
+repository: https://github.com/go-gitea/gitea
+license: MIT
+categories:
+  - development
+domains:
+  - userInput: HOST
+    service: gitea
+    port: 3000
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1

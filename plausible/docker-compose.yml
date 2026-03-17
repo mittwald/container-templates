@@ -1,0 +1,49 @@
+services:
+  plausible:
+    image: ghcr.io/plausible/community-edition:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Europe/Berlin
+      - DATABASE_URL=postgres://plausible:${POSTGRES_PASSWORD}@postgres:5432/plausible
+      - CLICKHOUSE_DATABASE_URL=http://clickhouse:8123/plausible
+      - BASE_URL=https://${HOST}
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - TOTP_VAULT_KEY=${TOTP_VAULT_KEY}
+    depends_on:
+      - postgres
+      - clickhouse
+  postgres:
+    image: postgres:18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=plausible
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=plausible
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "plausible", "-U", "plausible"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - clickhouse_logs:/var/log/clickhouse-server
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+volumes:
+  postgres_data:
+  clickhouse_data:
+  clickhouse_logs:

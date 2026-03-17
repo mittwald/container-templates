@@ -1,0 +1,16 @@
+manifestVersion: 1.0
+name: qdrant
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Hochperformante Vektordatenbank für KI-Anwendungen
+  en: High-performance vector database for AI applications
+description:
+  de: Qdrant ist eine hochperformante Open-Source Vektordatenbank und Vektor-Suchmaschine, geschrieben in Rust. Optimiert für erweiterte Vektorähnlichkeitssuche mit Filterung, ideal für Retrieval Augmented Generation (RAG), semantische Suche und Empfehlungssysteme.
+  en: Qdrant is a high-performance open-source vector database and vector search engine, written in Rust. Optimized for advanced vector similarity search with filtering, ideal for Retrieval Augmented Generation (RAG), semantic search and recommendation systems.
+developer: Qdrant
+website: https://qdrant.tech
+repository: https://github.com/qdrant/qdrant
+license: Apache-2.0
+categories:
+  - ai

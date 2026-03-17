@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: mailpit
+version: "latest"
+icon: icon.svg
+tagline:
+  de: E-Mail-Test-Tool mit Web-Oberfläche
+  en: Email testing tool with web interface
+description:
+  de: Mailpit ist ein leichtgewichtiges E-Mail-Test-Tool mit Web-Oberfläche. Es fängt SMTP-E-Mails ab und zeigt sie in einer modernen Benutzeroberfläche an – ideal für die lokale Entwicklung und das Testen von E-Mail-Funktionalität.
+  en: Mailpit is a lightweight email testing tool with a web interface. It intercepts SMTP emails and displays them in a modern user interface – ideal for local development and testing email functionality.
+developer: Ralph Slooten
+website: https://mailpit.axllent.org
+repository: https://github.com/axllent/mailpit
+license: MIT
+categories:
+  - development
+domains:
+  - userInput: HOST
+    service: mailpit
+    port: 8025
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'

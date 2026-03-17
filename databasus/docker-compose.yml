@@ -1,0 +1,11 @@
+services:
+  databasus:
+    image: databasus/databasus:latest
+    ports:
+      - "4005:4005"
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - databasus_data:/databasus-data
+volumes:
+  databasus_data:

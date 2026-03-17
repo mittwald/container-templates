@@ -1,0 +1,55 @@
+services:
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:release
+    ports:
+      - "2283:2283"
+    environment:
+      - TZ=Europe/Berlin
+      - DB_HOSTNAME=database
+      - DB_PORT=5432
+      - DB_USERNAME=immich
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_DATABASE_NAME=immich
+      - REDIS_HOSTNAME=redis
+    volumes:
+      - immich_uploads:/data
+    depends_on:
+      - redis
+      - database
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - immich_model_cache:/cache
+  redis:
+    image: valkey/valkey:9
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 30s
+      retries: 3
+  database:
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=immich
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=immich
+      - POSTGRES_INITDB_ARGS=--data-checksums
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "immich", "-U", "immich"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          -f /var/lib/postgresql/backups/backup.sql'
+volumes:
+  immich_uploads:
+  immich_model_cache:
+  postgres_data:

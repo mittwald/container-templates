@@ -1,0 +1,12 @@
+services:
+  papra:
+    image: ghcr.io/papra-hq/papra:latest
+    ports:
+      - "1221:1221"
+    environment:
+      - TZ=Europe/Berlin
+      - APP_BASE_URL=https://${HOST}
+    volumes:
+      - papra_data:/app/app-data
+volumes:
+  papra_data:

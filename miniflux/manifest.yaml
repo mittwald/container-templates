@@ -1,0 +1,61 @@
+manifestVersion: 1.0
+name: miniflux
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Minimalistischer RSS-Feed-Reader
+  en: Minimalist RSS feed reader
+description:
+  de: Miniflux ist ein minimalistischer, selbst gehosteter RSS-Feed-Reader mit schneller Oberfläche, Tastaturnavigation und verschiedenen Integrationen. Dieses Template enthält Miniflux mit PostgreSQL.
+  en: Miniflux is a minimalist, self-hosted RSS feed reader with fast interface, keyboard navigation and various integrations. This template includes Miniflux with PostgreSQL.
+developer: Frédéric Guillot
+website: https://miniflux.app
+repository: https://github.com/miniflux/v2
+license: Apache-2.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: miniflux
+    port: 8080
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "ADMIN_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1

@@ -1,0 +1,33 @@
+manifestVersion: 1.0
+name: solidtime
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Open-Source Zeiterfassung
+  en: Open-source time tracking
+description:
+  de: Solidtime ist eine Open-Source Zeiterfassungslösung zum Verfolgen und Verwalten von Arbeitszeiten und Projekten.
+  en: Solidtime is an open-source time tracking solution for tracking and managing work hours and projects.
+developer: Solidtime
+website: https://www.solidtime.io
+repository: https://github.com/solidtime-io/solidtime
+license: AGPL-3.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: solidtime
+    port: 80
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "APP_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
