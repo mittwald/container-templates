@@ -43,25 +43,25 @@ Beschreibt das Template mit folgenden Feldern:
 
 | | Template | Beschreibung |
 |---|----------|-------------|
-| <img src="bentopdf/icon.svg" width="24"> | [bentopdf](bentopdf/) | PDF-Generierung als Service |
-| <img src="changedetection/icon.svg" width="24"> | [changedetection](changedetection/) | Website-Änderungen automatisch erkennen |
-| <img src="chroma/icon.svg" width="24"> | [chroma](chroma/) | Vektordatenbank für KI-Anwendungen |
-| <img src="directus/icon.svg" width="24"> | [directus](directus/) | Headless CMS mit PostgreSQL und Redis |
-| <img src="docmost/icon.png" width="24"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
-| <img src="gotenberg/icon.png" width="24"> | [gotenberg](gotenberg/) | Dokumentenkonvertierung als API |
-| <img src="hedgedoc/icon.svg" width="24"> | [hedgedoc](hedgedoc/) | Kollaborativer Markdown-Editor |
-| <img src="listmonk/icon.svg" width="24"> | [listmonk](listmonk/) | Newsletter und Mailing-Listen |
-| <img src="mariadb/icon.svg" width="24"> | [mariadb](mariadb/) | Relationale Datenbank (MySQL-kompatibel) |
-| <img src="n8n/icon.svg" width="24"> | [n8n](n8n/) | Workflow-Automatisierung mit PostgreSQL-Backend |
-| <img src="nocodb/icon.svg" width="24"> | [nocodb](nocodb/) | Open-Source Airtable-Alternative |
-| <img src="opensearch/icon.svg" width="24"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
-| <img src="paperless/icon.svg" width="24"> | [paperless](paperless/) | Dokumentenmanagement mit OCR |
-| <img src="postgresql/icon.svg" width="24"> | [postgresql](postgresql/) | Relationale Datenbank |
-| <img src="solr/icon.svg" width="24"> | [solr](solr/) | Enterprise-Suchplattform |
-| <img src="umami/icon.svg" width="24"> | [umami](umami/) | Datenschutzfreundliche Web-Analytics |
-| <img src="uptime-kuma/icon.svg" width="24"> | [uptime-kuma](uptime-kuma/) | Uptime-Monitoring für Websites und Services |
-| <img src="vikunja/icon.svg" width="24"> | [vikunja](vikunja/) | Open-Source Task- und Projektmanagement |
-| <img src="vaultwarden/icon.svg" width="24"> | [vaultwarden](vaultwarden/) | Selbst gehosteter Passwort-Manager |
+| <img src="bentopdf/icon.svg" width="24" height="24"> | [bentopdf](bentopdf/) | PDF-Generierung als Service |
+| <img src="changedetection/icon.svg" width="24" height="24"> | [changedetection](changedetection/) | Website-Änderungen automatisch erkennen |
+| <img src="chroma/icon.svg" width="24" height="24"> | [chroma](chroma/) | Vektordatenbank für KI-Anwendungen |
+| <img src="directus/icon.svg" width="24" height="24"> | [directus](directus/) | Headless CMS mit PostgreSQL und Redis |
+| <img src="docmost/icon.png" width="24" height="24"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
+| <img src="gotenberg/icon.png" width="24" height="24"> | [gotenberg](gotenberg/) | Dokumentenkonvertierung als API |
+| <img src="hedgedoc/icon.svg" width="24" height="24"> | [hedgedoc](hedgedoc/) | Kollaborativer Markdown-Editor |
+| <img src="listmonk/icon.svg" width="24" height="24"> | [listmonk](listmonk/) | Newsletter und Mailing-Listen |
+| <img src="mariadb/icon.svg" width="24" height="24"> | [mariadb](mariadb/) | Relationale Datenbank (MySQL-kompatibel) |
+| <img src="n8n/icon.svg" width="24" height="24"> | [n8n](n8n/) | Workflow-Automatisierung mit PostgreSQL-Backend |
+| <img src="nocodb/icon.svg" width="24" height="24"> | [nocodb](nocodb/) | Open-Source Airtable-Alternative |
+| <img src="opensearch/icon.svg" width="24" height="24"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
+| <img src="paperless/icon.svg" width="24" height="24"> | [paperless](paperless/) | Dokumentenmanagement mit OCR |
+| <img src="postgresql/icon.svg" width="24" height="24"> | [postgresql](postgresql/) | Relationale Datenbank |
+| <img src="solr/icon.svg" width="24" height="24"> | [solr](solr/) | Enterprise-Suchplattform |
+| <img src="umami/icon.svg" width="24" height="24"> | [umami](umami/) | Datenschutzfreundliche Web-Analytics |
+| <img src="uptime-kuma/icon.svg" width="24" height="24"> | [uptime-kuma](uptime-kuma/) | Uptime-Monitoring für Websites und Services |
+| <img src="vikunja/icon.svg" width="24" height="24"> | [vikunja](vikunja/) | Open-Source Task- und Projektmanagement |
+| <img src="vaultwarden/icon.svg" width="24" height="24"> | [vaultwarden](vaultwarden/) | Selbst gehosteter Passwort-Manager |
 
 ## Neues Template anlegen
 
