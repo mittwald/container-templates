@@ -3,9 +3,9 @@ services:
     image: postgres:18
     environment:
       - TZ=Europe/Berlin
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=postgres
+      - POSTGRES_USER=${ADMIN_USER}
+      - POSTGRES_PASSWORD=${ADMIN_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql
     labels:

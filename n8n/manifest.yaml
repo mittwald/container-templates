@@ -1,39 +1,31 @@
 manifestVersion: 1.0
 name: n8n
-version: "2.x.x"
+version: "latest"
 icon: icon.svg
 tagline:
   de: Automatisierung für deine Geschäftsprozesse
   en: Automations for your business processes
 description:
-  de: n8n ist eine erweiterbare Workflow-Automatisierungsplattform. Mit über 400 Integrationen und der Möglichkeit, eigene Funktionen zu erstellen, kannst du deine Geschäftsprozesse flexibel automatisieren. Dieses Template enthält n8n mit einem PostgreSQL-Backend und einem externen Task Runner für sichere Code-Ausführung.
-  en: n8n is an extendable workflow automation platform. With over 400 integrations and the ability to create custom functions, you can flexibly automate your business processes. This template includes n8n with a PostgreSQL backend and an external task runner for secure code execution.
+  de: n8n ist eine erweiterbare Workflow-Automatisierungsplattform. Mit über 400 Integrationen und der Möglichkeit, eigene Funktionen zu erstellen, kannst du deine Geschäftsprozesse flexibel automatisieren. Dieses Template enthält n8n mit PostgreSQL und einem externen Task Runner für sichere Code-Ausführung.
+  en: n8n is an extendable workflow automation platform. With over 400 integrations and the ability to create custom functions, you can flexibly automate your business processes. This template includes n8n with PostgreSQL and an external task runner for secure code execution.
 developer: n8n GmbH
-website: https://n8n.com
+website: https://n8n.io
 repository: https://github.com/n8n-io/n8n
 support: https://n8n.io/support/
 license: Sustainable Use License
 categories:
   - productivity
-  - ai
 domains:
   - userInput: HOST
     service: n8n
     port: 5678
 userInputs:
   - name: "HOST"
-    format: "email"
     positionMeta: { step: "common", index: 1 }
     required: true
     dataSource: "ingress.paths"
-    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^https://.+" }'
+    validationSchema: '{ "type": "string", "minLength": 1}'
 systemInputs:
-  - name: "N8N_RUNNERS_AUTH_TOKEN"
-    schema:
-      kind: 1
-      schema:
-        - ruleType: length
-          min: 32
   - name: "POSTGRES_PASSWORD"
     schema:
       kind: 1
@@ -51,3 +43,15 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+  - name: "N8N_RUNNERS_AUTH_TOKEN"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "N8N_ENCRYPTION_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32

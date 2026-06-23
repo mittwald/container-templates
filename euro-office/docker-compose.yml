@@ -1,0 +1,11 @@
+services:
+  euro-office:
+    image: ghcr.io/euro-office/documentserver:latest
+    ports:
+      - "80/tcp"
+    environment:
+      - TZ=Europe/Berlin
+      - JWT_ENABLED=true
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_HEADER=Authorization
+      - EXAMPLE_ENABLED=false

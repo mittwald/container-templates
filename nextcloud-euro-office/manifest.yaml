@@ -1,0 +1,84 @@
+manifestVersion: 1.0
+name: nextcloud-euro-office
+version: "stable"
+icon: icon.svg
+tagline:
+  de: Nextcloud mit integriertem Euro-Office
+  en: Nextcloud with integrated Euro-Office
+description:
+  de: Nextcloud ist eine selbstgehostete Plattform für Dateispeicherung, Zusammenarbeit und Kommunikation. Dieses Template enthält Nextcloud mit Euro-Office, MariaDB und Redis für die kollaborative Bearbeitung von Office-Dokumenten.
+  en: Nextcloud is a self-hosted platform for file storage, collaboration and communication. This template includes Nextcloud with Euro-Office, MariaDB and Redis for collaborative editing of office documents.
+developer: mittwald
+website: https://nextcloud.com
+repository: https://github.com/mittwald/nextcloud-eurooffice
+license: AGPL-3.0
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: nextcloud-euro-office
+    port: 80
+  - userInput: EUROOFFICE_HOST
+    service: eurooffice
+    port: 80
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "EUROOFFICE_HOST"
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    positionMeta: { step: "adminuser", index: 5 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1}'
+  - name: "ADMIN_PASSWORD"
+    positionMeta: { step: "adminuser", index: 5 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
+  - name: "MYSQL_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+  - name: "EUROOFFICE_JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "MARIADB_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1

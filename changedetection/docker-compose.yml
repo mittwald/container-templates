@@ -7,6 +7,9 @@ services:
       - TZ=Europe/Berlin
       - LC_ALL=de_DE.UTF-8
       - PLAYWRIGHT_DRIVER_URL=ws://browser:3000
+      - BASE_URL=https://${HOST}
+    depends_on:
+      - browser
     volumes:
       - changedetection_data:/datastore
   browser:

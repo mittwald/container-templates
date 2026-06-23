@@ -1,0 +1,26 @@
+manifestVersion: 1.0
+name: yopass
+version: "latest"
+icon: icon.svg
+tagline:
+  de: Geheimnisse sicher und verschlüsselt teilen
+  en: Share secrets securely and encrypted
+description:
+  de: Yopass ist ein Dienst zum sicheren Teilen von Geheimnissen über verschlüsselte, ablaufende Links mit clientseitiger Verschlüsselung. Dieses Template enthält Yopass mit Redis-Backend.
+  en: Yopass is a service for securely sharing secrets via encrypted, expiring links with client-side encryption. This template includes Yopass with a Redis backend.
+developer: Johan Haals
+website: https://yopass.se
+repository: https://github.com/jhaals/yopass
+license: Apache-2.0
+categories:
+  - security
+domains:
+  - userInput: HOST
+    service: yopass
+    port: 1337
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'

@@ -9,6 +9,8 @@ services:
       - APP_SECRET=${APP_SECRET}
       - DISABLE_TELEMETRY=1
       - HOSTNAME=0.0.0.0
+    depends_on:
+      - postgres
   postgres:
     image: postgres:18
     environment:

@@ -1,0 +1,16 @@
+services:
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+      - OPENAI_API_BASE_URLS=https://llm.aihosting.mittwald.de/v1
+      - OPENAI_API_KEYS=${AI_API_KEY}
+      - WEBUI_AUTH=true
+      - WEBUI_ADMIN_EMAIL=${ADMIN_EMAIL}
+      - WEBUI_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    volumes:
+      - openwebui_data:/app/backend/data
+volumes:
+  openwebui_data:
