@@ -1,6 +1,6 @@
 manifestVersion: 1.0
 name: qdrant
-version: "latest"
+version: "1.x.x"
 icon: icon.svg
 tagline:
   de: Hochperformante Vektordatenbank für KI-Anwendungen
@@ -14,3 +14,20 @@ repository: https://github.com/qdrant/qdrant
 license: Apache-2.0
 categories:
   - ai
+domains:
+  - userInput: HOST
+    service: qdrant
+    port: 6333
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "QDRANT_API_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32

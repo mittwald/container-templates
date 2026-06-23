@@ -14,6 +14,12 @@ services:
       - PAPERLESS_TIKA_ENABLED=1
       - PAPERLESS_TIKA_GOTENBERG_ENDPOINT=http://gotenberg:3000
       - PAPERLESS_TIKA_ENDPOINT=http://tika:9998
+      - PAPERLESS_URL=https://${HOST}
+    depends_on:
+      - postgres
+      - redis
+      - gotenberg
+      - tika
     volumes:
       - paperless_media:/usr/src/paperless/media
       - paperless_data:/usr/src/paperless/data

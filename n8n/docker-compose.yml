@@ -1,6 +1,6 @@
 services:
   n8n:
-    image: n8nio/n8n:2
+    image: n8nio/n8n:latest
     ports:
       - "5678:5678"
     environment:
@@ -26,10 +26,13 @@ services:
       - N8N_GIT_NODE_DISABLE_BARE_REPOS=true
       - N8N_SKIP_AUTH_ON_OAUTH_CALLBACK=false
       - N8N_PROXY_HOPS=2
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+    depends_on:
+      - postgres
     volumes:
       - n8n_data:/home/node/.n8n
   n8nrunner:
-    image: n8nio/runners:2
+    image: n8nio/runners:latest
     environment:
       - N8N_RUNNERS_TASK_BROKER_URI=http://n8n:5679
       - N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}

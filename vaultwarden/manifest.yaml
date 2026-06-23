@@ -6,14 +6,14 @@ tagline:
   de: Selbst gehosteter Passwort-Manager
   en: Self-hosted password manager
 description:
-  de: Vaultwarden ist eine leichtgewichtige, selbst gehostete Implementierung des Bitwarden-Servers. Verwalte deine Passwörter, Notizen und andere sensible Daten sicher mit PostgreSQL als Backend.
-  en: Vaultwarden is a lightweight, self-hosted implementation of the Bitwarden server. Securely manage your passwords, notes and other sensitive data with PostgreSQL as backend.
+  de: Vaultwarden ist eine leichtgewichtige, selbst gehostete Implementierung des Bitwarden-Servers. Verwalte deine Passwörter, Notizen und andere sensible Daten sicher. Dieses Template enthält Vaultwarden mit PostgreSQL.
+  en: Vaultwarden is a lightweight, self-hosted implementation of the Bitwarden server. Securely manage your passwords, notes and other sensitive data. This template includes Vaultwarden with PostgreSQL.
 developer: Vaultwarden
 website: https://github.com/dani-garcia/vaultwarden
 repository: https://github.com/dani-garcia/vaultwarden
 license: AGPL-3.0
 categories:
-  - productivity
+  - security
 domains:
   - userInput: HOST
     service: vaultwarden
@@ -24,13 +24,11 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
-systemInputs:
   - name: "ADMIN_TOKEN"
-    schema:
-      kind: 1
-      schema:
-        - ruleType: length
-          min: 32
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
   - name: "POSTGRES_PASSWORD"
     schema:
       kind: 1

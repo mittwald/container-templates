@@ -1,0 +1,23 @@
+services:
+  password-pusher:
+    image: pglombardo/pwpush:latest
+    ports:
+      - "5100:5100"
+    environment:
+      - TZ=Europe/Berlin
+      - PWPUSH_MASTER_KEY=${PWPUSH_MASTER_KEY}
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FORCE_SSL=true
+      - PWP__SECURE_COOKIES=true
+      - PWP__ALLOW_ANONYMOUS=true
+      - PWP__DISABLE_LOGINS=true
+      - PWP__DISABLE_SIGNUPS=true
+      - PWP__FILES__STORAGE=local
+      - PWP__BRAND__TITLE=${BRAND_TITLE}
+      - PWP__BRAND__TAGLINE=${BRAND_TAGLINE}
+      - PWP__BRAND__SHOW_FOOTER_MENU=false
+      - PWP__SHOW_VERSION=false
+    volumes:
+      - pwpush_storage:/opt/PasswordPusher/storage
+volumes:
+  pwpush_storage:

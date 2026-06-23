@@ -1,0 +1,41 @@
+manifestVersion: 1.0
+name: openwebui
+version: "main"
+icon: icon.svg
+tagline:
+  de: Selbstgehostete Oberfläche für KI-Modelle
+  en: Self-hosted interface for AI models
+description:
+  de: Open WebUI ist eine erweiterbare, selbstgehostete Weboberfläche für die Interaktion mit großen Sprachmodellen. Dieses Template verbindet Open WebUI mit dem KI-Hosting von mittwald.
+  en: Open WebUI is an extensible, self-hosted web interface for interacting with large language models. This template connects Open WebUI to mittwald AI hosting.
+developer: Open WebUI
+website: https://openwebui.com
+repository: https://github.com/open-webui/open-webui
+license: MIT
+categories:
+  - ai
+domains:
+  - userInput: HOST
+    service: openwebui
+    port: 8080
+userInputs:
+  - name: "HOST"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_API_KEY"
+    positionMeta: { step: "aiHosting", index: 4 }
+    required: false
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string" }'
+  - name: "ADMIN_EMAIL"
+    positionMeta: { step: "adminuser", index: 5 }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    positionMeta: { step: "adminuser", index: 5 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'

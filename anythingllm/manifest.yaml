@@ -6,8 +6,8 @@ tagline:
   de: All-in-One KI-Desktop- und Server-Anwendung mit RAG
   en: All-in-one AI desktop and server application with RAG
 description:
-  de: AnythingLLM ist eine All-in-One KI-Anwendung, die beliebige Dokumente, Ressourcen oder Inhalte in Kontext umwandelt, den jedes LLM während eines Chats als Referenz nutzen kann. Mit integriertem RAG, KI-Agenten und vielen LLM- und Vektordatenbank-Integrationen.
-  en: AnythingLLM is an all-in-one AI application that turns any document, resource or content into context that any LLM can use as a reference during chat. With built-in RAG, AI agents and many LLM and vector database integrations.
+  de: AnythingLLM ist eine All-in-One KI-Anwendung, die beliebige Dokumente, Ressourcen oder Inhalte in Kontext umwandelt, den jedes LLM während eines Chats als Referenz nutzen kann. Mit integriertem RAG und KI-Agenten. Dieses Template enthält AnythingLLM mit Qdrant als Vektordatenbank.
+  en: AnythingLLM is an all-in-one AI application that turns any document, resource or content into context that any LLM can use as a reference during chat. With built-in RAG and AI agents. This template includes AnythingLLM with Qdrant as the vector database.
 developer: Mintplex Labs
 website: https://anythingllm.com
 repository: https://github.com/Mintplex-Labs/anything-llm
@@ -24,3 +24,39 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_API_KEY"
+    positionMeta: { step: "aiHosting", index: 4 }
+    required: false
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string" }'
+systemInputs:
+  - name: "JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "SIG_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "SIG_SALT"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "AUTH_TOKEN"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "QDRANT_API_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32

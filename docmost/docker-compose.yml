@@ -7,7 +7,7 @@ services:
       - TZ=Europe/Berlin
       - APP_URL=https://${HOST}
       - APP_SECRET=${APP_SECRET}
-      - DATABASE_URL=postgresql://docmost:${POSTGRES_PASSWORD}@postgres:5432/docmost
+      - DATABASE_URL=postgresql://docmost:${POSTGRES_PASSWORD}@postgres:5432/docmost?sslmode=disable
       - REDIS_URL=redis://redis:6379
       - DISABLE_TELEMETRY=true
     depends_on:
@@ -16,7 +16,7 @@ services:
     volumes:
       - docmost_data:/app/data/storage
   postgres:
-    image: postgres:18
+    image: postgres:18-alpine
     environment:
       - TZ=Europe/Berlin
       - POSTGRES_USER=docmost
@@ -30,7 +30,7 @@ services:
         pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
           -f /var/lib/postgresql/backups/backup.sql'
   redis:
-    image: redis:8
+    image: redis:8-alpine
     command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
     volumes:
       - redis_data:/data
