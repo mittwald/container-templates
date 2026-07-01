@@ -21,7 +21,9 @@ for dir in */; do
   developer=$(get "developer")
   website=$(get "website")
   repository=$(get "repository")
-  license=$(get "license")
+  license=$(get_nested "license" "name")
+  name_de=$(get_nested "name" "de")
+  name_en=$(get_nested "name" "en")
   tagline_de=$(get_nested "tagline" "de")
   tagline_en=$(get_nested "tagline" "en")
   desc_de=$(get_nested "description" "de")
@@ -47,7 +49,7 @@ for dir in */; do
 
   $FIRST || TEMPLATES+=","
   FIRST=false
-  TEMPLATES+="{\"name\":\"$(esc "$name")\",\"version\":\"$(esc "$version")\",\"icon\":\"$(esc "$icon")\",\"developer\":\"$(esc "$developer")\",\"website\":\"$(esc "$website")\",\"repository\":\"$(esc "$repository")\",\"license\":\"$(esc "$license")\",\"tagline\":{\"de\":\"$(esc "$tagline_de")\",\"en\":\"$(esc "$tagline_en")\"},\"description\":{\"de\":\"$(esc "$desc_de")\"},\"categories\":[$cats]}"
+  TEMPLATES+="{\"name\":\"$(esc "$name")\",\"displayName\":{\"de\":\"$(esc "$name_de")\",\"en\":\"$(esc "$name_en")\"},\"version\":\"$(esc "$version")\",\"icon\":\"$(esc "$icon")\",\"developer\":\"$(esc "$developer")\",\"website\":\"$(esc "$website")\",\"repository\":\"$(esc "$repository")\",\"license\":\"$(esc "$license")\",\"tagline\":{\"de\":\"$(esc "$tagline_de")\",\"en\":\"$(esc "$tagline_en")\"},\"description\":{\"de\":\"$(esc "$desc_de")\"},\"categories\":[$cats]}"
 done
 
 TEMPLATES+="]"
@@ -155,7 +157,7 @@ function render() {
   const q = searchEl.value.toLowerCase();
   const filtered = templates.filter(t => {
     if (activeCat && !t.categories.includes(activeCat)) return false;
-    if (q && !t.name.includes(q) && !t.tagline.de.toLowerCase().includes(q) && !t.developer.toLowerCase().includes(q)) return false;
+    if (q && !t.name.includes(q) && !t.displayName.de.toLowerCase().includes(q) && !t.tagline.de.toLowerCase().includes(q) && !t.developer.toLowerCase().includes(q)) return false;
     return true;
   });
   const grid = document.getElementById('grid');
@@ -163,8 +165,8 @@ function render() {
   grid.innerHTML = filtered.map(t => `
     <div class="card" data-name="${t.name}">
       <div class="card-head">
-        <div class="card-icon"><img src="${t.name}/${t.icon}" alt="${t.name}" loading="lazy"></div>
-        <div><span class="card-title">${t.name}</span><span class="card-version">${t.version}</span></div>
+        <div class="card-icon"><img src="${t.name}/${t.icon}" alt="${t.displayName.de}" loading="lazy"></div>
+        <div><span class="card-title">${t.displayName.de}</span><span class="card-version">${t.version}</span></div>
       </div>
       <div class="card-tagline">${t.tagline.de}</div>
       <div class="card-footer">
@@ -180,8 +182,8 @@ document.getElementById('grid').addEventListener('click', e => {
   document.getElementById('modal').innerHTML = `
     <button class="modal-close">&times;</button>
     <div class="modal-header">
-      <div class="modal-icon"><img src="${t.name}/${t.icon}" alt="${t.name}"></div>
-      <div><div class="modal-title">${t.name} <span class="card-version">${t.version}</span></div><div class="modal-dev">${t.developer}</div></div>
+      <div class="modal-icon"><img src="${t.name}/${t.icon}" alt="${t.displayName.de}"></div>
+      <div><div class="modal-title">${t.displayName.de} <span class="card-version">${t.version}</span></div><div class="modal-dev">${t.developer}</div></div>
     </div>
     <div class="card-cats" style="margin-bottom:1rem">${t.categories.map(c => `<span class="cat-badge cat-${c}">${catLabels[c]||c}</span>`).join('')}</div>
     <div class="modal-desc">${t.description.de}</div>
