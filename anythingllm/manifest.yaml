@@ -77,3 +77,4 @@ help:
       de: Auth Token
       en: Auth Token
     value: ${anythingllm.env.AUTH_TOKEN}
+    sensitive: true

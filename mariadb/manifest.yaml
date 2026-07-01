@@ -73,7 +73,9 @@ help:
       de: Admin Passwort
       en: Admin Password
     value: ${mariadb.env.MARIADB_PASSWORD}
+    sensitive: true
   - key:
       de: Verbindungsstring
       en: Connection string
     value: mariadb://${mariadb.env.MARIADB_USER}:${mariadb.env.MARIADB_PASSWORD}@${mariadb.hostname}
+    sensitive: true

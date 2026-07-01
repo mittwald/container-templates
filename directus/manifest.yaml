@@ -78,3 +78,4 @@ help:
       de: Admin Passwort
       en: Admin Password
     value: ${directus.env.ADMIN_PASSWORD}
+    sensitive: true

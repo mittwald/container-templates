@@ -69,6 +69,7 @@ help:
       de: Admin Passwort
       en: Admin Password
     value: umami
+    sensitive: true
   alerts:
   - status: warning
     heading:

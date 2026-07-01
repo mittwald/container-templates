@@ -60,3 +60,4 @@ help:
       de: Admin Passwort
       en: Admin Password
     value: ${openwebui.env.WEBUI_ADMIN_PASSWORD}
+    sensitive: true

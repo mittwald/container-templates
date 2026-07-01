@@ -108,3 +108,4 @@ help:
       de: Admin Passwort
       en: Admin Password
     value: ${nextcloud-euro-office.env.NEXTCLOUD_ADMIN_PASSWORD}
+    sensitive: true

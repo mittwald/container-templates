@@ -67,3 +67,4 @@ help:
       de: Admin Token
       en: Admin Token
     value: ${vaultwarden.env.ADMIN_TOKEN}
+    sensitive: true

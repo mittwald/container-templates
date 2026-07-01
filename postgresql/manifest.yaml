@@ -55,7 +55,9 @@ help:
       de: Admin Passwort
       en: Admin Password
     value: ${postgres.env.POSTGRES_PASSWORD}
+    sensitive: true
   - key:
       de: Verbindungsstring
       en: Connection string
     value: postgresql://${postgres.env.POSTGRES_USER}:${postgres.env.POSTGRES_PASSWORD}@${postgres.hostname}/${postgres.env.POSTGRES_DB}
+    sensitive: true

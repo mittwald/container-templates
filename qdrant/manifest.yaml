@@ -48,3 +48,4 @@ help:
       de: API-Key
       en: API Key
     value: ${qdrant.env.QDRANT__SERVICE__API_KEY}
+    sensitive: true
