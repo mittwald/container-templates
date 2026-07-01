@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: password-pusher
+name:
+  de: Password Pusher
+  en: Password Pusher
 version: "latest"
+type: standalone
 icon: icon.svg
 tagline:
   de: Passwörter und Geheimnisse sicher teilen
@@ -11,7 +14,9 @@ description:
 developer: Peter Giacomo Lombardo
 website: https://pwpush.com
 repository: https://github.com/pglombardo/PasswordPusher
-license: Source Available
+license:
+  name: Source Available
+  link: https://github.com/pglombardo/PasswordPusher/blob/master/LICENSE
 categories:
   - security
 domains:

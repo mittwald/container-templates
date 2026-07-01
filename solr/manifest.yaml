@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: solr
+name:
+  de: Apache Solr
+  en: Apache Solr
 version: "9.x.x"
+type: component
 icon: icon.svg
 tagline:
   de: Enterprise-Suchplattform
@@ -11,6 +14,8 @@ description:
 developer: Apache Software Foundation
 website: https://solr.apache.org
 repository: https://github.com/apache/solr
-license: Apache-2.0
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - development

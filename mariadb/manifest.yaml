@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: mariadb
+name:
+  de: MariaDB
+  en: MariaDB
 version: "lts"
+type: component
 icon: icon.svg
 tagline:
   de: Relationale Open-Source Datenbank
@@ -11,7 +14,9 @@ description:
 developer: MariaDB Foundation
 website: https://mariadb.org
 repository: https://github.com/MariaDB/server
-license: GPL-2.0
+license:
+  name: GPL-2.0
+  link: https://spdx.org/licenses/GPL-2.0.html
 categories:
   - development
 userInputs:

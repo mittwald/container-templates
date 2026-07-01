@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: qdrant
+name:
+  de: Qdrant
+  en: Qdrant
 version: "1.x.x"
+type: component
 icon: icon.svg
 tagline:
   de: Hochperformante Vektordatenbank für KI-Anwendungen
@@ -11,7 +14,9 @@ description:
 developer: Qdrant
 website: https://qdrant.tech
 repository: https://github.com/qdrant/qdrant
-license: Apache-2.0
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - ai
 domains:

@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: directus
+name:
+  de: Directus
+  en: Directus
 version: "11.x.x"
+type: standalone
 icon: icon.svg
 tagline:
   de: Headless CMS und Datenplattform
@@ -12,7 +15,9 @@ developer: Monospace Inc.
 website: https://directus.io
 repository: https://github.com/directus/directus
 support: https://directus.io/support/
-license: BSL-1.1
+license:
+  name: BSL-1.1
+  link: https://spdx.org/licenses/BUSL-1.1.html
 categories:
   - development
 domains:

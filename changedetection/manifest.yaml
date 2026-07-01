@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: changedetection
+name:
+  de: changedetection.io
+  en: changedetection.io
 version: "latest"
+type: standalone
 icon: icon.svg
 tagline:
   de: Website-Änderungen automatisch erkennen
@@ -11,7 +14,9 @@ description:
 developer: dgtlmoon
 website: https://changedetection.io
 repository: https://github.com/dgtlmoon/changedetection.io
-license: Apache-2.0
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - productivity
 domains:
