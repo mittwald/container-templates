@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: openwebui
+name:
+  de: Open WebUI
+  en: Open WebUI
 version: "main"
+type: standalone
 icon: icon.svg
 tagline:
   de: Selbstgehostete Oberfläche für KI-Modelle
@@ -11,7 +14,9 @@ description:
 developer: Open WebUI
 website: https://openwebui.com
 repository: https://github.com/open-webui/open-webui
-license: MIT
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
 categories:
   - ai
 domains:

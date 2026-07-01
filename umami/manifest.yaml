@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: umami
+name:
+  de: Umami
+  en: Umami
 version: "latest"
+type: standalone
 icon: icon.svg
 tagline:
   de: Datenschutzfreundliche Web-Analytics
@@ -11,7 +14,9 @@ description:
 developer: Umami Software
 website: https://umami.is
 repository: https://github.com/umami-software/umami
-license: MIT
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
 categories:
   - monitoring
 domains:

@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: postgresql
+name:
+  de: PostgreSQL
+  en: PostgreSQL
 version: "18.x.x"
+type: component
 icon: icon.svg
 tagline:
   de: Leistungsstarke relationale Open-Source Datenbank
@@ -11,7 +14,9 @@ description:
 developer: PostgreSQL Global Development Group
 website: https://www.postgresql.org
 repository: https://github.com/postgres/postgres
-license: PostgreSQL License
+license:
+  name: PostgreSQL License
+  link: https://spdx.org/licenses/PostgreSQL.html
 categories:
   - development
 userInputs:

@@ -26,7 +26,7 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 ### manifest.yaml
 
 - `manifestVersion` ist aktuell immer `1.0`.
-- `tagline` und `description` sind zweisprachig (de/en).
+- `name`, `tagline` und `description` sind mehrsprachig (aktuell deutsch und englisch).
 - `version` ist eine Anzeige-Version (z.B. `"2.x.x"`), keine exakte Versionspinning.
 - `icon` verweist auf eine Bilddatei im Template-Ordner. Bevorzugt SVG (`icon.svg`), alternativ PNG (`icon.png`) falls kein SVG verfügbar ist. Icons stammen bevorzugt von [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0).
 - `categories` sind auf folgende Werte beschränkt:
@@ -41,11 +41,12 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 - `domains` verknüpft User-Inputs mit Services und Ports für automatisches Domain-Routing.
 - `userInputs` definiert Werte, die der Benutzer bei der Installation konfiguriert.
 - `systemInputs` definiert Werte, die das System automatisch generiert (z.B. Passwörter, Tokens), mit Regeln für Länge, Zeichenklassen und Muster.
+- `type` gibt an, ob es sich um eine vollständige Anwendung (`standalone`) oder einen Baustein (`component`) handelt.
 
 ### Allgemein
 
 - Sprache in Code und Konfiguration: Englisch.
-- Sprache in Beschreibungen und Texten: Deutsch und Englisch (zweisprachig).
+- Sprache in Beschreibungen und Texten: Deutsch und Englisch (mehrsprachig).
 - Jedes Template ist eigenständig und hat keine Abhängigkeiten zu anderen Templates.
 - Sichere Defaults verwenden: Produktionsmodus, restriktive Berechtigungen, keine Debug-Optionen.
 

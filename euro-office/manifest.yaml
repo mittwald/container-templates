@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: euro-office
+name:
+  de: Euro-Office
+  en: Euro-Office
 version: "latest"
+type: component
 icon: icon.svg
 tagline:
   de: Europäischer Online-Dokumentenserver
@@ -11,7 +14,9 @@ description:
 developer: Euro-Office
 website: https://euro-office.github.io
 repository: https://github.com/Euro-Office/DocumentServer
-license: AGPL-3.0
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
 domains:

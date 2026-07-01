@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: opensearch
+name:
+  de: OpenSearch
+  en: OpenSearch
 version: "3.x.x"
+type: component
 icon: icon.svg
 tagline:
   de: Verteilte Such- und Analyse-Engine
@@ -11,7 +14,9 @@ description:
 developer: OpenSearch Project
 website: https://opensearch.org
 repository: https://github.com/opensearch-project/OpenSearch
-license: Apache-2.0
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - development
 userInputs:

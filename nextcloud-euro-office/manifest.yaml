@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: nextcloud-euro-office
+name:
+  de: Nextcloud + Euro-Office
+  en: Nextcloud + Euro-Office
 version: "stable"
+type: standalone
 icon: icon.svg
 tagline:
   de: Nextcloud mit integriertem Euro-Office
@@ -11,7 +14,9 @@ description:
 developer: mittwald
 website: https://nextcloud.com
 repository: https://github.com/mittwald/nextcloud-eurooffice
-license: AGPL-3.0
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
 domains:

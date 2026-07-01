@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: yopass
+name:
+  de: Yopass
+  en: Yopass
 version: "latest"
+type: standalone
 icon: icon.svg
 tagline:
   de: Geheimnisse sicher und verschlüsselt teilen
@@ -11,7 +14,9 @@ description:
 developer: Johan Haals
 website: https://yopass.se
 repository: https://github.com/jhaals/yopass
-license: Apache-2.0
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - security
 domains:

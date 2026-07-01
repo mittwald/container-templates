@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: n8n
+name:
+  de: n8n
+  en: n8n
 version: "latest"
+type: standalone
 icon: icon.svg
 tagline:
   de: Automatisierung für deine Geschäftsprozesse
@@ -12,7 +15,9 @@ developer: n8n GmbH
 website: https://n8n.io
 repository: https://github.com/n8n-io/n8n
 support: https://n8n.io/support/
-license: Sustainable Use License
+license:
+  name: Sustainable Use License
+  link: https://github.com/n8n-io/n8n/blob/master/LICENSE.md
 categories:
   - productivity
 domains:

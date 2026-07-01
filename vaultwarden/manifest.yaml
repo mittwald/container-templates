@@ -1,6 +1,9 @@
 manifestVersion: 1.0
-name: vaultwarden
+name:
+  de: Vaultwarden
+  en: Vaultwarden
 version: "latest"
+type: standalone
 icon: icon.svg
 tagline:
   de: Selbst gehosteter Passwort-Manager
@@ -11,7 +14,9 @@ description:
 developer: Vaultwarden
 website: https://github.com/dani-garcia/vaultwarden
 repository: https://github.com/dani-garcia/vaultwarden
-license: AGPL-3.0
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - security
 domains:
