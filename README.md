@@ -21,23 +21,25 @@ Standard Docker Compose Datei mit den Services, Volumes und Netzwerken des Templ
 
 Beschreibt das Template mit folgenden Feldern:
 
-| Feld | Beschreibung |
-|------|-------------|
-| `manifestVersion` | Version der Manifest-Syntax (aktuell `1.0`) |
-| `name` | Technischer Name des Templates |
-| `version` | Angezeigte Version (z.B. `"2.x.x"`) |
-| `tagline` | Kurzbeschreibung (de/en) |
-| `description` | Ausführliche Beschreibung (de/en) |
-| `developer` | Name des Entwicklers/Herstellers |
-| `website` | Projekt-Website |
-| `repository` | Source-Code Repository |
-| `support` | Support-URL |
-| `license` | Lizenz der Software |
-| `icon` | Pfad zum Icon (SVG bevorzugt, PNG als Fallback) |
-| `categories` | Kategorien: `productivity`, `development`, `ai`, `security`, `monitoring`, `communication`, `media`, `ecommerce` |
-| `domains` | Domain-Zuordnung zu Services und Ports |
-| `userInputs` | Vom Benutzer konfigurierte Werte |
-| `systemInputs` | Automatisch vom System generierte Werte (Passwörter, Tokens) |
+| Feld              | Beschreibung                                                                                                     |
+|-------------------|------------------------------------------------------------------------------------------------------------------|
+| `manifestVersion` | Version der Manifest-Syntax (aktuell `1.0`)                                                                      |
+| `name`            | Menschenlesbarer Name des Templates (mehrsprachig)                                                               |
+| `version`         | Angezeigte Version (z.B. `"2.x.x"`)                                                                              |
+| `tagline`         | Kurzbeschreibung (mehrsprachig)                                                                                  |
+| `description`     | Ausführliche Beschreibung (mehrsprachig)                                                                         |
+| `developer`       | Name des Entwicklers/Herstellers                                                                                 |
+| `website`         | Projekt-Website                                                                                                  |
+| `repository`      | Source-Code Repository                                                                                           |
+| `support`         | Support-URL                                                                                                      |
+| `license`         | Lizenz der Software, besteht aus `name` und `link`.                                                              |
+| `icon`            | Pfad zum Icon (SVG bevorzugt, PNG als Fallback)                                                                  |
+| `categories`      | Kategorien: `productivity`, `development`, `ai`, `security`, `monitoring`, `communication`, `media`, `ecommerce` |
+| `domains`         | Domain-Zuordnung zu Services und Ports                                                                           |
+| `userInputs`      | Vom Benutzer konfigurierte Werte                                                                                 |
+| `systemInputs`    | Automatisch vom System generierte Werte (Passwörter, Tokens)                                                     |
+| `type`            | Ist es eine vollständige Anwendung oder eher ein "Baustein"? Werte: `component` oder `standalone`                |
+
 
 ## Vorhandene Templates
 
