@@ -55,4 +55,4 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 
 - Wenn Templates hinzugefügt, umbenannt oder entfernt werden, muss die Template-Tabelle in der `README.md` aktualisiert werden (inkl. Icon-Referenz).
 - Änderungen an der Manifest-Struktur oder Konventionen müssen sowohl in `README.md` als auch in `AGENTS.md` nachgezogen werden.
-- Jede `manifest.yaml` wird per CI gegen `schema/manifest.schema.json` validiert (Workflow `.github/workflows/validate-manifests.yml`). Bei Schema-Änderungen das JSON Schema mitziehen.
+- Jede `manifest.yaml` wird per CI gegen `manifest.schema.json` (im Repo-Root) validiert (Workflow `.github/workflows/validate-manifests.yml`). Bei Schema-Änderungen das JSON Schema mitziehen.

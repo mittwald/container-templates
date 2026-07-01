@@ -4,13 +4,13 @@ on:
   pull_request:
     paths:
       - "**/manifest.yaml"
-      - "schema/manifest.schema.json"
+      - "manifest.schema.json"
       - ".github/workflows/validate-manifests.yml"
   push:
     branches: [main]
     paths:
       - "**/manifest.yaml"
-      - "schema/manifest.schema.json"
+      - "manifest.schema.json"
 
 jobs:
   validate:
@@ -23,4 +23,4 @@ jobs:
       - name: Install check-jsonschema
         run: pip install check-jsonschema
       - name: Validate manifest.yaml files against schema
-        run: check-jsonschema --schemafile schema/manifest.schema.json */manifest.yaml
+        run: check-jsonschema --schemafile manifest.schema.json */manifest.yaml

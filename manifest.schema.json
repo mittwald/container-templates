@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/mittwald/container-templates/schema/manifest.schema.json",
+  "$id": "https://github.com/mittwald/container-templates/manifest.schema.json",
   "title": "mStudio Container Template Manifest",
   "description": "Schema für manifest.yaml der Container-Templates. Siehe README.md / AGENTS.md.",
   "type": "object",
