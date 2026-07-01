@@ -148,6 +148,13 @@ help:
 
 1. Ordner mit dem Template-Namen erstellen
 2. `docker-compose.yml` mit den benötigten Services anlegen
-3. `manifest.yaml` mit allen Metadaten und Input-Definitionen erstellen
+3. `manifest.yaml` erstellen — Felder und Beispiele in den Abschnitten oben, die verbindliche Struktur in [`manifest.schema.json`](manifest.schema.json)
 4. `icon.svg` hinzufügen (Quelle: [dashboard-icons](https://github.com/homarr-labs/dashboard-icons), Apache-2.0)
 5. Variablen in der `docker-compose.yml` über `userInputs` und `systemInputs` im Manifest definieren
+6. Konventionen in [`AGENTS.md`](AGENTS.md) beachten (sichere Defaults, Zeitzone, Backups, `help`-Platzhalter-Regeln)
+
+Vor dem Commit wird das Manifest per CI gegen das Schema validiert. Lokal:
+
+```bash
+pipx run check-jsonschema --schemafile manifest.schema.json <ordner>/manifest.yaml
+```
