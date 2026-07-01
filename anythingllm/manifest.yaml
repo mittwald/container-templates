@@ -23,6 +23,7 @@ domains:
   - userInput: HOST
     service: anythingllm
     port: 3001
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -65,3 +66,14 @@ systemInputs:
       schema:
         - ruleType: length
           min: 32
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Auth Token
+      en: Auth Token
+    value: ${anythingllm.env.AUTH_TOKEN}

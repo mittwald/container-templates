@@ -25,3 +25,26 @@ userInputs:
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${opensearch.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 9200/TCP
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${opensearch.env.OPENSEARCH_INITIAL_ADMIN_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: TLS-Check deaktiviert
+      en: TLS check disabled
+    content:
+      de: Verbindungen zu OpenSearch werden hergestellt, ohne das Serverzertifikat zu überprüfen. Dies kann in Entwicklungs- oder Testumgebungen sinnvoll sein, wird für produktive Systeme jedoch nicht empfohlen.
+      en: Connections to OpenSearch are established without verifying the server certificate. This may be useful in development or test environments, but is not recommended for production systems.

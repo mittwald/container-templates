@@ -50,3 +50,30 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${mariadb.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 3306/TCP
+  - key:
+      de: Datenbank-Name
+      en: Database Name
+    value: ${mariadb.env.MARIADB_DATABASE}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${mariadb.env.MARIADB_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${mariadb.env.MARIADB_PASSWORD}
+  - key:
+      de: Verbindungsstring
+      en: Connection string
+    value: mariadb://${mariadb.env.MARIADB_USER}:${mariadb.env.MARIADB_PASSWORD}@${mariadb.hostname}

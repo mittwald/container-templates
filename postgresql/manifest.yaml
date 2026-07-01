@@ -32,3 +32,30 @@ userInputs:
     positionMeta: { step: "common", index: 3 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${postgres.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 5432/TCP
+  - key:
+      de: Datenbank-Name
+      en: Database Name
+    value: ${postgres.env.POSTGRES_DB}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${postgres.env.POSTGRES_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${postgres.env.POSTGRES_PASSWORD}
+  - key:
+      de: Verbindungsstring
+      en: Connection string
+    value: postgresql://${postgres.env.POSTGRES_USER}:${postgres.env.POSTGRES_PASSWORD}@${postgres.hostname}/${postgres.env.POSTGRES_DB}

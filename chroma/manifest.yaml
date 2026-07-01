@@ -19,3 +19,14 @@ license:
   link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - ai
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${chroma.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 8000/TCP

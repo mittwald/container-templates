@@ -23,6 +23,7 @@ domains:
   - userInput: HOST
     service: qdrant
     port: 6333
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -36,3 +37,14 @@ systemInputs:
       schema:
         - ruleType: length
           min: 32
+
+help:
+  technicalDetails:
+  - key:
+      de: Dashboard
+      en: Dashboard
+    value: https://${domain.main}/dashboard
+  - key:
+      de: API-Key
+      en: API Key
+    value: ${qdrant.env.QDRANT__SERVICE__API_KEY}

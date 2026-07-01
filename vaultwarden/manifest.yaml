@@ -23,6 +23,7 @@ domains:
   - userInput: HOST
     service: vaultwarden
     port: 80
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -51,3 +52,18 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin-Bereich
+      en: Admin Area
+    value: https://${domain.main}/admin
+  - key:
+      de: Admin Token
+      en: Admin Token
+    value: ${vaultwarden.env.ADMIN_TOKEN}

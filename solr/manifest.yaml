@@ -19,3 +19,14 @@ license:
   link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - development
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${solr.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 8983/TCP

@@ -23,6 +23,7 @@ domains:
   - userInput: HOST
     service: docmost
     port: 3000
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -53,3 +54,18 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erster Nutzer wird Admin
+      en: First user becomes admin
+    content:
+      de: Der erste Nutzer, der sich nach der Installation registriert, wird automatisch zum Administrator.
+      en: The first user to register after installation automatically becomes the administrator.
