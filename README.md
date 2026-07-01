@@ -19,7 +19,7 @@ Standard Docker Compose Datei mit den Services, Volumes und Netzwerken des Templ
 
 ### manifest.yaml
 
-Beschreibt das Template mit folgenden Feldern:
+Beschreibt das Template mit folgenden Feldern. Die maschinenlesbare, per CI validierte Definition (Typen, Pflichtfelder, erlaubte Werte) steht in [`manifest.schema.json`](manifest.schema.json).
 
 | Feld              | Beschreibung                                                                                                     |
 |-------------------|------------------------------------------------------------------------------------------------------------------|
