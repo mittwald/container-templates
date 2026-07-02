@@ -4,7 +4,6 @@ name:
   en: Qdrant
 version: "1.x.x"
 type: component
-icon: icon.svg
 tagline:
   de: Hochperformante Vektordatenbank für KI-Anwendungen
   en: High-performance vector database for AI applications

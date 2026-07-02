@@ -4,7 +4,6 @@ name:
   en: MariaDB
 version: "lts"
 type: component
-icon: icon.svg
 tagline:
   de: Relationale Open-Source Datenbank
   en: Open-source relational database

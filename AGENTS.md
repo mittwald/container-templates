@@ -2,7 +2,7 @@
 
 ## Projektbeschreibung
 
-Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Container-Vorlagen-Funktion. Jedes Template liegt in einem eigenen Ordner und besteht aus `docker-compose.yml`, `manifest.yaml` und `icon.svg`/`icon.png`. Aufbau, Feld-Dokumentation und Beispiele stehen in der `README.md`; die maschinenlesbare, CI-validierte Feldstruktur in `manifest.schema.json`.
+Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Container-Vorlagen-Funktion. Jedes Template liegt in einem eigenen Ordner und besteht aus `docker-compose.yml`, `manifest.yaml` und `icon.svg`. Aufbau, Feld-Dokumentation und Beispiele stehen in der `README.md`; die maschinenlesbare, CI-validierte Feldstruktur in `manifest.schema.json`.
 
 ## Konventionen
 
@@ -28,7 +28,7 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
   - `communication` — Chat, Messaging, Kollaboration
   - `media` — Foto-/Video-/Dateiverwaltung
   - `ecommerce` — Shops, Payment, POS
-- **`icon`:** bevorzugt von [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0), SVG vor PNG.
+- **Icon:** Die Datei heißt **immer** `icon.svg` im Template-Ordner (kein Manifest-Feld). Bevorzugt von [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0).
 
 ### Allgemein
 

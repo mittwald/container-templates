@@ -10,7 +10,6 @@
     "name",
     "version",
     "type",
-    "icon",
     "tagline",
     "description",
     "developer",
@@ -36,11 +35,6 @@
     "type": {
       "enum": ["standalone", "component"],
       "description": "standalone = eigenständige Anwendung (neuer Stack), component = Baustein (bestehender Stack)."
-    },
-    "icon": {
-      "type": "string",
-      "pattern": "\\.(svg|png)$",
-      "description": "Pfad zum Icon im Template-Ordner (SVG bevorzugt, PNG als Fallback)."
     },
     "tagline": { "$ref": "#/$defs/i18n" },
     "description": { "$ref": "#/$defs/i18n" },

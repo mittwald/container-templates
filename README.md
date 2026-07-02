@@ -4,13 +4,13 @@ Container-Vorlagen für die mStudio Container-Vorlagen-Funktion.
 
 ## Struktur
 
-Jedes Template liegt in einem eigenen Ordner und besteht aus zwei Dateien:
+Jedes Template liegt in einem eigenen Ordner und besteht aus drei Dateien:
 
 ```
 <template-name>/
 ├── docker-compose.yml    # Docker Compose Konfiguration
 ├── manifest.yaml         # Metadaten, Inputs und Konfiguration
-└── icon.svg / icon.png   # Icon (SVG bevorzugt, PNG als Fallback)
+└── icon.svg              # Icon (muss immer icon.svg heißen)
 ```
 
 ### docker-compose.yml
@@ -33,7 +33,6 @@ Beschreibt das Template mit folgenden Feldern. Die maschinenlesbare, per CI vali
 | `repository`      | Source-Code Repository                                                                                           |
 | `support`         | Support-URL                                                                                                      |
 | `license`         | Lizenz der Software, besteht aus `name` und `link`.                                                              |
-| `icon`            | Pfad zum Icon (SVG bevorzugt, PNG als Fallback)                                                                  |
 | `categories`      | Kategorien: `productivity`, `development`, `ai`, `security`, `monitoring`, `communication`, `media`, `ecommerce` |
 | `domains`         | Domain-Zuordnung zu Services und Ports; je Eintrag ein `purpose` als Referenz (z.B. in `help`)                   |
 | `userInputs`      | Vom Benutzer konfigurierte Werte                                                                                 |
@@ -128,7 +127,7 @@ help:
 | <img src="chroma/icon.svg" width="24" height="24" style="object-fit:contain"> | [chroma](chroma/) | Open-Source Vektordatenbank für KI-Anwendungen |
 | <img src="collabora/icon.svg" width="24" height="24" style="object-fit:contain"> | [collabora](collabora/) | Online-Office-Suite für kollaboratives Arbeiten |
 | <img src="directus/icon.svg" width="24" height="24" style="object-fit:contain"> | [directus](directus/) | Headless CMS und Datenplattform |
-| <img src="docmost/icon.png" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
+| <img src="docmost/icon.svg" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
 | <img src="euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [euro-office](euro-office/) | Europäischer Online-Dokumentenserver |
 | <img src="mariadb/icon.svg" width="24" height="24" style="object-fit:contain"> | [mariadb](mariadb/) | Relationale Open-Source Datenbank |
 | <img src="n8n/icon.svg" width="24" height="24" style="object-fit:contain"> | [n8n](n8n/) | Automatisierung für deine Geschäftsprozesse |

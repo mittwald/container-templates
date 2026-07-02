@@ -4,7 +4,6 @@ name:
   en: Yopass
 version: "latest"
 type: standalone
-icon: icon.svg
 tagline:
   de: Geheimnisse sicher und verschlüsselt teilen
   en: Share secrets securely and encrypted

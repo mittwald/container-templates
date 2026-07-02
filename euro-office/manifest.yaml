@@ -4,7 +4,6 @@ name:
   en: Euro-Office
 version: "latest"
 type: component
-icon: icon.svg
 tagline:
   de: Europäischer Online-Dokumentenserver
   en: European online document server

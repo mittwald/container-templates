@@ -4,7 +4,6 @@ name:
   en: Chroma
 version: "latest"
 type: component
-icon: icon.svg
 tagline:
   de: Open-Source Vektordatenbank für KI-Anwendungen
   en: Open-source vector database for AI applications

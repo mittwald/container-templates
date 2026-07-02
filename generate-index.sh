@@ -17,7 +17,7 @@ for dir in */; do
   get_nested() { grep -A5 "^${1}:" "$manifest" | grep "  ${2}:" | head -1 | sed "s/.*${2}: *//;s/^\"//;s/\"$//" ; }
 
   version=$(get "version")
-  icon=$(get "icon")
+  icon="icon.svg"  # Icon-Datei heißt konventionsgemäß immer icon.svg
   developer=$(get "developer")
   website=$(get "website")
   repository=$(get "repository")

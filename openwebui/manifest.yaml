@@ -4,7 +4,6 @@ name:
   en: Open WebUI
 version: "main"
 type: standalone
-icon: icon.svg
 tagline:
   de: Selbstgehostete Oberfläche für KI-Modelle
   en: Self-hosted interface for AI models

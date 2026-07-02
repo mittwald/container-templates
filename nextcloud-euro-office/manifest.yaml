@@ -4,7 +4,6 @@ name:
   en: Nextcloud + Euro-Office
 version: "stable"
 type: standalone
-icon: icon.svg
 tagline:
   de: Nextcloud mit integriertem Euro-Office
   en: Nextcloud with integrated Euro-Office

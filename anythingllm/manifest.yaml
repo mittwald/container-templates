@@ -4,7 +4,6 @@ name:
   en: AnythingLLM
 version: "latest"
 type: standalone
-icon: icon.svg
 tagline:
   de: All-in-One KI-Desktop- und Server-Anwendung mit RAG
   en: All-in-one AI desktop and server application with RAG

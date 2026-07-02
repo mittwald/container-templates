@@ -4,7 +4,6 @@ name:
   en: changedetection.io
 version: "latest"
 type: standalone
-icon: icon.svg
 tagline:
   de: Website-Änderungen automatisch erkennen
   en: Detect website changes automatically
