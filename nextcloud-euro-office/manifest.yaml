@@ -29,20 +29,32 @@ domains:
     purpose: eurooffice
 userInputs:
   - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
     positionMeta: { step: "common", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "EUROOFFICE_HOST"
+    label:
+      de: Euro-Office Domain
+      en: Euro-Office Domain
     positionMeta: { step: "common", index: 2 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
     positionMeta: { step: "adminuser", index: 5 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1}'
   - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
     positionMeta: { step: "adminuser", index: 5 }
     format: "password"
     required: true

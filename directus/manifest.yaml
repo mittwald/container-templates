@@ -26,15 +26,24 @@ domains:
     purpose: main
 userInputs:
   - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
     positionMeta: { step: "common", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
     positionMeta: { step: "common", index: 2 }
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
     positionMeta: { step: "common", index: 3 }
     format: "password"
     required: true

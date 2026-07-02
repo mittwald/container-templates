@@ -26,6 +26,9 @@ domains:
     purpose: main
 userInputs:
   - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
     positionMeta: { step: "common", index: 1 }
     required: true
     dataSource: "ingress.paths"

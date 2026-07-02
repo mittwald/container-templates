@@ -59,6 +59,7 @@ domains:
 | Feld | Pflicht | Beschreibung |
 |------|---------|--------------|
 | `name` | ja | Technischer Schlüssel; in der `docker-compose.yml` als `${name}` referenzierbar |
+| `label` | ja | Mehrsprachiger Anzeigename des Feldes (de/en) für die Oberfläche |
 | `dataType` | nein | Datentyp: `text`, `number`, `boolean` oder `select` (Standard: `text`) |
 | `required` | ja | Ob der Wert zwingend ausgefüllt werden muss |
 | `validationSchema` | ja | Validierung als JSON-Schema-String (siehe [json-schema.org](https://json-schema.org/)) |
@@ -70,12 +71,18 @@ domains:
 ```yaml
 userInputs:
   - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
     dataType: "text"
     required: true
     dataSource: "ingress.paths"
     positionMeta: { step: "common", index: 1 }
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
     dataType: "text"
     format: "password"
     required: true
