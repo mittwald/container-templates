@@ -31,6 +31,7 @@ userInputs:
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_TOKEN"
     positionMeta: { step: "common", index: 2 }
+    format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
 systemInputs:
