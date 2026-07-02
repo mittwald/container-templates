@@ -27,7 +27,7 @@ Beschreibt das Template mit folgenden Feldern:
 | `name`            | Menschenlesbarer Name des Templates (mehrsprachig)                                                               |
 | `version`         | Angezeigte Version (z.B. `"2.x.x"`)                                                                              |
 | `tagline`         | Kurzbeschreibung (mehrsprachig)                                                                                  |
-| `description`     | Ausführliche Beschreibung (mehrsprachig)                                                                         |
+| `description`     | Ausführliche Beschreibung (mehrsprachig, Markdown, ~230–240 Wörter)                                              |
 | `developer`       | Name des Entwicklers/Herstellers                                                                                 |
 | `website`         | Projekt-Website                                                                                                  |
 | `repository`      | Source-Code Repository                                                                                           |
