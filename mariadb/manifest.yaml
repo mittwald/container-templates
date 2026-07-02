@@ -9,8 +9,36 @@ tagline:
   de: Relationale Open-Source Datenbank
   en: Open-source relational database
 description:
-  de: MariaDB ist eine leistungsstarke relationale Open-Source Datenbank, die als Drop-in-Ersatz für MySQL dient. Ideal für Webanwendungen und datenintensive Workloads.
-  en: MariaDB is a powerful open-source relational database that serves as a drop-in replacement for MySQL. Ideal for web applications and data-intensive workloads.
+  de: |
+    **MariaDB** ist ein relationales Open-Source-Datenbanksystem und eine direkt austauschbare Alternative zu proprietären Managed-MySQL-Diensten wie AWS RDS oder PlanetScale. Es basiert auf dem MySQL-Quellcode und bietet volle Kompatibilität zum MySQL-Ökosystem, während Daten und Konfiguration vollständig unter eigener Kontrolle bleiben.
+
+    Zentrale Funktionen:
+
+    - MySQL-kompatibles SQL-Interface — bestehende Anwendungen, ORM-Frameworks und Datenbank-Tools laufen ohne Anpassungen
+    - ACID-konforme Transaktionen und InnoDB-Engine für zuverlässige Datenkonsistenz
+    - Replikation (Primary-Replica) für Hochverfügbarkeit und horizontale Lese-Skalierung
+    - Breite Framework-Unterstützung durch PHP-, Python-, Node.js- und Java-Ökosysteme sowie gängige CMS-Plattformen
+    - JSON-Datentyp und erweiterte Window Functions für moderne Abfrageanforderungen
+    - Regelmäßige Datensicherung über das mittwald Backup-Label (`backup.command`), das die Plattform als geplante, plattformseitige Sicherung ausführt
+
+    Für **Werbe-, Web- und Digitalagenturen** ist MariaDB der bewährte Datenbankbaustein hinter Kundenanwendungen: CMS-Installationen wie WordPress oder TYPO3, Online-Shops auf Basis von WooCommerce oder Shopware sowie individuelle PHP- und Node.js-Webanwendungen setzen standardmäßig auf MySQL-kompatible Datenbanken. Auch Headless-CMS-Lösungen und API-Backends lassen sich unkompliziert anbinden. Dieses Template stellt MariaDB als isolierten Dienst bereit, der sich sauber in bestehende Container-Stacks integrieren lässt — klar getrennt von der Anwendungsschicht und unabhängig wartbar und skalierbar.
+
+    Bei mittwald läuft **MariaDB** als self-hosted Container in deutschen Rechenzentren; alle Daten bleiben innerhalb der EU und unterliegen dem Schutz der DSGVO — ohne Weitergabe an Drittanbieter oder externe Cloud-Regionen. Dieses Template enthält MariaDB als eigenständigen Dienst mit vorkonfigurierten Zugangsdaten und ist nach der Einrichtung sofort betriebsbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, bleibt die Lösung auch beim parallelen Betrieb vieler Kundenprojekte wirtschaftlich.
+  en: |
+    **MariaDB** is an open-source relational database system and a drop-in replacement for proprietary managed MySQL services such as AWS RDS or PlanetScale. It is built on the MySQL source code and offers full compatibility with the MySQL ecosystem while keeping data and configuration fully under the operator's own control.
+
+    Key features:
+
+    - MySQL-compatible SQL interface — existing applications, ORM frameworks and database tools run without modification
+    - ACID-compliant transactions and the InnoDB engine for reliable data consistency
+    - Replication (primary-replica) for high availability and horizontal read scaling
+    - Broad framework support across PHP, Python, Node.js and Java ecosystems, as well as popular CMS platforms
+    - JSON data type and advanced window functions for modern query requirements
+    - Regular data backups via the mittwald backup label (`backup.command`), which the platform runs as a scheduled, platform-side backup
+
+    For **advertising, web and digital agencies**, MariaDB is the proven database building block behind client applications: CMS installations such as WordPress or TYPO3, online shops built on WooCommerce or Shopware, and custom PHP or Node.js web applications all rely on MySQL-compatible databases as standard. Headless CMS solutions and API backends can also be connected without difficulty. This template provides MariaDB as an isolated service that integrates cleanly into existing container stacks — clearly separated from the application layer and independently maintainable and scalable.
+
+    At mittwald, **MariaDB** runs as a self-hosted container in German data centres; all data remains within the EU and is subject to the protection of the GDPR. This template includes MariaDB as a standalone service and is ready to use immediately after configuration. As there are no usage-based licence costs, the solution remains economical even when running many client projects in parallel.
 developer: MariaDB Foundation
 website: https://mariadb.org
 repository: https://github.com/MariaDB/server

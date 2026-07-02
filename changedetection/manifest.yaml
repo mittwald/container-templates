@@ -9,8 +9,36 @@ tagline:
   de: Website-Änderungen automatisch erkennen
   en: Detect website changes automatically
 description:
-  de: changedetection.io überwacht Websites auf Änderungen und benachrichtigt dich bei Aktualisierungen. Mit integriertem Headless-Browser (Playwright) werden auch JavaScript-gerenderte Seiten zuverlässig erfasst.
-  en: changedetection.io monitors websites for changes and notifies you of updates. With an integrated headless browser (Playwright), JavaScript-rendered pages are reliably captured.
+  de: |
+    **changedetection.io** ist ein self-hosted Dienst zur automatischen Überwachung von Websites auf Inhaltsänderungen und eine Alternative zu SaaS-Lösungen wie Visualping oder Distill.io. Die Software prüft in konfigurierbaren Intervallen, ob sich Inhalte einer Website verändert haben, und benachrichtigt bei Änderungen sofort die konfigurierten Empfänger über verschiedene Kanäle.
+
+    Zentrale Funktionen:
+
+    - Visuelle und textbasierte Diffs zum genauen Vergleich von Seitenversionen
+    - Gezielte Überwachung einzelner Elemente per CSS- und XPath-Selektoren
+    - Benachrichtigungen per E-Mail, Webhook, Slack, Telegram und viele weitere Kanäle
+    - Frei konfigurierbare Prüfintervalle für jede überwachte Seite
+    - Vollständiges Browser-Rendering für JavaScript-basierte und dynamische Websites
+    - Keyword-Filter für gezielte Auslöser bei bestimmten Textänderungen
+
+    Für **Werbe-, Web- und Digitalagenturen** ist changedetection.io ein nützliches Werkzeug zur systematischen Überwachung von Kunden- und Wettbewerber-Websites. Content-Änderungen auf Kundenwebsites werden automatisch erkannt, um unerwünschte Anpassungen frühzeitig zu bemerken. Gleichzeitig lassen sich Preisänderungen bei Wettbewerbern, SEO-relevante Seitenänderungen oder Aktualisierungen auf Lieferanten-Portalen gezielt verfolgen. Agenturen erhalten so einen strukturierten Überblick über relevante Änderungen, ohne Seiten manuell prüfen zu müssen.
+
+    Bei mittwald läuft changedetection.io als self-hosted Container in deutschen Rechenzentren; überwachte Seiteninhalte und Änderungshistorien verbleiben im eigenen System und werden nicht an Dritte übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält changedetection.io zusammen mit einem vollständigen Browser-Service (sockpuppetbrowser) für das zuverlässige Rendering von JavaScript-Seiten. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich eine beliebige Anzahl von Websites ohne zusätzliche Kosten überwachen.
+  en: |
+    **changedetection.io** is a self-hosted service for automatically monitoring websites for content changes and an alternative to SaaS solutions such as Visualping or Distill.io. The software checks at configurable intervals whether a website's content has changed and immediately notifies configured recipients via various channels when changes are detected.
+
+    Key features:
+
+    - Visual and text-based diffs for precise comparison of page versions
+    - Targeted monitoring of individual elements using CSS and XPath selectors
+    - Notifications via email, webhook, Slack, Telegram and many other channels
+    - Freely configurable check intervals for each monitored page
+    - Full browser rendering for JavaScript-based and dynamic websites
+    - Keyword filters for triggering alerts on specific text changes
+
+    For **advertising, web and digital agencies**, changedetection.io is a practical tool for systematically monitoring client and competitor websites. Content changes on client sites are detected automatically to catch unwanted modifications early. At the same time, competitor price changes, SEO-relevant page updates or changes on supplier portals can be tracked in a targeted way. Agencies gain a structured overview of relevant changes without having to check pages manually.
+
+    At mittwald, changedetection.io runs as a self-hosted container in German data centres; monitored page content and change histories remain within the operator's own system and are not transferred to third parties, which simplifies GDPR compliance. This template includes changedetection.io together with a full browser service (sockpuppetbrowser) for reliable rendering of JavaScript-powered pages. As there are no usage-based licence costs, any number of websites can be monitored without additional expense.
 developer: dgtlmoon
 website: https://changedetection.io
 repository: https://github.com/dgtlmoon/changedetection.io

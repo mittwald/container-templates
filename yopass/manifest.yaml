@@ -9,8 +9,36 @@ tagline:
   de: Geheimnisse sicher und verschlüsselt teilen
   en: Share secrets securely and encrypted
 description:
-  de: Yopass ist ein Dienst zum sicheren Teilen von Geheimnissen über verschlüsselte, ablaufende Links mit clientseitiger Verschlüsselung. Dieses Template enthält Yopass mit Redis-Backend.
-  en: Yopass is a service for securely sharing secrets via encrypted, expiring links with client-side encryption. This template includes Yopass with a Redis backend.
+  de: |
+    **Yopass** ist ein Open-Source-Dienst zum sicheren, verschlüsselten Teilen sensibler Informationen und eine self-hosted Alternative zu Online-Diensten wie **One-Time Secret (onetimesecret.com)** oder Privnote. Der Nutzer verschlüsselt Passwörter, API-Keys oder andere vertrauliche Daten direkt im Browser, bevor sie den Server erreichen; das System speichert lediglich den verschlüsselten Inhalt für eine begrenzte Zeit. Nach dem ersten Abruf oder Ablauf der eingestellten Frist wird der Eintrag unwiderruflich gelöscht.
+
+    Zentrale Funktionen:
+
+    - Ende-zu-Ende-Verschlüsselung im Browser (AES-256), ohne serverseitige Klartextspeicherung
+    - Einmaliger Abruf: der Link wird nach dem ersten Öffnen automatisch gelöscht
+    - Konfigurierbare Ablaufzeiten (Stunden bis Tage)
+    - Optionaler Passwortschutz für den Abruf-Link
+    - Minimale Oberfläche ohne erforderliches Nutzerkonto
+    - REST-API für die Integration in Automatisierungs-Workflows
+
+    Für **Werbe-, Web- und Digitalagenturen** löst Yopass ein konkretes Alltagsproblem: das sichere Weitergeben von Zugangsdaten, Initialpasswörtern oder geheimen Schlüsseln an Kunden oder neue Teammitglieder. Statt Passwörter über E-Mail, Messenger oder unverschlüsselte Tickets zu versenden, wird ein kurzlebiger, einmalig abrufbarer Link generiert. Dieses Vorgehen reduziert das Risiko, dass Zugangsdaten dauerhaft in Kommunikationskanälen verbleiben, und dokumentiert implizit den Übergabezeitpunkt.
+
+    Bei mittwald läuft **Yopass** als self-hosted Container in deutschen Rechenzentren; verschlüsselte Geheimnisse werden ausschließlich temporär gespeichert und verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entspricht. Dieses Template enthält Yopass mit einem Redis-Backend für die kurzlebige Zwischenspeicherung der verschlüsselten Einträge. Da keine Seat- oder Nutzungslizenzen anfallen, ist der Betrieb auch bei häufigem Einsatz im Agenturalltag wirtschaftlich.
+  en: |
+    **Yopass** is an open-source service for securely sharing sensitive information in encrypted form and a self-hosted alternative to online services such as **One-Time Secret (onetimesecret.com)** or Privnote. The user encrypts passwords, API keys or other confidential data directly in the browser before it ever reaches the server; the system stores only the encrypted content for a limited period of time. After the first retrieval or once the configured expiry period has passed, the entry is deleted irreversibly.
+
+    Key features:
+
+    - End-to-end encryption in the browser (AES-256), with no plaintext storage on the server
+    - Single retrieval: the link is deleted automatically after it is opened for the first time
+    - Configurable expiry times (hours to days)
+    - Optional password protection for the retrieval link
+    - Minimal interface with no user account required
+    - REST API for integration into automation workflows
+
+    For **advertising, web and digital agencies**, Yopass solves a practical everyday problem: securely passing credentials, initial passwords or secret keys to clients or new team members. Instead of sending passwords via e-mail, messaging apps or unencrypted tickets, a short-lived, single-use link is generated. This approach reduces the risk of credentials persisting in communication channels and implicitly documents the handover timestamp.
+
+    At mittwald, **Yopass** runs as a self-hosted container in German data centres; encrypted secrets are stored only temporarily and do not leave the agency's own infrastructure, which meets GDPR requirements. This template includes Yopass with a Redis backend for the short-lived buffering of encrypted entries. As there are no seat or usage licences, operating it remains economical even with frequent use in day-to-day agency work.
 developer: Johan Haals
 website: https://yopass.se
 repository: https://github.com/jhaals/yopass

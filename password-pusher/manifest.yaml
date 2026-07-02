@@ -9,8 +9,36 @@ tagline:
   de: Passwörter und Geheimnisse sicher teilen
   en: Securely share passwords and secrets
 description:
-  de: Password Pusher ermöglicht das sichere Teilen von Passwörtern und Geheimnissen über ablaufende Links. Kein Login oder Account nötig.
-  en: Password Pusher enables secure sharing of passwords and secrets via expiring links. No login or account required.
+  de: |
+    **Password Pusher** ist eine self-hosted Webanwendung zum sicheren Teilen von Passwörtern und Geheimnissen und eine Alternative zu kommerziellen Secret-Sharing-Diensten wie 1Password Send. Die Anwendung erzeugt ablaufende, selbstzerstörende Links, über die sensible Zugangsdaten einmalig übermittelt werden können, ohne sie per E-Mail oder in Chat-Nachrichten im Klartext zu versenden.
+
+    Zentrale Funktionen:
+
+    - Selbstzerstörende Links mit konfigurierbarem Ablauf nach Zeit oder Abrufanzahl
+    - Optionaler Zugangscode zum Schutz freigegebener Inhalte
+    - Audit-Log zur Nachverfolgung von Link-Aufrufen
+    - Anpassbares Branding mit eigenem Titel und eigener Tagline
+    - Keine Registrierung für Empfänger erforderlich
+    - Unterstützung für Passwörter, Texte und Dateianhänge
+
+    Für **Werbe-, Web- und Digitalagenturen** ist Password Pusher besonders beim Austausch von Zugangsdaten mit Kunden oder externen Dienstleistern relevant. Anstatt Passwörter für Hosting-Zugänge, CMS-Logins oder API-Schlüssel per E-Mail zu übermitteln, generiert die Agentur einen ablaufenden Link, der nach Abruf oder Zeitablauf automatisch ungültig wird. Das anpassbare Branding ermöglicht es, die Oberfläche mit eigenem Titel und einer eigenen Tagline im Erscheinungsbild der Agentur zu gestalten und so professionell gegenüber Kunden aufzutreten.
+
+    Bei mittwald läuft **Password Pusher** als self-hosted Container in deutschen Rechenzentren; geteilte Geheimnisse werden ausschließlich auf der eigenen Infrastruktur gespeichert und nicht an externe Dienste übermittelt — ein wesentlicher Vorteil gegenüber SaaS-Alternativen im Hinblick auf die DSGVO. Dieses Template enthält Password Pusher als eigenständige Anwendung. Da keine Lizenzkosten anfallen und die Nutzung nicht durch Seat-Modelle eingeschränkt ist, lässt sich die Lösung von beliebig vielen Teammitgliedern kostenneutral einsetzen.
+  en: |
+    **Password Pusher** is a self-hosted web application for securely sharing passwords and secrets, and an alternative to commercial secret-sharing services such as 1Password Send. The application generates expiring, self-destructing links through which sensitive credentials can be transmitted once — without having to send them in plain text via email or chat messages.
+
+    Key features:
+
+    - Self-destructing links with configurable expiry by time or number of views
+    - Optional passphrase protection for shared content
+    - Audit log for tracking link access
+    - Customisable branding with a custom title and tagline
+    - No registration required for recipients
+    - Support for passwords, text and file attachments
+
+    For **advertising, web and digital agencies**, Password Pusher is particularly relevant when exchanging credentials with clients or external service providers. Instead of sending passwords for hosting accounts, CMS logins or API keys via email, the agency generates an expiring link that automatically becomes invalid after retrieval or after a set time period. The customisable branding allows the interface to be presented with the agency's own title and tagline, giving a professional appearance towards clients.
+
+    At mittwald, **Password Pusher** runs as a self-hosted container in German data centres; shared secrets are stored exclusively on the agency's own infrastructure and are not transmitted to external services — a significant advantage over SaaS alternatives with regard to the GDPR. This template includes Password Pusher as a standalone application. As there are no licence costs and usage is not restricted by seat-based models, the solution can be used by any number of team members without additional expense.
 developer: Peter Giacomo Lombardo
 website: https://pwpush.com
 repository: https://github.com/pglombardo/PasswordPusher

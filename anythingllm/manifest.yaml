@@ -9,8 +9,36 @@ tagline:
   de: All-in-One KI-Desktop- und Server-Anwendung mit RAG
   en: All-in-one AI desktop and server application with RAG
 description:
-  de: AnythingLLM ist eine All-in-One KI-Anwendung, die beliebige Dokumente, Ressourcen oder Inhalte in Kontext umwandelt, den jedes LLM während eines Chats als Referenz nutzen kann. Mit integriertem RAG und KI-Agenten. Dieses Template enthält AnythingLLM mit Qdrant als Vektordatenbank.
-  en: AnythingLLM is an all-in-one AI application that turns any document, resource or content into context that any LLM can use as a reference during chat. With built-in RAG and AI agents. This template includes AnythingLLM with Qdrant as the vector database.
+  de: |
+    **AnythingLLM** ist eine All-in-One-Plattform für KI-gestützte Dokumentenanalyse und Chat-Assistenz und eine self-hosted Alternative zu Cloud-RAG-Diensten wie gehosteten ChatGPT-Enterprise- oder Custom-GPT-Angeboten. Die Anwendung ermöglicht es, beliebige Dokumente, Webseiten oder Inhalte in einen strukturierten Kontext umzuwandeln, den ein Language Model während eines Gesprächs als Wissensgrundlage nutzt – ohne dass Daten das eigene System verlassen müssen.
+
+    Zentrale Funktionen:
+
+    - Dokumente, PDFs und Webseiten per Retrieval Augmented Generation (RAG) für den Chat nutzbar machen
+    - KI-Agenten mit eigenem Tool-Aufruf und mehrstufiger Aufgabenbearbeitung
+    - Mehrere Workspaces für unterschiedliche Themen, Teams oder Kundenprojekte
+    - Persistenter Chat-Verlauf mit Referenzierung der Quellstellen
+    - Anbindung kompatibler LLM- und Embedding-Endpunkte (OpenAI-kompatible APIs, mittwald AI Hosting, lokale Modelle)
+    - Benutzer- und Rechteverwaltung für den Mehrbenutzerbetrieb
+
+    Für **Werbe-, Web- und Digitalagenturen** bietet AnythingLLM die Möglichkeit, einen internen Wissens-Chatbot aufzubauen, der auf eigenen Kundendokumenten, Briefings, Markenhandbüchern oder Supportunterlagen basiert. Jedes Kundenprojekt erhält einen eigenen Workspace, sodass Wissensstände sauber getrennt bleiben. Die Integration mit mittwald AI Hosting ermöglicht den Betrieb vollständig im eigenen Rechenzentrum, ohne Daten an externe Anbieter weiterzugeben. RAG-gestützte Recherche- und Support-Workflows lassen sich so sicher und reproduzierbar gestalten.
+
+    Bei mittwald läuft AnythingLLM als self-hosted Container in deutschen Rechenzentren; verarbeitete Dokumente und Chat-Verläufe verbleiben im eigenen System und werden nicht an Drittanbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält AnythingLLM zusammen mit Qdrant als Vektordatenbank. Da keine nutzungsabhängigen Lizenzkosten für die Plattform anfallen, skaliert die Lösung auch beim Einsatz für mehrere Teams oder Kundenprojekte wirtschaftlich.
+  en: |
+    **AnythingLLM** is an all-in-one platform for AI-powered document analysis and chat assistance and a self-hosted alternative to cloud RAG services such as hosted ChatGPT Enterprise or Custom GPT offerings. The application turns any document, web page or content into structured context that a language model uses as a knowledge base during conversation — without data having to leave the operator's own system.
+
+    Key features:
+
+    - Make documents, PDFs and web pages queryable via Retrieval Augmented Generation (RAG)
+    - AI agents with native tool calls and multi-step task processing
+    - Multiple workspaces for different topics, teams or client projects
+    - Persistent chat history with source citations
+    - Connect compatible LLM and embedding endpoints (OpenAI-compatible APIs, mittwald AI Hosting, local models)
+    - User and permission management for multi-user operation
+
+    For **advertising, web and digital agencies**, AnythingLLM makes it possible to build an internal knowledge chatbot based on client documents, briefs, brand guides or support materials. Each client project gets its own workspace, keeping knowledge bases cleanly separated. Integration with mittwald AI Hosting allows full operation within the operator's own data centre, without sharing data with external providers. RAG-powered research and support workflows can thus be run securely and reproducibly.
+
+    At mittwald, AnythingLLM runs as a self-hosted container in German data centres; processed documents and chat histories remain within the operator's own system and are not shared with third-party providers, which simplifies GDPR compliance. This template includes AnythingLLM together with Qdrant as the vector database. As there are no usage-based licence costs for the platform, the solution scales economically even when used across multiple teams or client projects.
 developer: Mintplex Labs
 website: https://anythingllm.com
 repository: https://github.com/Mintplex-Labs/anything-llm
