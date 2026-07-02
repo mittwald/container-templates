@@ -23,6 +23,7 @@ domains:
   - userInput: HOST
     service: euro-office
     port: 80
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -36,3 +37,22 @@ systemInputs:
       schema:
         - ruleType: length
           min: 32
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: JWT-Secret
+      en: JWT Secret
+    value: ${euro-office.env.JWT_SECRET}
+  alerts:
+  - status: info
+    heading:
+      de: JWT-Secret für die Integration erforderlich
+      en: JWT secret required for integration
+    content:
+      de: Um Euro-Office in eine Anwendung (z. B. Nextcloud) einzubinden, hinterlege die Document-Server-URL zusammen mit dem JWT-Secret aus der Konfigurationsübersicht.
+      en: To embed Euro-Office in an application (e.g. Nextcloud), configure the document server URL together with the JWT secret shown in the configuration overview.

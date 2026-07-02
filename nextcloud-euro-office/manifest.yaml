@@ -23,9 +23,11 @@ domains:
   - userInput: HOST
     service: nextcloud-euro-office
     port: 80
+    purpose: nextcloud
   - userInput: EUROOFFICE_HOST
     service: eurooffice
     port: 80
+    purpose: eurooffice
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -87,3 +89,22 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Nextcloud Domain
+      en: Nextcloud Domain
+    value: https://${domain.nextcloud}
+  - key:
+      de: Euro-Office Domain
+      en: Euro-Office Domain
+    value: https://${domain.eurooffice}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${nextcloud-euro-office.env.NEXTCLOUD_ADMIN_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${nextcloud-euro-office.env.NEXTCLOUD_ADMIN_PASSWORD}

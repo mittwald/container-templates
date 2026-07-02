@@ -23,6 +23,7 @@ domains:
   - userInput: HOST
     service: openwebui
     port: 8080
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -44,3 +45,18 @@ userInputs:
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${openwebui.env.WEBUI_ADMIN_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${openwebui.env.WEBUI_ADMIN_PASSWORD}

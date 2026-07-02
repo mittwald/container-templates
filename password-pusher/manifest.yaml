@@ -23,6 +23,7 @@ domains:
   - userInput: HOST
     service: password-pusher
     port: 5100
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -56,3 +57,10 @@ systemInputs:
             - numbers
             - lowercase
           min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}

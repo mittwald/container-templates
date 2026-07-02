@@ -23,6 +23,7 @@ domains:
   - userInput: HOST
     service: paperless
     port: 8000
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
@@ -47,3 +48,18 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Admin-Benutzer manuell einrichten
+      en: Set up admin user manually
+    content:
+      de: Der Admin-Benutzer wird nicht automatisch angelegt. Richte ihn nach der Installation beim ersten Aufruf manuell ein.
+      en: The admin user is not created automatically. Set it up manually after installation on the first launch.

@@ -38,10 +38,11 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
   - `communication` — Chat, Messaging, Kollaboration
   - `media` — Foto-/Video-/Dateiverwaltung
   - `ecommerce` — Shops, Payment, POS
-- `domains` verknüpft User-Inputs mit Services und Ports für automatisches Domain-Routing.
-- `userInputs` definiert Werte, die der Benutzer bei der Installation konfiguriert.
+- `domains` verknüpft User-Inputs mit Services und Ports für automatisches Domain-Routing. Jeder Eintrag hat ein `purpose` (z.B. `main`), über das die zugewiesene Domain referenziert werden kann (z.B. in `help` via `${domain.<purpose>}`).
+- `userInputs` definiert Werte, die der Benutzer bei der Installation konfiguriert. Jeder Eintrag hat `name`, `dataType` (`text`/`number`/`boolean`/`select`, Standard `text`), `required` und `validationSchema` (JSON-Schema); optional `format` (`email`/`password`/`url`/`uri`), `dataSource` (z.B. `ingress.paths`), `positionMeta` (`step`/`index`/`section`) und `defaultValue`.
 - `systemInputs` definiert Werte, die das System automatisch generiert (z.B. Passwörter, Tokens), mit Regeln für Länge, Zeichenklassen und Muster.
-- `type` gibt an, ob es sich um eine vollständige Anwendung (`standalone`) oder einen Baustein (`component`) handelt.
+- `type` gibt an, ob das Template als eigenständige Anwendung in einem neuen Stack (`standalone`) oder als Baustein in einen bestehenden Stack (`component`) deployt wird.
+- `help` (optional) liefert Kontext-Hilfe nach dem Deployment: `technicalDetails` (Liste aus mehrsprachigem `key` + `value`, z.B. Zugangsdaten, Connection-String, Hostname/Port) und `alerts` (Liste mit `status` = `danger`/`info`/`success`/`warning`, mehrsprachigem `heading` und `content`, optional `linkText` + `link`). In `value` dürfen nur nach der Installation persistierende Platzhalter stehen, und da Env-Variablen an einem Service (nicht am Stack) hängen, muss der Service-Name mit rein: `${<service>.env.NAME}` (Umgebungsvariable eines Services) und `${<service>.hostname}`. `userInputs` (`${HOST}` etc.) sind nach der Installation nicht mehr verfügbar — stattdessen die Service-Env-Variable referenzieren, in die der Wert fließt. Die öffentliche Domain wird über `${domain.<purpose>}` referenziert (siehe `domains`).
 
 ### Allgemein
 

@@ -23,9 +23,35 @@ domains:
   - userInput: HOST
     service: collabora
     port: 9980
+    purpose: main
 userInputs:
   - name: "HOST"
     positionMeta: { step: "common", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Server-URL
+      en: Server URL
+    value: http://${collabora.hostname}:9980
+  alerts:
+  - status: info
+    heading:
+      de: Konfiguration in Nextcloud notwendig
+      en: Configuration required in Nextcloud
+    content:
+      de: Du findest eine Anleitung zur Konfiguration in Nextcloud in unserem Developer Portal.
+      en: You can find instructions for configuring Collabora in Nextcloud on our Developer Portal.
+    linkText:
+      de: Konfiguration in Nextcloud
+      en: Configuration in Nextcloud
+    link:
+      de: https://developer.mittwald.de/de/docs/v2/guides/apps/collabora/#integration-in-nextcloud
+      en: https://developer.mittwald.de/en/docs/v2/guides/apps/collabora/#integration-in-nextcloud
