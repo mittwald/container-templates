@@ -38,7 +38,7 @@ description:
 
     For **advertising, web and digital agencies**, changedetection.io is a practical tool for systematically monitoring client and competitor websites. Content changes on client sites are detected automatically to catch unwanted modifications early. At the same time, competitor price changes, SEO-relevant page updates or changes on supplier portals can be tracked in a targeted way. Agencies gain a structured overview of relevant changes without having to check pages manually.
 
-    At mittwald, changedetection.io runs as a self-hosted container in German data centres; monitored page content and change histories remain within your own system and are not transferred to third parties, which simplifies GDPR compliance. This template includes changedetection.io together with a full browser service (sockpuppetbrowser) for reliable rendering of JavaScript-powered pages. As there are no usage-based licence costs, any number of websites can be monitored without additional expense.
+    At mittwald, changedetection.io runs as a self-hosted container in German data centres; monitored page content and change histories remain within the operator's own system and are not transferred to third parties, which simplifies GDPR compliance. This template includes changedetection.io together with a full browser service (sockpuppetbrowser) for reliable rendering of JavaScript-powered pages. As there are no usage-based licence costs, any number of websites can be monitored without additional expense.
 developer: dgtlmoon
 website: https://changedetection.io
 repository: https://github.com/dgtlmoon/changedetection.io

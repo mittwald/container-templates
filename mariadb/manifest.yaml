@@ -25,7 +25,7 @@ description:
 
     Bei mittwald läuft **MariaDB** als self-hosted Container in deutschen Rechenzentren; alle Daten bleiben innerhalb der EU und unterliegen dem Schutz der DSGVO — ohne Weitergabe an Drittanbieter oder externe Cloud-Regionen. Dieses Template enthält MariaDB als eigenständigen Dienst mit vorkonfigurierten Zugangsdaten und ist nach der Einrichtung sofort betriebsbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, bleibt die Lösung auch beim parallelen Betrieb vieler Kundenprojekte wirtschaftlich.
   en: |
-    **MariaDB** is an open-source relational database system and a drop-in replacement for proprietary managed MySQL services such as AWS RDS or PlanetScale. It is built on the MySQL source code and offers full compatibility with the MySQL ecosystem while keeping data and configuration fully under your own control.
+    **MariaDB** is an open-source relational database system and a drop-in replacement for proprietary managed MySQL services such as AWS RDS or PlanetScale. It is built on the MySQL source code and offers full compatibility with the MySQL ecosystem while keeping data and configuration fully under the operator's own control.
 
     Key features:
 

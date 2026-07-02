@@ -115,7 +115,7 @@ cat >> index.html <<'HTMLEOF'
 const catLabels = { productivity:"Produktivität", development:"Entwicklung", ai:"KI", security:"Sicherheit", monitoring:"Monitoring", communication:"Kommunikation", media:"Medien", ecommerce:"E-Commerce" };
 function mdToHtml(md) {
   const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/`([^`]+)`/g, '<code>$1</code>');
   const blocks = md.trim().split(/\n\s*\n/);
   return blocks.map(b => {
     const lines = b.split('\n');

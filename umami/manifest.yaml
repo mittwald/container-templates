@@ -16,8 +16,6 @@ description:
 
     - Echtzeit-Auswertung von Traffic, Quellen und Geräten
     - Benutzerdefinierte Events und Conversion-Ziele
-    - UTM-Kampagnen-Tracking und Auswertung von Besucherquellen
-    - Funnel-Analyse und Wiederkehrraten für vertieftes Nutzerverständnis
     - Getrennte Auswertung beliebig vieler Websites in einer Installation
     - Öffentlich teilbare Dashboards und abgestufte Zugriffsrechte für Teammitglieder
     - Leichtgewichtiges Tracking-Skript (unter 2 kB) ohne spürbaren Einfluss auf die Ladezeit
@@ -33,8 +31,6 @@ description:
 
     - Real-time analysis of traffic, sources and devices
     - Custom events and conversion goals
-    - UTM campaign tracking and attribution of traffic sources
-    - Funnel analysis and retention rates for deeper user insights
     - Separate analysis of any number of websites from a single installation
     - Publicly shareable dashboards and granular access rights for team members
     - Lightweight tracking script (under 2 kB) with no noticeable impact on page load times

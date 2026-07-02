@@ -38,7 +38,7 @@ description:
 
     For **advertising, web and digital agencies**, Chroma acts as a technical backend behind AI-powered features in client projects. Typical use cases include semantic document search, RAG systems that prepare client knowledge for chat assistants, or recommendation features in content platforms. As a standalone component, Chroma can be integrated into existing stacks — from Python-based backend services to Node.js applications — without requiring fundamental changes to an existing architecture.
 
-    At mittwald, Chroma runs as a self-hosted container in German data centres; stored embeddings and their associated source data remain entirely within your own system and are not shared with third-party providers, which simplifies GDPR compliance. This template includes Chroma as a standalone service. As there are no usage-based licence fees, the solution scales economically even as data volumes and query counts grow alongside client projects.
+    At mittwald, Chroma runs as a self-hosted container in German data centres; stored embeddings and their associated source data remain entirely within the operator's own system and are not shared with third-party providers, which simplifies GDPR compliance. This template includes Chroma as a standalone service. As there are no usage-based licence fees, the solution scales economically even as data volumes and query counts grow alongside client projects.
 developer: Chroma
 website: https://www.trychroma.com
 repository: https://github.com/chroma-core/chroma
