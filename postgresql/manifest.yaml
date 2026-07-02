@@ -19,11 +19,11 @@ description:
     - Erweiterungssystem (z. B. PostGIS, pg_vector, pgcrypto)
     - Views, Trigger und gespeicherte Prozeduren für komplexe Datenbanklogik
     - Breite Unterstützung durch gängige Frameworks und ORMs
-    - Automatische Datenbank-Backups über einen konfigurierten Cronjob
+    - Regelmäßige Datensicherung über das mittwald Backup-Label (`backup.command`), das die Plattform als geplante, plattformseitige Sicherung ausführt
 
     Als Datenbank-Komponente bildet **PostgreSQL** das relationale Backend hinter vielen Kundenanwendungen, die **Werbe-, Web- und Digitalagenturen** entwickeln oder betreiben. Ob als Persistenzschicht für Headless-CMS-Systeme wie Directus, als Datenbankschicht hinter REST- oder GraphQL-APIs, als Grundlage individueller Webanwendungen oder als Backend für E-Commerce-Lösungen — PostgreSQL lässt sich nahtlos in bestehende Stacks integrieren. Durch breite Framework-Unterstützung, darunter Django, Laravel, Rails und Node.js-ORMs, ist PostgreSQL in den meisten Technologie-Stacks erste Wahl. Erweiterungen wie PostGIS oder pg_vector eröffnen zusätzlich spezialisierte Einsatzmöglichkeiten für Geodaten und KI-Anwendungen.
 
-    Bei mittwald läuft **PostgreSQL** als self-hosted Container-Komponente in deutschen Rechenzentren; alle Daten verbleiben vollständig unter der Kontrolle des Betreibers und werden nicht an externe Dienste weitergegeben. Dieses Template enthält PostgreSQL als eigenständige Datenbank-Komponente mit vorkonfiguriertem Backup-Cronjob, der eine regelmäßige Datensicherung im laufenden Betrieb sicherstellt. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich die Datenbank auch bei wachsendem Datenvolumen und steigenden Abfragezahlen dauerhaft wirtschaftlich betreiben.
+    Bei mittwald läuft **PostgreSQL** als self-hosted Container-Komponente in deutschen Rechenzentren; alle Daten verbleiben vollständig unter der Kontrolle des Betreibers und werden nicht an externe Dienste weitergegeben, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält PostgreSQL als eigenständige Datenbank-Komponente; regelmäßige Datensicherungen erfolgen über das mittwald Backup-Label (`backup.command`), das die Plattform als geplanten Prozess ausführt — ein gesonderter Cronjob im Template ist nicht erforderlich. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich die Datenbank auch bei wachsendem Datenvolumen und steigenden Abfragezahlen dauerhaft wirtschaftlich betreiben.
   en: |
     **PostgreSQL** is a powerful, object-relational open-source database system and a self-hosted alternative to managed database services such as AWS RDS, Supabase or Neon. With over 35 years of active development, PostgreSQL is regarded as one of the most reliable relational databases and is the preferred choice for demanding web applications, data-intensive APIs and business-critical systems.
 
@@ -34,11 +34,11 @@ description:
     - Extension system (e.g. PostGIS, pg_vector, pgcrypto)
     - Views, triggers and stored procedures for complex database logic
     - Broad support from popular frameworks and ORMs
-    - Automatic database backups via a configured cron job
+    - Regular data backups via the mittwald backup label (`backup.command`), which the platform runs as a scheduled, platform-side backup
 
     As a database component, **PostgreSQL** provides the relational backend behind many client applications that **advertising, web and digital agencies** develop or operate. Whether as the persistence layer for headless CMS systems such as Directus, as the database layer behind REST or GraphQL APIs, or as the foundation for bespoke web applications — PostgreSQL integrates seamlessly into existing stacks. With broad framework support, including Django, Laravel, Rails and Node.js ORMs, PostgreSQL is the first choice in most technology stacks.
 
-    At mittwald, **PostgreSQL** runs as a self-hosted container component in German data centres; all data remains fully under the operator's control and is not shared with external services. This template includes PostgreSQL as a standalone database component with a preconfigured backup cron job. As there are no usage-based licence costs, the database can be operated economically even as data volumes and query loads continue to grow.
+    At mittwald, **PostgreSQL** runs as a self-hosted container component in German data centres; all data remains fully under the operator's control and is not shared with external services, which simplifies GDPR compliance. This template includes PostgreSQL as a standalone database component; regular data backups are handled via the mittwald backup label (`backup.command`), which the platform runs as a scheduled process — no separate cron job in the template is required. As there are no usage-based licence costs, the database can be operated economically even as data volumes and query loads continue to grow.
 developer: PostgreSQL Global Development Group
 website: https://www.postgresql.org
 repository: https://github.com/postgres/postgres

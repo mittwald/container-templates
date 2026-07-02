@@ -38,7 +38,7 @@ description:
 
     For **advertising, web and digital agencies**, Open WebUI provides the option to deploy a dedicated, controlled chat interface for teams and clients. AI assistants can be used selectively for internal processes — such as copywriting, brief analysis or content research — without sending inputs or sensitive client data to external services. By connecting directly to mittwald AI Hosting, teams can use their own language models while retaining full control over the models deployed and the costs incurred.
 
-    At mittwald, **Open WebUI** runs as a self-hosted container in German data centres; all conversation data and user inputs remain fully under the operator's control and are not shared with third parties. This template includes Open WebUI as a standalone application that connects directly to mittwald AI Hosting. As there are no usage-based licence fees, the solution remains economical even with intensive team usage and a growing number of users.
+    At mittwald, **Open WebUI** runs as a self-hosted container in German data centres; all conversation data and user inputs remain fully under the operator's control and are not shared with third parties — GDPR compliance is thus ensured without additional measures. This template includes Open WebUI as a standalone application that connects directly to mittwald AI Hosting. As there are no usage-based licence fees, the solution remains economical even with intensive team usage and a growing number of users.
 developer: Open WebUI
 website: https://openwebui.com
 repository: https://github.com/open-webui/open-webui

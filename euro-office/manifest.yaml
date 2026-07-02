@@ -10,7 +10,7 @@ tagline:
   en: European online document server
 description:
   de: |
-    **Euro-Office Document Server** ist ein quelloffener Online-Dokumentenserver und europäischer Fork von ONLYOFFICE. Das Tool stellt ein backend-seitiges Bearbeitungs-Backend bereit, über das Text-, Tabellen- und Präsentationsdokumente direkt im Browser geöffnet und gemeinsam bearbeitet werden können. Es ist eine self-hosted Alternative zu Microsoft Office Online oder ONLYOFFICE Cloud und legt besonderen Wert auf Datensouveränität und europäische Compliance.
+    **Euro-Office Document Server** ist ein quelloffener Online-Dokumentenserver und europäischer Fork von ONLYOFFICE. Das Tool stellt ein serverseitiges Bearbeitungs-Backend bereit, über das Text-, Tabellen- und Präsentationsdokumente direkt im Browser geöffnet und gemeinsam bearbeitet werden können. Es ist eine self-hosted Alternative zu Microsoft Office Online oder ONLYOFFICE Cloud und legt besonderen Wert auf Datensouveränität und europäische Compliance.
 
     Zentrale Funktionen:
 

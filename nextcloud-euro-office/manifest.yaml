@@ -36,7 +36,7 @@ description:
     - File versioning and restoration of previous versions
     - User and group management with granular access rights
 
-    For **advertising, web and digital agencies**, this combination provides a central repository for client projects: briefings, drafts, approval documents and presentations can be organised into separate folders per client and shared directly with clients or external partners. Euro-Office allows collaborative editing of Word, Excel and PowerPoint-compatible documents in the browser, without files needing to be exchanged by email.
+    For **advertising, web and digital agencies**, this combination provides a central repository for client projects: briefings, drafts, approval documents and presentations can be organised into separate folders per client and shared directly with clients or external partners. Granular access rights ensure that each client only sees the content shared with them. Euro-Office allows collaborative editing of Word, Excel and PowerPoint-compatible documents in the browser, without files needing to be exchanged by email.
 
     At mittwald, **Nextcloud + Euro-Office** runs as a self-hosted container in German data centres; all stored files and documents remain under the full control of the agency and are not transferred to third-party providers, which simplifies GDPR compliance. This template includes Nextcloud and Euro-Office together with MariaDB and Redis, and is ready to use immediately. As there are no per-seat licences, the user base can grow without additional licence costs.
 developer: mittwald

@@ -36,7 +36,7 @@ description:
     - Horizontal scaling through sharding and replication
     - Access control via role-based security plugins
 
-    For **advertising, web and digital agencies**, OpenSearch serves as a search and analytics backend behind client applications: online shops and portals use OpenSearch for fast, relevance-ranked product search; content platforms integrate it for full-text search across article archives; and observability setups collect application logs centrally for analysis. OpenSearch can be embedded as an isolated service into existing container stacks without modifying application logic.
+    For **advertising, web and digital agencies**, OpenSearch serves as a search and analytics backend behind client applications: online shops and portals use OpenSearch for fast, relevance-ranked product search; content platforms integrate it for full-text search across article archives; and observability setups collect application logs centrally for analysis. OpenSearch can be embedded as an isolated service into existing container stacks without modifying application logic, and supports common client libraries in Java, Python and other languages through its REST API.
 
     At mittwald, **OpenSearch** runs as a self-hosted container in German data centres; the indexed data and query logs remain fully under the control of the agency or its clients and are not transferred to third-party providers, supporting GDPR compliance. This template includes OpenSearch as a standalone service and is ready to use immediately after configuring the admin password. As there are no usage-based licence costs, the solution can be used economically even when running multiple client projects.
 developer: OpenSearch Project

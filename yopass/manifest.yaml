@@ -10,7 +10,7 @@ tagline:
   en: Share secrets securely and encrypted
 description:
   de: |
-    **Yopass** ist ein Open-Source-Dienst zum sicheren, verschlüsselten Teilen sensibler Informationen und eine self-hosted Alternative zu Online-One-Time-Secret-Diensten. Der Nutzer verschlüsselt Passwörter, API-Keys oder andere vertrauliche Daten direkt im Browser, bevor sie den Server erreichen; das System speichert lediglich den verschlüsselten Inhalt für eine begrenzte Zeit. Nach dem ersten Abruf oder Ablauf der eingestellten Frist wird der Eintrag unwiderruflich gelöscht.
+    **Yopass** ist ein Open-Source-Dienst zum sicheren, verschlüsselten Teilen sensibler Informationen und eine self-hosted Alternative zu Online-Diensten wie **One-Time Secret (onetimesecret.com)** oder Privnote. Der Nutzer verschlüsselt Passwörter, API-Keys oder andere vertrauliche Daten direkt im Browser, bevor sie den Server erreichen; das System speichert lediglich den verschlüsselten Inhalt für eine begrenzte Zeit. Nach dem ersten Abruf oder Ablauf der eingestellten Frist wird der Eintrag unwiderruflich gelöscht.
 
     Zentrale Funktionen:
 
@@ -25,7 +25,7 @@ description:
 
     Bei mittwald läuft **Yopass** als self-hosted Container in deutschen Rechenzentren; verschlüsselte Geheimnisse werden ausschließlich temporär gespeichert und verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entspricht. Dieses Template enthält Yopass mit einem Redis-Backend für die kurzlebige Zwischenspeicherung der verschlüsselten Einträge. Da keine Seat- oder Nutzungslizenzen anfallen, ist der Betrieb auch bei häufigem Einsatz im Agenturalltag wirtschaftlich.
   en: |
-    **Yopass** is an open-source service for securely sharing sensitive information in encrypted form and a self-hosted alternative to online one-time secret services. The user encrypts passwords, API keys or other confidential data directly in the browser before it ever reaches the server; the system stores only the encrypted content for a limited period of time. After the first retrieval or once the configured expiry period has passed, the entry is deleted irreversibly.
+    **Yopass** is an open-source service for securely sharing sensitive information in encrypted form and a self-hosted alternative to online services such as **One-Time Secret (onetimesecret.com)** or Privnote. The user encrypts passwords, API keys or other confidential data directly in the browser before it ever reaches the server; the system stores only the encrypted content for a limited period of time. After the first retrieval or once the configured expiry period has passed, the entry is deleted irreversibly.
 
     Key features:
 
