@@ -164,11 +164,7 @@
             "required": ["key", "value"],
             "properties": {
               "key": { "$ref": "#/$defs/i18n" },
-              "value": { "type": "string", "minLength": 1 },
-              "sensitive": {
-                "type": "boolean",
-                "description": "Kennzeichnet sensible Werte (Passwörter, Tokens), die maskiert dargestellt werden sollen."
-              }
+              "value": { "type": "string", "minLength": 1 }
             }
           }
         },
