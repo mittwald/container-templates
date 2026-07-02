@@ -9,8 +9,36 @@ tagline:
   de: Headless CMS und Datenplattform
   en: Headless CMS and data platform
 description:
-  de: Directus ist eine Open-Source Datenplattform, die jede SQL-Datenbank in eine API und ein intuitives Admin-Interface verwandelt. Dieses Template enthält Directus mit PostgreSQL und Redis für Caching.
-  en: Directus is an open-source data platform that turns any SQL database into an API and an intuitive admin interface. This template includes Directus with PostgreSQL and Redis for caching.
+  de: |
+    **Directus** ist eine Open-Source-Datenplattform und ein Headless CMS, das jede SQL-Datenbank in eine strukturierte REST- und GraphQL-API sowie ein benutzerfreundliches Admin-Interface verwandelt. Es ist eine self-hosted Alternative zu gehosteten Headless-CMS-Diensten wie Contentful oder Strapi Cloud und eignet sich als Content-Backend für Websites, Apps und digitale Produkte aller Art.
+
+    Zentrale Funktionen:
+
+    - REST- und GraphQL-API auf Basis beliebiger SQL-Datenbanken (PostgreSQL, MySQL, SQLite u. a.)
+    - Visueller Datenmodellierungseditor ohne SQL-Kenntnisse
+    - Granulares Rollen- und Berechtigungsmodell auf Feld- und Zeilenebene
+    - Asset-Verwaltung mit automatischer Bildtransformation und Upload-Workflows
+    - Echtzeit-Subscriptions, Webhooks und Flows für Automatisierungen
+    - Mehrsprachiges Admin-Interface für redaktionelle Teams
+
+    Für **Werbe-, Web- und Digitalagenturen** ist Directus ein flexibles Content-Backend für Kundenprojekte: Ob Website, Mobile App oder Digital-Signage-System – die API-first-Architektur erlaubt die Anbindung beliebiger Frontends und Frameworks. Agenturen können für jeden Kunden ein eigenes Datenmodell anlegen, separate Zugriffsrechte für Redakteure und Entwickler einrichten und Inhalte über die API in mehrere Kanäle gleichzeitig ausspielen. Die Admin-Oberfläche ist auch für nicht-technische Redakteure bedienbar.
+
+    Bei mittwald läuft **Directus** als self-hosted Container in deutschen Rechenzentren; Inhalte und Kundendaten verbleiben vollständig im Einflussbereich der Agentur und werden nicht an Drittanbieter übertragen, was die DSGVO-Konformität vereinfacht. Dieses Template enthält Directus zusammen mit einer PostgreSQL-Datenbank und Redis für Caching und ist sofort einsatzbereit. Da keine nutzungsabhängigen Seat- oder API-Lizenzkosten anfallen, bleibt der Betrieb auch für größere Redaktionsteams wirtschaftlich.
+  en: |
+    **Directus** is an open-source data platform and headless CMS that transforms any SQL database into a structured REST and GraphQL API plus a user-friendly admin interface. It is a self-hosted alternative to managed headless CMS services such as Contentful or Strapi Cloud and serves as a content backend for websites, apps and digital products of all kinds.
+
+    Key features:
+
+    - REST and GraphQL API on top of any SQL database (PostgreSQL, MySQL, SQLite and more)
+    - Visual data modelling editor requiring no SQL knowledge
+    - Granular role and permission model at field and row level
+    - Asset management with automatic image transformation and upload workflows
+    - Real-time subscriptions, webhooks and flows for automation
+    - Multilingual admin interface for editorial teams
+
+    For **advertising, web and digital agencies**, Directus provides a flexible content backend for client projects: whether for a website, mobile app or digital signage system, the API-first architecture allows any frontend framework to be connected. Agencies can create a separate data model for each client, set up distinct access rights for editors and developers, and deliver content via the API to multiple channels simultaneously. The admin interface is also usable by non-technical editors.
+
+    At mittwald, **Directus** runs as a self-hosted container in German data centres; content and client data remain fully under the agency's control and are not transmitted to third-party providers, simplifying GDPR compliance. This template includes Directus together with a PostgreSQL database and Redis for caching and is ready to use immediately. As there are no usage-based seat or API licence costs, operation remains economical even for larger editorial teams.
 developer: Monospace Inc.
 website: https://directus.io
 repository: https://github.com/directus/directus

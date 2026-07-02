@@ -9,8 +9,36 @@ tagline:
   de: Kollaborative Wiki- und Dokumentationsplattform
   en: Collaborative wiki and documentation platform
 description:
-  de: Docmost ist eine kollaborative Wiki- und Dokumentationsplattform mit Echtzeit-Bearbeitung, Seitenstruktur und Berechtigungsverwaltung. Dieses Template enthält Docmost mit PostgreSQL und Redis.
-  en: Docmost is a collaborative wiki and documentation platform with real-time editing, page hierarchy and permission management. This template includes Docmost with PostgreSQL and Redis.
+  de: |
+    **Docmost** ist eine kollaborative Wiki- und Dokumentationsplattform und eine self-hosted Alternative zu Notion oder Confluence. Die Software ermöglicht Teams, Wissen strukturiert zu erfassen, gemeinsam zu bearbeiten und geordnet zu verwalten – mit Echtzeit-Kollaboration, flexibler Seitenhierarchie und abgestuften Zugriffsrechten in einer Oberfläche.
+
+    Zentrale Funktionen:
+
+    - Echtzeit-Kollaboration: mehrere Nutzende bearbeiten Seiten gleichzeitig ohne Konflikte
+    - Spaces für getrennte Wissensbereiche (z. B. nach Projekt, Team oder Kunde) mit eigenen Berechtigungen
+    - Hierarchische Seitenstruktur mit verschachtelten Unterseiten
+    - Kommentarfunktion und Seitenversionen für nachvollziehbare Änderungshistorie
+    - Volltextsuche über alle Inhalte
+    - Rich-Text-Editor mit Unterstützung für Code-Blöcke, Tabellen und Einbettungen
+
+    Für **Werbe-, Web- und Digitalagenturen** bietet Docmost eine zentrale Plattform für internes Wissensmanagement und kundenbezogene Dokumentation: Projekt-Handbücher, Onboarding-Dokumente, technische Spezifikationen und Prozessbeschreibungen lassen sich übersichtlich in separaten Spaces ablegen. Pro Kundenprojekt kann ein eigener Space eingerichtet werden, auf den nur die jeweils zuständigen Teammitglieder zugreifen. Damit entfällt die Streuung von Informationen über verschiedene Tools und E-Mail-Threads.
+
+    Bei mittwald läuft **Docmost** als self-hosted Container in deutschen Rechenzentren; alle Inhalte und Dokumentationen verbleiben vollständig unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Docmost zusammen mit einer PostgreSQL-Datenbank und Redis und ist sofort einsatzbereit. Da keine nutzungsabhängigen Lizenz- oder Seat-Kosten anfallen, wächst die Plattform kostenneutral mit dem Team mit.
+  en: |
+    **Docmost** is a collaborative wiki and documentation platform and a self-hosted alternative to Notion or Confluence. It enables teams to capture knowledge in a structured way, edit it collaboratively and keep it organised — with real-time collaboration, a flexible page hierarchy and granular access rights all in one interface.
+
+    Key features:
+
+    - Real-time collaboration: multiple users edit pages simultaneously without conflicts
+    - Spaces for separate knowledge areas (e.g. by project, team or client) with individual permissions
+    - Hierarchical page structure with nested sub-pages
+    - Comment function and page versions for a traceable change history
+    - Full-text search across all content
+    - Rich-text editor with support for code blocks, tables and embeds
+
+    For **advertising, web and digital agencies**, Docmost provides a central platform for internal knowledge management and client-facing documentation: project handbooks, onboarding documents, technical specifications and process descriptions can be stored clearly in separate spaces. A dedicated space can be set up for each client project, accessible only to the team members responsible for it. This eliminates information scattered across different tools and email threads.
+
+    At mittwald, **Docmost** runs as a self-hosted container in German data centres; all content and documentation remain fully under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Docmost together with a PostgreSQL database and Redis and is ready to use immediately. As there are no usage-based licence or seat costs, the platform scales with the team at no additional cost.
 developer: Docmost
 website: https://docmost.com
 repository: https://github.com/docmost/docmost

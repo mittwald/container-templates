@@ -9,8 +9,34 @@ tagline:
   de: Europäischer Online-Dokumentenserver
   en: European online document server
 description:
-  de: Euro-Office ist ein quelloffener Online-Dokumentenserver und europäischer Fork von ONLYOFFICE. Er ermöglicht die kollaborative Bearbeitung von Text-, Tabellen- und Präsentationsdokumenten im Browser und lässt sich in Plattformen wie Nextcloud integrieren.
-  en: Euro-Office is an open-source online document server and European fork of ONLYOFFICE. It enables collaborative editing of text, spreadsheet and presentation documents in the browser and integrates with platforms such as Nextcloud.
+  de: |
+    **Euro-Office Document Server** ist ein quelloffener Online-Dokumentenserver und europäischer Fork von ONLYOFFICE. Das Tool stellt ein backend-seitiges Bearbeitungs-Backend bereit, über das Text-, Tabellen- und Präsentationsdokumente direkt im Browser geöffnet und gemeinsam bearbeitet werden können. Es ist eine self-hosted Alternative zu Microsoft Office Online oder ONLYOFFICE Cloud und legt besonderen Wert auf Datensouveränität und europäische Compliance.
+
+    Zentrale Funktionen:
+
+    - Kollaborative Browser-Bearbeitung von DOCX-, XLSX- und PPTX-Dokumenten sowie offenen Formaten
+    - JWT-gesicherte Integration in Drittanwendungen über die ONLYOFFICE-API
+    - Kompatibilität mit gängigen Office-Formaten für reibungslosen Dateiaustausch
+    - Einbindung in Nextcloud und andere kompatible Plattformen als Document-Server
+    - Europäische Herkunft und Fokus auf Datensouveränität
+
+    Für **Werbe-, Web- und Digitalagenturen** eignet sich Euro-Office als Baustein für kollaborative Arbeitsumgebungen: Das Tool wird typischerweise als Document-Server-Backend in Nextcloud eingebunden und stellt dort die Online-Office-Funktionalität für Team- und Kundendokumente bereit. Der europäische Ursprung des Forks und die JWT-gesicherte Anbindung sind besonders für Agenturen relevant, die Wert auf Datensouveränität und nachvollziehbare Lieferketten bei eingesetzter Software legen. Die Integration erfordert lediglich die Konfiguration der Document-Server-URL und des JWT-Secrets in der jeweiligen Plattform.
+
+    Bei mittwald läuft **Euro-Office Document Server** als self-hosted Container in deutschen Rechenzentren; alle Dokumente und Bearbeitungsvorgänge bleiben unter der Kontrolle der betreibenden Organisation und verlassen nicht die eigene Infrastruktur, was die Einhaltung der DSGVO erleichtert. Dieses Template enthält den Euro-Office Document Server als eigenständiges Backend. Da keine nutzungsabhängigen Lizenzkosten anfallen, bleibt der Betrieb auch bei wachsender Nutzerzahl und größerem Dokumentenvolumen wirtschaftlich.
+  en: |
+    **Euro-Office Document Server** is an open-source online document server and a European fork of ONLYOFFICE. It provides a server-side editing backend through which text, spreadsheet and presentation documents can be opened and collaboratively edited directly in the browser. It is a self-hosted alternative to Microsoft Office Online or ONLYOFFICE Cloud and places particular emphasis on data sovereignty and European compliance.
+
+    Key features:
+
+    - Collaborative browser-based editing of DOCX, XLSX and PPTX documents as well as open formats
+    - JWT-secured integration into third-party applications via the ONLYOFFICE API
+    - Compatibility with common office formats for smooth file exchange
+    - Embedding in Nextcloud and other compatible platforms as a document server backend
+    - European origin with a focus on data sovereignty
+
+    For **advertising, web and digital agencies**, Euro-Office serves as a building block for collaborative working environments: the tool is typically embedded as a document server backend into Nextcloud, where it provides the online office functionality for team and client documents. The European origin of the fork and the JWT-secured integration are particularly relevant for agencies that place value on data sovereignty and transparent supply chains in the software they use. Integration requires only the configuration of the document server URL and JWT secret in the respective platform.
+
+    At mittwald, **Euro-Office Document Server** runs as a self-hosted container in German data centres; all documents and editing sessions remain under the control of the operating organisation and do not leave the organisation's own infrastructure, making it easier to comply with GDPR requirements. This template includes the Euro-Office Document Server as a standalone backend. As there are no usage-based licence costs, operation remains economical even as the number of users and document volume grows.
 developer: Euro-Office
 website: https://euro-office.github.io
 repository: https://github.com/Euro-Office/DocumentServer

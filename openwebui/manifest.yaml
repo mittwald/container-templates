@@ -9,8 +9,36 @@ tagline:
   de: Selbstgehostete Oberfläche für KI-Modelle
   en: Self-hosted interface for AI models
 description:
-  de: Open WebUI ist eine erweiterbare, selbstgehostete Weboberfläche für die Interaktion mit großen Sprachmodellen. Dieses Template verbindet Open WebUI mit dem KI-Hosting von mittwald.
-  en: Open WebUI is an extensible, self-hosted web interface for interacting with large language models. This template connects Open WebUI to mittwald AI hosting.
+  de: |
+    **Open WebUI** ist eine selbst gehostete Weboberfläche für große Sprachmodelle (LLMs) und eine Alternative zu vollständig verwalteten Diensten wie gehostetes ChatGPT. Die Plattform ermöglicht die Interaktion mit verschiedenen KI-Modellen über eine einheitliche, browserbasierte Oberfläche, ohne dass Nutzereingaben oder Konversationsdaten über Server externer Anbieter geleitet werden.
+
+    Zentrale Funktionen:
+
+    - Benutzerfreundliche Chat-Oberfläche für lokale und remote LLMs
+    - Einbindung mehrerer Modelle und API-Endpunkte (z. B. Ollama, OpenAI-kompatible APIs)
+    - Benutzerverwaltung mit Rollen und differenzierten Zugriffsrechten
+    - Prompt-Vorlagen und persistente Chat-Verläufe je Nutzer
+    - Dokumenten-Upload und Datei-Kontext in Konversationen
+    - Erweiterbar durch Plugins und Community-Tools
+
+    Für **Werbe-, Web- und Digitalagenturen** bietet Open WebUI die Möglichkeit, ein eigenes, kontrolliertes Chat-Interface für Teams und Kunden bereitzustellen. KI-Assistenten lassen sich so gezielt für interne Prozesse einsetzen — etwa Texterstellung, Briefing-Analyse oder Content-Recherche — ohne dass Eingaben und sensible Kundendaten an externe Dienste weitergegeben werden. Durch die direkte Anbindung an das mittwald AI Hosting können Teams eigene Sprachmodelle verwenden und behalten dabei die volle Kontrolle über eingesetzte Modelle und anfallende Kosten.
+
+    Bei mittwald läuft **Open WebUI** als self-hosted Container in deutschen Rechenzentren; alle Konversationsdaten und Nutzerangaben bleiben vollständig unter der Kontrolle des Betreibers und werden nicht an Drittanbieter übermittelt — DSGVO-Konformität ist damit ohne gesonderte Maßnahmen gewährleistet. Dieses Template enthält Open WebUI als eigenständige Anwendung, die direkt mit dem mittwald AI Hosting verbunden wird. Da keine nutzungsabhängigen Lizenzgebühren anfallen, lässt sich die Lösung auch bei intensiver Team-Nutzung und wachsender Nutzerzahl wirtschaftlich betreiben.
+  en: |
+    **Open WebUI** is a self-hosted web interface for large language models (LLMs) and an alternative to fully managed services such as hosted ChatGPT. The platform enables interaction with various AI models through a unified, browser-based interface — without routing user inputs or conversation data through the servers of external providers.
+
+    Key features:
+
+    - User-friendly chat interface for local and remote LLMs
+    - Integration of multiple models and API endpoints (e.g. Ollama, OpenAI-compatible APIs)
+    - User management with roles and granular access rights
+    - Prompt templates and persistent chat histories per user
+    - Document upload and file context within conversations
+    - Extensible through plugins and community tools
+
+    For **advertising, web and digital agencies**, Open WebUI provides the option to deploy a dedicated, controlled chat interface for teams and clients. AI assistants can be used selectively for internal processes — such as copywriting, brief analysis or content research — without sending inputs or sensitive client data to external services. By connecting directly to mittwald AI Hosting, teams can use their own language models while retaining full control over the models deployed and the costs incurred.
+
+    At mittwald, **Open WebUI** runs as a self-hosted container in German data centres; all conversation data and user inputs remain fully under the operator's control and are not shared with third parties. This template includes Open WebUI as a standalone application that connects directly to mittwald AI Hosting. As there are no usage-based licence fees, the solution remains economical even with intensive team usage and a growing number of users.
 developer: Open WebUI
 website: https://openwebui.com
 repository: https://github.com/open-webui/open-webui
