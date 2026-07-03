@@ -9,35 +9,31 @@ tagline:
   en: Self-hosted password manager
 description:
   de: |
-    **Vaultwarden** ist eine leichtgewichtige, in Rust geschriebene Reimplementierung des Bitwarden-Servers und eine self-hosted Alternative zu gehosteten Passwort-Manager-Diensten wie 1Password, LastPass oder dem kostenpflichtigen Bitwarden-Cloud-Angebot. Vaultwarden ist vollständig kompatibel mit allen offiziellen Bitwarden-Clients, Browser-Erweiterungen und mobilen Apps, sodass bestehende Nutzerinnen und Nutzer ohne Einarbeitungsaufwand wechseln können. Die Anwendung speichert Passwörter, Notizen, Identitäten und Zahlungsdaten verschlüsselt im eigenen Tresor.
+    **Vaultwarden** ist eine leichtgewichtige, in Rust geschriebene Reimplementierung des Bitwarden-Servers und eine self-hosted Alternative zu gehosteten Passwort-Manager-Diensten wie 1Password, LastPass oder dem kostenpflichtigen Bitwarden-Cloud-Angebot. Vaultwarden ist vollständig kompatibel mit allen offiziellen Bitwarden-Clients, Browser-Erweiterungen und mobilen Apps, sodass bestehende Nutzende ohne Einarbeitungsaufwand wechseln können.
 
     Zentrale Funktionen:
 
-    - Kompatibel mit allen offiziellen Bitwarden-Clients und Browser-Erweiterungen
+    - Kompatibel mit allen offiziellen Bitwarden-Clients, Browser-Erweiterungen und mobilen Apps
     - Organisationen und Collections für getrennte Zugriffskontexte im Team
-    - Zwei-Faktor-Authentifizierung (TOTP, FIDO2/WebAuthn, E-Mail)
-    - Passwort-Generator und Integritätsprüfung für bestehende Einträge
-    - Admin-Bereich zur Benutzerverwaltung und Systemkonfiguration
+    - Zwei-Faktor-Authentifizierung (TOTP, FIDO2/WebAuthn, E-Mail) und Passwort-Generator
     - Sichere Ende-zu-Ende-Verschlüsselung aller Tresordaten
 
-    Für **Werbe-, Web- und Digitalagenturen** ist Vaultwarden besonders nützlich, wenn Zugangsdaten für Kunden-Systeme, Hosting-Zugänge, API-Keys und Social-Media-Konten zentral und teamübergreifend verwaltet werden müssen. Über Organisationen und Collections lassen sich Zugangsdaten je Kundenprojekt sauber trennen, sodass Mitarbeitende nur auf die für sie relevanten Einträge zugreifen können. Der Admin-Bereich ermöglicht eine kontrollierte Benutzerverwaltung ohne externe Abhängigkeiten.
+    Für **Agenturen** ist Vaultwarden besonders nützlich, wenn Zugangsdaten für Kunden-Systeme, Hosting-Zugänge, API-Keys und Social-Media-Konten zentral und teamübergreifend verwaltet werden müssen. Über Organisationen und Collections lassen sich Zugangsdaten je Kundenprojekt sauber trennen, sodass Mitarbeitende nur auf die für sie relevanten Einträge zugreifen können. Der Admin-Bereich ermöglicht eine kontrollierte Benutzerverwaltung ohne externe Abhängigkeiten.
 
-    Bei mittwald läuft **Vaultwarden** als self-hosted Container in deutschen Rechenzentren; alle Tresordaten sind verschlüsselt gespeichert und verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entspricht. Dieses Template enthält Vaultwarden mit einer PostgreSQL-Datenbank für die persistente Datenhaltung und ist nach wenigen Konfigurationsschritten sofort nutzbar. Da keine Seat- oder Nutzungslizenzen anfallen, skaliert die Lösung auch für größere Teams wirtschaftlich.
+    Bei mittwald läuft **Vaultwarden** als self-hosted Container in deutschen Rechenzentren; alle Tresordaten sind verschlüsselt gespeichert und verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entspricht. Dieses Template enthält Vaultwarden mit einer PostgreSQL-Datenbank für die persistente Datenhaltung, und da keine Seat- oder Nutzungslizenzen anfallen, skaliert die Lösung auch für größere Teams wirtschaftlich.
   en: |
-    **Vaultwarden** is a lightweight, Rust-based reimplementation of the Bitwarden server and a self-hosted alternative to managed password manager services such as 1Password, LastPass or the paid Bitwarden cloud offering. Vaultwarden is fully compatible with all official Bitwarden clients, browser extensions and mobile applications, allowing existing users to migrate without any learning curve. The application stores passwords, notes, identities and payment details in an encrypted vault.
+    **Vaultwarden** is a lightweight, Rust-based reimplementation of the Bitwarden server and a self-hosted alternative to managed password managers such as 1Password, LastPass or the paid Bitwarden cloud. Fully compatible with all official Bitwarden clients, browser extensions and mobile apps, existing users can migrate without any learning curve.
 
     Key features:
 
-    - Compatible with all official Bitwarden clients and browser extensions
+    - Compatible with all official Bitwarden clients, browser extensions and mobile apps
     - Organisations and collections for separate access contexts within a team
-    - Two-factor authentication (TOTP, FIDO2/WebAuthn, e-mail)
-    - Password generator and integrity check for existing entries
-    - Admin panel for user management and system configuration
+    - Two-factor authentication (TOTP, FIDO2/WebAuthn, e-mail) and password generator
     - Secure end-to-end encryption of all vault data
 
-    For **advertising, web and digital agencies**, Vaultwarden is especially useful when credentials for client systems, hosting access, API keys and social media accounts need to be managed centrally across a team. Organisations and collections allow credentials to be cleanly separated per client project, so team members only have access to the entries relevant to their work. The admin panel enables controlled user management without any external dependencies.
+    For **agencies**, Vaultwarden is especially useful when credentials for client systems, hosting access, API keys and social media accounts need to be managed centrally across a team. Organisations and collections cleanly separate credentials per client project, so team members access only entries relevant to their work.
 
-    At mittwald, **Vaultwarden** runs as a self-hosted container in German data centres; all vault data is stored in encrypted form and does not leave the agency's own infrastructure, which meets GDPR requirements. This template includes Vaultwarden with a PostgreSQL database for persistent data storage and is ready to use after just a few configuration steps. As there are no seat or usage licences, the solution scales economically even for larger teams.
+    At mittwald, **Vaultwarden** runs as a self-hosted container in German data centres; all vault data is encrypted and stays within the agency's infrastructure, meeting GDPR requirements. This template includes Vaultwarden with a PostgreSQL database for persistent data storage; with no seat or usage licences, it scales economically for larger teams.
 developer: Vaultwarden
 website: https://github.com/dani-garcia/vaultwarden
 repository: https://github.com/dani-garcia/vaultwarden

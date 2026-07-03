@@ -9,35 +9,31 @@ tagline:
   en: Nextcloud with integrated Euro-Office
 description:
   de: |
-    **Nextcloud + Euro-Office** ist eine selbstgehostete Kollaborationsplattform für Dateispeicherung, Teamarbeit und Office-Bearbeitung — und eine Alternative zu Cloud-Diensten wie Google Workspace, Microsoft 365 oder Dropbox. Nextcloud übernimmt Dateispeicherung, Freigaben und Kommunikation, während Euro-Office die kollaborative Bearbeitung von Office-Dokumenten direkt im Browser ermöglicht.
+    **Nextcloud + Euro-Office** ist eine selbstgehostete Kollaborationsplattform für Dateispeicherung, Teamarbeit und Office-Bearbeitung — und eine Alternative zu Cloud-Diensten wie Google Workspace, Microsoft 365 oder Dropbox. Nextcloud übernimmt Dateispeicherung, Freigaben und Kommunikation, während Euro-Office die kollaborative Bearbeitung von Office-Dokumenten im Browser ermöglicht.
 
     Zentrale Funktionen:
 
     - Dateispeicher und -synchronisation über Web, Desktop- und Mobile-Clients
     - Feingranulare Freigaben für interne Teams und externe Kontakte
     - Integrierte Online-Office-Bearbeitung von Text-, Tabellen- und Präsentationsdateien (Euro-Office)
-    - Kalender- und Kontaktverwaltung mit CalDAV/CardDAV-Unterstützung
-    - Versionsverwaltung für Dateien und Wiederherstellung früherer Versionen
     - Benutzer- und Gruppenverwaltung mit abgestuften Zugriffsrechten
 
-    Für **Werbe-, Web- und Digitalagenturen** bietet diese Kombination eine zentrale Ablage für Kundenprojekte: Briefings, Entwürfe, Freigabedokumente und Präsentationen können in getrennte Ordner pro Kunde strukturiert und direkt mit Kunden oder externen Partnern geteilt werden. Abgestufte Zugriffsrechte sorgen dafür, dass jeder Kunde nur die für ihn freigegebenen Inhalte sieht. Euro-Office erlaubt dabei die gemeinsame Bearbeitung von Word-, Excel- und PowerPoint-kompatiblen Dokumenten im Browser, ohne dass Dateien per E-Mail ausgetauscht werden müssen.
+    Für **Agenturen** bietet diese Kombination eine zentrale Ablage für Kundenprojekte: Briefings, Entwürfe und Präsentationen können in Ordner pro Kunde strukturiert und direkt mit Kunden oder externen Partnern geteilt werden. Abgestufte Zugriffsrechte sorgen dafür, dass jeder Kunde nur freigegebene Inhalte sieht. Euro-Office erlaubt die gemeinsame Bearbeitung von Office-Dokumenten im Browser ohne Dateiaustausch per E-Mail.
 
-    Bei mittwald läuft **Nextcloud + Euro-Office** als self-hosted Container in deutschen Rechenzentren; alle gespeicherten Dateien und Dokumente bleiben unter vollständiger Kontrolle der Agentur und werden nicht an Drittanbieter oder in Drittländer übertragen, was die DSGVO-Konformität erheblich vereinfacht. Dieses Template enthält Nextcloud und Euro-Office zusammen mit MariaDB als Datenbank und Redis als Cache und ist sofort einsatzbereit. Da keine Seat-Lizenzen anfallen, wächst die Nutzerbasis ohne zusätzliche Lizenzkosten mit.
+    Bei mittwald läuft **Nextcloud + Euro-Office** als self-hosted Container in deutschen Rechenzentren; alle Dateien bleiben unter vollständiger Kontrolle und werden nicht an Drittanbieter übertragen — was die DSGVO-Konformität erheblich vereinfacht. Dieses Template enthält Nextcloud und Euro-Office mit MariaDB und Redis und ist sofort einsatzbereit. Da keine Seat-Lizenzen anfallen, wächst die Nutzerbasis ohne zusätzliche Lizenzkosten.
   en: |
-    **Nextcloud + Euro-Office** is a self-hosted collaboration platform for file storage, teamwork and office document editing — and an alternative to cloud services such as Google Workspace, Microsoft 365 or Dropbox. Nextcloud handles file storage, sharing and communication, while Euro-Office enables collaborative editing of office documents directly in the browser.
+    **Nextcloud + Euro-Office** is a self-hosted collaboration platform for file storage, teamwork and office editing — an alternative to Google Workspace, Microsoft 365 or Dropbox. Nextcloud handles file storage, sharing and communication; Euro-Office enables collaborative editing of office documents in the browser.
 
     Key features:
 
     - File storage and synchronisation via web, desktop and mobile clients
     - Fine-grained sharing for internal teams and external contacts
-    - Integrated online office editing of text, spreadsheet and presentation files (Euro-Office)
-    - Calendar and contact management with CalDAV/CardDAV support
-    - File versioning and restoration of previous versions
+    - Online editing of text, spreadsheet and presentation files (Euro-Office)
     - User and group management with granular access rights
 
-    For **advertising, web and digital agencies**, this combination provides a central repository for client projects: briefings, drafts, approval documents and presentations can be organised into separate folders per client and shared directly with clients or external partners. Granular access rights ensure that each client only sees the content shared with them. Euro-Office allows collaborative editing of Word, Excel and PowerPoint-compatible documents in the browser, without files needing to be exchanged by email.
+    For **agencies**, this combination provides a central repository for client projects: briefings, drafts and presentations are organised into client folders and shared with clients or external partners. Granular access rights ensure each client sees only their content. Euro-Office enables collaborative document editing in the browser without email attachments.
 
-    At mittwald, **Nextcloud + Euro-Office** runs as a self-hosted container in German data centres; all stored files and documents remain under the full control of the agency and are not transferred to third-party providers, which simplifies GDPR compliance. This template includes Nextcloud and Euro-Office together with MariaDB and Redis, and is ready to use immediately. As there are no per-seat licences, the user base can grow without additional licence costs.
+    At mittwald, **Nextcloud + Euro-Office** runs as a self-hosted container in German data centres; files remain under full control and are not transferred to third parties, simplifying GDPR compliance. This template includes Nextcloud and Euro-Office with MariaDB and Redis, ready to use immediately. With no per-seat licences, the user base grows without extra costs.
 developer: mittwald
 website: https://nextcloud.com
 repository: https://github.com/mittwald/nextcloud-eurooffice

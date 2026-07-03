@@ -13,31 +13,27 @@ description:
 
     Zentrale Funktionen:
 
-    - Schnelle Speicherung und Abfrage von Embedding-Vektoren
-    - Organisation von Vektoren in Collections mit frei definierbaren Metadaten
+    - Schnelle Speicherung und Abfrage von Embedding-Vektoren in Collections
     - Metadaten-Filter für präzise und kombinierte Suchanfragen
-    - Einfache REST-API und native Clients für Python und JavaScript/TypeScript
-    - Unterstützung verschiedener Embedding-Modelle und Anbieter
+    - REST-API und native Clients für Python und JavaScript/TypeScript
     - Persistente Datenspeicherung für produktive Einsatzszenarien
 
-    Für **Werbe-, Web- und Digitalagenturen** fungiert Chroma als technisches Backend hinter KI-gestützten Features in Kundenprojekten. Typische Anwendungsfälle sind die semantische Dokumentensuche, RAG-Systeme, die Kundenwissen für Chat-Assistenten aufbereiten, oder Empfehlungsfunktionen in Content-Plattformen. Als eigenständige Komponente lässt sich Chroma in bestehende Stacks integrieren – von Python-basierten Backend-Services bis zu Node.js-Anwendungen – ohne dass eine bestehende Architektur grundlegend verändert werden muss.
+    Für **Agenturen** fungiert Chroma als technisches Backend hinter KI-gestützten Features in Kundenprojekten. Typische Einsatzfälle sind semantische Dokumentensuche, RAG-Systeme für Chat-Assistenten oder Empfehlungsfunktionen in Content-Plattformen. Als eigenständige Komponente lässt sich Chroma in bestehende Stacks integrieren – von Python-basierten Backend-Services bis zu Node.js-Anwendungen – ohne grundlegende Architekturänderungen.
 
-    Bei mittwald läuft Chroma als self-hosted Container in deutschen Rechenzentren; gespeicherte Embeddings und die zugehörigen Ausgangsdaten verbleiben vollständig im eigenen System und werden nicht an Drittanbieter weitergegeben, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Chroma als eigenständigen Service. Da keine nutzungsabhängigen Lizenzgebühren anfallen, ist die Lösung wirtschaftlich skalierbar, auch wenn Datenmenge und Anzahl der Abfragen mit wachsenden Kundenprojekten zunehmen.
+    Bei mittwald läuft Chroma als self-hosted Container in deutschen Rechenzentren; gespeicherte Embeddings und Ausgangsdaten verbleiben vollständig im eigenen System und werden nicht an Drittanbieter weitergegeben, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Chroma als eigenständigen Service. Da keine nutzungsabhängigen Lizenzgebühren anfallen, ist die Lösung wirtschaftlich skalierbar, auch wenn Datenmenge und Abfragen mit wachsenden Kundenprojekten zunehmen.
   en: |
-    **Chroma** is an open-source vector database for the persistent storage and retrieval of embeddings and a self-hosted alternative to cloud vector databases such as Pinecone or Weaviate Cloud. Chroma targets developers who want to integrate semantic search, Retrieval Augmented Generation (RAG) or similarity comparison into their own applications without depending on external services.
+    **Chroma** is an open-source vector database for storing and querying embeddings, and a self-hosted alternative to cloud vector databases such as Pinecone or Weaviate Cloud. It enables developers to integrate semantic search, RAG or similarity comparison into applications without depending on external services.
 
     Key features:
 
-    - Fast storage and retrieval of embedding vectors
-    - Organisation of vectors into collections with freely definable metadata
+    - Fast storage and retrieval of embedding vectors in collections
     - Metadata filters for precise and combined queries
-    - Simple REST API and native clients for Python and JavaScript/TypeScript
-    - Support for a range of embedding models and providers
+    - REST API with native Python and JavaScript/TypeScript clients
     - Persistent data storage for production use cases
 
-    For **advertising, web and digital agencies**, Chroma acts as a technical backend behind AI-powered features in client projects. Typical use cases include semantic document search, RAG systems that prepare client knowledge for chat assistants, or recommendation features in content platforms. As a standalone component, Chroma can be integrated into existing stacks — from Python-based backend services to Node.js applications — without requiring fundamental changes to an existing architecture.
+    For **agencies**, Chroma serves as the technical backend for AI-powered features in client projects: semantic document search, RAG systems for chat assistants, or recommendation features in content platforms. As a standalone component, it slots into existing stacks — from Python backends to Node.js — without requiring architecture changes.
 
-    At mittwald, Chroma runs as a self-hosted container in German data centres; stored embeddings and their associated source data remain entirely within the operator's own system and are not shared with third-party providers, which simplifies GDPR compliance. This template includes Chroma as a standalone service. As there are no usage-based licence fees, the solution scales economically even as data volumes and query counts grow alongside client projects.
+    At mittwald, Chroma runs as a self-hosted container in German data centres; stored embeddings and source data remain entirely within the operator's own system, simplifying GDPR compliance. This template includes Chroma as a standalone service. As there are no usage-based licence fees, the solution scales economically as data volumes and query counts grow with client projects.
 developer: Chroma
 website: https://www.trychroma.com
 repository: https://github.com/chroma-core/chroma

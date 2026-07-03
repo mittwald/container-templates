@@ -9,35 +9,31 @@ tagline:
   en: Automations for your business processes
 description:
   de: |
-    **n8n** ist eine erweiterbare Workflow-Automatisierungsplattform und eine self-hosted Alternative zu Cloud-Diensten wie Zapier oder Make. Sie verbindet Anwendungen, APIs und interne Systeme über einen visuellen Workflow-Editor und ermöglicht es, wiederkehrende Prozesse ohne tiefgreifende Programmierkenntnisse flexibel zu automatisieren. Daten werden dabei ausschließlich auf der eigenen Infrastruktur verarbeitet.
+    **n8n** ist eine erweiterbare Workflow-Automatisierungsplattform und self-hosted Alternative zu Cloud-Diensten wie Zapier oder Make. Sie verbindet Anwendungen, APIs und interne Systeme über einen visuellen Workflow-Editor und automatisiert wiederkehrende Prozesse ohne tiefgreifende Programmierkenntnisse. Daten werden ausschließlich auf der eigenen Infrastruktur verarbeitet.
 
     Zentrale Funktionen:
 
-    - Mehr als 400 vorgefertigte Integrationen für gängige Web-Dienste, APIs und Datenbanken
-    - Visueller Drag-and-Drop-Editor zum Aufbau komplexer, verzweigter Workflows
+    - Mehr als 400 vorgefertigte Integrationen für Web-Dienste, APIs und Datenbanken
+    - Visueller Drag-and-Drop-Editor zum Aufbau komplexer Workflows
     - Eigener Code in JavaScript oder Python direkt in Workflow-Nodes
-    - Webhooks für ereignisbasierte Trigger aus externen Systemen
-    - Externer Task-Runner für sichere, isolierte Code-Ausführung
-    - Geplante Workflows (Cronjob-Trigger) und dedizierte Fehler-Workflows zur Ausnahmebehandlung
+    - Webhooks, Cronjob-Trigger und dedizierte Fehler-Workflows für robuste Automatisierung
 
-    Für **Werbe-, Web- und Digitalagenturen** bietet n8n die Möglichkeit, repetitive Prozesse zu automatisieren: Kunden-Onboarding lässt sich mit automatischen Willkommens-E-Mails und CRM-Einträgen verknüpfen, Leads werden automatisch aus Kontaktformularen in Newsletter-Tools oder Projektmanagement-Systeme übertragen, und monatliche Reportings werden automatisch aggregiert und als PDF versendet. Social-Media-Benachrichtigungen, Rechnungsläufe und Datei-Sync-Prozesse lassen sich ebenso einbinden. Auch interne Agentur-Workflows — etwa die Übergabe fertiger Entwürfe oder Benachrichtigungen bei neuen Support-Tickets — lassen sich mit n8n abbilden.
+    Für **Agenturen** bietet n8n die Möglichkeit, repetitive Prozesse zu automatisieren: Kunden-Onboarding lässt sich mit Willkommens-E-Mails und CRM-Einträgen verknüpfen, Leads werden aus Kontaktformularen in Newsletter-Tools übertragen, und Reportings werden automatisch aggregiert und versendet. Auch interne Workflows wie Benachrichtigungen bei neuen Support-Tickets lassen sich abbilden.
 
-    Bei mittwald läuft **n8n** als self-hosted Container in deutschen Rechenzentren; Zugangsdaten, API-Tokens und Workflow-Daten verlassen die Infrastruktur nicht und unterliegen vollständig der DSGVO. Dieses Template enthält n8n zusammen mit einem externen Task-Runner für sichere Code-Ausführung und einer PostgreSQL-Datenbank für persistente Workflow-Daten und ist sofort einsatzbereit. Die enthaltene PostgreSQL-Datenbank wird über das mittwald Backup-Label (`backup.command`) regelmäßig gesichert — die Sicherung übernimmt die Plattform als geplanten Prozess, ohne dass ein separater Cronjob im Template nötig ist. Da keine nutzungsabhängigen Lizenzgebühren anfallen, skaliert die Lösung wirtschaftlich mit der Zahl der Automatisierungen.
+    Bei mittwald läuft **n8n** als self-hosted Container in deutschen Rechenzentren; Zugangsdaten und Workflow-Daten unterliegen der DSGVO. Dieses Template enthält n8n mit externem Task-Runner und PostgreSQL-Datenbank und ist sofort einsatzbereit. Die Datenbank wird plattformseitig über das mittwald Backup-Label (`backup.command`) gesichert. Da keine nutzungsabhängigen Lizenzgebühren anfallen, skaliert die Lösung wirtschaftlich.
   en: |
-    **n8n** is an extensible workflow automation platform and a self-hosted alternative to cloud services such as Zapier or Make. It connects applications, APIs and internal systems through a visual workflow editor, making it possible to automate recurring processes without deep programming knowledge. Data is processed exclusively on the operator's own infrastructure.
+    **n8n** is an extensible workflow automation platform and a self-hosted alternative to cloud services such as Zapier or Make. It connects applications, APIs and systems through a visual editor, automating recurring processes without deep programming knowledge. Data is processed exclusively on the operator's infrastructure.
 
     Key features:
 
-    - More than 400 pre-built integrations for common web services, APIs and databases
-    - Visual drag-and-drop editor for building complex, branched workflows
+    - More than 400 pre-built integrations for web services, APIs and databases
+    - Visual drag-and-drop editor for building complex workflows
     - Custom code in JavaScript or Python directly inside workflow nodes
-    - Webhooks for event-based triggers from external systems
-    - External task runner for secure, isolated code execution
-    - Scheduled workflows (cron triggers) and dedicated error workflows for exception handling
+    - Webhooks, cron triggers and dedicated error workflows for robust automation
 
-    For **advertising, web and digital agencies**, n8n provides a way to automate repetitive processes: client onboarding can be linked with automatic welcome emails and CRM entries, leads are automatically transferred from contact forms into newsletter tools or project management systems, and monthly reports are aggregated and sent automatically. Social media notifications, invoicing runs and file-synchronisation processes can also be integrated. Internal agency workflows — such as handover notifications for completed designs or alerts for new support tickets — can also be mapped with n8n.
+    For **agencies**, n8n automates repetitive processes: client onboarding links with welcome emails and CRM entries, leads move from contact forms into newsletter tools, and reports are aggregated and sent. Internal workflows such as new support-ticket notifications can also be mapped.
 
-    At mittwald, **n8n** runs as a self-hosted container in German data centres; credentials and workflow data do not leave the infrastructure and are subject to the GDPR. This template includes n8n together with an external task runner and a PostgreSQL database for persistent workflow data, and is ready to use immediately. The included PostgreSQL database is backed up regularly via the mittwald backup label (`backup.command`) — the platform handles the backup as a scheduled process, with no separate cron job required in the template. As there are no usage-based licence fees, the solution scales economically with the number of automations.
+    At mittwald, **n8n** runs as a self-hosted container in German data centres; credentials and workflow data are subject to GDPR. This template includes n8n with an external task runner and PostgreSQL database, ready to use immediately; the database is backed up platform-side via the mittwald backup label (`backup.command`). With no usage-based licence fees, the solution scales economically.
 developer: n8n GmbH
 website: https://n8n.io
 repository: https://github.com/n8n-io/n8n
