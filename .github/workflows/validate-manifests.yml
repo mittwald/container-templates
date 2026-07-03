@@ -1,0 +1,26 @@
+name: Validate manifests
+
+on:
+  pull_request:
+    paths:
+      - "**/manifest.yaml"
+      - "manifest.schema.json"
+      - ".github/workflows/validate-manifests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "**/manifest.yaml"
+      - "manifest.schema.json"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install check-jsonschema
+        run: pip install check-jsonschema
+      - name: Validate manifest.yaml files against schema
+        run: check-jsonschema --schemafile manifest.schema.json */manifest.yaml

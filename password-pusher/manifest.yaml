@@ -4,7 +4,6 @@ name:
   en: Password Pusher
 version: "latest"
 type: standalone
-icon: icon.svg
 tagline:
   de: Passwörter und Geheimnisse sicher teilen
   en: Securely share passwords and secrets

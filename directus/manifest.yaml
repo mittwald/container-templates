@@ -4,7 +4,6 @@ name:
   en: Directus
 version: "11.x.x"
 type: standalone
-icon: icon.svg
 tagline:
   de: Headless CMS und Datenplattform
   en: Headless CMS and data platform

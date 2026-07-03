@@ -4,7 +4,6 @@ name:
   en: OpenSearch
 version: "3.x.x"
 type: component
-icon: icon.svg
 tagline:
   de: Verteilte Such- und Analyse-Engine
   en: Distributed search and analytics engine

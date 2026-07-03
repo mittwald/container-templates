@@ -4,7 +4,6 @@ name:
   en: PostgreSQL
 version: "18.x.x"
 type: component
-icon: icon.svg
 tagline:
   de: Leistungsstarke relationale Open-Source Datenbank
   en: Powerful open-source relational database

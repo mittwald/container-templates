@@ -4,7 +4,6 @@ name:
   en: Collabora Online
 version: "latest"
 type: component
-icon: icon.svg
 tagline:
   de: Online-Office-Suite für kollaboratives Arbeiten
   en: Online office suite for collaborative editing

@@ -4,7 +4,6 @@ name:
   en: Apache Solr
 version: "9.x.x"
 type: component
-icon: icon.svg
 tagline:
   de: Enterprise-Suchplattform
   en: Enterprise search platform

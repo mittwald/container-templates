@@ -4,7 +4,6 @@ name:
   en: n8n
 version: "latest"
 type: standalone
-icon: icon.svg
 tagline:
   de: Automatisierung für deine Geschäftsprozesse
   en: Automations for your business processes

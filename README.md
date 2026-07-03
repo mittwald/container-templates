@@ -4,13 +4,13 @@ Container-Vorlagen für die mStudio Container-Vorlagen-Funktion.
 
 ## Struktur
 
-Jedes Template liegt in einem eigenen Ordner und besteht aus zwei Dateien:
+Jedes Template liegt in einem eigenen Ordner und besteht aus drei Dateien:
 
 ```
 <template-name>/
 ├── docker-compose.yml    # Docker Compose Konfiguration
 ├── manifest.yaml         # Metadaten, Inputs und Konfiguration
-└── icon.svg / icon.png   # Icon (SVG bevorzugt, PNG als Fallback)
+└── icon.svg              # Icon (muss immer icon.svg heißen)
 ```
 
 ### docker-compose.yml
@@ -19,7 +19,7 @@ Standard Docker Compose Datei mit den Services, Volumes und Netzwerken des Templ
 
 ### manifest.yaml
 
-Beschreibt das Template mit folgenden Feldern:
+Beschreibt das Template mit folgenden Feldern. Die maschinenlesbare, per CI validierte Definition (Typen, Pflichtfelder, erlaubte Werte) steht in [`manifest.schema.json`](manifest.schema.json).
 
 | Feld              | Beschreibung                                                                                                     |
 |-------------------|------------------------------------------------------------------------------------------------------------------|
@@ -33,7 +33,6 @@ Beschreibt das Template mit folgenden Feldern:
 | `repository`      | Source-Code Repository                                                                                           |
 | `support`         | Support-URL                                                                                                      |
 | `license`         | Lizenz der Software, besteht aus `name` und `link`.                                                              |
-| `icon`            | Pfad zum Icon (SVG bevorzugt, PNG als Fallback)                                                                  |
 | `categories`      | Kategorien: `productivity`, `development`, `ai`, `security`, `monitoring`, `communication`, `media`, `ecommerce` |
 | `domains`         | Domain-Zuordnung zu Services und Ports; je Eintrag ein `purpose` als Referenz (z.B. in `help`)                   |
 | `userInputs`      | Vom Benutzer konfigurierte Werte                                                                                 |
@@ -128,7 +127,7 @@ help:
 | <img src="chroma/icon.svg" width="24" height="24" style="object-fit:contain"> | [chroma](chroma/) | Open-Source Vektordatenbank für KI-Anwendungen |
 | <img src="collabora/icon.svg" width="24" height="24" style="object-fit:contain"> | [collabora](collabora/) | Online-Office-Suite für kollaboratives Arbeiten |
 | <img src="directus/icon.svg" width="24" height="24" style="object-fit:contain"> | [directus](directus/) | Headless CMS und Datenplattform |
-| <img src="docmost/icon.png" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
+| <img src="docmost/icon.svg" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
 | <img src="euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [euro-office](euro-office/) | Europäischer Online-Dokumentenserver |
 | <img src="mariadb/icon.svg" width="24" height="24" style="object-fit:contain"> | [mariadb](mariadb/) | Relationale Open-Source Datenbank |
 | <img src="n8n/icon.svg" width="24" height="24" style="object-fit:contain"> | [n8n](n8n/) | Automatisierung für deine Geschäftsprozesse |
@@ -148,6 +147,13 @@ help:
 
 1. Ordner mit dem Template-Namen erstellen
 2. `docker-compose.yml` mit den benötigten Services anlegen
-3. `manifest.yaml` mit allen Metadaten und Input-Definitionen erstellen
+3. `manifest.yaml` erstellen — Felder und Beispiele in den Abschnitten oben, die verbindliche Struktur in [`manifest.schema.json`](manifest.schema.json)
 4. `icon.svg` hinzufügen (Quelle: [dashboard-icons](https://github.com/homarr-labs/dashboard-icons), Apache-2.0)
 5. Variablen in der `docker-compose.yml` über `userInputs` und `systemInputs` im Manifest definieren
+6. Konventionen in [`AGENTS.md`](AGENTS.md) beachten (sichere Defaults, Zeitzone, Backups, `help`-Platzhalter-Regeln)
+
+Vor dem Commit wird das Manifest per CI gegen das Schema validiert. Lokal:
+
+```bash
+pipx run check-jsonschema --schemafile manifest.schema.json <ordner>/manifest.yaml
+```

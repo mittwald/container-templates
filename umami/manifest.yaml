@@ -4,7 +4,6 @@ name:
   en: Umami
 version: "latest"
 type: standalone
-icon: icon.svg
 tagline:
   de: Datenschutzfreundliche Web-Analytics
   en: Privacy-focused web analytics

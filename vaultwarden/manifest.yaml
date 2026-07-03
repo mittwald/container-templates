@@ -4,7 +4,6 @@ name:
   en: Vaultwarden
 version: "latest"
 type: standalone
-icon: icon.svg
 tagline:
   de: Selbst gehosteter Passwort-Manager
   en: Self-hosted password manager

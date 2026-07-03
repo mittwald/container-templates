@@ -4,7 +4,6 @@ name:
   en: Paperless-ngx
 version: "latest"
 type: standalone
-icon: icon.svg
 tagline:
   de: Dokumentenmanagement mit OCR
   en: Document management with OCR

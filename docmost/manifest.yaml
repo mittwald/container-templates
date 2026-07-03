@@ -4,7 +4,6 @@ name:
   en: Docmost
 version: "latest"
 type: standalone
-icon: icon.png
 tagline:
   de: Kollaborative Wiki- und Dokumentationsplattform
   en: Collaborative wiki and documentation platform
