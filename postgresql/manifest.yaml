@@ -48,15 +48,25 @@ categories:
   - development
 userInputs:
   - name: "DATABASE_NAME"
+    label:
+      de: Datenbank-Name
+      en: Database Name
     positionMeta: { step: "common", index: 1 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
     positionMeta: { step: "common", index: 2 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
     positionMeta: { step: "common", index: 3 }
+    format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
 

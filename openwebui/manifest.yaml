@@ -53,21 +53,33 @@ domains:
     purpose: main
 userInputs:
   - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
     positionMeta: { step: "common", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
     positionMeta: { step: "aiHosting", index: 4 }
     required: false
     dataSource: "aiHosting.apiKey"
     validationSchema: '{ "type": "string" }'
   - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
     positionMeta: { step: "adminuser", index: 5 }
     format: "email"
     required: true
     validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
   - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
     positionMeta: { step: "adminuser", index: 5 }
     format: "password"
     required: true

@@ -53,15 +53,24 @@ domains:
     purpose: main
 userInputs:
   - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
     positionMeta: { step: "common", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "BRAND_TITLE"
+    label:
+      de: Markentitel
+      en: Brand title
     positionMeta: { step: "common", index: 2 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "BRAND_TAGLINE"
+    label:
+      de: Marken-Slogan
+      en: Brand tagline
     positionMeta: { step: "common", index: 3 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'

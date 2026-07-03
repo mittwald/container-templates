@@ -48,6 +48,9 @@ categories:
   - development
 userInputs:
   - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
     positionMeta: { step: "adminuser", index: 5 }
     format: "password"
     required: true
