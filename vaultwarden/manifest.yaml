@@ -53,12 +53,19 @@ domains:
     purpose: main
 userInputs:
   - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
     positionMeta: { step: "common", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_TOKEN"
+    label:
+      de: Admin Token
+      en: Admin Token
     positionMeta: { step: "common", index: 2 }
+    format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
 systemInputs:
