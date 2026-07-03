@@ -9,35 +9,31 @@ tagline:
   en: Distributed search and analytics engine
 description:
   de: |
-    **OpenSearch** ist eine verteilte Such- und Analyse-Engine auf Basis von Apache Lucene und eine Open-Source-Alternative zu kostenpflichtigen Managed-Diensten wie Elastic Cloud oder Algolia. Sie bietet Volltextsuche, Aggregationen und Log-Analyse über eine einheitliche REST-API und lässt sich als Backend-Baustein in vielfältige Anwendungsarchitekturen integrieren.
+    **OpenSearch** ist eine verteilte Such- und Analyse-Engine auf Basis von Apache Lucene und Open-Source-Alternative zu kostenpflichtigen Managed-Diensten wie Elastic Cloud oder Algolia. Sie bietet Volltextsuche, Aggregationen und Log-Analyse über eine einheitliche REST-API und lässt sich als Backend-Baustein in vielfältige Anwendungsarchitekturen integrieren.
 
     Zentrale Funktionen:
 
     - Volltextsuche mit Relevanz-Ranking auf Basis von Apache Lucene
     - Aggregationen und Metriken für analytische Auswertungen und Dashboards
     - Log- und Ereignis-Analyse für Observability-Szenarien
-    - REST-API mit JSON-Abfragesprache für einfache Anbindung
-    - Horizontale Skalierung durch Sharding und Replikation
-    - Zugriffssteuerung über rollenbasierte Sicherheits-Plugins
+    - Horizontale Skalierung durch Sharding und Replikation sowie rollenbasierte Zugriffssteuerung
 
-    Für **Werbe-, Web- und Digitalagenturen** fungiert OpenSearch als Such- und Analyse-Backend hinter Kundenanwendungen: Online-Shops und Portale nutzen OpenSearch für schnelle, relevanzbewertete Produktsuche; Content-Plattformen binden es für Volltextsuche über Artikelarchive ein; und Observability-Setups sammeln Anwendungslogs zentral zur Auswertung und Fehlerverfolgung. OpenSearch lässt sich als isolierter Dienst in bestehende Container-Stacks einbinden, ohne die Anwendungslogik zu verändern, und spricht über seine REST-API gängige Client-Bibliotheken in Java, Python und anderen Sprachen an.
+    Für **Agenturen** fungiert OpenSearch als Such- und Analyse-Backend hinter Kundenanwendungen: Online-Shops und Portale nutzen es für schnelle, relevanzbewertete Produktsuche; Content-Plattformen binden es für Volltextsuche über Artikelarchive ein; Observability-Setups sammeln Anwendungslogs zentral zur Auswertung. Als isolierter Dienst lässt sich OpenSearch in bestehende Container-Stacks einbinden, ohne die Anwendungslogik zu verändern.
 
-    Bei mittwald läuft **OpenSearch** als self-hosted Container in deutschen Rechenzentren; die indizierten Daten und Abfrage-Logs bleiben vollständig unter Kontrolle der Agentur oder ihrer Kunden und werden nicht an Drittanbieter übertragen — ein wesentlicher Vorteil gegenüber proprietären Managed-Suchdiensten in Bezug auf die DSGVO-Konformität. Dieses Template enthält OpenSearch als eigenständigen Dienst und ist nach der Konfiguration des Admin-Passworts sofort betriebsbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich die Lösung auch beim Betrieb mehrerer Kundenprojekte wirtschaftlich einsetzen.
+    Bei mittwald läuft **OpenSearch** als self-hosted Container in deutschen Rechenzentren; die indizierten Daten bleiben vollständig unter Kontrolle und werden nicht an Drittanbieter übertragen — ein wesentlicher Vorteil für die DSGVO-Konformität. Dieses Template enthält OpenSearch als eigenständigen Dienst und ist nach der Konfiguration des Admin-Passworts sofort betriebsbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich die Lösung wirtschaftlich für mehrere Kundenprojekte einsetzen.
   en: |
-    **OpenSearch** is a distributed search and analytics engine built on Apache Lucene and an open-source alternative to paid managed services such as Elastic Cloud or Algolia. It provides full-text search, aggregations and log analysis through a unified REST API, and can be integrated as a backend building block into a wide range of application architectures.
+    **OpenSearch** is a distributed search and analytics engine built on Apache Lucene, and an open-source alternative to paid managed services like Elastic Cloud or Algolia. It provides full-text search, aggregations and log analysis through a REST API, and integrates as a backend building block across diverse architectures.
 
     Key features:
 
-    - Full-text search with relevance ranking based on Apache Lucene
+    - Full-text search with relevance ranking
     - Aggregations and metrics for analytical evaluations and dashboards
     - Log and event analysis for observability scenarios
-    - REST API with JSON query language for straightforward integration
-    - Horizontal scaling through sharding and replication
-    - Access control via role-based security plugins
+    - Horizontal scaling through sharding and replication, with role-based access control
 
-    For **advertising, web and digital agencies**, OpenSearch serves as a search and analytics backend behind client applications: online shops and portals use OpenSearch for fast, relevance-ranked product search; content platforms integrate it for full-text search across article archives; and observability setups collect application logs centrally for analysis. OpenSearch can be embedded as an isolated service into existing container stacks without modifying application logic, and supports common client libraries in Java, Python and other languages through its REST API.
+    For **agencies**, OpenSearch serves as a search and analytics backend: online shops use it for fast, relevance-ranked product search; content platforms integrate it for full-text search across article archives; observability setups aggregate logs for analysis. As an isolated service, it embeds into container stacks without modifying application logic.
 
-    At mittwald, **OpenSearch** runs as a self-hosted container in German data centres; the indexed data and query logs remain fully under the control of the agency or its clients and are not transferred to third-party providers, supporting GDPR compliance. This template includes OpenSearch as a standalone service and is ready to use immediately after configuring the admin password. As there are no usage-based licence costs, the solution can be used economically even when running multiple client projects.
+    At mittwald, **OpenSearch** runs as a self-hosted container in German data centres; indexed data stays fully under control and is not transferred to third parties, supporting GDPR compliance. This template provides OpenSearch as a standalone service, ready after setting the admin password. No usage-based licence costs make the solution economical across multiple client projects.
 developer: OpenSearch Project
 website: https://opensearch.org
 repository: https://github.com/opensearch-project/OpenSearch

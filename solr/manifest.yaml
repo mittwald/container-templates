@@ -9,35 +9,31 @@ tagline:
   en: Enterprise search platform
 description:
   de: |
-    **Apache Solr** ist eine Open-Source-Suchplattform auf Basis von Apache Lucene und eine self-hosted Alternative zu verwalteten Suchdiensten wie Algolia oder Elastic Cloud. Die Plattform wird seit vielen Jahren in großen Unternehmensumgebungen eingesetzt und bietet Volltext- und Facettensuche, Echtzeit-Indexierung sowie umfangreiche Analysemöglichkeiten. Solr ist auf hohen Durchsatz und präzise Relevanzbewertung ausgelegt und lässt sich in nahezu jede Anwendungsarchitektur integrieren.
+    **Apache Solr** ist eine Open-Source-Suchplattform auf Basis von Apache Lucene und eine self-hosted Alternative zu verwalteten Suchdiensten wie Algolia oder Elastic Cloud. Die seit vielen Jahren in Unternehmensumgebungen bewährte Plattform bietet Volltext- und Facettensuche, Echtzeit-Indexierung sowie umfangreiche Analysemöglichkeiten und lässt sich in nahezu jede Anwendungsarchitektur integrieren.
 
     Zentrale Funktionen:
 
     - Volltext- und Facettensuche auf Basis von Apache Lucene
     - Konfigurierbare Ranking- und Relevanzmodelle
     - Echtzeit-Indexierung über HTTP-basierte Update-Schnittstellen
-    - Sprachanalyse und Tokenisierung für zahlreiche Sprachen
     - Horizontale Skalierung durch SolrCloud mit Sharding und Replikation
-    - Breite Connector-Unterstützung für Datenbanken, CMS-Systeme und Datenquellen
 
-    Für **Werbe-, Web- und Digitalagenturen** stellt Apache Solr das Such-Backend hinter Kundenanwendungen wie Online-Shops, Unternehmensportalen oder Content-Plattformen bereit. Da Solr als Backend-Komponente agiert, kommunizieren Frontends und Applikationen über die HTTP-API mit dem Suchindex, während die Such-Logik zentral konfiguriert und gepflegt wird. Das ermöglicht konsistente Suchergebnisse und vereinfachte Relevanzkonfiguration über mehrere Kundenprojekte hinweg.
+    Für **Agenturen** stellt Apache Solr das Such-Backend hinter Kundenanwendungen wie Online-Shops, Unternehmensportalen oder Content-Plattformen bereit. Frontends und Applikationen kommunizieren über die HTTP-API mit dem Suchindex, während die Such-Logik zentral konfiguriert und gepflegt wird – das ermöglicht konsistente Suchergebnisse und vereinfachte Relevanzkonfiguration über mehrere Kundenprojekte hinweg.
 
-    Bei mittwald läuft **Apache Solr** als self-hosted Container in deutschen Rechenzentren; der Suchindex und die indizierten Inhalte verbleiben vollständig in der eigenen Infrastruktur und werden nicht an externe Dienste weitergegeben, was den Vorgaben der DSGVO entspricht. Dieses Template enthält Apache Solr als alleinstehenden Service mit vorkonfiguriertem Admin-Interface. Da keine nutzungsabhängigen Lizenzkosten anfallen, kann Solr als Such-Backend für mehrere Kundenprojekte gleichzeitig wirtschaftlich betrieben werden.
+    Bei mittwald läuft **Apache Solr** als self-hosted Container in deutschen Rechenzentren; der Suchindex und indizierte Inhalte verbleiben vollständig in der eigenen Infrastruktur, was den Vorgaben der DSGVO entspricht. Dieses Template enthält Apache Solr als alleinstehenden Service mit vorkonfiguriertem Admin-Interface, und da keine nutzungsabhängigen Lizenzkosten anfallen, kann Solr als Such-Backend für mehrere Kundenprojekte gleichzeitig wirtschaftlich betrieben werden.
   en: |
-    **Apache Solr** is an open-source search platform based on Apache Lucene and a self-hosted alternative to managed search services such as Algolia or Elastic Cloud. The platform has been used in large enterprise environments for many years and provides full-text and faceted search, real-time indexing, and extensive analytics capabilities. Solr is designed for high throughput and precise relevance scoring and integrates into virtually any application architecture.
+    **Apache Solr** is an open-source search platform based on Apache Lucene and a self-hosted alternative to managed search services such as Algolia or Elastic Cloud. Proven in large enterprise environments for many years, it provides full-text and faceted search, real-time indexing, and extensive analytics capabilities, and integrates into virtually any application architecture.
 
     Key features:
 
     - Full-text and faceted search based on Apache Lucene
     - Configurable ranking and relevance models
     - Real-time indexing via HTTP-based update interfaces
-    - Language analysis and tokenisation for many languages
-    - Horizontal scaling through SolrCloud mode with sharding and replication
-    - Broad connector support for databases, CMS platforms and data sources
+    - Horizontal scaling through SolrCloud with sharding and replication
 
-    For **advertising, web and digital agencies**, Apache Solr serves as the search backend behind client applications such as online shops, corporate portals or content platforms. As Solr operates as a backend component, the respective frontends and applications communicate with the search index via the HTTP API, while search logic is configured and maintained centrally. This enables consistent search results and simplified relevance configuration across multiple client projects.
+    For **agencies**, Apache Solr serves as the search backend behind client applications such as online shops, corporate portals or content platforms. Frontends communicate with the search index via the HTTP API while logic is configured centrally, enabling consistent results and simplified relevance tuning across projects.
 
-    At mittwald, **Apache Solr** runs as a self-hosted container in German data centres; the search index and indexed content remain entirely within the agency's own infrastructure and are not passed to external services, in line with GDPR requirements. This template includes Apache Solr as a standalone service with a pre-configured admin interface. As there are no usage-based licence costs, Solr can be operated economically as a search backend for multiple client projects simultaneously.
+    At mittwald, **Apache Solr** runs as a self-hosted container in German data centres; the search index and indexed content remain within the agency's own infrastructure, meeting GDPR requirements. This template includes Apache Solr as a standalone service with a pre-configured admin interface; with no usage-based licence costs, it operates economically across multiple client projects.
 developer: Apache Software Foundation
 website: https://solr.apache.org
 repository: https://github.com/apache/solr
