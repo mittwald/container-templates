@@ -8,8 +8,34 @@ tagline:
   de: Online-Office-Suite für kollaboratives Arbeiten
   en: Online office suite for collaborative editing
 description:
-  de: Collabora Online ist eine leistungsstarke Online-Office-Suite basierend auf LibreOffice. Ermöglicht kollaboratives Bearbeiten von Dokumenten, Tabellen und Präsentationen direkt im Browser. Ideal zur Integration mit Nextcloud oder anderen WOPI-kompatiblen Plattformen.
-  en: Collabora Online is a powerful online office suite based on LibreOffice. Enables collaborative editing of documents, spreadsheets and presentations directly in the browser. Ideal for integration with Nextcloud or other WOPI-compatible platforms.
+  de: |
+    **Collabora Online** ist eine browserbasierte Office-Suite auf Basis von LibreOffice und eine self-hosted Alternative zu Microsoft 365 oder Google Docs. Das Tool stellt einen WOPI-kompatiblen Document-Server bereit, über den Textdokumente, Tabellenkalkulationen und Präsentationen direkt im Browser geöffnet und gemeinsam bearbeitet werden können, ohne dass zusätzliche Desktop-Software notwendig ist.
+
+    Zentrale Funktionen:
+
+    - Gemeinsame Echtzeit-Bearbeitung von Text-, Tabellen- und Präsentationsdokumenten im Browser
+    - WOPI-Schnittstelle für die nahtlose Einbindung in Nextcloud und andere kompatible Plattformen
+    - Breite Formatunterstützung auf Basis von LibreOffice (DOCX, XLSX, PPTX und offene Formate)
+    - Benutzeroberfläche in zahlreichen Sprachen verfügbar
+    - Keine Installation von Desktop-Software auf Client-Geräten erforderlich
+
+    Für **Werbe-, Web- und Digitalagenturen** eignet sich Collabora Online als Baustein für kollaborative Arbeitsumgebungen: Das Tool wird typischerweise als Backend in eine bestehende Nextcloud-Instanz eingebunden und stellt dort die Online-Office-Funktionalität für Team- und Kundendokumente bereit. Agenturen, die Nextcloud als zentrales Datei- und Kollaborationswerkzeug betreiben, können so auf externe SaaS-Office-Dienste verzichten und die vollständige Kontrolle über ihre Dokumente behalten. Änderungen, Kommentare und gleichzeitiges Bearbeiten funktionieren für alle Teammitglieder ohne zusätzliche Konten bei Drittanbietern.
+
+    Bei mittwald läuft **Collabora Online** als self-hosted Container in deutschen Rechenzentren; alle Dokumente und Bearbeitungsvorgänge bleiben unter der Kontrolle der betreibenden Organisation und werden nicht an externe Dienste übertragen, was die Einhaltung der DSGVO erleichtert. Dieses Template enthält Collabora Online als WOPI-Backend. Da keine nutzungsabhängigen Lizenzkosten anfallen, bleibt der Betrieb auch bei wachsender Nutzerzahl wirtschaftlich.
+  en: |
+    **Collabora Online** is a browser-based office suite built on LibreOffice and a self-hosted alternative to Microsoft 365 or Google Docs. It provides a WOPI-compatible document server through which text documents, spreadsheets and presentations can be opened and collaboratively edited directly in the browser, without requiring any additional desktop software.
+
+    Key features:
+
+    - Real-time collaborative editing of text, spreadsheet and presentation documents in the browser
+    - WOPI interface for seamless integration into Nextcloud and other compatible platforms
+    - Wide format support based on LibreOffice (DOCX, XLSX, PPTX and open formats)
+    - User interface available in many languages
+    - No installation of desktop software required on client devices
+
+    For **advertising, web and digital agencies**, Collabora Online serves as a building block for collaborative working environments: the tool is typically embedded as a backend into an existing Nextcloud instance, where it provides the online office functionality for team and client documents. Agencies that run Nextcloud as their central file and collaboration platform can thus avoid external SaaS office services and retain full control over their documents. Editing, commenting and simultaneous collaboration work for all team members without additional accounts at third-party providers.
+
+    At mittwald, **Collabora Online** runs as a self-hosted container in German data centres; all documents and editing sessions remain under the control of the operating organisation and are not transmitted to external services, making it easier to comply with GDPR requirements. This template includes Collabora Online as a WOPI backend. As there are no usage-based licence costs, operation remains economical even as the number of users grows.
 developer: Collabora Productivity
 website: https://www.collaboraoffice.com
 repository: https://github.com/CollaboraOnline/online

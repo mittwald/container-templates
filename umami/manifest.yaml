@@ -8,8 +8,36 @@ tagline:
   de: Datenschutzfreundliche Web-Analytics
   en: Privacy-focused web analytics
 description:
-  de: Umami ist eine datenschutzfreundliche, selbst gehostete Web-Analytics-Lösung. Eine einfache und schnelle Alternative zu Google Analytics, die keine Cookies verwendet und DSGVO-konform ist.
-  en: Umami is a privacy-focused, self-hosted web analytics solution. A simple and fast alternative to Google Analytics that does not use cookies and is GDPR compliant.
+  de: |
+    **Umami** ist eine datenschutzfreundliche Web-Analytics-Lösung und eine self-hosted Alternative zu Google Analytics oder Matomo. Sie erfasst Seitenaufrufe, Besucherquellen, Events und Conversions in einem übersichtlichen Dashboard, ohne Cookies zu setzen oder personenbezogene Daten an Dritte weiterzugeben.
+
+    Zentrale Funktionen:
+
+    - Echtzeit-Auswertung von Traffic, Quellen und Geräten
+    - Benutzerdefinierte Events und Conversion-Ziele
+    - Getrennte Auswertung beliebig vieler Websites in einer Installation
+    - Öffentlich teilbare Dashboards und abgestufte Zugriffsrechte für Teammitglieder
+    - Leichtgewichtiges Tracking-Skript (unter 2 kB) ohne spürbaren Einfluss auf die Ladezeit
+    - Datenexport und REST-API für externe Auswertungen und Integrationen
+
+    Für **Werbe-, Web- und Digitalagenturen** ist Umami vor allem im Betrieb vieler Kundenprojekte interessant: Sämtliche Kundenseiten laufen über eine zentrale Instanz und lassen sich dort getrennt auswerten und als Reporting an die jeweiligen Kunden weitergeben. Neue Kundenseiten sind in wenigen Minuten angebunden. Eigene Zugriffsrechte ermöglichen es, Kunden ein schreibgeschütztes Dashboard-Login zu geben, ohne ihnen Zugriff auf andere Projekte zu gewähren. Da Umami ohne Cookie-Banner auskommt, vereinfacht es zugleich die DSGVO-Konformität der betreuten Websites.
+
+    Bei mittwald läuft **Umami** als self-hosted Container in deutschen Rechenzentren; die erfassten Daten bleiben vollständig unter Kontrolle der Agentur beziehungsweise ihrer Kunden und werden nicht in Drittländer übertragen — DSGVO-konform ohne externen Datentransfer. Dieses Template enthält Umami mit einer PostgreSQL-Datenbank und ist sofort einsatzbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, bleibt die Lösung auch über viele Websites und Kundenprojekte hinweg wirtschaftlich.
+  en: |
+    **Umami** is a privacy-friendly web analytics solution and a self-hosted alternative to Google Analytics or Matomo. It records page views, traffic sources, events and conversions in a clear dashboard without setting cookies or passing personal data to third parties.
+
+    Key features:
+
+    - Real-time analysis of traffic, sources and devices
+    - Custom events and conversion goals
+    - Separate analysis of any number of websites from a single installation
+    - Publicly shareable dashboards and granular access rights for team members
+    - Lightweight tracking script (under 2 kB) with no noticeable impact on page load times
+    - Data export and REST API for external evaluations and integrations
+
+    For **advertising, web and digital agencies**, Umami is particularly useful when running many client projects: all client sites run through a single central instance, where they can be analysed separately and shared as reporting with the respective clients. New client sites are connected within minutes. Granular access rights allow clients to be given a read-only dashboard login without granting access to other projects. Because Umami works without a cookie banner, it also simplifies GDPR compliance for the managed websites.
+
+    At mittwald, **Umami** runs as a self-hosted container in German data centres; the collected data stays fully under the control of the agency or its clients and is not transferred to third countries — GDPR-compliant with no external data transfer. This template includes Umami with a PostgreSQL database and is ready to use immediately. As there are no usage-based licence costs, the solution remains economical even across many websites and client projects.
 developer: Umami Software
 website: https://umami.is
 repository: https://github.com/umami-software/umami

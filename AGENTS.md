@@ -29,6 +29,7 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
   - `media` — Foto-/Video-/Dateiverwaltung
   - `ecommerce` — Shops, Payment, POS
 - **Icon:** Die Datei heißt **immer** `icon.svg` im Template-Ordner (kein Manifest-Feld). Bevorzugt von [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0).
+- `description` ist ein ausführlicher Katalogtext (~230–240 Wörter, mindestens 200) je Sprache, als **Markdown** (fett angeführter Toolname, eine „Zentrale Funktionen:"-Bullet-Liste, Absätze). Neutral, dritte Person, sachlich-informativ (keine Werbung). Aufbau: (1) Einordnung + konkret benannte self-hosted SaaS-Alternative, (2) Feature-Liste, (3) Relevanz für Werbe-/Web-/Digitalagenturen (Use-Cases in Kundenprojekten), (4) Betrieb bei mittwald (deutsche Rechenzentren) + DSGVO + Template-Inhalt + Wirtschaftlichkeit. Bei `component`-Templates stellt Block 3 das Tool als Baustein/Backend hinter Kundenanwendungen dar.
 
 ### Allgemein
 

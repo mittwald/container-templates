@@ -3,56 +3,28 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 # Collect template data from all manifest.yaml files
-TEMPLATES="["
-FIRST=true
-
-for dir in */; do
-  manifest="${dir}manifest.yaml"
-  [ -f "$manifest" ] || continue
-
-  name="${dir%/}"
-
-  # Parse YAML with simple grep/sed (no yq dependency)
-  get() { grep -m1 "^${1}:" "$manifest" | sed "s/^${1}: *//;s/^\"//;s/\"$//" ; }
-  get_nested() { grep -A5 "^${1}:" "$manifest" | grep "  ${2}:" | head -1 | sed "s/.*${2}: *//;s/^\"//;s/\"$//" ; }
-
-  version=$(get "version")
-  icon="icon.svg"  # Icon-Datei heißt konventionsgemäß immer icon.svg
-  developer=$(get "developer")
-  website=$(get "website")
-  repository=$(get "repository")
-  license=$(get_nested "license" "name")
-  name_de=$(get_nested "name" "de")
-  name_en=$(get_nested "name" "en")
-  tagline_de=$(get_nested "tagline" "de")
-  tagline_en=$(get_nested "tagline" "en")
-  desc_de=$(get_nested "description" "de")
-
-  # Categories as JSON array
-  cats=""
-  in_cats=false
-  while IFS= read -r line; do
-    if [[ "$line" =~ ^categories: ]]; then in_cats=true; continue; fi
-    if $in_cats; then
-      if [[ "$line" =~ ^[[:space:]]*-[[:space:]]+(.*) ]]; then
-        c="${BASH_REMATCH[1]}"
-        [ -n "$cats" ] && cats+=","
-        cats+="\"$c\""
-      else
-        break
-      fi
-    fi
-  done < "$manifest"
-
-  # Escape for JSON
-  esc() { printf '%s' "$1" | sed 's/\\/\\\\/g;s/"/\\"/g'; }
-
-  $FIRST || TEMPLATES+=","
-  FIRST=false
-  TEMPLATES+="{\"name\":\"$(esc "$name")\",\"displayName\":{\"de\":\"$(esc "$name_de")\",\"en\":\"$(esc "$name_en")\"},\"version\":\"$(esc "$version")\",\"icon\":\"$(esc "$icon")\",\"developer\":\"$(esc "$developer")\",\"website\":\"$(esc "$website")\",\"repository\":\"$(esc "$repository")\",\"license\":\"$(esc "$license")\",\"tagline\":{\"de\":\"$(esc "$tagline_de")\",\"en\":\"$(esc "$tagline_en")\"},\"description\":{\"de\":\"$(esc "$desc_de")\"},\"categories\":[$cats]}"
-done
-
-TEMPLATES+="]"
+TEMPLATES=$(python3 <<'PY'
+import glob, yaml, json
+out = []
+for m in sorted(glob.glob("*/manifest.yaml")):
+    d = yaml.safe_load(open(m, encoding="utf-8"))
+    name = m.split("/")[0]
+    out.append({
+        "name": name,
+        "displayName": d.get("name", {"de": name, "en": name}),
+        "version": str(d.get("version", "")),
+        "icon": "icon.svg",
+        "developer": d.get("developer", ""),
+        "website": d.get("website", ""),
+        "repository": d.get("repository", ""),
+        "license": (d.get("license") or {}).get("name", ""),
+        "tagline": d.get("tagline", {}),
+        "description": {"de": (d.get("description") or {}).get("de", "")},
+        "categories": d.get("categories", []),
+    })
+print(json.dumps(out, ensure_ascii=False))
+PY
+)
 
 cat > index.html <<'HTMLEOF'
 <!DOCTYPE html>
@@ -141,6 +113,18 @@ echo "const templates = ${TEMPLATES};" >> index.html
 
 cat >> index.html <<'HTMLEOF'
 const catLabels = { productivity:"Produktivität", development:"Entwicklung", ai:"KI", security:"Sicherheit", monitoring:"Monitoring", communication:"Kommunikation", media:"Medien", ecommerce:"E-Commerce" };
+function mdToHtml(md) {
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/`([^`]+)`/g, '<code>$1</code>');
+  const blocks = md.trim().split(/\n\s*\n/);
+  return blocks.map(b => {
+    const lines = b.split('\n');
+    if (lines.every(l => l.trim().startsWith('- '))) {
+      return '<ul>' + lines.map(l => `<li>${inline(l.trim().slice(2))}</li>`).join('') + '</ul>';
+    }
+    return `<p>${inline(b.replace(/\n/g, ' '))}</p>`;
+  }).join('');
+}
 const allCats = [...new Set(templates.flatMap(t => t.categories))].sort();
 document.getElementById('total-count').textContent = templates.length;
 document.getElementById('cat-count').textContent = allCats.length;
@@ -186,7 +170,7 @@ document.getElementById('grid').addEventListener('click', e => {
       <div><div class="modal-title">${t.displayName.de} <span class="card-version">${t.version}</span></div><div class="modal-dev">${t.developer}</div></div>
     </div>
     <div class="card-cats" style="margin-bottom:1rem">${t.categories.map(c => `<span class="cat-badge cat-${c}">${catLabels[c]||c}</span>`).join('')}</div>
-    <div class="modal-desc">${t.description.de}</div>
+    <div class="modal-desc">${mdToHtml(t.description.de)}</div>
     <div class="modal-meta">
       <div class="meta-item"><div class="meta-label">Website</div><div class="meta-value"><a href="${t.website}" target="_blank">${t.website.replace('https://','')}</a></div></div>
       <div class="meta-item"><div class="meta-label">Repository</div><div class="meta-value"><a href="${t.repository}" target="_blank">GitHub</a></div></div>

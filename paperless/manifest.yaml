@@ -8,8 +8,36 @@ tagline:
   de: Dokumentenmanagement mit OCR
   en: Document management with OCR
 description:
-  de: Paperless-ngx ist ein Dokumentenmanagementsystem, das physische Dokumente in ein durchsuchbares digitales Archiv verwandelt. Mit OCR-Unterstützung für Deutsch und Englisch, Tika und Gotenberg für erweiterte Dokumentenverarbeitung.
-  en: Paperless-ngx is a document management system that transforms physical documents into a searchable digital archive. With OCR support for German and English, Tika and Gotenberg for advanced document processing.
+  de: |
+    **Paperless-ngx** ist ein self-hosted Dokumentenmanagementsystem und eine Alternative zu kommerziellen Cloud-DMS-Lösungen wie DocuWare. Die Anwendung wandelt physische und digitale Dokumente mithilfe von OCR in ein durchsuchbares digitales Archiv um, kategorisiert Dokumente automatisch und macht umfangreiche Papierarchive langfristig überflüssig.
+
+    Zentrale Funktionen:
+
+    - OCR-Texterkennung für Deutsch und Englisch auf gescannten Dokumenten
+    - Automatische Verschlagwortung und Kategorisierung eingehender Dokumente
+    - Volltextsuche über den gesamten Dokumentenbestand
+    - Verwaltung von Korrespondenten, Dokumenttypen und eigenen Tags
+    - Consume-Ordner und E-Mail-Posteingang für automatischen Dokumenteneingang
+    - Vorschau und Download im Browser ohne externe Anwendungen
+
+    Für **Werbe-, Web- und Digitalagenturen** bietet Paperless-ngx eine strukturierte Lösung für das interne Dokumentenmanagement: Eingehende Rechnungen, Verträge, Kundenangebote und Projektunterlagen lassen sich automatisch einlesen, klassifizieren und per Volltextsuche sofort wiederfinden. Durch Korrespondenten und Dokumenttypen kann der gesamte Schriftverkehr nach Kunden und Projekten geordnet werden, sodass auch bei wachsendem Dokumentenaufkommen die Übersicht erhalten bleibt. Darüber hinaus ermöglicht die E-Mail-Posteingang-Funktion die direkte Anlieferung gescannter Rechnungen per E-Mail — ohne manuelle Zwischenschritte. Da OCR vollständig im Container ausgeführt wird, sind keine externen Erkennungsdienste erforderlich.
+
+    Bei mittwald läuft **Paperless-ngx** als self-hosted Container in deutschen Rechenzentren; alle archivierten Dokumente bleiben ausschließlich in der eigenen Infrastruktur und werden nicht an externe Dienste übertragen — ein wichtiger Aspekt für den DSGVO-konformen Umgang mit Rechnungen und Vertragsdokumenten. Dieses Template enthält Paperless-ngx zusammen mit PostgreSQL, Redis, Gotenberg und Tika und ist sofort einsatzbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich die Lösung auch mit steigendem Dokumentenvolumen wirtschaftlich betreiben.
+  en: |
+    **Paperless-ngx** is a self-hosted document management system and an alternative to commercial cloud DMS solutions such as DocuWare. The application transforms physical and digital documents into a searchable digital archive using OCR, categorises documents automatically and makes extensive paper-based archives permanently obsolete.
+
+    Key features:
+
+    - OCR text recognition for German and English on scanned documents
+    - Automatic tagging and categorisation of incoming documents
+    - Full-text search across the entire document archive
+    - Management of correspondents, document types and custom tags
+    - Consume folder and email inbox for automatic document ingestion
+    - Document preview and download in the browser without additional applications
+
+    For **advertising, web and digital agencies**, Paperless-ngx provides a structured solution for internal document management: incoming invoices, contracts, client proposals and project documents can be ingested automatically, classified and retrieved instantly via full-text search. Using correspondents and document types, all correspondence can be organised by client and project, keeping the archive clear even as document volumes grow. In addition, the email inbox function enables scanned invoices to be delivered directly by email — without any manual intermediate steps. Since OCR runs entirely within the container, no external recognition services are required.
+
+    At mittwald, **Paperless-ngx** runs as a self-hosted container in German data centres; all archived documents remain exclusively within the agency's own infrastructure and are not transferred to external services — an important consideration for GDPR-compliant handling of invoices and contracts. This template includes Paperless-ngx together with PostgreSQL, Redis, Gotenberg and Tika, and is ready to use immediately. As there are no usage-based licence costs, the solution remains economical even as document volumes increase.
 developer: Paperless-ngx
 website: https://docs.paperless-ngx.com
 repository: https://github.com/paperless-ngx/paperless-ngx
