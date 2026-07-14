@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Mailpit
   en: Mailpit
-version: "1.x.x"
+version: "latest"
 type: component
 tagline:
   de: E-Mail-Testserver für Entwicklung und Staging
