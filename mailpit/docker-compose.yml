@@ -1,0 +1,16 @@
+services:
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
+    environment:
+      - TZ=Europe/Berlin
+      - MP_DATABASE=/data/mailpit.db
+      - MP_MAX_MESSAGES=500
+      - MP_UI_AUTH=${UI_USER}:${UI_PASSWORD}
+      - MP_SMTP_AUTH=mailpit:${SMTP_PASSWORD}
+      - MP_SMTP_AUTH_ALLOW_INSECURE=true
+    volumes:
+      - mailpit_data:/data
+volumes:
+  mailpit_data:
