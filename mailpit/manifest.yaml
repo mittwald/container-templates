@@ -1,0 +1,116 @@
+manifestVersion: 1.0
+name:
+  de: Mailpit
+  en: Mailpit
+version: "1.x.x"
+type: component
+tagline:
+  de: E-Mail-Testserver für Entwicklung und Staging
+  en: Email testing server for development and staging
+description:
+  de: |
+    **Mailpit** ist ein SMTP-Testserver, der ausgehende E-Mails von Anwendungen abfängt, statt sie zuzustellen, und sie in einer Web-Oberfläche zur Prüfung bereitstellt. Als self-hosted Alternative zu Diensten wie Mailtrap und als Nachfolger von MailHog eignet sich Mailpit für Entwicklungs- und Staging-Umgebungen, in denen keine echten Empfänger erreicht werden dürfen.
+
+    Zentrale Funktionen:
+
+    - Web-Oberfläche mit Echtzeit-Anzeige eingehender Nachrichten
+    - Darstellung als HTML, Text und Quelltext inklusive Anhängen
+    - REST-API zum automatisierten Prüfen von E-Mails in Tests
+    - Spam-Bewertung (SpamAssassin) und HTML-Kompatibilitätsprüfung für Mail-Clients
+
+    Als Komponente bildet **Mailpit** das Mail-Backend hinter Anwendungen, die **Agenturen** entwickeln oder betreiben. Registrierungs-, Bestell- und Newsletter-Mails eines Kundenprojekts landen in der Staging-Umgebung zuverlässig in Mailpit statt im Postfach echter Empfänger; Layout, Inhalte und Zustellbarkeit lassen sich dort vor dem Livegang prüfen. Die sendende Anwendung wird dafür lediglich auf den SMTP-Zugang von Mailpit umgestellt.
+
+    Bei mittwald läuft **Mailpit** als self-hosted Container-Komponente in deutschen Rechenzentren; personenbezogene Daten aus Test-Mails verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entspricht. Dieses Template enthält Mailpit mit persistentem Speicher sowie zugangsgeschütztem Web- und SMTP-Zugang. Lizenzkosten fallen nicht an.
+  en: |
+    **Mailpit** is an SMTP testing server that captures outgoing email from applications instead of delivering it, and presents it in a web interface for inspection. A self-hosted alternative to services such as Mailtrap and the successor to MailHog, it suits development and staging environments where no real recipient may be reached.
+
+    Key features:
+
+    - Web interface with real-time display of incoming messages
+    - HTML, plain text and source views, including attachments
+    - REST API for verifying emails in automated tests
+    - Spam scoring (SpamAssassin) and HTML compatibility checks for mail clients
+
+    As a component, **Mailpit** provides the mail backend behind applications that **agencies** develop or operate. Sign-up, order and newsletter emails from a client project reliably land in Mailpit on staging rather than in a real recipient's inbox; layout, content and deliverability can be checked there before go-live. The sending application only needs to be pointed at Mailpit's SMTP endpoint.
+
+    At mittwald, **Mailpit** runs as a self-hosted container component in German data centres; personal data contained in test emails never leaves the operator's own infrastructure, meeting GDPR requirements. This template includes Mailpit with persistent storage and access-protected web and SMTP endpoints. No licence costs apply.
+developer: Ralph Slooten
+website: https://mailpit.axllent.org
+repository: https://github.com/axllent/mailpit
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - development
+domains:
+  - userInput: HOST
+    service: mailpit
+    port: 8025
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "UI_USER"
+    label:
+      de: Benutzername Web-Oberfläche
+      en: Web interface username
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[^\\s:]+$" }'
+  - name: "UI_PASSWORD"
+    label:
+      de: Passwort Web-Oberfläche
+      en: Web interface password
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password" }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 4 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Web-Oberfläche (Benutzer:Passwort)
+      en: Web interface (user:password)
+    value: ${mailpit.env.MP_UI_AUTH}
+  - key:
+      de: SMTP-Host
+      en: SMTP host
+    value: ${mailpit.hostname}
+  - key:
+      de: SMTP-Port
+      en: SMTP port
+    value: 1025/TCP
+  - key:
+      de: SMTP-Zugang (Benutzer:Passwort)
+      en: SMTP login (user:password)
+    value: ${mailpit.env.MP_SMTP_AUTH}
+  - key:
+      de: SMTP-Verschlüsselung
+      en: SMTP encryption
+    value: Keine / None
+  alerts:
+    - status: warning
+      heading:
+        de: Nur für Test- und Staging-Umgebungen
+        en: For test and staging environments only
+      content:
+        de: Mailpit fängt alle E-Mails ab und stellt sie nicht zu. Der Dienst darf nicht als Mailserver für produktiven Versand eingesetzt werden.
+        en: Mailpit captures all emails and does not deliver them. It must not be used as a mail server for production sending.
