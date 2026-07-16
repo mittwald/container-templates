@@ -42,6 +42,7 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
 - Sprache in Beschreibungen und Texten: Deutsch und Englisch (mehrsprachig).
 - Jedes Template ist eigenständig und hat keine Abhängigkeiten zu anderen Templates.
 - Sichere Defaults verwenden: Produktionsmodus, restriktive Berechtigungen, keine Debug-Optionen.
+- Jeder Unterordner muss einem Template entsprechen. Es darf keine Unterordner geben, die andere Dateien enthalten (z.B. `docs`, `scripts`).
 
 ## Pflege
 
