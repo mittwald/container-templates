@@ -64,6 +64,7 @@ cat > index.html <<'HTMLEOF'
   .cat-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 6px; font-weight: 500; }
   .cat-productivity { background: #e0f2fe; color: #0369a1; }
   .cat-development { background: #dbeafe; color: #1d4ed8; }
+  .cat-database { background: #ccfbf1; color: #0f766e; }
   .cat-ai { background: #f3e8ff; color: #7c3aed; }
   .cat-security { background: #ffedd5; color: #c2410c; }
   .cat-monitoring { background: #dcfce7; color: #15803d; }
@@ -112,7 +113,7 @@ HTMLEOF
 echo "const templates = ${TEMPLATES};" >> index.html
 
 cat >> index.html <<'HTMLEOF'
-const catLabels = { productivity:"Produktivität", development:"Entwicklung", ai:"KI", security:"Sicherheit", monitoring:"Monitoring", communication:"Kommunikation", media:"Medien", ecommerce:"E-Commerce" };
+const catLabels = { productivity:"Produktivität", development:"Entwicklung", database:"Datenbank", ai:"KI", security:"Sicherheit", monitoring:"Monitoring", communication:"Kommunikation", media:"Medien", ecommerce:"E-Commerce" };
 function mdToHtml(md) {
   const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/`([^`]+)`/g, '<code>$1</code>');

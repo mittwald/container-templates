@@ -53,12 +53,14 @@
     },
     "categories": {
       "type": "array",
+      "description": "Kategorien des Templates. Hinweis: \"database\" ist keine offizielle Store-Kategorie, sondern wird nur intern verwendet, um gezielt Template-Listen im \"Datenbanken\"-Bereich anzuzeigen.",
       "minItems": 1,
       "uniqueItems": true,
       "items": {
         "enum": [
           "productivity",
           "development",
+          "database",
           "ai",
           "security",
           "monitoring",
@@ -211,6 +213,20 @@
             }
           }
         }
+      }
+    }
+  },
+  "if": {
+    "required": ["categories"],
+    "properties": {
+      "categories": { "contains": { "const": "database" } }
+    }
+  },
+  "then": {
+    "properties": {
+      "categories": {
+        "minItems": 2,
+        "description": "\"database\" steht nie allein: Zusammen mit uniqueItems erzwingt minItems 2 mindestens eine weitere, fachliche Kategorie."
       }
     }
   },

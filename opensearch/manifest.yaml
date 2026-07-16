@@ -42,6 +42,7 @@ license:
   link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - development
+  - database
 userInputs:
   - name: "ADMIN_PASSWORD"
     label:

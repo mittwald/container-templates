@@ -21,7 +21,8 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
 - **`help`-Platzhalter:** Die Werte werden auch **nach** der Installation angezeigt, es dürfen daher nur dann noch verfügbare Platzhalter verwendet werden — `${<service>.env.NAME}` und `${<service>.hostname}` (Env-Variablen hängen am Service, deshalb mit Service-Namen) sowie `${domain.<purpose>}` für die Domain. `userInputs` (`${HOST}` etc.) sind nach der Installation **nicht** mehr verfügbar; stattdessen die Ziel-Service-Env referenzieren. Ausführlich: `README.md`, Abschnitt `help`.
 - **`categories`** als Auswahlhilfe:
   - `productivity` — Workflow-Automatisierung, Dokumentenmanagement, Projekttools
-  - `development` — Datenbanken, Suchplattformen, CMS, Dev-Tools
+  - `development` — CMS, Dev-Tools, Test- und Build-Infrastruktur
+  - `database` — Datenbanken und Suchplattformen (relational, Vektor, Dokumenten-Store, Such-Index). **Nur intern:** Die Kategorie dient dazu, gezielt Template-Listen im „Datenbanken"-Bereich anzuzeigen; im Store ist sie keine offizielle Kategorie. Sie **steht deshalb nie allein**, sondern ergänzt die fachliche Kategorie: eine relationale Datenbank ist `development` **und** `database`, eine Vektordatenbank `ai` **und** `database`. Das Schema erzwingt das (`database` ⇒ mindestens zwei Kategorien).
   - `ai` — KI/ML-spezifische Tools und Infrastruktur
   - `security` — Passwort-Manager, Authentifizierung, Verschlüsselung
   - `monitoring` — Analytics, Uptime-Monitoring, Observability
