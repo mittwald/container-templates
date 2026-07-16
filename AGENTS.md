@@ -42,7 +42,7 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
 - Sprache in Beschreibungen und Texten: Deutsch und Englisch (mehrsprachig).
 - Jedes Template ist eigenständig und hat keine Abhängigkeiten zu anderen Templates.
 - Sichere Defaults verwenden: Produktionsmodus, restriktive Berechtigungen, keine Debug-Optionen.
-- Jeder Unterordner muss einem Template entsprechen. Es darf keine Unterordner geben, die andere Dateien enthalten (z.B. `docs`, `scripts`).
+- Jeder Unterordner muss einem Template entsprechen. Es darf keine Unterordner geben, die andere Dateien enthalten (z.B. `docs`, `scripts`). Ausgenommen sind versteckte Ordner wie `.github` (Workflows). `generate-index.sh` und `validate-screenshots.py` verlassen sich darauf: Sie iterieren über `*/manifest.yaml` und behandeln damit jeden sichtbaren Unterordner als Template.
 
 ## Pflege
 
