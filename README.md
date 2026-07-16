@@ -4,13 +4,16 @@ Container-Vorlagen für die mStudio Container-Vorlagen-Funktion.
 
 ## Struktur
 
-Jedes Template liegt in einem eigenen Ordner und besteht aus drei Dateien:
+Jedes Template liegt in einem eigenen Ordner und besteht aus drei Pflichtdateien, optional
+ergänzt um Screenshots:
 
 ```
 <template-name>/
 ├── docker-compose.yml    # Docker Compose Konfiguration
 ├── manifest.yaml         # Metadaten, Inputs und Konfiguration
-└── icon.svg              # Icon (muss immer icon.svg heißen)
+├── icon.svg              # Icon (muss immer icon.svg heißen)
+├── background.jpg        # optional: Hintergrundbild (siehe screenshots)
+└── screenshot-*.jpg      # optional: Screenshot der Oberfläche (siehe screenshots)
 ```
 
 ### docker-compose.yml
@@ -34,11 +37,40 @@ Beschreibt das Template mit folgenden Feldern. Die maschinenlesbare, per CI vali
 | `support`         | Support-URL                                                                                                      |
 | `license`         | Lizenz der Software, besteht aus `name` und `link`.                                                              |
 | `categories`      | Kategorien: `productivity`, `development`, `ai`, `security`, `monitoring`, `communication`, `media`, `ecommerce` |
+| `screenshots`     | Optionale Katalog-Screenshots: Hintergrundbild, Screenshot und mehrsprachige Bildüberschrift                     |
 | `domains`         | Domain-Zuordnung zu Services und Ports; je Eintrag ein `purpose` als Referenz (z.B. in `help`)                   |
 | `userInputs`      | Vom Benutzer konfigurierte Werte                                                                                 |
 | `systemInputs`    | Automatisch vom System generierte Werte (Passwörter, Tokens)                                                     |
 | `type`            | Gibt an, ob das Template als eigenständige Anwendung in einem neuen Stack (`standalone`) oder als Baustein in einen bestehenden Stack (`component`) deployt wird |
 | `help`            | Optionale Kontext-Hilfe nach dem Deployment: technische Details (`technicalDetails`) und Hinweise (`alerts`)     |
+
+### screenshots
+
+Optionale Katalog-Screenshots. Jeder Eintrag besteht aus einem dekorativen Hintergrundbild (`bg`), dem darauf platzierten Screenshot der Anwendungsoberfläche (`screenshot`) und einer mehrsprachigen Überschrift (`text`), die **über** dem Screenshot angezeigt wird.
+
+```yaml
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-workflow-editor.jpg
+    text:
+      de: Workflows im visuellen Editor per Drag-and-drop erstellen
+      en: Building workflows by drag and drop in the visual editor
+```
+
+Beide Bilder liegen als Datei im Template-Ordner; im Manifest steht nur der Dateiname, keine Pfadangabe. Es gelten folgende Regeln, die per CI geprüft werden:
+
+| | Regel |
+|---|---|
+| Format | `jpg`, `jpeg`, `png` oder `webp` |
+| Breite | mindestens 1500 px (beide Bilder) |
+| `bg` | Seitenverhältnis **exakt 3:2** (z.B. 3000×2000) |
+| `screenshot` | kein festes Seitenverhältnis |
+
+Lokal prüfen:
+
+```bash
+python validate-screenshots.py
+```
 
 ### domains
 
@@ -158,10 +190,12 @@ help:
 3. `manifest.yaml` erstellen — Felder und Beispiele in den Abschnitten oben, die verbindliche Struktur in [`manifest.schema.json`](manifest.schema.json)
 4. `icon.svg` hinzufügen (Quelle: [dashboard-icons](https://github.com/homarr-labs/dashboard-icons), Apache-2.0)
 5. Variablen in der `docker-compose.yml` über `userInputs` und `systemInputs` im Manifest definieren
-6. Konventionen in [`AGENTS.md`](AGENTS.md) beachten (sichere Defaults, Zeitzone, Backups, `help`-Platzhalter-Regeln)
+6. Optional Screenshots ergänzen (siehe Abschnitt [screenshots](#screenshots))
+7. Konventionen in [`AGENTS.md`](AGENTS.md) beachten (sichere Defaults, Zeitzone, Backups, `help`-Platzhalter-Regeln)
 
-Vor dem Commit wird das Manifest per CI gegen das Schema validiert. Lokal:
+Vor dem Commit werden Manifest und Screenshots per CI geprüft. Lokal:
 
 ```bash
 pipx run check-jsonschema --schemafile manifest.schema.json <ordner>/manifest.yaml
+python validate-screenshots.py
 ```

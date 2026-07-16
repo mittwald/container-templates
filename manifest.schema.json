@@ -68,6 +68,30 @@
         ]
       }
     },
+    "screenshots": {
+      "type": "array",
+      "description": "Katalog-Screenshots: je Eintrag ein Hintergrundbild, der darüber gelegte Screenshot und eine mehrsprachige Bildüberschrift. Dateien liegen im Template-Ordner.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["bg", "screenshot", "text"],
+        "properties": {
+          "bg": {
+            "$ref": "#/$defs/imageFile",
+            "description": "Hintergrundbild (Bühne) hinter dem Screenshot, Seitenverhältnis exakt 3:2."
+          },
+          "screenshot": {
+            "$ref": "#/$defs/imageFile",
+            "description": "Screenshot der Anwendungsoberfläche, wird auf das Hintergrundbild gelegt."
+          },
+          "text": {
+            "$ref": "#/$defs/i18n",
+            "description": "Mehrsprachige Bildüberschrift, wird über dem Screenshot angezeigt."
+          }
+        }
+      }
+    },
     "domains": {
       "type": "array",
       "description": "Domain-Routing: verknüpft einen Host-userInput mit Service und Port.",
@@ -191,6 +215,11 @@
     }
   },
   "$defs": {
+    "imageFile": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+\\.(jpe?g|png|webp)$",
+      "description": "Dateiname einer Bilddatei im Template-Ordner (ohne Pfadangabe)."
+    },
     "i18n": {
       "type": "object",
       "additionalProperties": false,

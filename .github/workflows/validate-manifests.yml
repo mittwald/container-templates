@@ -5,12 +5,22 @@ on:
     paths:
       - "**/manifest.yaml"
       - "manifest.schema.json"
+      - "validate-screenshots.py"
+      - "**/*.jpg"
+      - "**/*.jpeg"
+      - "**/*.png"
+      - "**/*.webp"
       - ".github/workflows/validate-manifests.yml"
   push:
     branches: [main]
     paths:
       - "**/manifest.yaml"
       - "manifest.schema.json"
+      - "validate-screenshots.py"
+      - "**/*.jpg"
+      - "**/*.jpeg"
+      - "**/*.png"
+      - "**/*.webp"
 
 jobs:
   validate:
