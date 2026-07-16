@@ -9,4 +9,7 @@
 .DS_Store
 Thumbs.db
 
+# Superpowers: lokale Arbeitsdokumente (Specs, Pläne) gehören nicht ins Repo.
+# Dokumentation steht in README.md und AGENTS.md.
 .superpowers/
+docs/
