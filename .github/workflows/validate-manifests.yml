@@ -5,12 +5,22 @@ on:
     paths:
       - "**/manifest.yaml"
       - "manifest.schema.json"
+      - "validate-screenshots.py"
+      - "**/*.jpg"
+      - "**/*.jpeg"
+      - "**/*.png"
+      - "**/*.webp"
       - ".github/workflows/validate-manifests.yml"
   push:
     branches: [main]
     paths:
       - "**/manifest.yaml"
       - "manifest.schema.json"
+      - "validate-screenshots.py"
+      - "**/*.jpg"
+      - "**/*.jpeg"
+      - "**/*.png"
+      - "**/*.webp"
 
 jobs:
   validate:
@@ -20,7 +30,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install check-jsonschema
-        run: pip install check-jsonschema
+      - name: Install dependencies
+        run: pip install check-jsonschema pyyaml pillow
       - name: Validate manifest.yaml files against schema
         run: check-jsonschema --schemafile manifest.schema.json */manifest.yaml
+      - name: Validate screenshot images
+        run: python validate-screenshots.py

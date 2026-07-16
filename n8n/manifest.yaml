@@ -43,6 +43,12 @@ license:
   link: https://github.com/n8n-io/n8n/blob/master/LICENSE.md
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-workflow-editor.jpg
+    text:
+      de: Workflows im visuellen Editor aus verbundenen Nodes aufbauen
+      en: Building workflows from connected nodes in the visual editor
 domains:
   - userInput: HOST
     service: n8n
