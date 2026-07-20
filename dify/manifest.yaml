@@ -1,0 +1,128 @@
+manifestVersion: 1.0
+name:
+  de: Dify
+  en: Dify
+version: "1.16.x"
+type: standalone
+tagline:
+  de: KI-Anwendungen und Agenten entwickeln
+  en: Build AI applications and agents
+description:
+  de: |
+    **Dify** ist eine Plattform zum Entwickeln und Betreiben generativer KI-Anwendungen und eine self-hosted Alternative zu gehosteten Angeboten wie Azure AI Foundry. Workflows, Agenten, Wissensquellen und Modellzugänge werden in einer gemeinsamen Oberfläche konfiguriert und über APIs oder fertige Web-Apps bereitgestellt.
+
+    Zentrale Funktionen:
+
+    - Visueller Workflow-Editor für Chatbots, Agenten und Textprozesse
+    - Retrieval-Augmented Generation mit Dokumenten und Vektorsuche
+    - Modellverwaltung für verschiedene kommerzielle und offene Anbieter
+    - APIs, Monitoring, Prompt-Versionen, Werkzeuge und Plugin-Marktplatz
+
+    Für **Agenturen** beschleunigt Dify die Umsetzung kundenspezifischer Assistenten, Wissenssysteme und Automatisierungen. Teams testen Modelle und Prompts, binden Kundeninhalte ein und veröffentlichen Ergebnisse als Web-App oder Backend-API. Getrennte Anwendungen erleichtern die Organisation mehrerer Projekte, während Protokolle die Analyse laufender KI-Prozesse unterstützen.
+
+    Bei mittwald läuft **Dify** als self-hosted Plattform in deutschen Rechenzentren. Das Template umfasst Web-Oberfläche, API, Worker, Agent-Backend, Sandbox, Plugin-Daemon, PostgreSQL, Redis und Weaviate. Secrets werden automatisch erzeugt, Telemetrie der eingebundenen Komponenten wird deaktiviert und PostgreSQL über das mittwald Backup-Label gesichert. Konfigurationen, Wissensdaten und Ausführungsprotokolle verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Betriebsprozesse.
+  en: |
+    **Dify** is a platform for building and operating generative AI applications and a self-hosted alternative to hosted products such as Azure AI Foundry. Workflows, agents, knowledge sources and model credentials are configured in one interface and exposed through APIs or ready-made web applications.
+
+    Key features:
+
+    - Visual workflow editor for chatbots, agents and text processes
+    - Retrieval-augmented generation with documents and vector search
+    - Model management for multiple commercial and open providers
+    - APIs, monitoring, prompt versions, tools and a plugin marketplace
+
+    For **agencies**, Dify accelerates custom assistants, knowledge systems and automation for client projects. Teams test models and prompts, connect client content and publish results as web applications or backend APIs. Separate applications help organise multiple projects, while logs support analysis of running AI processes.
+
+    At mittwald, **Dify** runs as a self-hosted platform in German data centres. The template includes the web interface, API, workers, agent backend, sandbox, plugin daemon, PostgreSQL, Redis and Weaviate. Secrets are generated automatically, telemetry in bundled components is disabled and PostgreSQL is protected through the mittwald backup label. Configuration, knowledge data and execution logs remain within the operator's infrastructure, supporting GDPR-conscious processes.
+developer: LangGenius, Inc.
+website: https://dify.ai
+repository: https://github.com/langgenius/dify
+support: https://docs.dify.ai
+license:
+  name: Dify Open Source License
+  link: https://github.com/langgenius/dify/blob/main/LICENSE
+categories:
+  - ai
+  - development
+domains:
+  - userInput: WEB_HOST
+    service: web
+    port: 3000
+    purpose: main
+  - userInput: API_HOST
+    service: api
+    port: 5001
+    purpose: api
+userInputs:
+  - name: "WEB_HOST"
+    label:
+      de: Domain der Web-Oberfläche
+      en: Web interface domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "API_HOST"
+    label:
+      de: Domain der API
+      en: API domain
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "DIFY_SECRET_KEY"
+    schema: &secret-schema
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+  - name: "REDIS_PASSWORD"
+    schema: *secret-schema
+  - name: "WEAVIATE_API_KEY"
+    schema: *secret-schema
+  - name: "SANDBOX_API_KEY"
+    schema: *secret-schema
+  - name: "PLUGIN_DAEMON_KEY"
+    schema: *secret-schema
+  - name: "PLUGIN_INNER_API_KEY"
+    schema: *secret-schema
+  - name: "AGENT_SECRET_KEY"
+    schema: *secret-schema
+  - name: "SHELL_TOKEN"
+    schema: *secret-schema
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools: [numbers]
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Web-Oberfläche
+      en: Web interface
+    value: https://${domain.main}
+  - key:
+      de: API
+      en: API
+    value: https://${domain.api}
+  alerts:
+  - status: info
+    heading:
+      de: Administratorkonto und Modelle einrichten
+      en: Set up the administrator account and models
+    content:
+      de: Lege beim ersten Aufruf das Administratorkonto an. Anschließend können Modellanbieter und deren API-Zugangsdaten innerhalb von Dify konfiguriert werden.
+      en: Create the administrator account on first access. Model providers and their API credentials can then be configured within Dify.

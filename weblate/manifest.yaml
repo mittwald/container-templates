@@ -1,0 +1,146 @@
+manifestVersion: 1.0
+name:
+  de: Weblate
+  en: Weblate
+version: "latest"
+type: standalone
+tagline:
+  de: Software gemeinsam übersetzen
+  en: Translate software collaboratively
+description:
+  de: |
+    **Weblate** ist eine kollaborative Übersetzungsplattform mit enger Git-Integration und eine self-hosted Alternative zu Lokalise oder Crowdin. Übersetzungen werden über eine Web-Oberfläche bearbeitet und kontinuierlich mit den Quelldateien eines Softwareprojekts synchronisiert.
+
+    Zentrale Funktionen:
+
+    - Browserbasierter Übersetzungseditor mit Prüfungen und Übersetzungsspeicher
+    - Direkte Anbindung an Git-Repositories und automatisierte Synchronisation
+    - Glossare, Terminologie, Kommentare und mehrstufige Freigaben
+    - Unterstützung zahlreicher Dateiformate und maschineller Übersetzungsdienste
+
+    Für **Agenturen** zentralisiert Weblate die Lokalisierung von Websites, Shops, Apps und individuellen Kundenanwendungen. Entwickler, Übersetzer und Kunden arbeiten in klar getrennten Projekten, während Git-Änderungen nachvollziehbar bleiben. Qualitätsprüfungen erkennen fehlende Platzhalter, inkonsistente Begriffe oder Formatfehler frühzeitig und reduzieren manuelle Abstimmungsschleifen.
+
+    Bei mittwald läuft **Weblate** als self-hosted Anwendung in deutschen Rechenzentren. Das Template enthält Weblate mit PostgreSQL und Valkey, legt ein Administratorkonto an, erzwingt Anmeldung und schließt öffentliche Registrierung standardmäßig. E-Mail-Versand wird über den angegebenen SMTP-Dienst eingerichtet. PostgreSQL wird über das mittwald Backup-Label gesichert. Übersetzungen, Benutzerkonten und Projektmetadaten verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Arbeitsabläufe.
+  en: |
+    **Weblate** is a collaborative translation platform with close Git integration and a self-hosted alternative to Lokalise or Crowdin. Translations are edited in a web interface and continuously synchronised with the source files of a software project.
+
+    Key features:
+
+    - Browser-based translation editor with quality checks and translation memory
+    - Direct Git repository integration and automated synchronisation
+    - Glossaries, terminology, comments and multi-stage review workflows
+    - Support for numerous file formats and machine-translation services
+
+    For **agencies**, Weblate centralises localisation for websites, shops, apps and custom client applications. Developers, translators and clients collaborate in clearly separated projects while Git changes remain traceable. Quality checks detect missing placeholders, inconsistent terminology and formatting errors early, reducing manual coordination.
+
+    At mittwald, **Weblate** runs as a self-hosted application in German data centres. The template includes Weblate with PostgreSQL and Valkey, creates an administrator account, requires authentication and disables public registration by default. Email delivery is configured through the supplied SMTP service. PostgreSQL is protected through the mittwald backup label. Translations, user accounts and project metadata remain within the operator's infrastructure, supporting GDPR-conscious workflows.
+developer: Weblate s.r.o.
+website: https://weblate.org
+repository: https://github.com/WeblateOrg/weblate
+support: https://docs.weblate.org
+license:
+  name: GPL-3.0-or-later
+  link: https://spdx.org/licenses/GPL-3.0-or-later.html
+categories:
+  - development
+  - productivity
+domains:
+  - userInput: HOST
+    service: weblate
+    port: 8080
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminuser", index: 2 }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminuser", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 4, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 5, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 6, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 7, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 8, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools: [numbers]
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${weblate.env.WEBLATE_ADMIN_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${weblate.env.WEBLATE_ADMIN_PASSWORD}

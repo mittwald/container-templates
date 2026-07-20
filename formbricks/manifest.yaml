@@ -1,0 +1,114 @@
+manifestVersion: 1.0
+name:
+  de: Formbricks
+  en: Formbricks
+version: "4.9.x"
+type: standalone
+tagline:
+  de: Umfragen und Nutzerfeedback auswerten
+  en: Analyse surveys and user feedback
+description:
+  de: |
+    **Formbricks** ist eine Plattform für Umfragen und Experience-Management und eine self-hosted Alternative zu Typeform oder Qualtrics. Feedback wird über öffentliche Links, Website-Einbettungen, E-Mails oder direkt innerhalb digitaler Produkte gesammelt und anschließend gemeinsam ausgewertet.
+
+    Zentrale Funktionen:
+
+    - No-Code-Editor für Link-, Website- und In-App-Umfragen
+    - Zielgruppen, Bedingungen, Variablen und mehrsprachige Fragebögen
+    - Echtzeit-Auswertungen, Segmentierung und Export von Antworten
+    - Team-Arbeitsbereiche, Vorlagen, API und Integrationen
+
+    Für **Agenturen** verbindet Formbricks Research, Marketing und Produktentwicklung in Kundenprojekten. Teams erfassen Website-Feedback, führen Zufriedenheitsbefragungen durch oder validieren neue Funktionen direkt bei relevanten Zielgruppen. Getrennte Projekte strukturieren mehrere Kunden, während Einbettungen und APIs Umfragen in Websites, Portale und individuelle Anwendungen integrieren.
+
+    Bei mittwald läuft **Formbricks** als self-hosted Anwendung in deutschen Rechenzentren. Das Template enthält den stabilen Formbricks-4-Zweig mit PostgreSQL und Valkey, erzeugt alle benötigten Authentifizierungs- und Verschlüsselungswerte und deaktiviert Telemetrie. PostgreSQL wird über das mittwald Backup-Label gesichert. Antworten, Kontaktdaten und Auswertungen verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Feedbackprozesse. Das erste Benutzerkonto wird beim ersten Aufruf eingerichtet.
+  en: |
+    **Formbricks** is a survey and experience-management platform and a self-hosted alternative to Typeform or Qualtrics. Feedback is collected through public links, website embeds, email or directly inside digital products and then analysed collaboratively.
+
+    Key features:
+
+    - No-code editor for link, website and in-app surveys
+    - Audiences, conditions, variables and multilingual questionnaires
+    - Real-time reporting, segmentation and response exports
+    - Team workspaces, templates, API and integrations
+
+    For **agencies**, Formbricks connects research, marketing and product development across client projects. Teams gather website feedback, run satisfaction surveys or validate new features with relevant audiences. Separate projects organise multiple clients, while embeds and APIs integrate surveys with websites, portals and custom applications.
+
+    At mittwald, **Formbricks** runs as a self-hosted application in German data centres. The template includes the stable Formbricks 4 line with PostgreSQL and Valkey, generates all required authentication and encryption values and disables telemetry. PostgreSQL is protected through the mittwald backup label. Responses, contact details and reports remain within the operator's infrastructure, supporting GDPR-conscious feedback processes. The first user account is created on initial access.
+developer: Formbricks GmbH
+website: https://formbricks.com
+repository: https://github.com/formbricks/formbricks
+support: https://formbricks.com/docs/self-hosting/overview
+license:
+  name: AGPL-3.0 (Core)
+  link: https://github.com/formbricks/formbricks/blob/4.9.7/LICENSE
+categories:
+  - productivity
+  - monitoring
+domains:
+  - userInput: HOST
+    service: formbricks
+    port: 3000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "NEXTAUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+  - name: "ENCRYPTION_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "CRON_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools: [numbers]
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erstes Benutzerkonto anlegen
+      en: Create the first user account
+    content:
+      de: Lege beim ersten Aufruf das initiale Benutzerkonto und die Organisation an. E-Mail-Verifizierung und Passwort-Wiederherstellung sind ohne SMTP-Konfiguration deaktiviert.
+      en: Create the initial user account and organisation on first access. Email verification and password recovery are disabled without SMTP configuration.

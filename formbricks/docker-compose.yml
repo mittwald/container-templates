@@ -1,0 +1,58 @@
+services:
+  formbricks:
+    image: ghcr.io/formbricks/formbricks:4.9.7
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - WEBAPP_URL=https://${HOST}
+      - NEXTAUTH_URL=https://${HOST}
+      - DATABASE_URL=postgresql://formbricks:${POSTGRES_PASSWORD}@postgres:5432/formbricks?schema=public
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - CRON_SECRET=${CRON_SECRET}
+      - REDIS_URL=redis://valkey:6379
+      - EMAIL_VERIFICATION_DISABLED=1
+      - PASSWORD_RESET_DISABLED=1
+      - TELEMETRY_DISABLED=1
+    volumes:
+      - saml_connection:/home/nextjs/apps/web/saml-connection
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+  postgres:
+    image: pgvector/pgvector:pg17
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=formbricks
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=formbricks
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U formbricks -d formbricks"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+  valkey:
+    image: valkey/valkey:9.1.0-alpine
+    command: ["valkey-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - valkey_data:/data
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  saml_connection:
+  postgres_data:
+  valkey_data:

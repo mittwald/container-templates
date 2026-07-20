@@ -1,0 +1,60 @@
+services:
+  kutt:
+    image: kutt/kutt:v3.2.6
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - NODE_ENV=production
+      - PORT=3000
+      - SITE_NAME=Kutt
+      - DEFAULT_DOMAIN=${HOST}
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_CLIENT=pg
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=kutt
+      - DB_USER=kutt
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_SSL=false
+      - REDIS_ENABLED=true
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DISALLOW_REGISTRATION=true
+      - DISALLOW_ANONYMOUS_LINKS=true
+      - TRUST_PROXY=true
+      - CUSTOM_DOMAIN_USE_HTTPS=true
+      - ENABLE_RATE_LIMIT=true
+      - MAIL_ENABLED=false
+    volumes:
+      - kutt_custom:/kutt/custom
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=kutt
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=kutt
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kutt -d kutt"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+  redis:
+    image: redis:8-alpine
+volumes:
+  kutt_custom:
+  postgres_data:

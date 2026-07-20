@@ -1,0 +1,78 @@
+services:
+  weblate:
+    image: weblate/weblate:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+      - WEBLATE_DEBUG=0
+      - WEBLATE_LOGLEVEL=INFO
+      - WEBLATE_SITE_TITLE=Weblate
+      - WEBLATE_SITE_DOMAIN=${HOST}
+      - WEBLATE_ALLOWED_HOSTS=${HOST}
+      - WEBLATE_ENABLE_HTTPS=1
+      - WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https
+      - WEBLATE_TIME_ZONE=Europe/Berlin
+      - WEBLATE_REGISTRATION_OPEN=0
+      - WEBLATE_REQUIRE_LOGIN=1
+      - WEBLATE_ADMIN_NAME=Weblate Admin
+      - WEBLATE_ADMIN_EMAIL=${ADMIN_EMAIL}
+      - WEBLATE_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - WEBLATE_SERVER_EMAIL=${SMTP_FROM}
+      - WEBLATE_DEFAULT_FROM_EMAIL=${SMTP_FROM}
+      - WEBLATE_EMAIL_HOST=${SMTP_HOST}
+      - WEBLATE_EMAIL_PORT=${SMTP_PORT}
+      - WEBLATE_EMAIL_HOST_USER=${SMTP_USER}
+      - WEBLATE_EMAIL_HOST_PASSWORD=${SMTP_PASSWORD}
+      - WEBLATE_EMAIL_USE_TLS=1
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=weblate
+      - POSTGRES_DB=weblate
+      - POSTGRES_USER=weblate
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_HOST=valkey
+      - REDIS_PORT=6379
+    volumes:
+      - weblate_data:/app/data
+      - weblate_cache:/app/cache
+    read_only: true
+    tmpfs:
+      - /run
+      - /tmp
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_started
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=weblate
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=weblate
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U weblate -d weblate"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+  valkey:
+    image: valkey/valkey:9.1.0-alpine
+    command: ["valkey-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - valkey_data:/data
+    read_only: true
+volumes:
+  weblate_data:
+  weblate_cache:
+  postgres_data:
+  valkey_data:

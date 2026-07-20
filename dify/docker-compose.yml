@@ -1,0 +1,288 @@
+x-dify-environment: &dify-environment
+  TZ: Europe/Berlin
+  LANG: C.UTF-8
+  LC_ALL: C.UTF-8
+  DEPLOY_ENV: PRODUCTION
+  LOG_LEVEL: INFO
+  DEBUG: "false"
+  SECRET_KEY: ${DIFY_SECRET_KEY}
+  CONSOLE_API_URL: https://${API_HOST}
+  SERVER_CONSOLE_API_URL: http://api:5001
+  CONSOLE_WEB_URL: https://${WEB_HOST}
+  SERVICE_API_URL: https://${API_HOST}
+  APP_API_URL: https://${API_HOST}
+  APP_WEB_URL: https://${WEB_HOST}
+  FILES_URL: https://${API_HOST}
+  INTERNAL_FILES_URL: http://api:5001
+  TRIGGER_URL: https://${API_HOST}
+  CHECK_UPDATE_URL: ""
+  MIGRATION_ENABLED: "true"
+  DB_TYPE: postgresql
+  DB_USERNAME: dify
+  DB_PASSWORD: ${POSTGRES_PASSWORD}
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_DATABASE: dify
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: ${REDIS_PASSWORD}
+  REDIS_USE_SSL: "false"
+  REDIS_DB: "0"
+  CELERY_BROKER_URL: redis://:${REDIS_PASSWORD}@redis:6379/1
+  CELERY_BACKEND: redis
+  WEB_API_CORS_ALLOW_ORIGINS: https://${WEB_HOST}
+  CONSOLE_CORS_ALLOW_ORIGINS: https://${WEB_HOST}
+  STORAGE_TYPE: opendal
+  OPENDAL_SCHEME: fs
+  OPENDAL_FS_ROOT: storage
+  VECTOR_STORE: weaviate
+  WEAVIATE_ENDPOINT: http://weaviate:8080
+  WEAVIATE_GRPC_ENDPOINT: grpc://weaviate:50051
+  WEAVIATE_API_KEY: ${WEAVIATE_API_KEY}
+  CODE_EXECUTION_ENDPOINT: http://sandbox:8194
+  CODE_EXECUTION_API_KEY: ${SANDBOX_API_KEY}
+  CODE_EXECUTION_SSL_VERIFY: "True"
+  SSRF_PROXY_HTTP_URL: http://ssrf-proxy:3128
+  SSRF_PROXY_HTTPS_URL: http://ssrf-proxy:3128
+  DB_PLUGIN_DATABASE: dify_plugin
+  PLUGIN_DAEMON_URL: http://plugin-daemon:5002
+  PLUGIN_DAEMON_KEY: ${PLUGIN_DAEMON_KEY}
+  PLUGIN_DIFY_INNER_API_URL: http://api:5001
+  PLUGIN_DIFY_INNER_API_KEY: ${PLUGIN_INNER_API_KEY}
+  INNER_API_KEY_FOR_PLUGIN: ${PLUGIN_INNER_API_KEY}
+  AGENT_BACKEND_BASE_URL: http://agent-backend:5050
+
+services:
+  init-permissions:
+    image: busybox:1.37
+    command: ["sh", "-c", "chown -R 1001:1001 /app/api/storage"]
+    volumes:
+      - app_storage:/app/api/storage
+    restart: "no"
+  plugin-database-init:
+    image: postgres:18-alpine
+    environment:
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+    command:
+      - sh
+      - -c
+      - >-
+        psql -h postgres -U dify -d postgres -tAc
+        "SELECT 1 FROM pg_database WHERE datname='dify_plugin'" | grep -q 1 ||
+        psql -h postgres -U dify -d postgres -c "CREATE DATABASE dify_plugin"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+  api:
+    image: langgenius/dify-api:1.16.0
+    ports:
+      - "5001:5001"
+    environment:
+      <<: *dify-environment
+      MODE: api
+      PLUGIN_REMOTE_INSTALL_HOST: plugin-daemon
+      PLUGIN_REMOTE_INSTALL_PORT: "5003"
+    volumes:
+      - app_storage:/app/api/storage
+    depends_on:
+      init-permissions:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      weaviate:
+        condition: service_started
+      sandbox:
+        condition: service_healthy
+      plugin-daemon:
+        condition: service_started
+      agent-backend:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  worker:
+    image: langgenius/dify-api:1.16.0
+    environment:
+      <<: *dify-environment
+      MODE: worker
+    volumes:
+      - app_storage:/app/api/storage
+    depends_on:
+      init-permissions:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      plugin-daemon:
+        condition: service_started
+      agent-backend:
+        condition: service_started
+  worker-beat:
+    image: langgenius/dify-api:1.16.0
+    environment:
+      <<: *dify-environment
+      MODE: beat
+    volumes:
+      - app_storage:/app/api/storage
+    depends_on:
+      init-permissions:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  web:
+    image: langgenius/dify-web:1.16.0
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - CONSOLE_API_URL=https://${API_HOST}
+      - SERVER_CONSOLE_API_URL=http://api:5001
+      - APP_API_URL=https://${API_HOST}
+      - NEXT_TELEMETRY_DISABLED=1
+      - ALLOW_EMBED=false
+      - ALLOW_UNSAFE_DATA_SCHEME=false
+    depends_on:
+      api:
+        condition: service_healthy
+  plugin-daemon:
+    image: langgenius/dify-plugin-daemon:0.6.3-local
+    environment:
+      <<: *dify-environment
+      DB_DATABASE: dify_plugin
+      DB_SSL_MODE: disable
+      SERVER_PORT: "5002"
+      SERVER_KEY: ${PLUGIN_DAEMON_KEY}
+      DIFY_INNER_API_URL: http://api:5001
+      DIFY_INNER_API_KEY: ${PLUGIN_INNER_API_KEY}
+      PLUGIN_REMOTE_INSTALLING_HOST: 0.0.0.0
+      PLUGIN_REMOTE_INSTALLING_PORT: "5003"
+      FORCE_VERIFYING_SIGNATURE: "true"
+      PLUGIN_STORAGE_TYPE: local
+      PLUGIN_STORAGE_LOCAL_ROOT: /app/storage
+      PLUGIN_WORKING_PATH: /app/storage/cwd
+    volumes:
+      - plugin_storage:/app/storage
+    depends_on:
+      plugin-database-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+  local-sandbox:
+    image: langgenius/dify-agent-local-sandbox:1.16.0
+    environment:
+      - TZ=Europe/Berlin
+      - SHELLCTL_AUTH_TOKEN=${SHELL_TOKEN}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5004/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  agent-backend:
+    image: langgenius/dify-agent-backend:1.16.0
+    environment:
+      - TZ=Europe/Berlin
+      - DIFY_AGENT_REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379/2
+      - DIFY_AGENT_REDIS_PREFIX=dify-agent
+      - DIFY_AGENT_PLUGIN_DAEMON_URL=http://plugin-daemon:5002
+      - DIFY_AGENT_PLUGIN_DAEMON_API_KEY=${PLUGIN_DAEMON_KEY}
+      - DIFY_AGENT_INNER_API_URL=http://api:5001
+      - DIFY_AGENT_INNER_API_KEY=${PLUGIN_INNER_API_KEY}
+      - DIFY_AGENT_SHELLCTL_ENTRYPOINT=http://local-sandbox:5004
+      - DIFY_AGENT_SHELLCTL_AUTH_TOKEN=${SHELL_TOKEN}
+      - DIFY_AGENT_STUB_API_BASE_URL=http://agent-backend:5050/agent-stub
+      - DIFY_AGENT_SERVER_SECRET_KEY=${AGENT_SECRET_KEY}
+    depends_on:
+      redis:
+        condition: service_healthy
+      plugin-daemon:
+        condition: service_started
+      local-sandbox:
+        condition: service_healthy
+  sandbox:
+    image: langgenius/dify-sandbox:0.2.15
+    environment:
+      - TZ=Europe/Berlin
+      - API_KEY=${SANDBOX_API_KEY}
+      - GIN_MODE=release
+      - WORKER_TIMEOUT=15
+      - ENABLE_NETWORK=true
+      - HTTP_PROXY=http://ssrf-proxy:3128
+      - HTTPS_PROXY=http://ssrf-proxy:3128
+      - SANDBOX_PORT=8194
+    volumes:
+      - sandbox_dependencies:/dependencies
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8194/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+  ssrf-proxy:
+    image: ubuntu/squid:latest
+    environment:
+      - TZ=Europe/Berlin
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=dify
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=dify
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dify -d dify"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+  redis:
+    image: redis:8-alpine
+    environment:
+      - REDISCLI_AUTH=${REDIS_PASSWORD}
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a '${REDIS_PASSWORD}' ping | grep -q PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  weaviate:
+    image: semitechnologies/weaviate:1.27.0
+    environment:
+      - TZ=Europe/Berlin
+      - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+      - QUERY_DEFAULTS_LIMIT=25
+      - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=false
+      - DEFAULT_VECTORIZER_MODULE=none
+      - CLUSTER_HOSTNAME=node1
+      - AUTHENTICATION_APIKEY_ENABLED=true
+      - AUTHENTICATION_APIKEY_ALLOWED_KEYS=${WEAVIATE_API_KEY}
+      - AUTHENTICATION_APIKEY_USERS=dify
+      - AUTHORIZATION_ADMINLIST_ENABLED=true
+      - AUTHORIZATION_ADMINLIST_USERS=dify
+      - DISABLE_TELEMETRY=true
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+volumes:
+  app_storage:
+  plugin_storage:
+  sandbox_dependencies:
+  postgres_data:
+  redis_data:
+  weaviate_data:
