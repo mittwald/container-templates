@@ -13,7 +13,8 @@ services:
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/mysql/backups && \
-        mariadb-dump -u "$MARIADB_USER" -p"$MARIADB_PASSWORD" --all-databases \
-          > /var/lib/mysql/backups/backup.sql'
+        mariadb-dump -u root -p"$MARIADB_ROOT_PASSWORD" --all-databases | gzip \
+          > /var/lib/mysql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/mysql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
 volumes:
   mariadb_data:

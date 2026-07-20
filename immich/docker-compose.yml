@@ -36,8 +36,9 @@ services:
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/postgresql/backups && \
-        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
-          -f /var/lib/postgresql/backups/backup.sql'
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
 volumes:
   immich_upload:
   immich_model_cache:

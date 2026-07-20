@@ -37,7 +37,7 @@ services:
       - N8N_RUNNERS_TASK_BROKER_URI=http://n8n:5679
       - N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}
   postgres:
-    image: postgres:18
+    image: pgautoupgrade/pgautoupgrade:18-alpine
     environment:
       - TZ=Europe/Berlin
       - POSTGRES_USER=n8n
@@ -48,8 +48,9 @@ services:
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/postgresql/backups && \
-        pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
-          -f /var/lib/postgresql/backups/backup.sql'
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
 volumes:
   n8n_data:
   postgres_data:
