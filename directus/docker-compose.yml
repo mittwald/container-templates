@@ -1,6 +1,6 @@
 services:
   directus:
-    image: directus/directus:11
+    image: directus/directus:12
     ports:
       - "8055:8055"
     environment:
@@ -21,6 +21,7 @@ services:
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - PUBLIC_URL=https://${HOST}
+      - IP_TRUST_PROXY=true
     volumes:
       - directus_uploads:/directus/uploads
       - directus_extensions:/directus/extensions

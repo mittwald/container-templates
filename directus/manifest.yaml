@@ -2,14 +2,14 @@ manifestVersion: 1.0
 name:
   de: Directus
   en: Directus
-version: "11.x.x"
+version: "12.x.x"
 type: standalone
 tagline:
   de: Headless CMS und Datenplattform
   en: Headless CMS and data platform
 description:
   de: |
-    **Directus** ist eine Open-Source-Datenplattform und ein Headless CMS, das jede SQL-Datenbank in eine strukturierte REST- und GraphQL-API sowie ein benutzerfreundliches Admin-Interface verwandelt. Es ist eine self-hosted Alternative zu gehosteten Headless-CMS-Diensten wie Contentful oder Strapi Cloud und eignet sich als Content-Backend für Websites, Apps und digitale Produkte aller Art.
+    **Directus** ist eine self-hosted Datenplattform und ein Headless CMS, das jede SQL-Datenbank in eine strukturierte REST- und GraphQL-API sowie ein benutzerfreundliches Admin-Interface verwandelt. Es ist eine Alternative zu gehosteten Headless-CMS-Diensten wie Contentful oder Strapi Cloud und eignet sich als Content-Backend für Websites, Apps und digitale Produkte aller Art.
 
     Zentrale Funktionen:
 
@@ -20,9 +20,9 @@ description:
 
     Für **Agenturen** ist Directus ein flexibles Content-Backend für Kundenprojekte: Die API-first-Architektur erlaubt die Anbindung beliebiger Frontends und Frameworks – ob Website, Mobile App oder Digital-Signage-System. Agenturen können für jeden Kunden ein eigenes Datenmodell anlegen, separate Zugriffsrechte für Redakteure und Entwickler einrichten und Inhalte über die API in mehrere Kanäle ausspielen.
 
-    Bei mittwald läuft **Directus** als self-hosted Container in deutschen Rechenzentren; Inhalte und Kundendaten verbleiben vollständig im Einflussbereich der Agentur und werden nicht an Drittanbieter übertragen, was die DSGVO-Konformität vereinfacht. Dieses Template enthält Directus zusammen mit einer PostgreSQL-Datenbank und Redis für Caching – ohne nutzungsabhängige Seat- oder API-Lizenzkosten.
+    Bei mittwald läuft **Directus** als self-hosted Container in deutschen Rechenzentren; Inhalte und Kundendaten verbleiben vollständig im Einflussbereich der Agentur und werden nicht an Drittanbieter übertragen, was die DSGVO-Konformität vereinfacht. Dieses Template enthält Directus zusammen mit einer PostgreSQL-Datenbank und Redis für Caching. Directus 12 startet im Core-Tarif; abhängig von Unternehmensgröße und verwendeten Funktionen kann eine Lizenz erforderlich sein.
   en: |
-    **Directus** is an open-source headless CMS and data platform that transforms any SQL database into a REST and GraphQL API with an admin interface. A self-hosted alternative to managed services like Contentful or Strapi Cloud, it serves as a content backend for websites, apps and digital products.
+    **Directus** is a self-hosted headless CMS and data platform that transforms any SQL database into a REST and GraphQL API with an admin interface. An alternative to managed services like Contentful or Strapi Cloud, it serves as a content backend for websites, apps and digital products.
 
     Key features:
 
@@ -33,14 +33,14 @@ description:
 
     For **agencies**, Directus is a flexible content backend for client projects: the API-first architecture connects any frontend — website, mobile app or digital signage. Separate data models and access rights can be configured per client, with content deliverable to multiple channels via the API.
 
-    At mittwald, **Directus** runs as a self-hosted container in German data centres; content and client data stay fully under the agency's control and are not transmitted to third parties, simplifying GDPR compliance. This template includes Directus with PostgreSQL and Redis — without usage-based seat or API licence costs.
+    At mittwald, **Directus** runs as a self-hosted container in German data centres; content and client data stay fully under the agency's control and are not transmitted to third parties, simplifying GDPR compliance. This template includes Directus with PostgreSQL and Redis. Directus 12 starts on the Core tier; a licence may be required depending on organisation size and the features used.
 developer: Monospace Inc.
 website: https://directus.io
 repository: https://github.com/directus/directus
 support: https://directus.io/support/
 license:
-  name: BSL-1.1
-  link: https://spdx.org/licenses/BUSL-1.1.html
+  name: MSCL-1.0-GPL
+  link: https://github.com/directus/directus/blob/v12.1.1/license
 categories:
   - development
 domains:
@@ -111,3 +111,11 @@ help:
       de: Admin Passwort
       en: Admin Password
     value: ${directus.env.ADMIN_PASSWORD}
+  alerts:
+  - status: warning
+    heading:
+      de: Lizenzbedingungen von Directus 12 prüfen
+      en: Review the Directus 12 licence terms
+    content:
+      de: Directus 12 setzt Lizenzgrenzen aktiv durch. Prüfe vor der Nutzung, ob der Core-Tarif für deine Unternehmensgröße und benötigten Funktionen ausreicht. Unter anderem können SSO und benutzerdefinierte Berechtigungsregeln eine passende Lizenz erfordern.
+      en: Directus 12 actively enforces licence limits. Before use, verify that the Core tier covers your organisation size and required features. SSO and custom permission rules are among the features that may require an appropriate licence.

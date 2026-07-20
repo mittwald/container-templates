@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Apache Solr
   en: Apache Solr
-version: "9.x.x"
+version: "10.x.x"
 type: component
 tagline:
   de: Enterprise-Suchplattform
