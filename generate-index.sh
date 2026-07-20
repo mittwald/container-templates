@@ -3,28 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 # Collect template data from all manifest.yaml files
-TEMPLATES=$(python3 <<'PY'
-import glob, yaml, json
-out = []
-for m in sorted(glob.glob("*/manifest.yaml")):
-    d = yaml.safe_load(open(m, encoding="utf-8"))
-    name = m.split("/")[0]
-    out.append({
-        "name": name,
-        "displayName": d.get("name", {"de": name, "en": name}),
-        "version": str(d.get("version", "")),
-        "icon": "icon.svg",
-        "developer": d.get("developer", ""),
-        "website": d.get("website", ""),
-        "repository": d.get("repository", ""),
-        "license": (d.get("license") or {}).get("name", ""),
-        "tagline": d.get("tagline", {}),
-        "description": {"de": (d.get("description") or {}).get("de", "")},
-        "categories": d.get("categories", []),
-    })
-print(json.dumps(out, ensure_ascii=False))
-PY
-)
+TEMPLATES=$(node generate-index-data.mjs)
 
 cat > index.html <<'HTMLEOF'
 <!DOCTYPE html>

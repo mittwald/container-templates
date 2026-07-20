@@ -69,7 +69,7 @@ Beide Bilder liegen als Datei im Template-Ordner; im Manifest steht nur der Date
 Lokal prüfen:
 
 ```bash
-python validate-screenshots.py
+pnpm validate
 ```
 
 ### domains
@@ -204,7 +204,9 @@ help:
 
 Vor dem Commit werden Manifest und Screenshots per CI geprüft. Lokal:
 
+Voraussetzung sind Node.js 24 und die in `package.json` festgelegte pnpm-Version.
+
 ```bash
-pipx run check-jsonschema --schemafile manifest.schema.json <ordner>/manifest.yaml
-python validate-screenshots.py
+pnpm install
+pnpm test
 ```

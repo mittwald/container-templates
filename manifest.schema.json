@@ -219,12 +219,16 @@
   "if": {
     "required": ["categories"],
     "properties": {
-      "categories": { "contains": { "const": "database" } }
+      "categories": {
+        "type": "array",
+        "contains": { "const": "database" }
+      }
     }
   },
   "then": {
     "properties": {
       "categories": {
+        "type": "array",
         "minItems": 2,
         "description": "\"database\" steht nie allein: Zusammen mit uniqueItems erzwingt minItems 2 mindestens eine weitere, fachliche Kategorie."
       }

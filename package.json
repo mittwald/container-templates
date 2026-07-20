@@ -1,0 +1,21 @@
+{
+  "name": "@mittwald/container-templates",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "test": "pnpm run check && pnpm run validate",
+    "check": "node --check manifest-files.mjs && node --check validate.mjs && node --check generate-index-data.mjs && bash -n generate-index.sh && node generate-index-data.mjs > /dev/null",
+    "validate": "node validate.mjs",
+    "generate:index": "bash generate-index.sh"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "sharp": "^0.35.3",
+    "yaml": "^2.9.0"
+  }
+}

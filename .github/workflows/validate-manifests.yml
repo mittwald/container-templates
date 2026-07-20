@@ -5,7 +5,12 @@ on:
     paths:
       - "**/manifest.yaml"
       - "manifest.schema.json"
-      - "validate-screenshots.py"
+      - "manifest-files.mjs"
+      - "validate.mjs"
+      - "generate-index-data.mjs"
+      - "generate-index.sh"
+      - "package.json"
+      - "pnpm-lock.yaml"
       - "**/*.jpg"
       - "**/*.jpeg"
       - "**/*.png"
@@ -16,23 +21,29 @@ on:
     paths:
       - "**/manifest.yaml"
       - "manifest.schema.json"
-      - "validate-screenshots.py"
+      - "manifest-files.mjs"
+      - "validate.mjs"
+      - "generate-index-data.mjs"
+      - "generate-index.sh"
+      - "package.json"
+      - "pnpm-lock.yaml"
       - "**/*.jpg"
       - "**/*.jpeg"
       - "**/*.png"
       - "**/*.webp"
+      - ".github/workflows/validate-manifests.yml"
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
+          node-version: "24"
+          cache: pnpm
       - name: Install dependencies
-        run: pip install check-jsonschema pyyaml pillow
-      - name: Validate manifest.yaml files against schema
-        run: check-jsonschema --schemafile manifest.schema.json */manifest.yaml
-      - name: Validate screenshot images
-        run: python validate-screenshots.py
+        run: pnpm install --frozen-lockfile
+      - name: Validate scripts, manifests and screenshot images
+        run: pnpm test
