@@ -1,0 +1,73 @@
+manifestVersion: 1.0
+name:
+  de: Uptime Kuma
+  en: Uptime Kuma
+version: "2.x.x"
+type: standalone
+tagline:
+  de: Monitoring und Statusseiten
+  en: Monitoring and status pages
+description:
+  de: |
+    **Uptime Kuma** ist ein benutzerfreundliches, self-hosted Monitoring-Werkzeug und eine Alternative zu Diensten wie UptimeRobot oder Better Uptime. Websites, APIs und weitere Netzwerkdienste werden regelmäßig geprüft; Ausfälle und langsame Antworten werden in einem reaktiven Dashboard sichtbar und können über zahlreiche Kanäle gemeldet werden.
+
+    Zentrale Funktionen:
+
+    - Überwachung von HTTP, TCP, DNS, Ping, WebSockets und weiteren Diensten
+    - Flexible Prüfintervalle, Antwortzeitdiagramme und Zertifikatsüberwachung
+    - Benachrichtigungen über E-Mail, Messenger, Webhooks und viele Integrationen
+    - Mehrere öffentliche Statusseiten für Projekte und Kundensysteme
+
+    Für **Agenturen** bietet Uptime Kuma eine zentrale Übersicht über die Erreichbarkeit betreuter Websites, Shops und APIs. Monitore lassen sich nach Kunden gruppieren, interne Teams werden bei Störungen automatisch informiert und öffentliche Statusseiten schaffen Transparenz während eines Ausfalls. Dadurch können Probleme erkannt werden, bevor sie über Kundensupport oder Endnutzer gemeldet werden.
+
+    Bei mittwald läuft **Uptime Kuma** als self-hosted Container in deutschen Rechenzentren; Monitoring-Verläufe, Endpunkte und Benachrichtigungskonfigurationen bleiben in der eigenen Infrastruktur. Das Template stellt Uptime Kuma 2 mit persistentem Datenspeicher bereit. Beim ersten Aufruf wird die Administration manuell eingerichtet und SQLite als Datenbank gewählt. Für die Open-Source-Anwendung fallen keine monitor- oder kontaktabhängigen Lizenzkosten an.
+  en: |
+    **Uptime Kuma** is a user-friendly, self-hosted monitoring tool and an alternative to services such as UptimeRobot or Better Uptime. Websites, APIs and other network services are checked regularly; outages and slow responses appear in a reactive dashboard and can trigger notifications through numerous channels.
+
+    Key features:
+
+    - Monitoring for HTTP, TCP, DNS, ping, WebSockets and other services
+    - Flexible check intervals, response-time charts and certificate monitoring
+    - Notifications through email, messengers, webhooks and many integrations
+    - Multiple public status pages for projects and client systems
+
+    For **agencies**, Uptime Kuma provides a central view of websites, shops and APIs under management. Monitors can be grouped by client, internal teams are notified automatically when incidents occur, and public status pages provide transparency during outages. Problems can therefore be identified before they are reported through client support or end users.
+
+    At mittwald, **Uptime Kuma** runs as a self-hosted container in German data centres; monitoring history, endpoints and notification configuration remain within the operator's infrastructure. The template deploys Uptime Kuma 2 with persistent data storage. Administration is configured manually on first access, with SQLite selected as the database. The open-source application has no licence fees based on monitors or contacts.
+developer: Louis Lam
+website: https://uptime.kuma.pet
+repository: https://github.com/louislam/uptime-kuma
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - monitoring
+domains:
+  - userInput: HOST
+    service: uptime-kuma
+    port: 3001
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Manuelle Einrichtung erforderlich
+      en: Manual setup required
+    content:
+      de: Nach dem ersten Aufruf musst du Uptime Kuma manuell einrichten. Wähle dabei als Datenbanktyp SQLite aus.
+      en: After the first launch, set up Uptime Kuma manually and select SQLite as the database type.

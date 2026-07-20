@@ -1,0 +1,112 @@
+manifestVersion: 1.0
+name:
+  de: Bugsink
+  en: Bugsink
+version: "2.x.x"
+type: standalone
+tagline:
+  de: Sentry-kompatibles Error-Tracking
+  en: Sentry-compatible error tracking
+description:
+  de: |
+    **Bugsink** ist eine self-hosted Plattform für Error-Tracking und eine kompakte Alternative zu Sentry Cloud. Anwendungen senden auftretende Fehler über die verbreiteten Sentry-SDKs an die eigene Bugsink-Instanz. Dort werden Ereignisse gruppiert und mit Stacktrace, Kontext und Zeitverlauf für die Fehleranalyse aufbereitet.
+
+    Zentrale Funktionen:
+
+    - Kompatibilität mit Sentry-SDKs für zahlreiche Programmiersprachen und Frameworks
+    - Gruppierung wiederkehrender Fehler zu übersichtlichen Issues
+    - Stacktraces, Tags und Kontextdaten zur Ursachenanalyse
+    - Projekte, Teams und Benachrichtigungen für strukturierte Arbeitsabläufe
+
+    Für **Agenturen** bündelt Bugsink Fehler aus Kundenwebsites, APIs und individuellen Anwendungen an einer zentralen Stelle. Entwicklungsteams erkennen Regressionen nach Deployments schneller, können betroffene Projekte voneinander trennen und müssen sensible Fehlerdaten nicht an einen externen SaaS-Dienst übertragen. Bestehende Sentry-Integrationen lassen sich in vielen Fällen durch das Austauschen der DSN weiterverwenden.
+
+    Bei mittwald läuft **Bugsink** als self-hosted Container in deutschen Rechenzentren. Das Template enthält Bugsink mit PostgreSQL, legt den angegebenen Administrator beim ersten Start an und konfiguriert den Betrieb hinter dem HTTPS-Proxy. Die PostgreSQL-Datenbank wird über das mittwald Backup-Label gesichert. Ereignis- und Diagnosedaten verbleiben in der eigenen Infrastruktur und unterstützen damit DSGVO-gerechte Betriebsprozesse.
+  en: |
+    **Bugsink** is a self-hosted error-tracking platform and a compact alternative to Sentry Cloud. Applications send errors through the widely supported Sentry SDKs to the operator's own Bugsink instance. Events are grouped and presented with stack traces, context and timelines for efficient analysis.
+
+    Key features:
+
+    - Compatibility with Sentry SDKs for many languages and frameworks
+    - Grouping of recurring errors into manageable issues
+    - Stack traces, tags and contextual data for root-cause analysis
+    - Projects, teams and notifications for structured workflows
+
+    For **agencies**, Bugsink consolidates errors from client websites, APIs and custom applications in one place. Development teams identify regressions after deployments more quickly, separate data by client project and avoid sending sensitive diagnostics to an external SaaS service. Existing Sentry integrations can often continue to be used by replacing the DSN.
+
+    At mittwald, **Bugsink** runs as a self-hosted container in German data centres. The template includes Bugsink with PostgreSQL, creates the specified administrator on first start and configures operation behind the HTTPS proxy. PostgreSQL is protected through the mittwald backup label. Event and diagnostic data stays within the operator's infrastructure, supporting GDPR-conscious operations.
+developer: Bugsink B.V.
+website: https://www.bugsink.com
+repository: https://github.com/bugsink/bugsink
+license:
+  name: PolyForm Shield 1.0.0
+  link: https://github.com/bugsink/bugsink/blob/main/LICENSE
+categories:
+  - monitoring
+  - development
+domains:
+  - userInput: HOST
+    service: bugsink
+    port: 8000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "common", index: 2 }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
+  - name: "SECRET_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools:
+            - numbers
+            - lowercase
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
