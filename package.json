@@ -1,0 +1,20 @@
+{
+  "name": "@mittwald/container-templates",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "test": "pnpm run check && pnpm run validate",
+    "check": "node --check validate.mjs",
+    "validate": "node validate.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "sharp": "^0.35.3",
+    "yaml": "^2.9.0"
+  }
+}
