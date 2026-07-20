@@ -1,6 +1,6 @@
 services:
   immich:
-    image: ghcr.io/immich-app/immich-server:v2
+    image: ghcr.io/immich-app/immich-server:v3
     ports:
       - "2283:2283"
     environment:
@@ -16,7 +16,7 @@ services:
       - database
       - redis
   machinelearning:
-    image: ghcr.io/immich-app/immich-machine-learning:v2
+    image: ghcr.io/immich-app/immich-machine-learning:v3
     environment:
       - TZ=Europe/Berlin
     volumes:

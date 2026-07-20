@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Immich
   en: Immich
-version: "2.x.x"
+version: "3.x.x"
 type: standalone
 tagline:
   de: Foto- und Videoverwaltung
