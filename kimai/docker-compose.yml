@@ -11,8 +11,6 @@ services:
       - TRUSTED_PROXIES=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
       - ADMINMAIL=${ADMIN_EMAIL}
       - ADMINPASS=${ADMIN_PASSWORD}
-      - MAILER_FROM=${ADMIN_EMAIL}
-      - MAILER_URL=null://null
       - DATABASE_URL=mysql://kimai:${MARIADB_PASSWORD}@database/kimai?charset=utf8mb4
       - memory_limit=512M
     volumes:
