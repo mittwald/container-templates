@@ -202,6 +202,16 @@ pnpm app bugsink up \
 
 Mit `--pull` werden Images vor dem Start aktualisiert; `--no-wait` überspringt das Warten auf den laufenden beziehungsweise gesunden Containerzustand.
 
+Component-Templates besitzen absichtlich keine öffentliche Domain. Für lokale Verbindungen kann ein Container-Port ausschließlich auf `127.0.0.1` veröffentlicht werden. Bei einem einzelnen Service genügt der Port; ein abweichender Host-Port oder der Service eines Templates mit mehreren Services kann explizit angegeben werden:
+
+```bash
+pnpm app postgresql up --publish 5432
+pnpm app postgresql up --publish 15432:5432
+pnpm app <template> up --publish <service>=15432:5432
+```
+
+Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Ports und doppelt registrierte Domains. Schlägt der Start fehl, zeigt er Containerstatus und die letzten Logs an und stellt die vorherige Caddy-Konfiguration wieder her. `pnpm app status` zeigt nur die vom Runner verwalteten `ct-*`-Projekte.
+
 ## Vorhandene Templates
 
 | | Template | Beschreibung |

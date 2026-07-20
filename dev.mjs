@@ -12,8 +12,10 @@ import {
 } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { connect } from "node:net";
 
 import Ajv2020 from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
 import YAML from "yaml";
 
 const repositoryRoot = dirname(fileURLToPath(import.meta.url));
@@ -28,13 +30,27 @@ const devNetworkKey = "template-dev";
 const proxyProjectName = "ct-dev-proxy";
 const rootCertificateInContainer =
   "/data/caddy/pki/authorities/local/root.crt";
-const ajv = new Ajv2020({ allErrors: true, strict: false, validateFormats: false });
+const ajv = new Ajv2020({ allErrors: true, coerceTypes: true, strict: false });
+addFormats(ajv);
+ajv.addFormat("password", { type: "string", validate: () => true });
+ajv.addFormat("url", {
+  type: "string",
+  validate: (value) => {
+    try {
+      const url = new URL(value);
+      return url.protocol === "http:" || url.protocol === "https:";
+    } catch {
+      return false;
+    }
+  },
+});
 
 function printHelp() {
   console.log(`Local HTTPS runner for container templates
 
 Usage:
   pnpm app <template> up [--pull] [--no-wait] [--set NAME=VALUE]
+                           [--publish [SERVICE=][HOST_PORT:]CONTAINER_PORT]
   pnpm app <template> down
   pnpm app <template> logs
   pnpm app <template> reset
@@ -47,6 +63,8 @@ Usage:
 
 Examples:
   pnpm app n8n up
+  pnpm app postgresql up --publish 5432
+  pnpm app postgresql up --publish 15432:5432
   pnpm app bugsink up --set ADMIN_EMAIL=me@example.test
   pnpm app shlink logs
 
@@ -81,7 +99,7 @@ function parseArguments(arguments_) {
     index = 2;
   }
 
-  const options = { pull: false, wait: true, values: {} };
+  const options = { publishes: [], pull: false, wait: true, values: {} };
   while (index < arguments_.length) {
     const argument = arguments_[index];
 
@@ -93,6 +111,17 @@ function parseArguments(arguments_) {
     if (argument === "--no-wait") {
       options.wait = false;
       index += 1;
+      continue;
+    }
+    if (argument === "--publish" || argument.startsWith("--publish=")) {
+      const publish = argument === "--publish"
+        ? arguments_[index + 1]
+        : argument.slice("--publish=".length);
+      if (!publish || publish.startsWith("-")) {
+        throw new Error("--publish expects [SERVICE=][HOST_PORT:]CONTAINER_PORT");
+      }
+      options.publishes.push(publish);
+      index += argument === "--publish" ? 2 : 1;
       continue;
     }
 
@@ -146,6 +175,48 @@ async function run(command, arguments_, { allowFailure = false, capture = false 
       reject(new Error(`${command} exited with code ${result.code}${detail}`));
     });
   });
+}
+
+async function ensureDockerAvailable() {
+  const result = await run("docker", ["info", "--format", "{{.ServerVersion}}"], {
+    allowFailure: true,
+    capture: true,
+  });
+  if (result.code !== 0) {
+    const detail = result.stderr.trim() || "Docker did not return a server version";
+    throw new Error(`Docker is not available: ${detail}`);
+  }
+}
+
+async function portHasListener(port) {
+  return await new Promise((resolve) => {
+    const socket = connect({ host: "127.0.0.1", port });
+    socket.setTimeout(750);
+    socket.once("connect", () => {
+      socket.destroy();
+      resolve(true);
+    });
+    socket.once("error", () => resolve(false));
+    socket.once("timeout", () => {
+      socket.destroy();
+      resolve(false);
+    });
+  });
+}
+
+async function assertPortsAvailable(ports, context) {
+  const occupied = [];
+  for (const port of ports) {
+    if (await portHasListener(port)) {
+      occupied.push(port);
+    }
+  }
+  if (occupied.length > 0) {
+    throw new Error(
+      `${context} cannot start because ${occupied.map((port) => `127.0.0.1:${port}`).join(", ")} ` +
+        "is already in use",
+    );
+  }
 }
 
 function delay(milliseconds) {
@@ -284,14 +355,89 @@ function shuffled(value) {
   return characters.join("");
 }
 
+const characterPools = {
+  lowercase: "abcdefghijklmnopqrstuvwxyz",
+  numbers: "0123456789",
+  special: "!@#%_+-=",
+  uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+};
+
+function systemInputRules(input) {
+  if (input.schema?.kind !== 1) {
+    throw new Error(`${input.name} uses unsupported system input kind: ${input.schema?.kind}`);
+  }
+  const rules = input.schema?.schema;
+  if (!Array.isArray(rules) || rules.length === 0) {
+    throw new Error(`${input.name} does not define system input rules`);
+  }
+
+  for (const rule of rules) {
+    if (!new Set(["charPool", "length", "regex"]).has(rule.ruleType)) {
+      throw new Error(`${input.name} uses unsupported system rule: ${rule.ruleType}`);
+    }
+    if (rule.identifier && !new Set(["hex", "numbers"]).has(rule.identifier)) {
+      throw new Error(`${input.name} uses unsupported system rule identifier: ${rule.identifier}`);
+    }
+    if (rule.ruleType === "charPool") {
+      if (!Array.isArray(rule.charPools) || rule.charPools.length === 0) {
+        throw new Error(`${input.name} has a charPool rule without character pools`);
+      }
+      for (const pool of rule.charPools) {
+        if (!characterPools[pool]) {
+          throw new Error(`${input.name} uses unsupported character pool: ${pool}`);
+        }
+      }
+    }
+    if (rule.ruleType !== "length" && rule.max !== undefined) {
+      throw new Error(`${input.name} uses unsupported maximum on ${rule.ruleType} rule`);
+    }
+    if (rule.ruleType === "regex" && !new Set(["[A-Z]", "[a-z]"]).has(rule.pattern)) {
+      throw new Error(`${input.name} uses unsupported system regex: ${rule.pattern}`);
+    }
+  }
+  return rules;
+}
+
+function countPatternMatches(value, pattern) {
+  return [...value.matchAll(new RegExp(pattern, "g"))].length;
+}
+
+function validateSystemValue(input, value) {
+  const rules = systemInputRules(input);
+  for (const rule of rules) {
+    const minimum = Number(rule.min) || 0;
+    if (rule.ruleType === "length") {
+      if (value.length < minimum || (rule.max !== undefined && value.length > rule.max)) {
+        throw new Error(
+          `${input.name} must have a length between ${minimum} and ${rule.max ?? "infinity"}`,
+        );
+      }
+    } else if (rule.ruleType === "charPool") {
+      const alphabet = rule.charPools.map((pool) => characterPools[pool]).join("");
+      const matches = [...value].filter((character) => alphabet.includes(character)).length;
+      if (matches < minimum) {
+        throw new Error(`${input.name} does not satisfy its ${rule.identifier ?? "character"} rule`);
+      }
+    } else if (countPatternMatches(value, rule.pattern) < minimum) {
+      throw new Error(`${input.name} does not satisfy system pattern ${rule.pattern}`);
+    }
+  }
+}
+
 function generateSystemValue(input) {
-  const rules = input.schema?.schema ?? [];
-  const minimumLength = Math.max(
-    24,
-    ...rules
-      .filter((rule) => rule.ruleType === "length")
-      .map((rule) => Number(rule.min) || 0),
+  const rules = systemInputRules(input);
+  const lengthRules = rules.filter((rule) => rule.ruleType === "length");
+  const minimumLength = Math.max(0, ...lengthRules.map((rule) => Number(rule.min) || 0));
+  const maximumLength = Math.min(
+    Infinity,
+    ...lengthRules
+      .filter((rule) => rule.max !== undefined)
+      .map((rule) => Number(rule.max)),
   );
+  if (maximumLength < minimumLength) {
+    throw new Error(`${input.name} has incompatible minimum and maximum lengths`);
+  }
+  const targetLength = Math.min(Math.max(24, minimumLength), maximumLength);
   const useHex = rules.some((rule) => rule.identifier === "hex");
   const alphabet = useHex
     ? "abcdef0123456789"
@@ -299,20 +445,26 @@ function generateSystemValue(input) {
   const required = [];
 
   for (const rule of rules) {
-    const count = Number(rule.min) || 1;
+    const count = Number(rule.min) || 0;
     if (rule.ruleType === "regex" && rule.pattern === "[A-Z]") {
       required.push(...Array.from({ length: count }, () => randomCharacter("ABCDEFGHIJKLMNOPQRSTUVWXYZ")));
     } else if (rule.ruleType === "regex" && rule.pattern === "[a-z]") {
       required.push(...Array.from({ length: count }, () => randomCharacter("abcdefghijklmnopqrstuvwxyz")));
-    } else if (rule.ruleType === "charPool" && rule.charPools?.includes("numbers")) {
-      required.push(...Array.from({ length: count }, () => randomCharacter("0123456789")));
+    } else if (rule.ruleType === "charPool") {
+      const pool = rule.charPools.map((name) => characterPools[name]).join("");
+      required.push(...Array.from({ length: count }, () => randomCharacter(pool)));
     }
   }
 
-  while (required.length < minimumLength) {
+  if (required.length > targetLength) {
+    throw new Error(`${input.name} requires more characters than its maximum length allows`);
+  }
+  while (required.length < targetLength) {
     required.push(randomCharacter(alphabet));
   }
-  return shuffled(required.join(""));
+  const value = shuffled(required.join(""));
+  validateSystemValue(input, value);
+  return value;
 }
 
 async function readSavedValues(template) {
@@ -327,7 +479,16 @@ async function readSavedValues(template) {
 }
 
 function validateUserValue(input, value) {
+  if (!input.required && value === "") {
+    return;
+  }
+  if (input.required && value === "") {
+    throw new Error(`${input.name} is required`);
+  }
   const schema = parseValidationSchema(input);
+  if (input.format && !schema.format) {
+    schema.format = input.format;
+  }
   const validate = ajv.compile(schema);
   if (!validate(value)) {
     const details = ajv.errorsText(validate.errors, { separator: "; " });
@@ -361,6 +522,11 @@ async function createValues(templateData, overrides) {
     if (values[input.name] === undefined) {
       values[input.name] = generateSystemValue(input);
     }
+    try {
+      validateSystemValue(input, String(values[input.name]));
+    } catch (error) {
+      throw new Error(`${error.message}; provide a valid value with --set ${input.name}=...`);
+    }
   }
   Object.assign(values, overrides);
 
@@ -368,11 +534,14 @@ async function createValues(templateData, overrides) {
     validateUserValue(input, String(values[input.name] ?? ""));
   }
 
+  return values;
+}
+
+async function writeValuesFile(template, values) {
   await mkdir(appDirectory(template), { recursive: true });
   const valuesPath = appFile(template, "values.json");
   await writeFile(valuesPath, `${JSON.stringify(values, null, 2)}\n`, { mode: 0o600 });
   await chmod(valuesPath, 0o600);
-  return values;
 }
 
 function quoteEnvironmentValue(value) {
@@ -388,6 +557,50 @@ async function writeEnvironmentFile(template, values) {
   await writeFile(path, `${content}\n`, { mode: 0o600 });
   await chmod(path, 0o600);
   return path;
+}
+
+function parsePort(value, specification) {
+  const port = Number(value);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) {
+    throw new Error(`invalid port in --publish ${specification}: ${value}`);
+  }
+  return port;
+}
+
+function parsePublishSpecifications(templateData, specifications) {
+  const serviceNames = Object.keys(templateData.compose.services);
+  const publishedHostPorts = new Set();
+
+  return specifications.map((specification) => {
+    const assignmentParts = specification.split("=");
+    if (assignmentParts.length > 2) {
+      throw new Error(`invalid --publish value: ${specification}`);
+    }
+    const service = assignmentParts.length === 2 ? assignmentParts[0] : undefined;
+    const portSpecification = assignmentParts.at(-1);
+    const portParts = portSpecification.split(":");
+    if (portParts.length > 2) {
+      throw new Error(`invalid --publish value: ${specification}`);
+    }
+
+    const resolvedService = service ?? (serviceNames.length === 1 ? serviceNames[0] : undefined);
+    if (!resolvedService) {
+      throw new Error(
+        `${templateData.template} has multiple services; use --publish SERVICE=HOST_PORT:CONTAINER_PORT`,
+      );
+    }
+    if (!templateData.compose.services[resolvedService]) {
+      throw new Error(`unknown service in --publish ${specification}: ${resolvedService}`);
+    }
+
+    const containerPort = parsePort(portParts.at(-1), specification);
+    const hostPort = parsePort(portParts.length === 2 ? portParts[0] : containerPort, specification);
+    if (publishedHostPorts.has(hostPort)) {
+      throw new Error(`host port ${hostPort} is published more than once`);
+    }
+    publishedHostPorts.add(hostPort);
+    return { containerPort, hostPort, service: resolvedService };
+  });
 }
 
 function networkAlias(template, service) {
@@ -424,7 +637,7 @@ function escapeContainerVariables(value) {
   return value;
 }
 
-function renderCompose(templateData) {
+function renderCompose(templateData, publishes) {
   const { compose, manifest, template } = templateData;
   const rendered = escapeContainerVariables(structuredClone(compose));
   const routedServices = new Set((manifest.domains ?? []).map((domain) => domain.service));
@@ -434,6 +647,12 @@ function renderCompose(templateData) {
     if (routedServices.has(name)) {
       addServiceNetwork(service, networkAlias(template, name));
     }
+  }
+
+  for (const publish of publishes) {
+    const service = rendered.services[publish.service];
+    service.ports = service.ports ?? [];
+    service.ports.push(`127.0.0.1:${publish.hostPort}:${publish.containerPort}`);
   }
 
   rendered.networks = rendered.networks ?? {};
@@ -446,6 +665,7 @@ function renderCompose(templateData) {
 
 function createRoutes(templateData, values) {
   const { manifest, template } = templateData;
+  const hostnames = new Set();
   return (manifest.domains ?? []).map((domain) => {
     const hostname = values[domain.userInput];
     const validHostname =
@@ -454,26 +674,38 @@ function createRoutes(templateData, values) {
     if (!validHostname) {
       throw new Error(`${domain.userInput} must contain a valid hostname without scheme, port, or path`);
     }
+    if (hostname === "caddy.localhost") {
+      throw new Error(`${domain.userInput} uses the reserved hostname caddy.localhost`);
+    }
+    if (hostnames.has(hostname)) {
+      throw new Error(`${hostname} is assigned to more than one domain in ${template}`);
+    }
+    hostnames.add(hostname);
     return {
       hostname,
       purpose: domain.purpose,
+      template,
       upstream: `${networkAlias(template, domain.service)}:${domain.port}`,
     };
   });
 }
 
-async function prepareApp(template, overrides = {}) {
+async function prepareApp(template, options = {}) {
   const templateData = await loadTemplate(template);
-  const values = await createValues(templateData, overrides);
+  const values = await createValues(templateData, options.values ?? {});
+  const routes = createRoutes(templateData, values);
+  const publishes = parsePublishSpecifications(templateData, options.publishes ?? []);
+  await writeValuesFile(template, values);
   const environmentPath = await writeEnvironmentFile(template, values);
   const composePath = appFile(template, "compose.yaml");
-  const rendered = renderCompose(templateData);
+  const rendered = renderCompose(templateData, publishes);
   await writeFile(composePath, YAML.stringify(rendered, { lineWidth: 0 }));
   return {
     ...templateData,
     composePath,
     environmentPath,
-    routes: createRoutes(templateData, values),
+    publishes,
+    routes,
     values,
   };
 }
@@ -545,7 +777,12 @@ async function registeredRoutes() {
       const registration = JSON.parse(
         await readFile(join(appsRoot, entry.name, "routes.json"), "utf8"),
       );
-      routes.push(...registration);
+      routes.push(
+        ...registration.map((route) => ({
+          ...route,
+          template: route.template ?? entry.name,
+        })),
+      );
     } catch (error) {
       if (error?.code !== "ENOENT") {
         throw error;
@@ -613,8 +850,13 @@ async function reloadProxy() {
 }
 
 async function ensureProxy() {
-  await ensureNetwork();
+  await ensureDockerAvailable();
   await writeProxyCompose();
+  const running = await proxyIsRunning();
+  if (!running) {
+    await assertPortsAvailable([80, 443], "local HTTPS proxy");
+  }
+  await ensureNetwork();
   await writeCaddyfile();
   await run("docker", proxyComposeArguments("up", "--detach"));
   await reloadProxy();
@@ -636,25 +878,67 @@ async function manageProxy(action) {
   }
 }
 
+async function readRegisteredRoutes(template) {
+  try {
+    return JSON.parse(await readFile(appFile(template, "routes.json"), "utf8"));
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      return null;
+    }
+    throw error;
+  }
+}
+
 async function registerRoutes(app) {
+  const routes = await registeredRoutes();
+  for (const route of app.routes) {
+    const collision = routes.find(
+      (registered) =>
+        registered.template !== app.template && registered.hostname === route.hostname,
+    );
+    if (collision) {
+      throw new Error(
+        `${route.hostname} is already registered by template ${collision.template}`,
+      );
+    }
+  }
   await writeFile(
     appFile(app.template, "routes.json"),
     `${JSON.stringify(app.routes, null, 2)}\n`,
   );
 }
 
-async function unregisterRoutes(template) {
-  try {
-    await unlink(appFile(template, "routes.json"));
-  } catch (error) {
-    if (error?.code !== "ENOENT") {
-      throw error;
+async function restoreRegisteredRoutes(template, routes) {
+  if (routes === null) {
+    try {
+      await unlink(appFile(template, "routes.json"));
+    } catch (error) {
+      if (error?.code !== "ENOENT") {
+        throw error;
+      }
     }
+  } else {
+    await writeFile(appFile(template, "routes.json"), `${JSON.stringify(routes, null, 2)}\n`);
   }
   await writeCaddyfile();
   if (await proxyIsRunning()) {
     await reloadProxy();
   }
+}
+
+async function unregisterRoutes(template) {
+  await restoreRegisteredRoutes(template, null);
+}
+
+async function printAppDiagnostics(app) {
+  console.error(`\n${app.template} failed to start. Current container state:`);
+  await run("docker", composeArguments(app, "ps", "--all"), { allowFailure: true });
+  console.error("\nRecent container logs:");
+  await run(
+    "docker",
+    composeArguments(app, "logs", "--no-color", "--tail", "100"),
+    { allowFailure: true },
+  );
 }
 
 function printAppSummary(app) {
@@ -667,22 +951,64 @@ function printAppSummary(app) {
   } else {
     console.log("\nThis component has no public domain route.");
   }
+  if (app.publishes.length > 0) {
+    console.log("\nPublished ports:");
+    for (const publish of app.publishes) {
+      console.log(
+        `  ${publish.service}: 127.0.0.1:${publish.hostPort} -> ${publish.containerPort}`,
+      );
+    }
+  }
   console.log(`\nValues: .dev/apps/${app.template}/values.json`);
   console.log(`Logs:   pnpm app ${app.template} logs`);
   console.log(`Stop:   pnpm app ${app.template} down`);
 }
 
 async function up(app, options) {
-  await registerRoutes(app);
-  await ensureProxy();
-  if (options.pull) {
-    await run("docker", composeArguments(app, "pull"));
+  await ensureDockerAvailable();
+  const runningServices = await run(
+    "docker",
+    composeArguments(app, "ps", "--status", "running", "--services"),
+    { allowFailure: true, capture: true },
+  );
+  if (runningServices.stdout.trim() === "") {
+    await assertPortsAvailable(
+      app.publishes.map((publish) => publish.hostPort),
+      app.template,
+    );
   }
-  const arguments_ = ["up", "--detach", "--remove-orphans"];
-  if (options.wait) {
-    arguments_.push("--wait", "--wait-timeout", "180");
+
+  const managesRoutes = app.routes.length > 0;
+  const previousRoutes = managesRoutes
+    ? await readRegisteredRoutes(app.template)
+    : null;
+  if (managesRoutes) {
+    await registerRoutes(app);
   }
-  await run("docker", composeArguments(app, ...arguments_));
+  try {
+    if (managesRoutes) {
+      await ensureProxy();
+    }
+    if (options.pull) {
+      await run("docker", composeArguments(app, "pull"));
+    }
+    const arguments_ = ["up", "--detach", "--remove-orphans"];
+    if (options.wait) {
+      arguments_.push("--wait", "--wait-timeout", "180");
+    }
+    await run("docker", composeArguments(app, ...arguments_));
+  } catch (error) {
+    await printAppDiagnostics(app);
+    if (managesRoutes) {
+      try {
+        await restoreRegisteredRoutes(app.template, previousRoutes);
+      } catch (rollbackError) {
+        throw new Error(`${error.message}\nRoute rollback also failed: ${rollbackError.message}`);
+      }
+    }
+    throw error;
+  }
+  await run("docker", composeArguments(app, "ps"));
   printAppSummary(app);
 }
 
@@ -701,12 +1027,26 @@ async function down(app, removeVolumes) {
 }
 
 async function showStatus() {
-  await run("docker", ["compose", "ls"]);
+  await ensureDockerAvailable();
+  const result = await run("docker", ["compose", "ls", "--format", "json"], {
+    capture: true,
+  });
+  const projects = JSON.parse(result.stdout || "[]").filter((project) =>
+    project.Name?.startsWith("ct-"),
+  );
+  if (projects.length === 0) {
+    console.log("No local container-template projects are running.");
+  } else {
+    console.log("Local container-template projects:");
+    for (const project of projects) {
+      console.log(`  ${project.Name}: ${project.Status}`);
+    }
+  }
   const routes = await registeredRoutes();
   if (routes.length > 0) {
     console.log("\nRegistered local URLs:");
     for (const route of routes) {
-      console.log(`  https://${route.hostname}`);
+      console.log(`  https://${route.hostname} (${route.template})`);
     }
   }
 }
@@ -898,7 +1238,7 @@ async function main() {
     throw new Error(`unknown command: ${parsed.command}`);
   }
 
-  const app = await prepareApp(parsed.template, parsed.options.values);
+  const app = await prepareApp(parsed.template, parsed.options);
   if (parsed.command === "up") {
     await up(app, parsed.options);
   } else if (parsed.command === "down") {
