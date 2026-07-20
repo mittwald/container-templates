@@ -157,6 +157,51 @@ help:
         en: The admin user is not created automatically. Set it up manually after installation on the first launch.
 ```
 
+## Apps lokal testen
+
+Ein manifestbasierter Dev-Runner erzeugt lokale Eingabewerte und System-Secrets, rendert eine nur lokal verwendete Compose-Konfiguration und stellt die im Manifest definierten Domains über einen gemeinsamen Caddy-Reverse-Proxy mit HTTPS bereit. Die Originaldateien der Templates bleiben unverändert.
+
+Voraussetzungen sind Docker mit Docker Compose sowie die für die Validierung benötigte Node.js- und pnpm-Version. Eine App wird mit folgendem Befehl gestartet:
+
+```bash
+pnpm app n8n up
+```
+
+Danach ist sie unter `https://n8n.localhost` erreichbar. Templates mit mehreren Domains erhalten pro `purpose` eine Subdomain, beispielsweise `https://dashboard.shlink.localhost`. Mehrere Templates können gleichzeitig laufen, da nur der gemeinsame Proxy die Host-Ports 80 und 443 belegt.
+
+Beim ersten Einsatz muss Caddys lokale Entwicklungs-CA einmalig als vertrauenswürdig installiert werden. Unter macOS landet sie ohne Administratorrechte im Keychain des angemeldeten Benutzers. Unter Debian/Ubuntu und Fedora/RHEL wird sie mit `sudo` in den systemweiten CA-Store aufgenommen:
+
+```bash
+pnpm app trust
+```
+
+Die CA und alle Zertifikate bleiben in einem persistenten Docker-Volume erhalten. App-spezifische Werte werden mit restriktiven Dateirechten unter `.dev/apps/<template>/values.json` gespeichert, damit Passwörter und Encryption Keys über Neustarts hinweg stabil bleiben. `.dev/` wird nicht versioniert.
+
+Weitere Befehle:
+
+```bash
+pnpm app n8n logs                 # Logs verfolgen
+pnpm app n8n down                 # Container stoppen, Daten behalten
+pnpm app n8n reset                # Container und App-Volumes löschen
+pnpm app n8n config               # generierte Compose-Datei nur prüfen
+pnpm app n8n values               # lokale Eingabewerte anzeigen
+pnpm app status                   # laufende Compose-Projekte und URLs
+pnpm app proxy down               # Proxy stoppen, CA und Zertifikate behalten
+pnpm app untrust                  # lokale CA wieder aus dem Trust Store entfernen
+```
+
+`untrust` entfernt die CA unter macOS beziehungsweise Linux wieder aus dem verwendeten Trust Store. Anwendungen mit eigenem Zertifikatsspeicher, insbesondere einzelne Firefox- oder Snap-Installationen, können zusätzlich einen manuellen Import von `.dev/proxy/root.crt` benötigen.
+
+Pflichtwerte werden für die lokale Entwicklung sinnvoll vorbelegt. Abweichende Werte lassen sich beim Start setzen und werden anschließend ebenfalls persistent verwendet:
+
+```bash
+pnpm app bugsink up \
+  --set ADMIN_EMAIL=me@example.test \
+  --set ADMIN_PASSWORD='MyLocalPassword123!'
+```
+
+Mit `--pull` werden Images vor dem Start aktualisiert; `--no-wait` überspringt das Warten auf den laufenden beziehungsweise gesunden Containerzustand.
+
 ## Vorhandene Templates
 
 | | Template | Beschreibung |
