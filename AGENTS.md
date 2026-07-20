@@ -43,7 +43,7 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
 - Sprache in Beschreibungen und Texten: Deutsch und Englisch (mehrsprachig).
 - Jedes Template ist eigenständig und hat keine Abhängigkeiten zu anderen Templates.
 - Sichere Defaults verwenden: Produktionsmodus, restriktive Berechtigungen, keine Debug-Optionen.
-- Jeder versionierte sichtbare Unterordner muss einem Template entsprechen. Es darf keine Unterordner geben, die andere Dateien enthalten (z.B. `docs`, `scripts`). Ausgenommen sind versteckte Ordner wie `.github` (Workflows) und der lokal erzeugte, ignorierte Ordner `node_modules`. `generate-index-data.mjs` und `validate.mjs` berücksichtigen direkte Unterordner mit einer `manifest.yaml` als Templates.
+- Jeder versionierte sichtbare Unterordner muss einem Template entsprechen. Es darf keine Unterordner geben, die andere Dateien enthalten (z.B. `docs`, `scripts`). Ausgenommen sind versteckte Ordner wie `.github` (Workflows) und der lokal erzeugte, ignorierte Ordner `node_modules`. `validate.mjs` berücksichtigt direkte Unterordner mit einer `manifest.yaml` als Templates.
 
 ## Pflege
 

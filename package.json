@@ -8,9 +8,8 @@
   },
   "scripts": {
     "test": "pnpm run check && pnpm run validate",
-    "check": "node --check manifest-files.mjs && node --check validate.mjs && node --check generate-index-data.mjs && bash -n generate-index.sh && node generate-index-data.mjs > /dev/null",
-    "validate": "node validate.mjs",
-    "generate:index": "bash generate-index.sh"
+    "check": "node --check manifest-files.mjs && node --check validate.mjs",
+    "validate": "node validate.mjs"
   },
   "devDependencies": {
     "ajv": "^8.20.0",
