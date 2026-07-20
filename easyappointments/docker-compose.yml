@@ -1,6 +1,6 @@
 services:
   easyappointments:
-    image: alextselegidis/easyappointments:1.6.0
+    image: alextselegidis/easyappointments:latest
     ports:
       - "80:80"
     environment:
@@ -12,6 +12,18 @@ services:
       - DB_NAME=easyappointments
       - DB_USERNAME=easyappointments
       - DB_PASSWORD=${MARIADB_PASSWORD}
+      - GOOGLE_SYNC_FEATURE=FALSE
+      - MAIL_PROTOCOL=smtp
+      - MAIL_SMTP_DEBUG=0
+      - MAIL_SMTP_AUTH=1
+      - MAIL_SMTP_HOST=${SMTP_HOST}
+      - MAIL_SMTP_USER=${SMTP_USER}
+      - MAIL_SMTP_PASS=${SMTP_PASSWORD}
+      - MAIL_SMTP_CRYPTO=tls
+      - MAIL_SMTP_PORT=${SMTP_PORT}
+      - MAIL_FROM_ADDRESS=${SMTP_FROM}
+      - MAIL_FROM_NAME=${SMTP_FROM_NAME}
+      - MAIL_REPLY_TO_ADDRESS=${SMTP_FROM}
     volumes:
       - easyappointments_storage:/var/www/html/storage
     depends_on:

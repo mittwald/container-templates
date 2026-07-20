@@ -169,6 +169,10 @@ pnpm app n8n up
 
 Danach ist sie unter `https://n8n.localhost` erreichbar. Templates mit mehreren Domains erhalten pro `purpose` eine Subdomain, beispielsweise `https://dashboard.shlink.localhost`. Mehrere Templates können gleichzeitig laufen, da nur der gemeinsame Proxy die Host-Ports 80 und 443 belegt.
 
+Neben Caddy läuft ein globales Mailpit für lokale E-Mail-Tests. Die Web-Oberfläche ist unter `https://mail.localhost` erreichbar; Apps im gemeinsamen Dev-Netz erreichen SMTP unter `ct-mail:1025` ohne TLS. Das eigenständige Mailpit-Template bleibt davon getrennt und läuft wie jedes andere Template unter `https://mailpit.localhost`.
+
+Eine optionale `docker-compose.dev.yml` im Template-Ordner wird nach der generierten Compose-Datei als lokaler Override geladen und nicht produktiv verwendet.
+
 Beim ersten Einsatz muss Caddys lokale Entwicklungs-CA einmalig als vertrauenswürdig installiert werden. Unter macOS landet sie ohne Administratorrechte im Keychain des angemeldeten Benutzers. Unter Debian/Ubuntu und Fedora/RHEL wird sie mit `sudo` in den systemweiten CA-Store aufgenommen:
 
 ```bash
@@ -186,6 +190,7 @@ pnpm app n8n reset                # Container und App-Volumes löschen
 pnpm app n8n config               # generierte Compose-Datei nur prüfen
 pnpm app n8n values               # lokale Eingabewerte anzeigen
 pnpm app status                   # laufende Compose-Projekte und URLs
+pnpm app validate                 # Basis- und lokale Compose-Konfigurationen aller Templates prüfen
 pnpm app proxy down               # Proxy stoppen, CA und Zertifikate behalten
 pnpm app untrust                  # lokale CA wieder aus dem Trust Store entfernen
 ```

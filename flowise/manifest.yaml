@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Flowise
   en: Flowise
-version: "3.x.x"
+version: latest
 type: standalone
 tagline:
   de: KI-Workflows visuell entwickeln

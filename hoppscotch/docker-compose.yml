@@ -1,6 +1,7 @@
 services:
   hoppscotch:
     image: hoppscotch/hoppscotch:2026.6.1
+    restart: unless-stopped
     ports:
       - "80:80"
     environment:

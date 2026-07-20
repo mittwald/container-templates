@@ -24,10 +24,8 @@
 - [ ] Mautic — https://mautic.org/
 - [ ] OpenProject — https://www.openproject.org/
 - [ ] Documenso — https://documenso.com/
-- [x] Formbricks — https://formbricks.com/
 - [x] Fider — https://fider.io/
 - [x] Easy!Appointments — https://easyappointments.org/
-- [x] Invoice Ninja — https://invoiceninja.com/
 
 ## development
 
@@ -58,7 +56,6 @@
 - [ ] Perplexica — https://github.com/ItzCrazyKns/Perplexica
 - [x] AnythingLLM — https://anythingllm.com/
 - [ ] Langfuse — https://langfuse.com
-- [x] Dify — https://dify.ai/
 - [x] Flowise — https://flowiseai.com/
 
 ## monitoring

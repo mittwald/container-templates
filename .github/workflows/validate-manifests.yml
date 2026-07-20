@@ -4,10 +4,12 @@ on:
   pull_request:
     paths:
       - "**/docker-compose.yml"
+      - "**/docker-compose.dev.yml"
       - "**/icon.svg"
       - "**/manifest.yaml"
       - "manifest.schema.json"
       - "validate.mjs"
+      - "dev.mjs"
       - "package.json"
       - "pnpm-lock.yaml"
       - "**/*.jpg"
@@ -19,10 +21,12 @@ on:
     branches: [main]
     paths:
       - "**/docker-compose.yml"
+      - "**/docker-compose.dev.yml"
       - "**/icon.svg"
       - "**/manifest.yaml"
       - "manifest.schema.json"
       - "validate.mjs"
+      - "dev.mjs"
       - "package.json"
       - "pnpm-lock.yaml"
       - "**/*.jpg"
@@ -45,3 +49,5 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Validate scripts, manifests and screenshot images
         run: pnpm test
+      - name: Validate base and local Compose configurations
+        run: pnpm app validate

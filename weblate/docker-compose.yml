@@ -7,7 +7,7 @@ services:
       - TZ=Europe/Berlin
       - WEBLATE_DEBUG=0
       - WEBLATE_LOGLEVEL=INFO
-      - WEBLATE_SITE_TITLE=Weblate
+      - WEBLATE_SITE_TITLE=Weblate (${HOST})
       - WEBLATE_SITE_DOMAIN=${HOST}
       - WEBLATE_ALLOWED_HOSTS=${HOST}
       - WEBLATE_ENABLE_HTTPS=1

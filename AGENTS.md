@@ -2,7 +2,7 @@
 
 ## Projektbeschreibung
 
-Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Container-Vorlagen-Funktion. Jedes Template liegt in einem eigenen Ordner und besteht aus `docker-compose.yml`, `manifest.yaml` und `icon.svg`, optional ergänzt um Screenshot-Bilder. `validate.mjs` prüft die Pflichtdateien, das Manifest-Schema und die Screenshot-Regeln. Aufbau, Feld-Dokumentation und Beispiele stehen in der `README.md`; die maschinenlesbare Feldstruktur in `manifest.schema.json`.
+Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Container-Vorlagen-Funktion. Jedes Template liegt in einem eigenen Ordner und besteht aus `docker-compose.yml`, `manifest.yaml` und `icon.svg`, optional ergänzt um `docker-compose.dev.yml` und Screenshot-Bilder. `validate.mjs` prüft die Pflichtdateien, das Manifest-Schema und die Screenshot-Regeln. Aufbau, Feld-Dokumentation und Beispiele stehen in der `README.md`; die maschinenlesbare Feldstruktur in `manifest.schema.json`.
 
 ## Konventionen
 
@@ -13,6 +13,18 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 - Zeitzone ist standardmäßig `Europe/Berlin`.
 - Services, die Backups unterstützen, verwenden das Label `backup.command` mit dem entsprechenden Backup-Befehl.
 - Ports werden nur für den Hauptservice exponiert, der über die Domain erreichbar sein soll.
+- `docker-compose.dev.yml` ist ein optionaler lokaler Override, den `dev.mjs` nach der generierten Compose-Datei lädt; beim produktiven Template-Deployment wird die Datei nicht verwendet.
+
+Beispiel für einen lokalen Mailpit-Override:
+
+```yaml
+services:
+  easyappointments:
+    environment:
+      MAIL_SMTP_HOST: ct-mail
+      MAIL_SMTP_PORT: 1025
+      MAIL_SMTP_CRYPTO: ""
+```
 
 ### manifest.yaml
 

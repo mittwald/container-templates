@@ -64,6 +64,7 @@ systemInputs:
       schema:
         - ruleType: length
           min: 32
+          max: 32
         - identifier: hex
           ruleType: charPool
           charPools: [numbers, lowercase]
