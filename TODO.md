@@ -2,25 +2,26 @@
 
 ## productivity
 
-- [x] NocoDB — https://nocodb.com/
+- [ ] NocoDB — https://nocodb.com/
 - [ ] Postiz — https://postiz.com/
 - [ ] Twenty CRM — https://twenty.com/
-- [x] HedgeDoc — https://github.com/hedgedoc/hedgedoc
-- [x] Vikunja — https://vikunja.io/
+- [ ] HedgeDoc — https://github.com/hedgedoc/hedgedoc
+- [ ] Vikunja — https://vikunja.io/
 - [x] Collabora — https://hub.docker.com/r/collabora/code
 - [x] Docmost — https://docmost.com/
-- [x] Outline — https://www.getoutline.com/
-- [x] Linkwarden — https://linkwarden.app/
+- [ ] Outline — https://www.getoutline.com/
+- [ ] Linkwarden — https://linkwarden.app/
 - [ ] Kutt — https://github.com/thedevs-network/kutt
-- [x] Memos — https://github.com/usememos/memos
-- [x] Papra — https://github.com/papra-hq/papra
-- [x] Solidtime — https://www.solidtime.io/
+- [ ] Memos — https://github.com/usememos/memos
+- [ ] Papra — https://github.com/papra-hq/papra
+- [ ] Solidtime — https://www.solidtime.io/
+- [x] Kimai — https://www.kimai.org/
 - [ ] Odoo — https://www.odoo.com/
 - [ ] Plane — https://github.com/makeplane/plane
-- [x] Penpot — https://github.com/penpot/penpot
+- [ ] Penpot — https://github.com/penpot/penpot
 - [ ] Frappe HRMS — https://github.com/frappe/hrms
-- [x] OpenCloud — https://github.com/opencloud-eu/opencloud
-- [x] Mautic — https://mautic.org/
+- [ ] OpenCloud — https://github.com/opencloud-eu/opencloud
+- [ ] Mautic — https://mautic.org/
 - [ ] OpenProject — https://www.openproject.org/
 
 ## development
@@ -29,37 +30,37 @@
 - [x] Mailpit — https://mailpit.axllent.org/
 - [ ] code-server (VS Code) — https://github.com/coder/code-server
 - [x] BentoPDF — https://github.com/alam00000/bentopdf
-- [x] Gotenberg — https://gotenberg.dev/
+- [ ] Gotenberg — https://gotenberg.dev/
 - [ ] Nginx Proxy Manager — https://nginxproxymanager.com/
 - [ ] Varnish — https://www.varnish-software.com
 - [ ] OpenCode Web — https://github.com/anomalyco/opencode
-- [x] IT-Tools — https://github.com/CorentinTh/it-tools
-- [x] Databasus — https://databasus.com/
-- [x] Gitea — https://gitea.io/
+- [ ] IT-Tools — https://github.com/CorentinTh/it-tools
+- [ ] Databasus — https://databasus.com/
+- [ ] Gitea — https://gitea.io/
 - [ ] Meilisearch — https://www.meilisearch.com/
 - [ ] Traefik — https://traefik.io/
 - [ ] Garage — https://garagehq.deuxfleurs.fr/
 
 ## ai
 
-- [x] LibreChat — https://www.librechat.ai/
+- [ ] LibreChat — https://www.librechat.ai/
 - [ ] Perplexica — https://github.com/ItzCrazyKns/Perplexica
 - [x] AnythingLLM — https://anythingllm.com/
-- [x] Langfuse — https://langfuse.com
+- [ ] Langfuse — https://langfuse.com
 
 ## monitoring
 
 - [x] Uptime Kuma — https://uptime.kuma.pet/
-- [x] Healthchecks — https://github.com/healthchecks/healthchecks
-- [x] Plausible — https://plausible.io/
-- [x] Rybbit — https://rybbit.com/
+- [ ] Healthchecks — https://github.com/healthchecks/healthchecks
+- [ ] Plausible — https://plausible.io/
+- [ ] Rybbit — https://rybbit.com/
 
 ## communication
 
 - [x] Listmonk — https://listmonk.app/
-- [x] ntfy.sh — https://ntfy.sh/
+- [ ] ntfy.sh — https://ntfy.sh/
 - [ ] Apprise — https://github.com/caronc/apprise
-- [x] Chatwoot — https://www.chatwoot.com/
+- [ ] Chatwoot — https://www.chatwoot.com/
 - [ ] Mattermost — https://mattermost.com/
 - [ ] Zammad — https://zammad.com/
 - [ ] Matrix (Synapse) — https://matrix.org/
