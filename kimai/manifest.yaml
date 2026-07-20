@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** schafft Kimai eine nachvollziehbare Grundlage für Projektsteuerung und Kundenabrechnung. Mitarbeitende können Zeiten einheitlich auf Kundenprojekte buchen, während Projektverantwortliche Soll- und Ist-Aufwände vergleichen, Budgets überwachen und abrechenbare Stunden auswerten. Berichte und Exporte unterstützen die Übergabe an Buchhaltung oder Fakturierung; Rollen und Teams grenzen Kunden- und Projektbereiche voneinander ab.
 
-    Bei mittwald läuft **Kimai** als self-hosted Container in deutschen Rechenzentren; Zeitbuchungen, Kundenstammdaten und Projektauswertungen verbleiben in der eigenen Infrastruktur. Das unterstützt einen DSGVO-konformen Betrieb. Das Template enthält Kimai 2 mit einer MariaDB-Datenbank sowie persistenten Volumes für Anwendungsdaten und Plugins. Die Datenbank wird täglich vollständig gesichert, komprimiert gespeichert und nach sieben Tagen automatisch bereinigt. Die AGPL-lizenzierten Grundfunktionen lassen sich ohne nutzerabhängige SaaS-Gebühren betreiben; einzelne kommerzielle Plugins können separat lizenziert werden.
+    Bei mittwald läuft **Kimai** als self-hosted Container in deutschen Rechenzentren; Zeitbuchungen, Kundenstammdaten und Projektauswertungen verbleiben in der eigenen Infrastruktur. Das unterstützt einen DSGVO-konformen Betrieb. Das Template enthält Kimai 2 mit MariaDB, persistenten Volumes für Anwendungsdaten und Plugins sowie SMTP für Benachrichtigungen und die Passwort-Wiederherstellung. Die Datenbank wird täglich vollständig gesichert, komprimiert gespeichert und nach sieben Tagen automatisch bereinigt. Die AGPL-lizenzierten Grundfunktionen lassen sich ohne nutzerabhängige SaaS-Gebühren betreiben; einzelne kommerzielle Plugins können separat lizenziert werden.
   en: |
     **Kimai** is a self-hosted time-tracking and project-controlling application and an alternative to Harvest or Toggl Track. Teams record time in the browser, assign entries to customers, projects and activities, and evaluate effort, budgets and billable work.
 
@@ -33,7 +33,7 @@ description:
 
     For **agencies**, Kimai provides a traceable basis for project management and client billing. Team members book time against client projects, while project leads compare planned and actual effort, monitor budgets and evaluate billable hours. Reports and exports support accounting or invoicing; roles and teams separate customer and project areas.
 
-    At mittwald, **Kimai** runs in German data centres; time entries, customer records and reports remain within the organisation's infrastructure. This supports GDPR-compliant operation. The template includes Kimai 2, MariaDB and persistent volumes for application data and plugins. The complete database is backed up daily, compressed and automatically cleaned up after seven days. The AGPL-licensed core runs without per-user SaaS fees; commercial plugins may require separate licences.
+    At mittwald, **Kimai** runs in German data centres; time entries, customer records and reports remain within the organisation's infrastructure. This supports GDPR-compliant operation. The template includes Kimai 2, MariaDB, persistent volumes for application data and plugins, and SMTP for notifications and password recovery. The complete database is backed up daily, compressed and automatically cleaned up after seven days. The AGPL-licensed core runs without per-user SaaS fees; commercial plugins may require separate licences.
 developer: Kimai team
 website: https://www.kimai.org
 repository: https://github.com/kimai/kimai
@@ -73,6 +73,44 @@ userInputs:
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 4, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 5, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 6, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 7, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "password" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 8, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "KIMAI_SECRET"
     schema:
@@ -128,11 +166,3 @@ help:
       de: Admin Passwort
       en: Admin password
     value: ${kimai.env.ADMINPASS}
-  alerts:
-  - status: info
-    heading:
-      de: E-Mail-Versand nicht vorkonfiguriert
-      en: Email delivery is not preconfigured
-    content:
-      de: Das Template richtet keinen SMTP-Dienst ein. Funktionen wie Passwort-Wiederherstellung und Benachrichtigungen per E-Mail benötigen eine nachträgliche Mailer-Konfiguration.
-      en: The template does not configure an SMTP service. Features such as password recovery and email notifications require additional mailer configuration.

@@ -1,0 +1,6 @@
+services:
+  weblate:
+    environment:
+      WEBLATE_EMAIL_HOST: ct-mail
+      WEBLATE_EMAIL_PORT: 1025
+      WEBLATE_EMAIL_USE_TLS: "0"

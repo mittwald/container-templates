@@ -1,0 +1,135 @@
+manifestVersion: 1.0
+name:
+  de: Fider
+  en: Fider
+version: "0.36.x"
+type: standalone
+tagline:
+  de: Kundenfeedback sammeln und priorisieren
+  en: Collect and prioritise customer feedback
+description:
+  de: |
+    **Fider** ist eine Plattform für öffentliche Feedback-Portale und eine self-hosted Alternative zu Canny. Nutzer reichen Ideen ein, stimmen über Vorschläge ab und verfolgen, welche Themen geplant, begonnen oder abgeschlossen wurden.
+
+    Zentrale Funktionen:
+
+    - Feedback-Portale mit Vorschlägen, Kommentaren und Abstimmungen
+    - Status, Tags und Moderationswerkzeuge zur strukturierten Priorisierung
+    - Benutzeranmeldung per E-Mail und Benachrichtigungen über Änderungen
+    - Mehrere Mandanten, individuelle Domains und anpassbares Erscheinungsbild
+
+    Für **Agenturen** schafft Fider einen nachvollziehbaren Kanal für Anforderungen aus Kundenprojekten. Stakeholder sammeln Wünsche an einer Stelle, erkennen Überschneidungen und priorisieren gemeinsam, statt Feedback über E-Mails, Tickets und Meetings zu verteilen. Öffentliche Roadmaps machen Entscheidungen transparenter und eignen sich für Websites, Kundenportale oder digitale Produkte.
+
+    Bei mittwald läuft **Fider** als self-hosted Anwendung in deutschen Rechenzentren. Das Template enthält Fider mit PostgreSQL, erzeugt den Authentifizierungsschlüssel und bindet einen vorhandenen SMTP-Dienst für Anmeldung und Benachrichtigungen an. PostgreSQL wird über das mittwald Backup-Label gesichert. Vorschläge, Stimmen, Kontaktdaten und Projektinformationen verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Feedbackprozesse. Das Administratorkonto wird beim ersten Aufruf eingerichtet.
+  en: |
+    **Fider** is a platform for public feedback portals and a self-hosted alternative to Canny. Users submit ideas, vote on suggestions and follow which topics are planned, started or completed.
+
+    Key features:
+
+    - Feedback portals with suggestions, comments and voting
+    - Statuses, tags and moderation tools for structured prioritisation
+    - Email-based authentication and notifications about changes
+    - Multiple tenants, custom domains and adaptable branding
+
+    For **agencies**, Fider provides a traceable channel for requirements across client projects. Stakeholders collect requests in one place, identify overlaps and prioritise together instead of scattering feedback across email, tickets and meetings. Public roadmaps make decisions more transparent and suit websites, client portals or digital products.
+
+    At mittwald, **Fider** runs as a self-hosted application in German data centres. The template includes Fider with PostgreSQL, generates the authentication secret and connects an existing SMTP service for login and notifications. PostgreSQL is protected through the mittwald backup label. Suggestions, votes, contact details and project information remain within the operator's infrastructure, supporting GDPR-conscious feedback processes. The administrator account is created on first access.
+developer: Fider
+website: https://fider.io
+repository: https://github.com/getfider/fider
+support: https://docs.fider.io
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0-only.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: fider
+    port: 3000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 2, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 3, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 4, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 5, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 6, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools: [numbers]
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Administratorkonto einrichten
+      en: Set up the administrator account
+    content:
+      de: Registriere beim ersten Aufruf die E-Mail-Adresse des Administrators. Fider sendet den Anmeldelink über den konfigurierten SMTP-Dienst.
+      en: Register the administrator's email address on first access. Fider sends the sign-in link through the configured SMTP service.

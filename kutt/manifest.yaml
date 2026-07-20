@@ -1,0 +1,97 @@
+manifestVersion: 1.0
+name:
+  de: Kutt
+  en: Kutt
+version: "3.x.x"
+type: standalone
+tagline:
+  de: Kurzlinks unter eigener Domain verwalten
+  en: Manage short links on a custom domain
+description:
+  de: |
+    **Kutt** ist ein moderner, self-hosted URL-Shortener und eine Open-Source-Alternative zu Bitly. Kurze Adressen werden unter der eigenen Domain erstellt, zentral verwaltet und mit privaten Aufrufstatistiken ausgewertet.
+
+    Zentrale Funktionen:
+
+    - Kurzlinks mit eigenen Slugs, Passwörtern und Ablaufzeitpunkten
+    - Private Statistiken zu Aufrufen, Referrern und Endgeräten
+    - Benutzerverwaltung, Administrationsbereich und REST-API
+    - Zusätzliche Kurzlink-Domains und anpassbares Erscheinungsbild
+
+    Für **Agenturen** organisiert Kutt Kampagnen-, Social-Media- und Kundenlinks in einer kontrollierten Umgebung. Verständliche Slugs unterstützen markenkonforme Kommunikation, während Statistiken Rückmeldungen zur Nutzung liefern. Die API bindet Kurzlinks in Redaktionsworkflows, interne Werkzeuge oder Marketing-Automationen ein. Eigene Domains verhindern zugleich die Abhängigkeit von fremden Kurzlink-Marken.
+
+    Bei mittwald läuft **Kutt** als self-hosted Anwendung in deutschen Rechenzentren. Das Template enthält Kutt 3 mit PostgreSQL und Redis, aktiviert Rate-Limits und verhindert öffentliche Registrierung sowie anonyme Link-Erstellung. Beim ersten Aufruf wird das Administratorkonto eingerichtet. PostgreSQL wird über das mittwald Backup-Label gesichert. Linkziele, Benutzerkonten und Statistiken verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Betriebsprozesse. Für Links oder Klicks fallen keine nutzungsabhängigen SaaS-Gebühren an.
+  en: |
+    **Kutt** is a modern, self-hosted URL shortener and an open-source alternative to Bitly. Short addresses are created under a custom domain, managed centrally and analysed through private visit statistics.
+
+    Key features:
+
+    - Short links with custom slugs, passwords and expiration dates
+    - Private statistics for visits, referrers and devices
+    - User management, an administration area and REST API
+    - Additional short-link domains and customisable branding
+
+    For **agencies**, Kutt organises campaign, social-media and client links in a controlled environment. Readable slugs support brand-consistent communication, while statistics provide feedback on usage. The API connects short links with editorial workflows, internal tools or marketing automation. Custom domains also avoid dependence on third-party short-link brands.
+
+    At mittwald, **Kutt** runs as a self-hosted application in German data centres. The template includes Kutt 3 with PostgreSQL and Redis, enables rate limits and prevents public registration and anonymous link creation. The administrator account is created on first access. PostgreSQL is protected through the mittwald backup label. Link destinations, user accounts and statistics remain within the operator's infrastructure, supporting GDPR-conscious processes. There are no usage-based SaaS fees for links or clicks.
+developer: The Devs
+website: https://kutt.to
+repository: https://github.com/thedevs-network/kutt
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - productivity
+  - monitoring
+domains:
+  - userInput: HOST
+    service: kutt
+    port: 3000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools: [numbers]
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Administratorkonto einrichten
+      en: Set up the administrator account
+    content:
+      de: Beim ersten Aufruf fordert Kutt zur Erstellung des Administratorkontos auf. Öffentliche Registrierung und anonyme Kurzlinks bleiben danach deaktiviert.
+      en: On first access, Kutt prompts for creation of the administrator account. Public registration and anonymous short links remain disabled afterwards.

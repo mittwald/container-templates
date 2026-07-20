@@ -1,0 +1,153 @@
+manifestVersion: 1.0
+name:
+  de: Easy!Appointments
+  en: Easy!Appointments
+version: "latest"
+type: standalone
+tagline:
+  de: Termine online koordinieren
+  en: Coordinate appointments online
+description:
+  de: |
+    **Easy!Appointments** ist eine self-hosted Plattform für Online-Terminbuchungen und eine Alternative zu Calendly. Kunden wählen verfügbare Leistungen, Mitarbeitende und Zeiten über eine öffentliche Buchungsseite, während die Administration Arbeitszeiten, Ausnahmen und bestehende Termine verwaltet.
+
+    Zentrale Funktionen:
+
+    - Buchungsseiten für mehrere Leistungen und Anbieter
+    - Arbeitspläne, Pausen, Ausnahmen und flexible Verfügbarkeitsregeln
+    - Kundenverwaltung, E-Mail-Benachrichtigungen und Kalenderansichten
+    - REST-API sowie Synchronisation mit Google Calendar und CalDAV
+
+    Für **Agenturen** eignet sich Easy!Appointments für Beratungstermine, Workshops, Support-Slots oder Abstimmungen in Kundenprojekten. Unterschiedliche Leistungen und zuständige Personen werden in einer Installation organisiert, Buchungslinks lassen sich in Websites integrieren und manuelle Terminabsprachen werden reduziert. Die offene API ermöglicht zusätzliche Verbindungen zu CRM- oder Automatisierungsprozessen.
+
+    Bei mittwald läuft **Easy!Appointments** als self-hosted Anwendung in deutschen Rechenzentren. Das Template enthält Easy!Appointments mit MariaDB, nutzt Produktions- statt Debug-Einstellungen und speichert Laufzeitdaten persistent. Die Datenbank wird über das mittwald Backup-Label gesichert. Termin-, Kunden- und Kontaktdaten verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Buchungsprozesse. Die Administration und Unternehmensdaten werden über den Einrichtungsassistenten beim ersten Aufruf angelegt.
+  en: |
+    **Easy!Appointments** is a self-hosted online booking platform and an alternative to Calendly. Clients choose available services, providers and times through a public booking page, while administrators manage working hours, exceptions and existing appointments.
+
+    Key features:
+
+    - Booking pages for multiple services and providers
+    - Working plans, breaks, exceptions and flexible availability rules
+    - Customer management, email notifications and calendar views
+    - REST API plus Google Calendar and CalDAV synchronisation
+
+    For **agencies**, Easy!Appointments supports consulting sessions, workshops, support slots and coordination within client projects. Different services and responsible team members are organised in one installation, booking links can be embedded into websites and manual scheduling is reduced. The open API enables additional connections with CRM or automation workflows.
+
+    At mittwald, **Easy!Appointments** runs as a self-hosted application in German data centres. The template includes Easy!Appointments with MariaDB, uses production rather than debug settings and stores runtime data persistently. MariaDB is protected through the mittwald backup label. Appointment, customer and contact data remain within the operator's infrastructure, supporting GDPR-conscious booking processes. Administration and company details are created through the setup wizard on first access.
+developer: Alex Tselegidis
+website: https://easyappointments.org
+repository: https://github.com/alextselegidis/easyappointments
+support: https://easyappointments.org/documentation/
+license:
+  name: GPL-3.0
+  link: https://spdx.org/licenses/GPL-3.0-only.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: easyappointments
+    port: 80
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 2, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 3, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 4, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 5, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 6, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "SMTP_FROM_NAME"
+    label:
+      de: Absendername
+      en: Sender name
+    positionMeta: { step: "common", index: 7, section: "email" }
+    defaultValue: "Easy!Appointments"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "MARIADB_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools: [numbers]
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+  - name: "MARIADB_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 16
+        - identifier: numbers
+          ruleType: charPool
+          charPools: [numbers]
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Einrichtung im Browser abschließen
+      en: Complete setup in the browser
+    content:
+      de: Lege beim ersten Aufruf das Administratorkonto, Unternehmensdaten, Leistungen und Anbieter über den Einrichtungsassistenten an.
+      en: On first access, use the setup wizard to create the administrator account, company details, services and providers.

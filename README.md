@@ -169,6 +169,10 @@ pnpm app n8n up
 
 Danach ist sie unter `https://n8n.localhost` erreichbar. Templates mit mehreren Domains erhalten pro `purpose` eine Subdomain, beispielsweise `https://dashboard.shlink.localhost`. Mehrere Templates können gleichzeitig laufen, da nur der gemeinsame Proxy die Host-Ports 80 und 443 belegt.
 
+Neben Caddy läuft ein globales Mailpit für lokale E-Mail-Tests. Die Web-Oberfläche ist unter `https://mail.localhost` erreichbar; Apps im gemeinsamen Dev-Netz erreichen SMTP unter `ct-mail:1025` ohne TLS. Das eigenständige Mailpit-Template bleibt davon getrennt und läuft wie jedes andere Template unter `https://mailpit.localhost`.
+
+Eine optionale `docker-compose.dev.yml` im Template-Ordner wird nach der generierten Compose-Datei als lokaler Override geladen und nicht produktiv verwendet.
+
 Beim ersten Einsatz muss Caddys lokale Entwicklungs-CA einmalig als vertrauenswürdig installiert werden. Unter macOS landet sie ohne Administratorrechte im Keychain des angemeldeten Benutzers. Unter Debian/Ubuntu und Fedora/RHEL wird sie mit `sudo` in den systemweiten CA-Store aufgenommen:
 
 ```bash
@@ -186,7 +190,8 @@ pnpm app n8n reset                # Container und App-Volumes löschen
 pnpm app n8n config               # generierte Compose-Datei nur prüfen
 pnpm app n8n values               # lokale Eingabewerte anzeigen
 pnpm app status                   # laufende Compose-Projekte und URLs
-pnpm app proxy down               # Proxy stoppen, CA und Zertifikate behalten
+pnpm app validate                 # Basis- und lokale Compose-Konfigurationen aller Templates prüfen
+pnpm app proxy down               # Caddy und Mailpit stoppen, CA und Zertifikate behalten
 pnpm app untrust                  # lokale CA wieder aus dem Trust Store entfernen
 ```
 
@@ -224,10 +229,15 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="collabora/icon.svg" width="24" height="24" style="object-fit:contain"> | [collabora](collabora/) | Online-Office-Suite für kollaboratives Arbeiten |
 | <img src="directus/icon.svg" width="24" height="24" style="object-fit:contain"> | [directus](directus/) | Headless CMS und Datenplattform |
 | <img src="docmost/icon.svg" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
+| <img src="easyappointments/icon.svg" width="24" height="24" style="object-fit:contain"> | [easyappointments](easyappointments/) | Online-Terminplanung für Dienstleistungen |
 | <img src="euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [euro-office](euro-office/) | Europäischer Online-Dokumentenserver |
+| <img src="fider/icon.svg" width="24" height="24" style="object-fit:contain"> | [fider](fider/) | Kundenfeedback sammeln und priorisieren |
+| <img src="flowise/icon.svg" width="24" height="24" style="object-fit:contain"> | [flowise](flowise/) | KI-Workflows visuell entwickeln |
+| <img src="hoppscotch/icon.svg" width="24" height="24" style="object-fit:contain"> | [hoppscotch](hoppscotch/) | APIs entwickeln und testen |
 | <img src="immich/icon.svg" width="24" height="24" style="object-fit:contain"> | [immich](immich/) | Self-hosted Foto- und Videoverwaltung |
 | <img src="infisical/icon.svg" width="24" height="24" style="object-fit:contain"> | [infisical](infisical/) | Secrets zentral verwalten |
 | <img src="kimai/icon.svg" width="24" height="24" style="object-fit:contain"> | [kimai](kimai/) | Zeiterfassung und Projektcontrolling |
+| <img src="kutt/icon.svg" width="24" height="24" style="object-fit:contain"> | [kutt](kutt/) | Kurzlinks unter eigener Domain verwalten |
 | <img src="listmonk/icon.svg" width="24" height="24" style="object-fit:contain"> | [listmonk](listmonk/) | Newsletter und Mailinglisten verwalten |
 | <img src="mailpit/icon.svg" width="24" height="24" style="object-fit:contain"> | [mailpit](mailpit/) | E-Mail-Testserver für Entwicklung und Staging |
 | <img src="mariadb/icon.svg" width="24" height="24" style="object-fit:contain"> | [mariadb](mariadb/) | Relationale Open-Source Datenbank |
@@ -240,11 +250,13 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="pocket-id/icon.svg" width="24" height="24" style="object-fit:contain"> | [pocket-id](pocket-id/) | OIDC-Provider mit Passkeys |
 | <img src="postgresql/icon.svg" width="24" height="24" style="object-fit:contain"> | [postgresql](postgresql/) | Leistungsstarke relationale Open-Source Datenbank |
 | <img src="qdrant/icon.svg" width="24" height="24" style="object-fit:contain"> | [qdrant](qdrant/) | Hochperformante Vektordatenbank für KI-Anwendungen |
+| <img src="shlink/icon.svg" width="24" height="24" style="object-fit:contain"> | [shlink](shlink/) | Kurzlinks erstellen und analysieren |
 | <img src="solr/icon.svg" width="24" height="24" style="object-fit:contain"> | [solr](solr/) | Enterprise-Suchplattform |
 | <img src="stirling-pdf/icon.svg" width="24" height="24" style="object-fit:contain"> | [stirling-pdf](stirling-pdf/) | Umfangreicher PDF-Werkzeugkasten |
 | <img src="umami/icon.svg" width="24" height="24" style="object-fit:contain"> | [umami](umami/) | Datenschutzfreundliche Web-Analytics |
 | <img src="uptime-kuma/icon.svg" width="24" height="24" style="object-fit:contain"> | [uptime-kuma](uptime-kuma/) | Monitoring und Statusseiten |
 | <img src="vaultwarden/icon.svg" width="24" height="24" style="object-fit:contain"> | [vaultwarden](vaultwarden/) | Selbst gehosteter Passwort-Manager |
+| <img src="weblate/icon.svg" width="24" height="24" style="object-fit:contain"> | [weblate](weblate/) | Software gemeinsam übersetzen |
 | <img src="yopass/icon.svg" width="24" height="24" style="object-fit:contain"> | [yopass](yopass/) | Geheimnisse sicher und verschlüsselt teilen |
 
 ## Neues Template anlegen

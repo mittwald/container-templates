@@ -3,6 +3,7 @@
 import { randomInt, X509Certificate } from "node:crypto";
 import { spawn } from "node:child_process";
 import {
+  access,
   chmod,
   mkdir,
   readFile,
@@ -25,9 +26,17 @@ const proxyRoot = join(devRoot, "proxy");
 const proxyComposePath = join(proxyRoot, "compose.yaml");
 const caddyfilePath = join(proxyRoot, "Caddyfile");
 const rootCertificatePath = join(proxyRoot, "root.crt");
+const devComposeFilename = "docker-compose.dev.yml";
+const projectPrefix = "ct";
 const devNetworkName = "container-templates-dev";
 const devNetworkKey = "template-dev";
-const proxyProjectName = "ct-dev-proxy";
+const proxyProjectName = `${projectPrefix}-dev-proxy`;
+const localhostSuffix = ".localhost";
+const proxyHostname = `proxy${localhostSuffix}`;
+const mailHostname = `mail${localhostSuffix}`;
+const mailServiceAlias = `${projectPrefix}-mail`;
+const mailSmtpPort = 1025;
+const mailWebPort = 8025;
 const rootCertificateInContainer =
   "/data/caddy/pki/authorities/local/root.crt";
 const ajv = new Ajv2020({ allErrors: true, coerceTypes: true, strict: false });
@@ -57,6 +66,7 @@ Usage:
   pnpm app <template> config [--set NAME=VALUE]
   pnpm app <template> values
   pnpm app status
+  pnpm app validate
   pnpm app proxy up|down|logs
   pnpm app trust
   pnpm app untrust
@@ -68,6 +78,11 @@ Examples:
   pnpm app bugsink up --set ADMIN_EMAIL=me@example.test
   pnpm app shlink logs
 
+Local infrastructure:
+  Proxy:   https://${proxyHostname}
+  Mailpit: https://${mailHostname}
+  SMTP:    ${mailServiceAlias}:${mailSmtpPort} (no TLS, any credentials)
+
 Generated files and persistent local values are stored below .dev/.`);
 }
 
@@ -76,7 +91,7 @@ function parseArguments(arguments_) {
     return { command: "help", options: {} };
   }
 
-  if (["status", "trust", "untrust"].includes(arguments_[0])) {
+  if (["status", "trust", "untrust", "validate"].includes(arguments_[0])) {
     if (arguments_.length > 1) {
       throw new Error(`${arguments_[0]} does not accept additional arguments`);
     }
@@ -233,7 +248,7 @@ function slugify(value) {
 }
 
 function projectName(template) {
-  return `ct-${slugify(template)}`;
+  return `${projectPrefix}-${slugify(template)}`;
 }
 
 function appDirectory(template) {
@@ -277,9 +292,9 @@ async function loadTemplate(template) {
 
 function domainHostname(template, domain, domainCount) {
   if (domainCount === 1) {
-    return `${template}.localhost`;
+    return `${template}${localhostSuffix}`;
   }
-  return `${slugify(domain.purpose)}.${template}.localhost`;
+  return `${slugify(domain.purpose)}.${template}${localhostSuffix}`;
 }
 
 function domainValues(template, manifest) {
@@ -663,6 +678,19 @@ function renderCompose(templateData, publishes) {
   return rendered;
 }
 
+async function optionalDevComposePath(templateData) {
+  const path = join(templateData.templateRoot, devComposeFilename);
+  try {
+    await access(path);
+    return path;
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      return null;
+    }
+    throw error;
+  }
+}
+
 function createRoutes(templateData, values) {
   const { manifest, template } = templateData;
   const hostnames = new Set();
@@ -674,8 +702,8 @@ function createRoutes(templateData, values) {
     if (!validHostname) {
       throw new Error(`${domain.userInput} must contain a valid hostname without scheme, port, or path`);
     }
-    if (hostname === "caddy.localhost") {
-      throw new Error(`${domain.userInput} uses the reserved hostname caddy.localhost`);
+    if ([proxyHostname, mailHostname].includes(hostname)) {
+      throw new Error(`${domain.userInput} uses the reserved hostname ${hostname}`);
     }
     if (hostnames.has(hostname)) {
       throw new Error(`${hostname} is assigned to more than one domain in ${template}`);
@@ -700,9 +728,12 @@ async function prepareApp(template, options = {}) {
   const composePath = appFile(template, "compose.yaml");
   const rendered = renderCompose(templateData, publishes);
   await writeFile(composePath, YAML.stringify(rendered, { lineWidth: 0 }));
+  const devComposePath = await optionalDevComposePath(templateData);
   return {
     ...templateData,
     composePath,
+    composePaths: [composePath, devComposePath].filter(Boolean),
+    devComposePath,
     environmentPath,
     publishes,
     routes,
@@ -717,8 +748,7 @@ function composeArguments(app, ...arguments_) {
     projectName(app.template),
     "--env-file",
     app.environmentPath,
-    "--file",
-    app.composePath,
+    ...app.composePaths.flatMap((path) => ["--file", path]),
     ...arguments_,
   ];
 }
@@ -748,11 +778,30 @@ async function writeProxyCompose() {
         ],
         networks: [devNetworkKey],
       },
+      mail: {
+        image: "axllent/mailpit:latest",
+        environment: {
+          TZ: "Europe/Berlin",
+          MP_DATABASE: "/data/mailpit.db",
+          MP_MAX_MESSAGES: "500",
+          MP_SMTP_BIND_ADDR: `0.0.0.0:${mailSmtpPort}`,
+          MP_SMTP_AUTH_ACCEPT_ANY: "true",
+          MP_SMTP_AUTH_ALLOW_INSECURE: "true",
+        },
+        volumes: ["mail_data:/data"],
+        networks: {
+          [devNetworkKey]: { aliases: [mailServiceAlias] },
+        },
+      },
     },
     networks: {
       [devNetworkKey]: { external: true, name: devNetworkName },
     },
-    volumes: { caddy_config: null, caddy_data: null },
+    volumes: {
+      caddy_config: null,
+      caddy_data: null,
+      mail_data: null,
+    },
   };
   await writeFile(proxyComposePath, YAML.stringify(compose, { lineWidth: 0 }));
 }
@@ -795,7 +844,8 @@ async function registeredRoutes() {
 async function writeCaddyfile() {
   const routes = await registeredRoutes();
   const blocks = [
-    `caddy.localhost {\n\ttls internal\n\trespond "Container templates development proxy"\n}`,
+    `${proxyHostname} {\n\ttls internal\n\trespond "Container templates development proxy"\n}`,
+    `${mailHostname} {\n\ttls internal\n\treverse_proxy ${mailServiceAlias}:${mailWebPort}\n}`,
     ...routes.map(
       (route) =>
         `${route.hostname} {\n\ttls internal\n\treverse_proxy ${route.upstream}\n}`,
@@ -858,21 +908,24 @@ async function ensureProxy() {
   }
   await ensureNetwork();
   await writeCaddyfile();
-  await run("docker", proxyComposeArguments("up", "--detach"));
+  await run("docker", proxyComposeArguments("up", "--detach", "--remove-orphans"));
   await reloadProxy();
 }
 
 async function manageProxy(action) {
   if (action === "up") {
     await ensureProxy();
-    console.log("Local HTTPS proxy is running at https://caddy.localhost");
+    console.log("Local development infrastructure is running");
+    console.log(`  Proxy:   https://${proxyHostname}`);
+    console.log(`  Mailpit: https://${mailHostname}`);
+    console.log(`  SMTP:    ${mailServiceAlias}:${mailSmtpPort} (no TLS, any credentials)`);
     return;
   }
 
   await writeProxyCompose();
   if (action === "down") {
     await run("docker", proxyComposeArguments("down", "--remove-orphans"));
-    console.log("Local HTTPS proxy stopped; its CA and certificates were retained");
+    console.log("Local development infrastructure stopped; Caddy's CA and certificates were retained");
   } else {
     await run("docker", proxyComposeArguments("logs", "--follow", "--tail", "200"));
   }
@@ -950,6 +1003,9 @@ function printAppSummary(app) {
     }
   } else {
     console.log("\nThis component has no public domain route.");
+  }
+  if (app.devComposePath) {
+    console.log(`\nDev override: ${app.template}/${devComposeFilename}`);
   }
   if (app.publishes.length > 0) {
     console.log("\nPublished ports:");
@@ -1042,12 +1098,65 @@ async function showStatus() {
       console.log(`  ${project.Name}: ${project.Status}`);
     }
   }
+  if (await proxyIsRunning()) {
+    console.log("\nLocal infrastructure:");
+    console.log(`  https://${proxyHostname}`);
+    console.log(`  https://${mailHostname}`);
+    console.log(`  SMTP ${mailServiceAlias}:${mailSmtpPort}`);
+  }
   const routes = await registeredRoutes();
   if (routes.length > 0) {
     console.log("\nRegistered local URLs:");
     for (const route of routes) {
       console.log(`  https://${route.hostname} (${route.template})`);
     }
+  }
+}
+
+async function templateNames() {
+  const entries = await readdir(repositoryRoot, { withFileTypes: true });
+  const names = [];
+  for (const entry of entries) {
+    if (!entry.isDirectory() || entry.name.startsWith(".")) {
+      continue;
+    }
+    try {
+      await access(join(repositoryRoot, entry.name, "manifest.yaml"));
+      names.push(entry.name);
+    } catch (error) {
+      if (error?.code !== "ENOENT") {
+        throw error;
+      }
+    }
+  }
+  return names.sort((left, right) => left.localeCompare(right));
+}
+
+async function validateComposeConfigurations() {
+  const templates = await templateNames();
+  for (const template of templates) {
+    const app = await prepareApp(template);
+    const baseComposePath = appFile(template, "base.compose.yaml");
+    const baseCompose = escapeContainerVariables(
+      structuredClone(app.compose),
+    );
+    await writeFile(
+      baseComposePath,
+      YAML.stringify(baseCompose, { lineWidth: 0 }),
+    );
+    await run("docker", [
+      "compose",
+      "--project-name",
+      `${projectName(template)}-validation`,
+      "--env-file",
+      app.environmentPath,
+      "--file",
+      baseComposePath,
+      "config",
+      "--quiet",
+    ]);
+    await run("docker", composeArguments(app, "config", "--quiet"));
+    console.log(`${template}: base and local Compose configurations are valid`);
   }
 }
 
@@ -1173,7 +1282,7 @@ async function trustRootCertificate() {
     rootCertificatePath,
   ]);
   console.log("Caddy's local development CA is trusted.");
-  console.log("Open https://caddy.localhost to verify it.");
+  console.log(`Open https://${proxyHostname} to verify it.`);
 }
 
 async function untrustRootCertificate() {
@@ -1218,6 +1327,10 @@ async function main() {
   }
   if (parsed.command === "status") {
     await showStatus();
+    return;
+  }
+  if (parsed.command === "validate") {
+    await validateComposeConfigurations();
     return;
   }
   if (parsed.command === "trust") {
