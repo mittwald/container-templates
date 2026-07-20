@@ -1,0 +1,4 @@
+services:
+  kimai:
+    environment:
+      MAILER_URL: smtp://ct-mail:1025
