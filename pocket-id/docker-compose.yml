@@ -1,0 +1,16 @@
+services:
+  pocket-id:
+    image: ghcr.io/pocket-id/pocket-id:v2
+    ports:
+      - "1411:1411"
+    environment:
+      - TZ=Europe/Berlin
+      - APP_URL=https://${HOST}
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - TRUST_PROXY=true
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - pocketid_data:/app/data
+volumes:
+  pocketid_data:

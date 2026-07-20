@@ -1,0 +1,109 @@
+manifestVersion: 1.0
+name:
+  de: Infisical
+  en: Infisical
+version: "latest"
+type: standalone
+tagline:
+  de: Secrets zentral verwalten
+  en: Centralised secrets management
+description:
+  de: |
+    **Infisical** ist eine Open-Source-Plattform für Secrets-Management und eine self-hosted Alternative zu Cloud-Diensten wie AWS Secrets Manager oder Doppler. API-Schlüssel, Zugangsdaten und Anwendungskonfigurationen werden zentral gespeichert und können kontrolliert an Teams, CI/CD-Prozesse und Laufzeitumgebungen verteilt werden.
+
+    Zentrale Funktionen:
+
+    - Zentrale Verwaltung von Secrets nach Projekten und Umgebungen
+    - Versionierung und Wiederherstellung früherer Secret-Stände
+    - Zugriffssteuerung für Benutzer und Maschinenidentitäten
+    - Anbindung über Web-Oberfläche, API, CLI und verschiedene Integrationen
+
+    Für **Agenturen** schafft Infisical eine gemeinsame, nachvollziehbare Ablage für Geheimnisse aus Kundenprojekten. Entwicklungs- und Betriebsteams müssen API-Keys oder Datenbankzugänge nicht in Chatverläufen, lokalen Dateien oder ungeschützten CI-Variablen austauschen. Projekte und Umgebungen helfen dabei, Zugriffe zwischen Kunden sowie zwischen Entwicklung und Produktion zu trennen.
+
+    Bei mittwald läuft **Infisical** als self-hosted Container in deutschen Rechenzentren. Das Template enthält die Community-Komponenten von Infisical zusammen mit PostgreSQL und Redis, erzeugt die benötigten Verschlüsselungs- und Authentifizierungswerte und deaktiviert Telemetrie. Die PostgreSQL-Datenbank wird über das mittwald Backup-Label gesichert. Damit bleiben Secrets und zugehörige Metadaten in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Betriebsprozesse.
+  en: |
+    **Infisical** is an open-source secrets-management platform and a self-hosted alternative to cloud services such as AWS Secrets Manager or Doppler. API keys, credentials and application configuration are stored centrally and distributed under controlled conditions to teams, CI/CD workflows and runtime environments.
+
+    Key features:
+
+    - Central management of secrets by project and environment
+    - Versioning and recovery of previous secret states
+    - Access control for users and machine identities
+    - Integration through a web interface, API, CLI and connectors
+
+    For **agencies**, Infisical creates a shared and traceable store for secrets used in client projects. Development and operations teams no longer need to exchange API keys or database credentials through chats, local files or unprotected CI variables. Projects and environments help separate access between clients and between development and production.
+
+    At mittwald, **Infisical** runs as a self-hosted container in German data centres. The template includes the Infisical community components with PostgreSQL and Redis, generates the required encryption and authentication values and disables telemetry. PostgreSQL is protected through the mittwald backup label. Secrets and their metadata remain within the operator's infrastructure, supporting GDPR-conscious operations.
+developer: Infisical Inc.
+website: https://infisical.com
+repository: https://github.com/Infisical/infisical
+license:
+  name: MIT (Community Edition)
+  link: https://github.com/Infisical/infisical/blob/main/LICENSE
+categories:
+  - security
+domains:
+  - userInput: HOST
+    service: infisical
+    port: 8080
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "ENCRYPTION_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+        - identifier: hex
+          ruleType: charPool
+          charPools:
+            - numbers
+            - lowercase
+          min: 1
+  - name: "AUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 44
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Admin-Benutzer manuell einrichten
+      en: Set up admin user manually
+    content:
+      de: Der Admin-Benutzer wird nicht automatisch angelegt. Richte ihn nach der Installation beim ersten Aufruf manuell ein.
+      en: The admin user is not created automatically. Set it up manually after installation on the first launch.
