@@ -11,6 +11,10 @@ Thumbs.db
 
 # Node.js
 node_modules/
+.pnpm-store/
+
+# Generated local app configurations, values, and Caddy state
+.dev/
 
 # Superpowers: lokale Arbeitsdokumente (Specs, Pläne) gehören nicht ins Repo.
 # Dokumentation steht in README.md und AGENTS.md.

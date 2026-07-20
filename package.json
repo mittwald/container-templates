@@ -7,8 +7,9 @@
     "node": "24.x"
   },
   "scripts": {
+    "app": "node dev.mjs",
     "test": "pnpm run check && pnpm run validate",
-    "check": "node --check validate.mjs",
+    "check": "node --check validate.mjs && node --check dev.mjs",
     "validate": "node validate.mjs"
   },
   "devDependencies": {
