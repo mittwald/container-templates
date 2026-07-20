@@ -202,7 +202,7 @@ help:
 6. Optional Screenshots ergänzen (siehe Abschnitt [screenshots](#screenshots))
 7. Konventionen in [`AGENTS.md`](AGENTS.md) beachten (sichere Defaults, Zeitzone, Backups, `help`-Platzhalter-Regeln)
 
-Vor dem Commit werden Manifest und Screenshots per CI geprüft. Lokal:
+Vor dem Commit werden Pflichtdateien, Manifest und Screenshots per CI geprüft. Lokal:
 
 Voraussetzung sind Node.js 24 und die in `package.json` festgelegte pnpm-Version.
 

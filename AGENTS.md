@@ -2,7 +2,7 @@
 
 ## Projektbeschreibung
 
-Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Container-Vorlagen-Funktion. Jedes Template liegt in einem eigenen Ordner und besteht aus `docker-compose.yml`, `manifest.yaml` und `icon.svg`, optional ergänzt um Screenshot-Bilder. Aufbau, Feld-Dokumentation und Beispiele stehen in der `README.md`; die maschinenlesbare, CI-validierte Feldstruktur in `manifest.schema.json`.
+Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Container-Vorlagen-Funktion. Jedes Template liegt in einem eigenen Ordner und besteht aus `docker-compose.yml`, `manifest.yaml` und `icon.svg`, optional ergänzt um Screenshot-Bilder. `validate.mjs` prüft die Pflichtdateien, das Manifest-Schema und die Screenshot-Regeln. Aufbau, Feld-Dokumentation und Beispiele stehen in der `README.md`; die maschinenlesbare Feldstruktur in `manifest.schema.json`.
 
 ## Konventionen
 

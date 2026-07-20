@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "pnpm run check && pnpm run validate",
-    "check": "node --check manifest-files.mjs && node --check validate.mjs",
+    "check": "node --check validate.mjs",
     "validate": "node validate.mjs"
   },
   "devDependencies": {
