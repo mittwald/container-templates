@@ -236,6 +236,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="hoppscotch/icon.svg" width="24" height="24" style="object-fit:contain"> | [hoppscotch](hoppscotch/) | APIs entwickeln und testen |
 | <img src="immich/icon.svg" width="24" height="24" style="object-fit:contain"> | [immich](immich/) | Self-hosted Foto- und Videoverwaltung |
 | <img src="infisical/icon.svg" width="24" height="24" style="object-fit:contain"> | [infisical](infisical/) | Secrets zentral verwalten |
+| <img src="karakeep/icon.svg" width="24" height="24" style="object-fit:contain"> | [karakeep](karakeep/) | Lesezeichen und Notizen sammeln |
 | <img src="kimai/icon.svg" width="24" height="24" style="object-fit:contain"> | [kimai](kimai/) | Zeiterfassung und Projektcontrolling |
 | <img src="kutt/icon.svg" width="24" height="24" style="object-fit:contain"> | [kutt](kutt/) | Kurzlinks unter eigener Domain verwalten |
 | <img src="linkwarden/icon.svg" width="24" height="24" style="object-fit:contain"> | [linkwarden](linkwarden/) | Lesezeichen sammeln und archivieren |
