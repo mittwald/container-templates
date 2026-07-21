@@ -1,0 +1,85 @@
+manifestVersion: 1.0
+name:
+  de: Meilisearch
+  en: Meilisearch
+version: "1.x"
+type: component
+tagline:
+  de: Schnelle Volltextsuche für Anwendungen
+  en: Fast full-text search for applications
+description:
+  de: |
+    **Meilisearch** ist eine schnelle, entwicklerfreundliche Such-Engine und eine self-hosted Alternative zu Algolia oder Elastic Cloud. Über eine einfache REST-API liefert Meilisearch Suchergebnisse in Echtzeit („search as you type") mit Tippfehler-Toleranz, Filtern und Facetten – als Suchbaustein hinter Websites, Shops und Anwendungen.
+
+    Zentrale Funktionen:
+
+    - Sofort-Suche mit Tippfehler-Toleranz und Relevanz-Ranking
+    - Filter, Facetten, Sortierung und Synonyme
+    - Einfache REST-API und offizielle SDKs für gängige Sprachen
+    - Optional Vektorsuche/„hybrid search" für KI-gestützte Suchszenarien
+
+    Als Such-Komponente bildet **Meilisearch** das Backend für Suchfunktionen, die **Agenturen** entwickeln oder betreiben: Produktsuche in Shops, Dokumentensuche in Portalen oder die Suche in individuellen Webanwendungen. Dank einfacher Integration und schneller Indexierung lässt sich eine hochwertige Suche mit wenig Aufwand in bestehende Kundenprojekte einbinden, ohne auf einen externen SaaS-Suchdienst angewiesen zu sein.
+
+    Bei mittwald läuft **Meilisearch** als self-hosted Container-Komponente in deutschen Rechenzentren; Suchindizes und Inhalte verbleiben unter der Kontrolle des Betreibers und werden nicht an externe Dienste weitergegeben, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Meilisearch im Produktionsmodus mit generiertem Master-Key und persistentem Datenspeicher. Lizenzkosten fallen nicht an.
+  en: |
+    **Meilisearch** is a fast, developer-friendly search engine and a self-hosted alternative to Algolia or Elastic Cloud. Through a simple REST API, Meilisearch delivers real-time "search as you type" results with typo tolerance, filters and facets — as a search building block behind websites, shops and applications.
+
+    Key features:
+
+    - Instant search with typo tolerance and relevance ranking
+    - Filters, facets, sorting and synonyms
+    - Simple REST API and official SDKs for popular languages
+    - Optional vector/hybrid search for AI-assisted search scenarios
+
+    As a search component, **Meilisearch** provides the backend for search features that **agencies** develop or operate: product search in shops, document search in portals or search in bespoke web applications. Thanks to easy integration and fast indexing, high-quality search can be added to existing client projects with little effort, without relying on an external SaaS search service.
+
+    At mittwald, **Meilisearch** runs as a self-hosted container component in German data centres; search indexes and content remain under the operator's control and are not shared with external services, simplifying GDPR compliance. This template includes Meilisearch in production mode with a generated master key and persistent storage. No licence costs apply.
+developer: Meili SAS
+website: https://www.meilisearch.com
+repository: https://github.com/meilisearch/meilisearch
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - development
+  - database
+domains:
+  - userInput: HOST
+    service: meilisearch
+    port: 7700
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "MEILI_MASTER_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+
+help:
+  technicalDetails:
+  - key:
+      de: API-Endpunkt
+      en: API endpoint
+    value: https://${domain.main}
+  - key:
+      de: Master-Key
+      en: Master key
+    value: ${meilisearch.env.MEILI_MASTER_KEY}
+  alerts:
+  - status: warning
+    heading:
+      de: Master-Key schützen
+      en: Protect the master key
+    content:
+      de: Der Master-Key gewährt vollen Zugriff auf alle Indizes und Einstellungen. Nutze ihn nur serverseitig und erzeuge für Clients eingeschränkte API-Keys über die Meilisearch-API.
+      en: The master key grants full access to all indexes and settings. Use it server-side only and create restricted API keys for clients via the Meilisearch API.

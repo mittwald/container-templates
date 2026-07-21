@@ -1,0 +1,20 @@
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.50
+    ports:
+      - "7700:7700"
+    environment:
+      - TZ=Europe/Berlin
+      - MEILI_ENV=production
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - MEILI_NO_ANALYTICS=true
+    volumes:
+      - meili_data:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:7700/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+volumes:
+  meili_data:
