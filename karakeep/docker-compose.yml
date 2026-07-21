@@ -17,8 +17,10 @@ services:
     volumes:
       - karakeep_data:/data
     depends_on:
-      - meilisearch
-      - chrome
+      meilisearch:
+        condition: service_healthy
+      chrome:
+        condition: service_started
   chrome:
     image: gcr.io/zenika-hub/alpine-chrome:124
     command:
@@ -38,6 +40,11 @@ services:
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     volumes:
       - meili_data:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:7700/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   karakeep_data:
   meili_data:

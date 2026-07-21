@@ -13,8 +13,10 @@ services:
     volumes:
       - immich_upload:/data
     depends_on:
-      - database
-      - redis
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
   machinelearning:
     image: ghcr.io/immich-app/immich-machine-learning:v3
     environment:
@@ -23,6 +25,11 @@ services:
       - immich_model_cache:/cache
   redis:
     image: valkey/valkey:9
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   database:
     image: ghcr.io/immich-app/postgres:18-vectorchord0.5.3-pgvector0.8.1
     environment:
@@ -33,6 +40,11 @@ services:
       - POSTGRES_INITDB_ARGS=--data-checksums
     volumes:
       - immich_pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/postgresql/backups && \

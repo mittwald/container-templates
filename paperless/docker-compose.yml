@@ -16,10 +16,14 @@ services:
       - PAPERLESS_TIKA_ENDPOINT=http://tika:9998
       - PAPERLESS_URL=https://${HOST}
     depends_on:
-      - postgres
-      - redis
-      - gotenberg
-      - tika
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      gotenberg:
+        condition: service_started
+      tika:
+        condition: service_started
     volumes:
       - paperless_media:/usr/src/paperless/media
       - paperless_data:/usr/src/paperless/data
@@ -34,6 +38,11 @@ services:
       - POSTGRES_DB=paperless
     volumes:
       - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/postgresql/backups && \
@@ -42,6 +51,11 @@ services:
         find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
     image: redis:latest
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   gotenberg:
     image: gotenberg/gotenberg:8
     command:

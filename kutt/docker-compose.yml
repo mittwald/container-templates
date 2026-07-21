@@ -32,7 +32,7 @@ services:
       postgres:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
   postgres:
     image: pgautoupgrade/pgautoupgrade:18-alpine
     environment:
@@ -55,6 +55,11 @@ services:
         find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
     image: redis:8-alpine
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   kutt_custom:
   postgres_data:

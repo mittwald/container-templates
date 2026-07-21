@@ -11,8 +11,10 @@ services:
       - REDIS_URL=redis://redis:6379
       - DISABLE_TELEMETRY=true
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
       - docmost_data:/app/data/storage
   postgres:
@@ -24,6 +26,11 @@ services:
       - POSTGRES_DB=docmost
     volumes:
       - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/postgresql/backups && \
@@ -35,6 +42,11 @@ services:
     command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
     volumes:
       - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   docmost_data:
   postgres_data:

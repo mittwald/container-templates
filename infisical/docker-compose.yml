@@ -13,8 +13,10 @@ services:
       - SITE_URL=https://${HOST}
       - TELEMETRY_ENABLED=false
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
   postgres:
     image: pgautoupgrade/pgautoupgrade:18-alpine
     environment:
@@ -24,6 +26,11 @@ services:
       - POSTGRES_DB=infisical
     volumes:
       - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/postgresql/backups && \
@@ -32,5 +39,10 @@ services:
         find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
     image: redis:8-alpine
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   postgres_data:

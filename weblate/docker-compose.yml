@@ -44,7 +44,7 @@ services:
       postgres:
         condition: service_healthy
       valkey:
-        condition: service_started
+        condition: service_healthy
   postgres:
     image: pgautoupgrade/pgautoupgrade:18-alpine
     environment:
@@ -71,6 +71,11 @@ services:
     volumes:
       - valkey_data:/data
     read_only: true
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   weblate_data:
   weblate_cache:

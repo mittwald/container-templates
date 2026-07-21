@@ -40,7 +40,6 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
   - `monitoring` — Analytics, Uptime-Monitoring, Observability
   - `communication` — Chat, Messaging, Kollaboration
   - `media` — Foto-/Video-/Dateiverwaltung
-  - `ecommerce` — Shops, Payment, POS
 - **Icon:** Die Datei heißt **immer** `icon.svg` im Template-Ordner (kein Manifest-Feld). Bevorzugt von [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0).
 - **`screenshots`:** Optional. Die Bilder liegen flach im Template-Ordner neben `icon.svg`; im Manifest steht nur der Dateiname, kein Pfad. Erlaubt sind `jpg`, `jpeg`, `png` und `webp`. Beide Bilder müssen mindestens **1500 px breit** sein — das verhindert unscharfes Hochskalieren beim Rendern.
   - `bg` — dekorative Bühne im Seitenverhältnis **exakt 3:2** (aus 1500 px Breite folgt damit 1000 px Höhe). Trägt keine Information, da nur der Screenshot darüber inhaltlich gelesen wird.

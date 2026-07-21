@@ -19,7 +19,8 @@ services:
       - kimai_data:/opt/kimai/var/data
       - kimai_plugins:/opt/kimai/var/plugins
     depends_on:
-      - database
+      database:
+        condition: service_healthy
   database:
     image: mariadb:lts
     environment:
@@ -30,6 +31,11 @@ services:
       - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
     volumes:
       - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/mysql/backups && \

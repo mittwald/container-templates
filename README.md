@@ -36,7 +36,7 @@ Beschreibt das Template mit folgenden Feldern. Die maschinenlesbare, per CI vali
 | `repository`      | Source-Code Repository                                                                                           |
 | `support`         | Support-URL                                                                                                      |
 | `license`         | Lizenz der Software, besteht aus `name` und `link`.                                                              |
-| `categories`      | Kategorien: `productivity`, `development`, `database`, `ai`, `security`, `monitoring`, `communication`, `media`, `ecommerce`. `database` ist keine offizielle Store-Kategorie, sondern nur intern für Template-Listen im „Datenbanken"-Bereich |
+| `categories`      | Kategorien: `productivity`, `development`, `database`, `ai`, `security`, `monitoring`, `communication`, `media`. `database` ist keine offizielle Store-Kategorie, sondern nur intern für Template-Listen im „Datenbanken"-Bereich |
 | `screenshots`     | Optionale Katalog-Screenshots: Hintergrundbild, Screenshot und mehrsprachige Bildüberschrift                     |
 | `domains`         | Domain-Zuordnung zu Services und Ports; je Eintrag ein `purpose` als Referenz (z.B. in `help`)                   |
 | `userInputs`      | Vom Benutzer konfigurierte Werte                                                                                 |

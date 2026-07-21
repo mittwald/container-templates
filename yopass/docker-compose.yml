@@ -9,8 +9,14 @@ services:
       - DATABASE=redis
       - REDIS=redis://redis:6379/0
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
   redis:
     image: redis:8-alpine
     environment:
       - TZ=Europe/Berlin
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

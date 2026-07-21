@@ -22,9 +22,12 @@ services:
       - EUROOFFICE_INTERNAL_URL=http://eurooffice
       - NEXTCLOUD_INTERNAL_URL=http://nextcloud-euro-office
     depends_on:
-      - mariadb
-      - redis
-      - eurooffice
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      eurooffice:
+        condition: service_started
     volumes:
       - nextcloud_data:/var/www/html
   mariadb:
@@ -39,6 +42,11 @@ services:
       - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
     volumes:
       - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/mysql/backups && \
@@ -47,6 +55,11 @@ services:
         find /var/lib/mysql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
     image: redis:8-alpine
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   eurooffice:
     image: ghcr.io/euro-office/documentserver:latest
     environment:

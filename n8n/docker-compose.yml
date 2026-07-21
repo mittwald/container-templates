@@ -28,7 +28,8 @@ services:
       - N8N_PROXY_HOPS=2
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       - n8n_data:/home/node/.n8n
   n8nrunner:
@@ -45,6 +46,11 @@ services:
       - POSTGRES_DB=n8n
     volumes:
       - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/postgresql/backups && \

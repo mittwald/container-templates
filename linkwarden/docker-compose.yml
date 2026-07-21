@@ -18,7 +18,7 @@ services:
       postgres:
         condition: service_healthy
       meilisearch:
-        condition: service_started
+        condition: service_healthy
     volumes:
       - linkwarden_data:/data/data
   postgres:
@@ -50,6 +50,11 @@ services:
       - MEILI_NO_ANALYTICS=true
     volumes:
       - meili_data:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:7700/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   linkwarden_data:
   postgres_data:

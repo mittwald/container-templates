@@ -10,7 +10,8 @@ services:
       - DISABLE_TELEMETRY=1
       - HOSTNAME=0.0.0.0
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
   postgres:
     image: pgautoupgrade/pgautoupgrade:18-alpine
     environment:
@@ -20,6 +21,11 @@ services:
       - POSTGRES_DB=umami
     volumes:
       - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'mkdir -p /var/lib/postgresql/backups && \
