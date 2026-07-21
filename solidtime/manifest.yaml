@@ -1,0 +1,145 @@
+manifestVersion: 1.0
+name:
+  de: solidtime
+  en: solidtime
+version: "latest"
+type: standalone
+tagline:
+  de: Moderne Zeiterfassung für Teams
+  en: Modern time tracking for teams
+description:
+  de: |
+    **solidtime** ist eine moderne Anwendung zur Arbeitszeiterfassung und eine self-hosted Alternative zu Toggl Track, Clockify oder Harvest. Teams erfassen Zeiten per Timer oder manuell, ordnen sie Projekten, Aufgaben und Kunden zu und werten abrechenbare Stunden, Budgets und Auslastung zentral aus.
+
+    Zentrale Funktionen:
+
+    - Zeiterfassung per Live-Timer oder nachträglichem Eintrag
+    - Projekte, Aufgaben, Kunden, Tags und abrechenbare Stundensätze
+    - Organisationen mit mehreren Mitgliedern und Rollen
+    - Auswertungen, Dashboards und Exporte (CSV, PDF) sowie eine REST-API
+
+    Für **Agenturen** schafft solidtime eine belastbare Grundlage für Projektsteuerung und Kundenabrechnung: Zeiten werden einheitlich auf Kundenprojekte gebucht, Verantwortliche vergleichen Budget und Ist-Aufwand und werten abrechenbare Leistungen aus. Rollen und Organisationen grenzen Kunden- und Projektbereiche voneinander ab, während die API und Exporte die Übergabe an Buchhaltung oder Reporting unterstützen.
+
+    Bei mittwald läuft **solidtime** als self-hosted Container in deutschen Rechenzentren; Zeitbuchungen, Kundenstammdaten und Auswertungen verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält solidtime mit PostgreSQL, Hintergrund-Worker, Scheduler und PDF-Export und bindet einen SMTP-Dienst an – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **solidtime** is a modern time-tracking application and a self-hosted alternative to Toggl Track, Clockify or Harvest. Teams record time via a timer or manually, assign it to projects, tasks and clients and evaluate billable hours, budgets and utilisation centrally.
+
+    Key features:
+
+    - Time tracking via a live timer or retrospective entries
+    - Projects, tasks, clients, tags and billable hourly rates
+    - Organisations with multiple members and roles
+    - Reports, dashboards and exports (CSV, PDF) plus a REST API
+
+    For **agencies**, solidtime provides a solid basis for project management and client billing: time is booked consistently against client projects, leads compare budget and actual effort and evaluate billable work. Roles and organisations separate client and project areas, while the API and exports support handover to accounting or reporting.
+
+    At mittwald, **solidtime** runs as a self-hosted container in German data centres; time entries, client records and reports stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes solidtime with PostgreSQL, a background worker, scheduler and PDF export, and connects an SMTP service — with no usage-based licence or seat costs.
+developer: solidtime
+website: https://www.solidtime.io
+repository: https://github.com/solidtime-io/solidtime
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: app
+    port: 8000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SUPER_ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "common", index: 2 }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 3, section: "email" }
+    defaultValue: "mail.agenturserver.de"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 4, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 5, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 6, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 7, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "APP_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+          max: 32
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Konto registrieren
+      en: Register an account
+    content:
+      de: Registriere dich nach der Installation über die Oberfläche mit der oben angegebenen Admin-E-Mail-Adresse – dieses Konto erhält Super-Admin-Rechte. Weitere Registrierungen kannst du über die Umgebungsvariable APP_ENABLE_REGISTRATION unterbinden.
+      en: After installation, register via the interface using the admin email address configured above – this account receives super admin rights. You can disable further sign-ups via the APP_ENABLE_REGISTRATION environment variable.
