@@ -56,6 +56,21 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
 systemInputs:
   - name: "POSTGRES_PASSWORD"
     schema:
@@ -84,8 +99,8 @@ help:
   alerts:
   - status: info
     heading:
-      de: Admin-Benutzer manuell einrichten
-      en: Set up admin user manually
+      de: Erste Anmeldung
+      en: First sign-in
     content:
-      de: Der Admin-Benutzer wird nicht automatisch angelegt. Richte ihn nach der Installation beim ersten Aufruf manuell ein.
-      en: The admin user is not created automatically. Set it up manually after installation on the first launch.
+      de: Der Admin-Benutzer wird beim ersten Start automatisch mit dem oben konfigurierten Benutzernamen und Passwort angelegt. Melde dich anschließend über die Oberfläche damit an.
+      en: The admin user is created automatically on first start using the username and password configured above. Sign in via the interface with those credentials.

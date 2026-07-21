@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** bietet Immich eine kontrollierbare Mediathek für interne Bildbestände, Eventmaterial oder die Abstimmung mit Kunden. Projektteams können Aufnahmen zentral sammeln, nach Inhalten durchsuchen und ausgewählte Alben teilen, ohne Originaldateien auf mehrere Consumer-Clouds zu verteilen. Rollen und getrennte Benutzerkonten erleichtern die gemeinsame Nutzung einer Installation.
 
-    Bei mittwald läuft **Immich** als self-hosted Container in deutschen Rechenzentren; hochgeladene Medien und Metadaten bleiben in der eigenen Infrastruktur. Das Template enthält den Immich-Server, den Machine-Learning-Dienst, Valkey und eine für Immich vorbereitete PostgreSQL-Datenbank mit Vektorerweiterungen. Die Datenbank wird über das mittwald Backup-Label gesichert. Für Medien selbst sollte zusätzlich eine unabhängige Backup-Strategie eingeplant werden.
+    Bei mittwald läuft **Immich** als self-hosted Container in deutschen Rechenzentren; hochgeladene Medien und Metadaten bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Das Template enthält den Immich-Server, den Machine-Learning-Dienst, Valkey und eine für Immich vorbereitete PostgreSQL-Datenbank mit Vektorerweiterungen. Die Datenbank wird über das mittwald Backup-Label gesichert; für die Medien selbst sollte zusätzlich eine unabhängige Backup-Strategie eingeplant werden. Für die Open-Source-Anwendung fallen keine nutzungsabhängigen Lizenzkosten an.
   en: |
     **Immich** is a high-performance, self-hosted photo and video management system and an alternative to cloud products such as Google Photos or Apple iCloud Photos. Mobile applications can back up photos and videos automatically; assets are organised in the browser and selected albums can be shared with other people.
 
@@ -33,7 +33,7 @@ description:
 
     For **agencies**, Immich provides a controlled media library for internal assets, event material and client reviews. Project teams collect images centrally, search them by content and share selected albums without distributing original files across consumer clouds. Separate user accounts support collaborative use of one installation.
 
-    At mittwald, **Immich** runs as a self-hosted container in German data centres; uploaded media and metadata remain within the operator's infrastructure. The template includes the Immich server, machine-learning service, Valkey and an Immich-specific PostgreSQL database with vector extensions. The database is protected through the mittwald backup label. A separate backup strategy should also be established for the media files themselves.
+    At mittwald, **Immich** runs as a self-hosted container in German data centres; uploaded media and metadata remain within the operator's infrastructure, simplifying GDPR compliance. The template includes the Immich server, machine-learning service, Valkey and an Immich-specific PostgreSQL database with vector extensions. The database is protected through the mittwald backup label; a separate backup strategy should also be established for the media files themselves. The open-source application incurs no usage-based licence costs.
 developer: Immich
 website: https://immich.app
 repository: https://github.com/immich-app/immich

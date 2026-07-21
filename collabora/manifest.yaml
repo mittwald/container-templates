@@ -31,7 +31,7 @@ description:
     - Wide format support based on LibreOffice (DOCX, XLSX, PPTX and open formats)
     - User interface available in many languages
 
-    For **agencies**, Collabora Online serves as a building block for collaborative working environments: typically embedded as a backend into an existing Nextcloud instance, it provides online office functionality for team and client documents without additional third-party accounts.
+    For **agencies**, Collabora Online serves as a building block for collaborative working environments: typically embedded as a backend into an existing Nextcloud instance, it provides online office functionality for team and client documents without additional third-party accounts. This lets agencies avoid external SaaS office services and retain full control over their documents.
 
     At mittwald, **Collabora Online** runs as a self-hosted container in German data centres; all documents remain under the organisation's control and are not transmitted to external services, making GDPR compliance easier. This template includes Collabora Online as a WOPI backend — with no usage-based licence costs.
 developer: Collabora Productivity

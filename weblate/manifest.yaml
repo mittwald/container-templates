@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** zentralisiert Weblate die Lokalisierung von Websites, Shops, Apps und individuellen Kundenanwendungen. Entwickler, Übersetzer und Kunden arbeiten in klar getrennten Projekten, während Git-Änderungen nachvollziehbar bleiben. Qualitätsprüfungen erkennen fehlende Platzhalter, inkonsistente Begriffe oder Formatfehler frühzeitig und reduzieren manuelle Abstimmungsschleifen.
 
-    Bei mittwald läuft **Weblate** als self-hosted Anwendung in deutschen Rechenzentren. Das Template enthält Weblate mit PostgreSQL und Valkey, legt ein Administratorkonto an, erzwingt Anmeldung und schließt öffentliche Registrierung standardmäßig. E-Mail-Versand wird über den angegebenen SMTP-Dienst eingerichtet. PostgreSQL wird über das mittwald Backup-Label gesichert. Übersetzungen, Benutzerkonten und Projektmetadaten verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Arbeitsabläufe.
+    Bei mittwald läuft **Weblate** als self-hosted Anwendung in deutschen Rechenzentren. Das Template enthält Weblate mit PostgreSQL und Valkey, legt ein Administratorkonto an, erzwingt Anmeldung und schließt öffentliche Registrierung standardmäßig. E-Mail-Versand wird über den angegebenen SMTP-Dienst eingerichtet. PostgreSQL wird über das mittwald Backup-Label gesichert. Übersetzungen, Benutzerkonten und Projektmetadaten verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Arbeitsabläufe. Für die Open-Source-Anwendung fallen keine nutzungsabhängigen Lizenzkosten an.
   en: |
     **Weblate** is a collaborative translation platform with close Git integration and a self-hosted alternative to Lokalise or Crowdin. Translations are edited in a web interface and continuously synchronised with the source files of a software project.
 
@@ -33,7 +33,7 @@ description:
 
     For **agencies**, Weblate centralises localisation for websites, shops, apps and custom client applications. Developers, translators and clients collaborate in clearly separated projects while Git changes remain traceable. Quality checks detect missing placeholders, inconsistent terminology and formatting errors early, reducing manual coordination.
 
-    At mittwald, **Weblate** runs as a self-hosted application in German data centres. The template includes Weblate with PostgreSQL and Valkey, creates an administrator account, requires authentication and disables public registration by default. Email delivery is configured through the supplied SMTP service. PostgreSQL is protected through the mittwald backup label. Translations, user accounts and project metadata remain within the operator's infrastructure, supporting GDPR-conscious workflows.
+    At mittwald, **Weblate** runs as a self-hosted application in German data centres. The template includes Weblate with PostgreSQL and Valkey, creates an administrator account, requires authentication and disables public registration by default. Email delivery is configured through the supplied SMTP service. PostgreSQL is protected through the mittwald backup label. Translations, user accounts and project metadata remain within the operator's infrastructure, supporting GDPR-conscious workflows. The open-source application incurs no usage-based licence costs.
 developer: Weblate s.r.o.
 website: https://weblate.org
 repository: https://github.com/WeblateOrg/weblate

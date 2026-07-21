@@ -6,7 +6,7 @@ version: "2.x.x"
 type: standalone
 tagline:
   de: Zeiterfassung und Projektcontrolling
-  en: Time tracking and project controlling
+  en: Time tracking and project cost reporting
 description:
   de: |
     **Kimai** ist eine self-hosted Anwendung für Arbeitszeiterfassung und Projektcontrolling und eine Alternative zu SaaS-Angeboten wie Harvest oder Toggl Track. Teams erfassen Arbeitszeiten im Browser, ordnen sie Kunden, Projekten und Tätigkeiten zu und werten Aufwand, Budgets und abrechenbare Leistungen zentral aus.

@@ -9,7 +9,7 @@ tagline:
   en: Share secrets securely and encrypted
 description:
   de: |
-    **Yopass** ist ein Open-Source-Dienst zum sicheren, verschlüsselten Teilen sensibler Informationen und eine self-hosted Alternative zu Diensten wie **One-Time Secret (onetimesecret.com)** oder Privnote. Der Nutzer verschlüsselt Daten direkt im Browser, bevor sie den Server erreichen; nach dem ersten Abruf oder Ablauf der Frist wird der Eintrag unwiderruflich gelöscht.
+    **Yopass** ist ein Open-Source-Dienst zum sicheren, verschlüsselten Teilen sensibler Informationen und eine self-hosted Alternative zu Diensten wie One-Time Secret (onetimesecret.com) oder Privnote. Der Nutzer verschlüsselt Daten direkt im Browser, bevor sie den Server erreichen; nach dem ersten Abruf oder Ablauf der Frist wird der Eintrag unwiderruflich gelöscht.
 
     Zentrale Funktionen:
 
@@ -21,7 +21,7 @@ description:
 
     Bei mittwald läuft **Yopass** als self-hosted Container in deutschen Rechenzentren; verschlüsselte Geheimnisse werden ausschließlich temporär gespeichert und verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entspricht. Dieses Template enthält Yopass mit einem Redis-Backend für die kurzlebige Zwischenspeicherung, und da keine Nutzungslizenzen anfallen, ist der Betrieb auch bei häufigem Einsatz im Agenturalltag wirtschaftlich.
   en: |
-    **Yopass** is an open-source service for securely sharing sensitive information in encrypted form, and a self-hosted alternative to services such as **One-Time Secret (onetimesecret.com)** or Privnote. Data is encrypted in the browser before reaching the server; after the first retrieval or once the expiry period passes, the entry is irreversibly deleted.
+    **Yopass** is an open-source service for securely sharing sensitive information in encrypted form, and a self-hosted alternative to services such as One-Time Secret (onetimesecret.com) or Privnote. Data is encrypted in the browser before reaching the server; after the first retrieval or once the expiry period passes, the entry is irreversibly deleted.
 
     Key features:
 

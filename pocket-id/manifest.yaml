@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** kann Pocket ID eine einheitliche Anmeldung für interne Werkzeuge, Staging-Systeme oder ausgewählte Kundenanwendungen bereitstellen. Teammitglieder verwenden ihren Passkey statt zusätzlicher Passwörter, während Zugriffe zentral entzogen oder neuen Anwendungen zugeordnet werden können. Durch standardisierte OIDC-Schnittstellen lässt sich der Provider mit vielen bestehenden Produkten verbinden.
 
-    Bei mittwald läuft **Pocket ID** als self-hosted Container in deutschen Rechenzentren; Identitäts- und Anmeldedaten verbleiben in der eigenen Infrastruktur. Das Template aktiviert den Betrieb hinter dem Plattform-Proxy, erzeugt den benötigten Verschlüsselungsschlüssel und speichert Konfiguration sowie Identitätsdaten in einem persistenten Volume. Der erste Benutzer, der nach der Installation einen Passkey registriert, übernimmt die Administration der Instanz.
+    Bei mittwald läuft **Pocket ID** als self-hosted Container in deutschen Rechenzentren; Identitäts- und Anmeldedaten verbleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Das Template aktiviert den Betrieb hinter dem Plattform-Proxy, erzeugt den benötigten Verschlüsselungsschlüssel und speichert Konfiguration sowie Identitätsdaten in einem persistenten Volume. Der erste Benutzer, der nach der Installation einen Passkey registriert, übernimmt die Administration der Instanz. Lizenz- oder Seat-Kosten fallen nicht an.
   en: |
     **Pocket ID** is a lightweight, self-hosted OpenID Connect and OAuth 2.0 provider that authenticates users exclusively with passkeys. It is a focused alternative to comprehensive identity platforms such as Keycloak or Authentik when applications need shared login without the complexity of a full IAM suite.
 
@@ -33,7 +33,7 @@ description:
 
     For **agencies**, Pocket ID can provide unified sign-in for internal tools, staging systems and selected client applications. Team members use their passkey instead of additional passwords, while access can be revoked centrally or assigned to new applications. Standard OIDC interfaces connect the provider to many existing products.
 
-    At mittwald, **Pocket ID** runs as a self-hosted container in German data centres; identity and sign-in data remains within the operator's infrastructure. The template enables operation behind the platform proxy, generates the required encryption key and stores configuration and identities in a persistent volume. The first user to register a passkey after installation becomes the instance administrator.
+    At mittwald, **Pocket ID** runs as a self-hosted container in German data centres; identity and sign-in data remains within the operator's infrastructure, simplifying GDPR compliance. The template enables operation behind the platform proxy, generates the required encryption key and stores configuration and identities in a persistent volume. The first user to register a passkey after installation becomes the instance administrator. No licence or seat costs apply.
 developer: Pocket ID
 website: https://pocket-id.org
 repository: https://github.com/pocket-id/pocket-id

@@ -15,7 +15,7 @@ description:
 
     - ACID-konforme Transaktionen für höchste Datenkonsistenz
     - Nativer JSON- und JSONB-Support für flexible Datenmodelle
-    - Erweiterungssystem (z. B. PostGIS, pg_vector, pgcrypto)
+    - Erweiterungssystem (z. B. PostGIS, pgvector, pgcrypto)
     - Breite Unterstützung durch gängige Frameworks und ORMs
 
     Als Datenbank-Komponente bildet **PostgreSQL** das relationale Backend hinter Anwendungen, die **Agenturen** entwickeln oder betreiben. Ob als Persistenzschicht für Headless-CMS-Systeme wie Directus, als Datenbankschicht hinter REST- oder GraphQL-APIs oder als Grundlage individueller Webanwendungen — PostgreSQL lässt sich nahtlos in bestehende Stacks integrieren. Django, Laravel, Rails und Node.js-ORMs werden unterstützt.
@@ -28,7 +28,7 @@ description:
 
     - ACID-compliant transactions for maximum data consistency
     - Native JSON and JSONB support for flexible data models
-    - Extension system (e.g. PostGIS, pg_vector, pgcrypto)
+    - Extension system (e.g. PostGIS, pgvector, pgcrypto)
     - Broad support from popular frameworks and ORMs
 
     As a database component, **PostgreSQL** provides the relational backend behind applications that **agencies** develop or operate — from headless CMS systems like Directus to REST or GraphQL APIs and bespoke web applications. Broad framework support (Django, Laravel, Rails, Node.js ORMs) makes it the first choice in most technology stacks.

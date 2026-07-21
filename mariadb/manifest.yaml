@@ -31,7 +31,7 @@ description:
     - Replication (primary-replica) for high availability and horizontal read scaling
     - Broad framework support for PHP, Python, Node.js and Java, as well as popular CMS platforms
 
-    For **agencies**, MariaDB is the proven database building block behind client applications: WordPress and TYPO3 installations, WooCommerce and Shopware shops, and custom web applications rely on MySQL-compatible databases. This template deploys MariaDB as an isolated service, separated from the application layer.
+    For **agencies**, MariaDB is the proven database building block behind client applications: WordPress and TYPO3 installations, WooCommerce and Shopware shops, and custom web applications rely on MySQL-compatible databases. This template deploys MariaDB as an isolated service into existing container stacks — separated from the application layer and independently maintainable.
 
     At mittwald, **MariaDB** runs as a self-hosted container in German data centres; data remains within the EU under GDPR protection. This template includes MariaDB with pre-configured credentials and is ready to use immediately; backups run platform-side via the mittwald backup label (`backup.command`). With no usage-based licence costs, the solution remains economical across many client projects.
 developer: MariaDB Foundation

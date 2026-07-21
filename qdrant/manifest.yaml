@@ -31,7 +31,7 @@ description:
     - REST and gRPC APIs for flexible integration with any framework or language
     - Web-based dashboard for managing collections, vectors and indices
 
-    For **agencies** integrating AI-powered features into client projects, Qdrant acts as the vector backend behind the application logic. Typical use cases include RAG pipelines over client documents, semantic product search in online shops, and recommendation features in content platforms.
+    For **agencies** integrating AI-powered features into client projects, Qdrant acts as the vector backend behind the application logic. Typical use cases include RAG pipelines over client documents, semantic product search in online shops, and recommendation features in content platforms. As a pure backend component, Qdrant keeps the surrounding application layer independent and connectable to different LLM or embedding endpoints.
 
     At mittwald, **Qdrant** runs as a self-hosted container in German data centres; vector data stays within the agency's own infrastructure, meeting GDPR requirements. This template includes Qdrant as a standalone service, accessible via REST and gRPC APIs after setup; with no usage-based licence costs, it operates economically across multiple client projects.
 developer: Qdrant

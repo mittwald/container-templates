@@ -1,6 +1,6 @@
 services:
   collabora:
-    image: collabora/code
+    image: collabora/code:26.04.2.2.1
     ports:
       - "9980:9980"
     environment:
