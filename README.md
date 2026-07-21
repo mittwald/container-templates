@@ -219,6 +219,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 
 ## Vorhandene Templates
 
+<!-- templates:start -->
 | | Template | Beschreibung |
 |---|----------|-------------|
 | <img src="anythingllm/icon.svg" width="24" height="24" style="object-fit:contain"> | [anythingllm](anythingllm/) | All-in-One KI-Desktop- und Server-Anwendung mit RAG |
@@ -229,12 +230,12 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="collabora/icon.svg" width="24" height="24" style="object-fit:contain"> | [collabora](collabora/) | Online-Office-Suite für kollaboratives Arbeiten |
 | <img src="directus/icon.svg" width="24" height="24" style="object-fit:contain"> | [directus](directus/) | Headless CMS und Datenplattform |
 | <img src="docmost/icon.svg" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
-| <img src="easyappointments/icon.svg" width="24" height="24" style="object-fit:contain"> | [easyappointments](easyappointments/) | Online-Terminplanung für Dienstleistungen |
+| <img src="easyappointments/icon.svg" width="24" height="24" style="object-fit:contain"> | [easyappointments](easyappointments/) | Termine online koordinieren |
 | <img src="euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [euro-office](euro-office/) | Europäischer Online-Dokumentenserver |
 | <img src="fider/icon.svg" width="24" height="24" style="object-fit:contain"> | [fider](fider/) | Kundenfeedback sammeln und priorisieren |
 | <img src="flowise/icon.svg" width="24" height="24" style="object-fit:contain"> | [flowise](flowise/) | KI-Workflows visuell entwickeln |
-| <img src="hoppscotch/icon.svg" width="24" height="24" style="object-fit:contain"> | [hoppscotch](hoppscotch/) | APIs entwickeln und testen |
-| <img src="immich/icon.svg" width="24" height="24" style="object-fit:contain"> | [immich](immich/) | Self-hosted Foto- und Videoverwaltung |
+| <img src="hoppscotch/icon.svg" width="24" height="24" style="object-fit:contain"> | [hoppscotch](hoppscotch/) | APIs entwickeln, testen und dokumentieren |
+| <img src="immich/icon.svg" width="24" height="24" style="object-fit:contain"> | [immich](immich/) | Foto- und Videoverwaltung |
 | <img src="infisical/icon.svg" width="24" height="24" style="object-fit:contain"> | [infisical](infisical/) | Secrets zentral verwalten |
 | <img src="kimai/icon.svg" width="24" height="24" style="object-fit:contain"> | [kimai](kimai/) | Zeiterfassung und Projektcontrolling |
 | <img src="kutt/icon.svg" width="24" height="24" style="object-fit:contain"> | [kutt](kutt/) | Kurzlinks unter eigener Domain verwalten |
@@ -242,7 +243,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="mailpit/icon.svg" width="24" height="24" style="object-fit:contain"> | [mailpit](mailpit/) | E-Mail-Testserver für Entwicklung und Staging |
 | <img src="mariadb/icon.svg" width="24" height="24" style="object-fit:contain"> | [mariadb](mariadb/) | Relationale Open-Source Datenbank |
 | <img src="n8n/icon.svg" width="24" height="24" style="object-fit:contain"> | [n8n](n8n/) | Automatisierung für deine Geschäftsprozesse |
-| <img src="nextcloud-euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [nextcloud-euro-office](nextcloud-euro-office/) | Nextcloud mit integriertem Euro-Office |
+| <img src="nextcloud-euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [nextcloud-euro-office](nextcloud-euro-office/) | Cloud-Speicher und Zusammenarbeit mit Online-Office |
 | <img src="opensearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
 | <img src="openwebui/icon.svg" width="24" height="24" style="object-fit:contain"> | [openwebui](openwebui/) | Selbstgehostete Oberfläche für KI-Modelle |
 | <img src="paperless/icon.svg" width="24" height="24" style="object-fit:contain"> | [paperless](paperless/) | Dokumentenmanagement mit OCR |
@@ -250,7 +251,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="pocket-id/icon.svg" width="24" height="24" style="object-fit:contain"> | [pocket-id](pocket-id/) | OIDC-Provider mit Passkeys |
 | <img src="postgresql/icon.svg" width="24" height="24" style="object-fit:contain"> | [postgresql](postgresql/) | Leistungsstarke relationale Open-Source Datenbank |
 | <img src="qdrant/icon.svg" width="24" height="24" style="object-fit:contain"> | [qdrant](qdrant/) | Hochperformante Vektordatenbank für KI-Anwendungen |
-| <img src="shlink/icon.svg" width="24" height="24" style="object-fit:contain"> | [shlink](shlink/) | Kurzlinks erstellen und analysieren |
+| <img src="shlink/icon.svg" width="24" height="24" style="object-fit:contain"> | [shlink](shlink/) | Kurzlinks erstellen und auswerten |
 | <img src="solr/icon.svg" width="24" height="24" style="object-fit:contain"> | [solr](solr/) | Enterprise-Suchplattform |
 | <img src="stirling-pdf/icon.svg" width="24" height="24" style="object-fit:contain"> | [stirling-pdf](stirling-pdf/) | Umfangreicher PDF-Werkzeugkasten |
 | <img src="umami/icon.svg" width="24" height="24" style="object-fit:contain"> | [umami](umami/) | Datenschutzfreundliche Web-Analytics |
@@ -258,6 +259,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="vaultwarden/icon.svg" width="24" height="24" style="object-fit:contain"> | [vaultwarden](vaultwarden/) | Selbst gehosteter Passwort-Manager |
 | <img src="weblate/icon.svg" width="24" height="24" style="object-fit:contain"> | [weblate](weblate/) | Software gemeinsam übersetzen |
 | <img src="yopass/icon.svg" width="24" height="24" style="object-fit:contain"> | [yopass](yopass/) | Geheimnisse sicher und verschlüsselt teilen |
+<!-- templates:end -->
 
 ## Neues Template anlegen
 

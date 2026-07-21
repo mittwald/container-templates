@@ -5,8 +5,8 @@ name:
 version: "stable"
 type: standalone
 tagline:
-  de: Nextcloud mit integriertem Euro-Office
-  en: Nextcloud with integrated Euro-Office
+  de: Cloud-Speicher und Zusammenarbeit mit Online-Office
+  en: Cloud storage and collaboration with online office
 description:
   de: |
     **Nextcloud + Euro-Office** ist eine selbstgehostete Kollaborationsplattform für Dateispeicherung, Teamarbeit und Office-Bearbeitung — und eine Alternative zu Cloud-Diensten wie Google Workspace, Microsoft 365 oder Dropbox. Nextcloud übernimmt Dateispeicherung, Freigaben und Kommunikation, während Euro-Office die kollaborative Bearbeitung von Office-Dokumenten im Browser ermöglicht.

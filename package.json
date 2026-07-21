@@ -8,9 +8,11 @@
   },
   "scripts": {
     "app": "node dev.mjs",
-    "test": "pnpm run check && pnpm run validate",
-    "check": "node --check validate.mjs && node --check dev.mjs",
-    "validate": "node validate.mjs"
+    "test": "pnpm run check && pnpm run gen:readme:check && pnpm run validate",
+    "check": "node --check validate.mjs && node --check dev.mjs && node --check gen-readme.mjs",
+    "validate": "node validate.mjs",
+    "gen:readme": "node gen-readme.mjs",
+    "gen:readme:check": "node gen-readme.mjs --check"
   },
   "devDependencies": {
     "ajv": "^8.20.0",
