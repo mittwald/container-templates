@@ -1,0 +1,24 @@
+services:
+  papra:
+    image: ghcr.io/papra-hq/papra:latest
+    ports:
+      - "1221:1221"
+    environment:
+      - TZ=Europe/Berlin
+      - APP_BASE_URL=https://${HOST}
+      - AUTH_SECRET=${AUTH_SECRET}
+      - EMAILS_DRIVER=smtp
+      - EMAILS_FROM_ADDRESS=${SMTP_FROM}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_SECURE=false
+      - AI_IS_ENABLED=true
+      - OPENAI_BASE_URL=https://llm.aihosting.mittwald.de/v1
+      - AI_DEFAULT_MODEL=openai://gpt-oss-120b
+      - OPENAI_API_KEY=${AI_API_KEY}
+    volumes:
+      - papra_data:/app/app-data
+volumes:
+  papra_data:
