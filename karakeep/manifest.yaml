@@ -100,5 +100,5 @@ help:
       de: Erstes Konto wird Admin
       en: First account becomes admin
     content:
-      de: Nach der Installation registrierst du dich über die Oberfläche mit E-Mail und Passwort. Das erste Konto erhält Administratorrechte; weitere Registrierungen lassen sich anschließend über die Einstellung DISABLE_SIGNUPS unterbinden.
-      en: After installation, register via the interface with email and password. The first account receives administrator rights; further sign-ups can then be disabled via the DISABLE_SIGNUPS setting.
+      de: Nach der Installation registrierst du dich über die Oberfläche mit E-Mail und Passwort. Das erste Konto erhält Administratorrechte; weitere Registrierungen lassen sich anschließend über die Einstellung `DISABLE_SIGNUPS` unterbinden.
+      en: After installation, register via the interface with email and password. The first account receives administrator rights; further sign-ups can then be disabled via the `DISABLE_SIGNUPS` setting.

@@ -100,5 +100,5 @@ help:
       de: Erweiterung aktivieren
       en: Enable the extension
     content:
-      de: Aktiviere die Vektorsuche einmalig pro Datenbank mit „CREATE EXTENSION vector;". Viele Anwendungen führen diesen Schritt automatisch über ihre Migrationen aus.
-      en: Enable vector search once per database with "CREATE EXTENSION vector;". Many applications run this step automatically through their migrations.
+      de: Aktiviere die Vektorsuche einmalig pro Datenbank mit `CREATE EXTENSION vector;`. Viele Anwendungen führen diesen Schritt automatisch über ihre Migrationen aus.
+      en: Enable vector search once per database with `CREATE EXTENSION vector;`. Many applications run this step automatically through their migrations.

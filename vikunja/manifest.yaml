@@ -132,5 +132,5 @@ help:
       de: Erstes Konto registrieren
       en: Register the first account
     content:
-      de: Nach der Installation registrierst du dich über die Oberfläche selbst. Weitere Nutzende können anschließend eingeladen werden. Die offene Registrierung kannst du danach über die Umgebungsvariable VIKUNJA_SERVICE_ENABLEREGISTRATION unterbinden.
-      en: After installation, register yourself via the interface. Additional users can then be invited. You can then disable open registration via the VIKUNJA_SERVICE_ENABLEREGISTRATION environment variable.
+      de: Nach der Installation registrierst du dich über die Oberfläche selbst. Weitere Nutzende können anschließend eingeladen werden. Die offene Registrierung kannst du danach über die Umgebungsvariable `VIKUNJA_SERVICE_ENABLEREGISTRATION` unterbinden.
+      en: After installation, register yourself via the interface. Additional users can then be invited. You can then disable open registration via the `VIKUNJA_SERVICE_ENABLEREGISTRATION` environment variable.

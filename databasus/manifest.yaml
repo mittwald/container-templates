@@ -70,5 +70,5 @@ help:
       de: Konto beim ersten Aufruf einrichten
       en: Set up your account on first access
     content:
-      de: Beim ersten Aufruf der Oberfläche legst du das Administratorkonto an. Ein vergessenes Passwort lässt sich per CLI zurücksetzen (docker exec … databasus --new-password="…" --email="admin").
-      en: On first access to the interface you create the administrator account. A forgotten password can be reset via the CLI (docker exec … databasus --new-password="…" --email="admin").
+      de: Beim ersten Aufruf der Oberfläche legst du das Administratorkonto an. Ein vergessenes Passwort lässt sich per CLI zurücksetzen (`docker exec … databasus --new-password="…" --email="admin"`).
+      en: On first access to the interface you create the administrator account. A forgotten password can be reset via the CLI (`docker exec … databasus --new-password="…" --email="admin"`).

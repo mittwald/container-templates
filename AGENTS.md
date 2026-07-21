@@ -47,6 +47,7 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
   - `text` — eine **Bildüberschrift**: Sie steht über dem Screenshot, nicht darunter. Ein knapper, neutraler Satz in dritter Person, tonal wie `description` (keine Werbung), der zeigt, was auf dem Screenshot zu sehen ist.
   - Existenz, Lesbarkeit, Mindestbreite und das 3:2-Verhältnis werden per CI durch `validate.mjs` geprüft.
 - `description` ist ein Katalogtext von **~175 Wörtern** je Sprache, als **Markdown** (fett angeführter Toolname, eine „Zentrale Funktionen:"-Bullet-Liste, Absätze). Neutral, dritte Person, sachlich-informativ (keine Werbung). Aufbau: (1) Einordnung + konkret benannte self-hosted SaaS-Alternative, (2) Feature-Liste, (3) Relevanz für **Agenturen** (Use-Cases in Kundenprojekten; die Zielgruppe wird als „Agenturen" zusammengefasst, nicht nach Typen aufgeschlüsselt), (4) Betrieb bei mittwald (deutsche Rechenzentren) + DSGVO + Template-Inhalt + Wirtschaftlichkeit. Bei `component`-Templates stellt Block 3 das Tool als Baustein/Backend hinter Kundenanwendungen dar.
+- **Code/Env in Texten:** In `description`, `tagline` und `help` werden Env-Variablennamen, CLI-Befehle, Datei-/Pfadnamen und sonstige technische Bezeichner als Markdown-Code in Backticks gesetzt (z. B. `` `DISABLE_SIGNUPS` ``, `` `CREATE EXTENSION vector;` ``), nicht als Fließtext oder in Anführungszeichen.
 
 ### Allgemein
 
