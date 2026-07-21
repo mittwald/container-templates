@@ -1,0 +1,136 @@
+manifestVersion: 1.0
+name:
+  de: Healthchecks
+  en: Healthchecks
+version: "latest"
+type: standalone
+tagline:
+  de: Cronjobs und geplante Aufgaben überwachen
+  en: Monitor cron jobs and scheduled tasks
+description:
+  de: |
+    **Healthchecks** ist ein Überwachungsdienst für Cronjobs und geplante Aufgaben und eine self-hosted Alternative zu Cronitor oder Dead Man's Snitch. Geplante Jobs senden nach jedem Lauf ein „Ping" an Healthchecks; bleibt ein erwartetes Ping aus, löst der Dienst automatisch eine Benachrichtigung aus – so werden stillschweigend fehlgeschlagene Backups, Imports oder Wartungsjobs sofort sichtbar.
+
+    Zentrale Funktionen:
+
+    - Checks mit erwartetem Zeitplan (Perioden oder Cron-Ausdrücke) und Toleranz
+    - Ping per HTTP-Aufruf am Ende eines Jobs, inklusive Erfolg-/Fehler-Signal
+    - Über 25 Benachrichtigungswege (E-Mail, Slack, Telegram, Webhooks u. a.)
+    - Projekte, Teammitglieder, API, monatliche Reports und 2FA
+
+    Für **Agenturen** eignet sich Healthchecks als zentrale Kontrollinstanz für wiederkehrende Aufgaben über Kundenprojekte hinweg: Backups, Datenimporte, Cron-Skripte und Wartungsjobs melden ihren Lauf, und ausbleibende Meldungen werden sofort eskaliert. Pro Kunde oder Projekt lässt sich ein eigenes Projekt mit Teammitgliedern und Benachrichtigungswegen einrichten.
+
+    Bei mittwald läuft **Healthchecks** als self-hosted Container in deutschen Rechenzentren; Check-Daten und Kontaktwege verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Healthchecks mit PostgreSQL und bindet einen SMTP-Dienst für Benachrichtigungen und die Anmeldung an – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **Healthchecks** is a monitoring service for cron jobs and scheduled tasks and a self-hosted alternative to Cronitor or Dead Man's Snitch. Scheduled jobs send a "ping" to Healthchecks after each run; if an expected ping does not arrive, the service triggers a notification automatically — making silently failed backups, imports or maintenance jobs immediately visible.
+
+    Key features:
+
+    - Checks with an expected schedule (periods or cron expressions) and grace time
+    - Ping via an HTTP request at the end of a job, including success/failure signal
+    - More than 25 notification channels (email, Slack, Telegram, webhooks and more)
+    - Projects, team members, API, monthly reports and 2FA
+
+    For **agencies**, Healthchecks works as a central control point for recurring tasks across client projects: backups, data imports, cron scripts and maintenance jobs report their runs, and missing reports are escalated immediately. A dedicated project with team members and notification channels can be set up per client or project.
+
+    At mittwald, **Healthchecks** runs as a self-hosted container in German data centres; check data and contact channels stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Healthchecks with PostgreSQL and connects an SMTP service for notifications and sign-in — with no usage-based licence or seat costs.
+developer: Healthchecks OÜ
+website: https://healthchecks.io
+repository: https://github.com/healthchecks/healthchecks
+license:
+  name: BSD-3-Clause
+  link: https://spdx.org/licenses/BSD-3-Clause.html
+categories:
+  - monitoring
+domains:
+  - userInput: HOST
+    service: healthchecks
+    port: 8000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 2, section: "email" }
+    defaultValue: "mail.agenturserver.de"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 3, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 4, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 5, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 6, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "SECRET_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 50
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Konto registrieren
+      en: Register an account
+    content:
+      de: Registriere dich nach der Installation über die Oberfläche mit deiner E-Mail-Adresse. Die Anmeldung und Benachrichtigungen erfolgen über den konfigurierten SMTP-Dienst.
+      en: After installation, register via the interface with your email address. Sign-in and notifications are delivered through the configured SMTP service.
