@@ -1,0 +1,15 @@
+services:
+  web:
+    environment:
+      OPENPROJECT_SMTP__ADDRESS: ct-mail
+      OPENPROJECT_SMTP__PORT: "1025"
+      OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO: "false"
+      OPENPROJECT_SMTP__USER__NAME: ""
+      OPENPROJECT_SMTP__PASSWORD: ""
+  worker:
+    environment:
+      OPENPROJECT_SMTP__ADDRESS: ct-mail
+      OPENPROJECT_SMTP__PORT: "1025"
+      OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO: "false"
+      OPENPROJECT_SMTP__USER__NAME: ""
+      OPENPROJECT_SMTP__PASSWORD: ""
