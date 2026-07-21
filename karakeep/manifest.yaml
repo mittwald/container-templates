@@ -1,0 +1,104 @@
+manifestVersion: 1.0
+name:
+  de: Karakeep
+  en: Karakeep
+version: "release"
+type: standalone
+tagline:
+  de: Lesezeichen und Notizen sammeln
+  en: Collect bookmarks and notes
+description:
+  de: |
+    **Karakeep** ist eine App zum Sammeln von Lesezeichen, Notizen und Links und eine self-hosted Alternative zu Pocket oder Raindrop.io. Gespeicherte Seiten werden automatisch abgerufen, archiviert und durchsuchbar gemacht; Links, Texte und Bilder lassen sich per Tags und Listen ordnen und über eine Volltextsuche schnell wiederfinden.
+
+    Zentrale Funktionen:
+
+    - Speichern von Links, Notizen und Bildern mit automatischem Abruf der Seiteninhalte
+    - Archivierung ganzer Seiten inklusive Screenshot über einen Headless-Browser
+    - Volltextsuche über Titel, Inhalte und archivierte Seiten (Meilisearch)
+    - Organisation über Tags und Listen, Browser-Erweiterungen und mobile Apps
+    - Optionale KI-gestützte Verschlagwortung über das AI-Hosting von mittwald
+
+    Für **Agenturen** eignet sich Karakeep als gemeinsame Recherche- und Referenzbibliothek über Kundenprojekte hinweg: Quellen, Inspirationen und Wettbewerbsanalysen werden pro Projekt gebündelt, mit Tags geordnet und im Team durchsucht. Da Seiten archiviert werden, bleiben Belege auch dann erhalten, wenn die Originalseite verschwindet oder sich ändert.
+
+    Bei mittwald läuft **Karakeep** als self-hosted Container in deutschen Rechenzentren; Lesezeichen, Notizen und archivierte Inhalte verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Karakeep mit Headless-Browser und Meilisearch für die Volltextsuche – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **Karakeep** is an app for collecting bookmarks, notes and links and a self-hosted alternative to Pocket or Raindrop.io. Saved pages are fetched, archived and made searchable automatically; links, text and images can be organised with tags and lists and quickly retrieved via full-text search.
+
+    Key features:
+
+    - Save links, notes and images with automatic fetching of page content
+    - Archival of full pages including a screenshot via a headless browser
+    - Full-text search across titles, content and archived pages (Meilisearch)
+    - Organisation with tags and lists, browser extensions and mobile apps
+    - Optional AI-powered tagging via mittwald's AI hosting
+
+    For **agencies**, Karakeep works as a shared research and reference library across client projects: sources, inspiration and competitive analyses are bundled per project, organised with tags and searched within the team. Because pages are archived, evidence remains available even when the original page disappears or changes.
+
+    At mittwald, **Karakeep** runs as a self-hosted container in German data centres; bookmarks, notes and archived content stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Karakeep with a headless browser and Meilisearch for full-text search — with no usage-based licence or seat costs.
+developer: Karakeep
+website: https://karakeep.app
+repository: https://github.com/karakeep-app/karakeep
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: karakeep
+    port: 3000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
+    positionMeta: { step: "aiHosting", index: 2 }
+    required: false
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string" }'
+systemInputs:
+  - name: "NEXTAUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "MEILI_MASTER_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erstes Konto wird Admin
+      en: First account becomes admin
+    content:
+      de: Nach der Installation registrierst du dich über die Oberfläche mit E-Mail und Passwort. Das erste Konto erhält Administratorrechte; weitere Registrierungen lassen sich anschließend über die Einstellung DISABLE_SIGNUPS unterbinden.
+      en: After installation, register via the interface with email and password. The first account receives administrator rights; further sign-ups can then be disabled via the DISABLE_SIGNUPS setting.
