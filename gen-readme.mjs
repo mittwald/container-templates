@@ -16,6 +16,8 @@ const ROOT = dirname(fileURLToPath(import.meta.url));
 const README = join(ROOT, "README.md");
 const START = "<!-- templates:start -->";
 const END = "<!-- templates:end -->";
+const NOTE =
+  "<!-- AUTO-GENERATED from each template's manifest (tagline.de) by gen-readme.mjs — do NOT edit by hand. Run: pnpm gen:readme -->";
 
 async function collectTemplates() {
   const entries = await readdir(ROOT, { withFileTypes: true });
@@ -52,7 +54,7 @@ const pattern = new RegExp(`${START}[\\s\\S]*?${END}`);
 if (!pattern.test(readme)) {
   throw new Error(`README.md is missing the ${START} / ${END} markers`);
 }
-const next = readme.replace(pattern, `${START}\n${table}\n${END}`);
+const next = readme.replace(pattern, `${START}\n${NOTE}\n${table}\n${END}`);
 
 const check = process.argv.includes("--check");
 if (check) {
