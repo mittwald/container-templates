@@ -1,0 +1,97 @@
+manifestVersion: 1.0
+name:
+  de: Vikunja
+  en: Vikunja
+version: "latest"
+type: standalone
+tagline:
+  de: Aufgaben und Projekte selbst verwalten
+  en: Self-hosted task and project management
+description:
+  de: |
+    **Vikunja** ist eine Anwendung zur Aufgaben- und Projektverwaltung und eine self-hosted Alternative zu Todoist, Asana oder Trello. Teams und Einzelpersonen erfassen, strukturieren und verfolgen ihre Aufgaben in einer einzigen Oberfläche – mit flexiblen Ansichten, Zuständigkeiten und Terminen.
+
+    Zentrale Funktionen:
+
+    - Mehrere Ansichten je Projekt: Liste, Kanban-Board, Tabelle und Gantt-Zeitleiste
+    - Aufgaben mit Fälligkeitsdaten, Prioritäten, Labels, Zuständigen und Unteraufgaben
+    - Verschachtelte Projekte und geteilte Projekte mit abgestuften Zugriffsrechten
+    - Erinnerungen, gespeicherte Filter, Kommentare und Dateianhänge
+
+    Für **Agenturen** eignet sich Vikunja als zentrale Planungsplattform über Kundenprojekte hinweg: Pro Kunde oder Auftrag lässt sich ein eigenes Projekt anlegen, Aufgaben werden Teammitgliedern zugewiesen und über Boards oder Zeitleisten nachverfolgt. So bleiben Zuständigkeiten und Deadlines auch bei vielen parallelen Projekten übersichtlich.
+
+    Bei mittwald läuft **Vikunja** als self-hosted Container in deutschen Rechenzentren; alle Projekt- und Aufgabendaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Vikunja zusammen mit einer PostgreSQL-Datenbank – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **Vikunja** is a task and project management application and a self-hosted alternative to Todoist, Asana or Trello. Teams and individuals capture, structure and track their tasks in a single interface — with flexible views, assignees and due dates.
+
+    Key features:
+
+    - Multiple views per project: list, Kanban board, table and Gantt timeline
+    - Tasks with due dates, priorities, labels, assignees and sub-tasks
+    - Nested projects and shared projects with granular access rights
+    - Reminders, saved filters, comments and file attachments
+
+    For **agencies**, Vikunja works as a central planning platform across client projects: a dedicated project can be created per client or engagement, tasks are assigned to team members and tracked via boards or timelines. This keeps responsibilities and deadlines clear even across many parallel projects.
+
+    At mittwald, **Vikunja** runs as a self-hosted container in German data centres; all project and task data stays under the agency's control and is not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Vikunja together with a PostgreSQL database — with no usage-based licence or seat costs.
+developer: Vikunja
+website: https://vikunja.io
+repository: https://github.com/go-vikunja/vikunja
+license:
+  name: GPL-3.0
+  link: https://spdx.org/licenses/GPL-3.0-or-later.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: vikunja
+    port: 3456
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "VIKUNJA_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erstes Konto registrieren
+      en: Register the first account
+    content:
+      de: Nach der Installation registrierst du dich über die Oberfläche selbst. Weitere Nutzende können anschließend eingeladen werden.
+      en: After installation, register yourself via the interface. Additional users can then be invited.
