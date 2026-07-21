@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** eignet sich Vikunja als zentrale Planungsplattform über Kundenprojekte hinweg: Pro Kunde oder Auftrag lässt sich ein eigenes Projekt anlegen, Aufgaben werden Teammitgliedern zugewiesen und über Boards oder Zeitleisten nachverfolgt. So bleiben Zuständigkeiten und Deadlines auch bei vielen parallelen Projekten übersichtlich.
 
-    Bei mittwald läuft **Vikunja** als self-hosted Container in deutschen Rechenzentren; alle Projekt- und Aufgabendaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Vikunja zusammen mit einer PostgreSQL-Datenbank – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+    Bei mittwald läuft **Vikunja** als self-hosted Container in deutschen Rechenzentren; alle Projekt- und Aufgabendaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Vikunja zusammen mit einer PostgreSQL-Datenbank und bindet einen vorhandenen SMTP-Dienst für Benachrichtigungen und Passwort-Wiederherstellung an – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
   en: |
     **Vikunja** is a task and project management application and a self-hosted alternative to Todoist, Asana or Trello. Teams and individuals capture, structure and track their tasks in a single interface — with flexible views, assignees and due dates.
 
@@ -33,7 +33,7 @@ description:
 
     For **agencies**, Vikunja works as a central planning platform across client projects: a dedicated project can be created per client or engagement, tasks are assigned to team members and tracked via boards or timelines. This keeps responsibilities and deadlines clear even across many parallel projects.
 
-    At mittwald, **Vikunja** runs as a self-hosted container in German data centres; all project and task data stays under the agency's control and is not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Vikunja together with a PostgreSQL database — with no usage-based licence or seat costs.
+    At mittwald, **Vikunja** runs as a self-hosted container in German data centres; all project and task data stays under the agency's control and is not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Vikunja together with a PostgreSQL database and connects an existing SMTP service for notifications and password recovery — with no usage-based licence or seat costs.
 developer: Vikunja
 website: https://vikunja.io
 repository: https://github.com/go-vikunja/vikunja
@@ -56,6 +56,45 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 2, section: "email" }
+    defaultValue: "mail.agenturserver.de"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 3, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 4, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 5, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 6, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "VIKUNJA_SECRET"
     schema:

@@ -12,20 +12,17 @@ services:
       - VIKUNJA_DATABASE_DATABASE=vikunja
       - VIKUNJA_DATABASE_USER=vikunja
       - VIKUNJA_DATABASE_PASSWORD=${POSTGRES_PASSWORD}
+      - VIKUNJA_MAILER_ENABLED=true
+      - VIKUNJA_MAILER_HOST=${SMTP_HOST}
+      - VIKUNJA_MAILER_PORT=${SMTP_PORT}
+      - VIKUNJA_MAILER_USERNAME=${SMTP_USER}
+      - VIKUNJA_MAILER_PASSWORD=${SMTP_PASSWORD}
+      - VIKUNJA_MAILER_FROMEMAIL=${SMTP_FROM}
     depends_on:
       postgres:
         condition: service_healthy
-      vikunja-init:
-        condition: service_completed_successfully
     volumes:
       - vikunja_files:/app/vikunja/files
-  vikunja-init:
-    image: busybox:stable
-    user: "0:0"
-    command: ["sh", "-c", "chown -R 1000:1000 /app/vikunja/files"]
-    volumes:
-      - vikunja_files:/app/vikunja/files
-    restart: "no"
   postgres:
     image: pgautoupgrade/pgautoupgrade:18-alpine
     environment:

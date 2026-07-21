@@ -62,6 +62,7 @@ userInputs:
       de: SMTP-Host
       en: SMTP host
     positionMeta: { step: "common", index: 2, section: "email" }
+    defaultValue: "mail.agenturserver.de"
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "SMTP_PORT"
