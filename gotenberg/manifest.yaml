@@ -1,0 +1,73 @@
+manifestVersion: 1.0
+name:
+  de: Gotenberg
+  en: Gotenberg
+version: "8"
+type: component
+tagline:
+  de: Dokumente per API in PDF umwandeln
+  en: Convert documents to PDF via an API
+description:
+  de: |
+    **Gotenberg** ist ein self-hosted API-Dienst zur Umwandlung von Dokumenten in PDF und ein Baustein für die automatische Dokumentenerzeugung. Über eine einheitliche REST-Schnittstelle werden HTML, Markdown und Office-Dokumente (Word, Excel, PowerPoint u. a.) in PDF konvertiert sowie PDF-Dateien zusammengeführt oder umgewandelt – ohne dass Anwendungen eigene Konvertierungswerkzeuge einbinden müssen.
+
+    Zentrale Funktionen:
+
+    - HTML- und Markdown-zu-PDF (Chromium) mit Kopf-/Fußzeilen und Seitenoptionen
+    - Office-zu-PDF über LibreOffice (Word, Excel, PowerPoint u. v. m.)
+    - PDF-Werkzeuge: Zusammenführen, Konvertieren und Metadaten
+    - Zustandsloser Dienst, horizontal skalierbar, ohne externe Datenbank
+
+    Für **Agenturen** dient Gotenberg als zentraler Konvertierungs-Baustein hinter eigenen Anwendungen: Rechnungen, Angebote, Reports oder Exporte aus Kundenanwendungen werden serverseitig zuverlässig als PDF erzeugt. Da der Dienst über eine klare API angesprochen wird, lässt er sich in bestehende Anwendungen, Workflows und Automatisierungen einbinden, ohne Konvertierungslogik in jeder Anwendung zu duplizieren.
+
+    Bei mittwald läuft **Gotenberg** als self-hosted Container in deutschen Rechenzentren; die zu konvertierenden Dokumente verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält den zustandslosen Gotenberg-Dienst – ohne nutzungsabhängige Lizenz- oder Konvertierungskosten.
+  en: |
+    **Gotenberg** is a self-hosted API service for converting documents to PDF and a building block for automated document generation. Through a unified REST interface, HTML, Markdown and Office documents (Word, Excel, PowerPoint and more) are converted to PDF, and PDF files are merged or transformed — without applications having to embed their own conversion tools.
+
+    Key features:
+
+    - HTML and Markdown to PDF (Chromium) with headers/footers and page options
+    - Office to PDF via LibreOffice (Word, Excel, PowerPoint and many more)
+    - PDF tools: merge, convert and metadata
+    - Stateless service, horizontally scalable, without an external database
+
+    For **agencies**, Gotenberg serves as a central conversion building block behind their own applications: invoices, quotes, reports or exports from client applications are reliably generated as PDF on the server side. Because the service is accessed through a clear API, it integrates into existing applications, workflows and automations without duplicating conversion logic in every application.
+
+    At mittwald, **Gotenberg** runs as a self-hosted container in German data centres; the documents to be converted stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes the stateless Gotenberg service — with no usage-based licence or conversion costs.
+developer: Julien Neuhart
+website: https://gotenberg.dev
+repository: https://github.com/gotenberg/gotenberg
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - development
+domains:
+  - userInput: HOST
+    service: gotenberg
+    port: 3000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: API-Endpunkt
+      en: API endpoint
+    value: https://${domain.main}
+  alerts:
+  - status: warning
+    heading:
+      de: Keine eingebaute Authentifizierung
+      en: No built-in authentication
+    content:
+      de: Gotenberg bringt keine eigene Anmeldung mit. Der Konvertierungsdienst ist über die Domain ohne Passwort erreichbar. Beschränke den Zugriff, damit der Dienst nur von deinen eigenen Anwendungen genutzt wird.
+      en: Gotenberg has no built-in sign-in. The conversion service is reachable via the domain without a password. Restrict access so that only your own applications use the service.

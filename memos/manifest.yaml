@@ -1,0 +1,91 @@
+manifestVersion: 1.0
+name:
+  de: Memos
+  en: Memos
+version: "stable"
+type: standalone
+tagline:
+  de: Notizen und Gedanken schnell festhalten
+  en: Quickly capture notes and thoughts
+description:
+  de: |
+    **Memos** ist eine leichtgewichtige, privatsphärenorientierte Anwendung für Notizen und Kurznotizen und eine self-hosted Alternative zu Google Keep oder Flomo. Gedanken, Aufgaben und Snippets werden in Sekunden als Markdown festgehalten und chronologisch in einem durchsuchbaren Verlauf gesammelt – ohne Ordnerzwang, dafür mit Tags und Verlinkungen.
+
+    Zentrale Funktionen:
+
+    - Schnelles Erfassen von Notizen in Markdown mit Vorschau
+    - Organisation über Tags, Filter und Volltextsuche statt starrer Ordner
+    - Sichtbarkeit je Notiz: privat, geschützt oder öffentlich teilbar
+    - REST-API und Einbettungen zur Anbindung eigener Tools und Automationen
+
+    Für **Agenturen** eignet sich Memos als gemeinsames Notiz- und Wissens-Log: Meeting-Notizen, Ideen und wiederkehrende Textbausteine werden zentral gesammelt und über Tags pro Kunde oder Projekt geordnet. Öffentlich freigegebene Notizen lassen sich als schlanke Änderungs- oder Statusmeldungen nutzen, während die REST-API die Anbindung an bestehende Workflows ermöglicht.
+
+    Bei mittwald läuft **Memos** als self-hosted Container in deutschen Rechenzentren; Notizen und Inhalte verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Memos zusammen mit einer PostgreSQL-Datenbank – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **Memos** is a lightweight, privacy-first application for notes and quick memos and a self-hosted alternative to Google Keep or Flomo. Thoughts, tasks and snippets are captured in seconds as Markdown and collected chronologically in a searchable timeline — without forced folders, but with tags and links.
+
+    Key features:
+
+    - Fast note capture in Markdown with preview
+    - Organisation via tags, filters and full-text search instead of rigid folders
+    - Per-note visibility: private, protected or publicly shareable
+    - REST API and embeds to connect your own tools and automations
+
+    For **agencies**, Memos works as a shared note and knowledge log: meeting notes, ideas and recurring text snippets are collected centrally and organised per client or project via tags. Publicly shared notes can serve as lean changelog or status updates, while the REST API enables integration with existing workflows.
+
+    At mittwald, **Memos** runs as a self-hosted container in German data centres; notes and content stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Memos together with a PostgreSQL database — with no usage-based licence or seat costs.
+developer: Memos
+website: https://usememos.com
+repository: https://github.com/usememos/memos
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: memos
+    port: 5230
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erstes Konto wird Host
+      en: First account becomes host
+    content:
+      de: Der erste Nutzer, der sich nach der Installation registriert, wird automatisch zum Host (Administrator). Weitere Nutzende können anschließend angelegt werden.
+      en: The first user to register after installation automatically becomes the host (administrator). Additional users can then be created.

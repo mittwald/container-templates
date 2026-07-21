@@ -1,0 +1,56 @@
+services:
+  linkwarden:
+    image: ghcr.io/linkwarden/linkwarden:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - NEXTAUTH_URL=https://${HOST}/api/v1/auth
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - DATABASE_URL=postgresql://linkwarden:${POSTGRES_PASSWORD}@postgres:5432/linkwarden
+      - NEXT_PUBLIC_CREDENTIALS_ENABLED=true
+      - MEILI_HOST=http://meilisearch:7700
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - CUSTOM_OPENAI_BASE_URL=https://llm.aihosting.mittwald.de/v1
+      - OPENAI_MODEL=gpt-oss-120b
+      - OPENAI_API_KEY=${AI_API_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      meilisearch:
+        condition: service_started
+    volumes:
+      - linkwarden_data:/data/data
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=linkwarden
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=linkwarden
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+  meilisearch:
+    image: getmeili/meilisearch:v1.12
+    environment:
+      - TZ=Europe/Berlin
+      - MEILI_ENV=production
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - MEILI_NO_ANALYTICS=true
+    volumes:
+      - meili_data:/meili_data
+volumes:
+  linkwarden_data:
+  postgres_data:
+  meili_data:
