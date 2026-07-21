@@ -1,0 +1,104 @@
+manifestVersion: 1.0
+name:
+  de: pgvector
+  en: pgvector
+version: "pg18"
+type: component
+tagline:
+  de: PostgreSQL mit Vektorsuche für KI
+  en: PostgreSQL with vector search for AI
+description:
+  de: |
+    **pgvector** ist die Vektor-Erweiterung für PostgreSQL und macht die bewährte relationale Datenbank zur Vektordatenbank – eine self-hosted Alternative zu Diensten wie Pinecone oder verwalteten Vektor-DBs. Neben klassischen relationalen Daten speichert und durchsucht pgvector Embeddings und ermöglicht so Ähnlichkeitssuche für KI-Anwendungen direkt in PostgreSQL.
+
+    Zentrale Funktionen:
+
+    - Ähnlichkeitssuche über Embeddings (L2, Cosinus, inneres Produkt)
+    - Exakte und approximative Indizes (HNSW, IVFFlat) für schnelle Abfragen
+    - Vektor- und relationale Daten in einer Datenbank und einer Transaktion
+    - Voller PostgreSQL-Funktionsumfang inklusive JSON, ACID und Erweiterungen
+
+    Als Datenbank-Komponente bildet **pgvector** das Backend für KI-Funktionen, die **Agenturen** entwickeln oder betreiben: Retrieval-Augmented-Generation (RAG), semantische Suche, Empfehlungssysteme oder Chatbots auf Basis eigener Dokumente. Da Vektoren und Geschäftsdaten in einer Datenbank liegen, entfällt eine separate Vektor-DB, und bestehende PostgreSQL-Kenntnisse und -Werkzeuge lassen sich weiter nutzen.
+
+    Bei mittwald läuft **pgvector** als self-hosted Container-Komponente in deutschen Rechenzentren; alle Daten und Embeddings verbleiben unter der Kontrolle des Betreibers und werden nicht an externe Dienste weitergegeben, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält PostgreSQL mit vorinstallierter pgvector-Erweiterung; Sicherungen erfolgen über das mittwald Backup-Label (`backup.command`). Lizenzkosten fallen nicht an.
+  en: |
+    **pgvector** is the vector extension for PostgreSQL, turning the proven relational database into a vector database — a self-hosted alternative to services such as Pinecone or managed vector DBs. Alongside classic relational data, pgvector stores and searches embeddings, enabling similarity search for AI applications directly in PostgreSQL.
+
+    Key features:
+
+    - Similarity search over embeddings (L2, cosine, inner product)
+    - Exact and approximate indexes (HNSW, IVFFlat) for fast queries
+    - Vector and relational data in one database and one transaction
+    - Full PostgreSQL feature set including JSON, ACID and extensions
+
+    As a database component, **pgvector** provides the backend for AI features that **agencies** develop or operate: retrieval-augmented generation (RAG), semantic search, recommendation systems or chatbots based on their own documents. Because vectors and business data live in one database, a separate vector DB is unnecessary, and existing PostgreSQL knowledge and tooling can be reused.
+
+    At mittwald, **pgvector** runs as a self-hosted container component in German data centres; all data and embeddings remain under the operator's control and are not shared with external services, simplifying GDPR compliance. This template includes PostgreSQL with the pgvector extension preinstalled; backups run via the mittwald backup label (`backup.command`). No licence costs apply.
+developer: Andrew Kane
+website: https://github.com/pgvector/pgvector
+repository: https://github.com/pgvector/pgvector
+license:
+  name: PostgreSQL License
+  link: https://spdx.org/licenses/PostgreSQL.html
+categories:
+  - development
+  - database
+  - ai
+userInputs:
+  - name: "DATABASE_NAME"
+    label:
+      de: Datenbank-Name
+      en: Database Name
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${pgvector.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 5432/TCP
+  - key:
+      de: Datenbank-Name
+      en: Database Name
+    value: ${pgvector.env.POSTGRES_DB}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${pgvector.env.POSTGRES_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${pgvector.env.POSTGRES_PASSWORD}
+  - key:
+      de: Verbindungsstring
+      en: Connection string
+    value: postgresql://${pgvector.env.POSTGRES_USER}:${pgvector.env.POSTGRES_PASSWORD}@${pgvector.hostname}/${pgvector.env.POSTGRES_DB}
+  alerts:
+  - status: info
+    heading:
+      de: Erweiterung aktivieren
+      en: Enable the extension
+    content:
+      de: Aktiviere die Vektorsuche einmalig pro Datenbank mit „CREATE EXTENSION vector;". Viele Anwendungen führen diesen Schritt automatisch über ihre Migrationen aus.
+      en: Enable vector search once per database with "CREATE EXTENSION vector;". Many applications run this step automatically through their migrations.
