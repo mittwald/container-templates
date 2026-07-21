@@ -11,7 +11,7 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 - Alle Umgebungsvariablen, die vom Benutzer oder System konfiguriert werden, nutzen die `${VARIABLE}` Syntax.
 - Volumes für persistente Daten werden als Named Volumes definiert.
 - Zeitzone ist standardmäßig `Europe/Berlin`.
-- **Image-Tags:** Anwendungen und Datenbanken werden bevorzugt auf die **Major-Version** gepinnt (z. B. `postgres:18`, `redis:8`, `image:3`). Nur wenn das Image keinen Major-Tag anbietet, wird `latest` verwendet. Ungetaggte Images (implizit `latest`) sind zu vermeiden.
+- **Image-Tags:** Anwendungen und Datenbanken werden bevorzugt auf die **Major-Version** gepinnt (z. B. `postgres:18`, `redis:8`, `vikunja:2`). Bietet das Projekt keinen floatenden Major-Tag an — etwa weil es nur volle Semver-Tags oder ein Datums-/CalVer-Schema (`2026.6.1`) veröffentlicht —, wird `latest` verwendet. Ungetaggte Images (implizit `latest`) sind zu vermeiden. Ausnahme: Images, die eine bestimmte, vom Upstream vorgegebene kompatible Version voraussetzen (z. B. das für Immich vorbereitete PostgreSQL-Image mit fest verdrahteten Extension-Versionen), werden auf genau diesen Tag gepinnt.
 - Abhängige Services warten über `depends_on` mit `condition: service_healthy`; Datenbanken/Caches (postgres, mariadb, redis/valkey, meilisearch …) definieren dazu einen `healthcheck`.
 - Services, die Backups unterstützen, verwenden das Label `backup.command` mit dem entsprechenden Backup-Befehl.
 - Ports werden nur für den Hauptservice exponiert, der über die Domain erreichbar sein soll.

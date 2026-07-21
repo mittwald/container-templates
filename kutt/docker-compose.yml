@@ -1,6 +1,6 @@
 services:
   kutt:
-    image: kutt/kutt:v3.2.6
+    image: kutt/kutt:latest
     ports:
       - "3000:3000"
     environment:
