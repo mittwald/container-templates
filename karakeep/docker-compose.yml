@@ -1,6 +1,6 @@
 services:
   karakeep:
-    image: ghcr.io/karakeep-app/karakeep:release
+    image: ghcr.io/karakeep-app/karakeep:latest
     ports:
       - "3000:3000"
     environment:
@@ -33,7 +33,7 @@ services:
       - --disable-blink-features=AutomationControlled
       - --window-size=1440,900
   meilisearch:
-    image: getmeili/meilisearch:v1.41.0
+    image: getmeili/meilisearch:v1
     environment:
       - TZ=Europe/Berlin
       - MEILI_NO_ANALYTICS=true

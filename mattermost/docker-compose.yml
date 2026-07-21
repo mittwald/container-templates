@@ -1,6 +1,6 @@
 services:
   mattermost:
-    image: mattermost/mattermost-team-edition:11.8
+    image: mattermost/mattermost-team-edition:latest
     ports:
       - "8065:8065"
     environment:

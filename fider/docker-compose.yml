@@ -1,6 +1,6 @@
 services:
   fider:
-    image: getfider/fider:stable
+    image: getfider/fider:latest
     ports:
       - "3000:3000"
     environment:

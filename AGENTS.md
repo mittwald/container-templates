@@ -11,6 +11,8 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 - Alle Umgebungsvariablen, die vom Benutzer oder System konfiguriert werden, nutzen die `${VARIABLE}` Syntax.
 - Volumes für persistente Daten werden als Named Volumes definiert.
 - Zeitzone ist standardmäßig `Europe/Berlin`.
+- **Image-Tags:** Anwendungen und Datenbanken werden bevorzugt auf die **Major-Version** gepinnt (z. B. `postgres:18`, `redis:8`, `image:3`). Nur wenn das Image keinen Major-Tag anbietet, wird `latest` verwendet. Ungetaggte Images (implizit `latest`) sind zu vermeiden.
+- Abhängige Services warten über `depends_on` mit `condition: service_healthy`; Datenbanken/Caches (postgres, mariadb, redis/valkey, meilisearch …) definieren dazu einen `healthcheck`.
 - Services, die Backups unterstützen, verwenden das Label `backup.command` mit dem entsprechenden Backup-Befehl.
 - Ports werden nur für den Hauptservice exponiert, der über die Domain erreichbar sein soll.
 - `docker-compose.dev.yml` ist ein optionaler lokaler Override, den `dev.mjs` nach der generierten Compose-Datei lädt; beim produktiven Template-Deployment wird die Datei nicht verwendet.

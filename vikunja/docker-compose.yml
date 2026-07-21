@@ -1,6 +1,6 @@
 services:
   vikunja:
-    image: vikunja/vikunja:latest
+    image: vikunja/vikunja:2
     ports:
       - "3456:3456"
     environment:

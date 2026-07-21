@@ -1,6 +1,6 @@
 services:
   password-pusher:
-    image: pglombardo/pwpush:latest
+    image: pglombardo/pwpush:2
     ports:
       - "5100:5100"
     environment:

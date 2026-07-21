@@ -52,7 +52,7 @@ services:
           > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
         find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
-    image: redis:latest
+    image: redis:8
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
       interval: 10s
