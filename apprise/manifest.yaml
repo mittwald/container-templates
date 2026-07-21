@@ -1,0 +1,73 @@
+manifestVersion: 1.0
+name:
+  de: Apprise
+  en: Apprise
+version: "latest"
+type: component
+tagline:
+  de: Benachrichtigungen über eine API verteilen
+  en: Dispatch notifications through one API
+description:
+  de: |
+    **Apprise** ist ein self-hosted Benachrichtigungs-Gateway und stellt über eine einheitliche API den Versand von Push- und Chat-Nachrichten an über 100 Dienste bereit. Statt für jede Anwendung eigene Integrationen zu Slack, Telegram, Discord, E-Mail oder Webhooks zu pflegen, senden Anwendungen ihre Meldungen an einen einzigen Endpunkt, der sie an die konfigurierten Ziele verteilt.
+
+    Zentrale Funktionen:
+
+    - Einheitliche REST-API für über 100 Benachrichtigungsdienste
+    - Gespeicherte Konfigurationen mit Schlüsseln (persistenter Modus)
+    - Anhänge, Formatierung (Text, Markdown, HTML) und Tag-basierter Versand
+    - Schlanker, zustandsarmer Dienst ohne externe Datenbank
+
+    Für **Agenturen** dient Apprise als zentraler Benachrichtigungs-Baustein hinter eigenen Anwendungen und Automatisierungen: Monitoring, Cronjobs, Deployment-Skripte oder Kundenanwendungen melden Ereignisse an Apprise, das die Zustellung an die jeweils passenden Kanäle übernimmt. So bleibt die Benachrichtigungslogik an einer Stelle gebündelt und muss nicht in jeder Anwendung erneut umgesetzt werden.
+
+    Bei mittwald läuft **Apprise** als self-hosted Container in deutschen Rechenzentren; Konfigurationen und Zugangsdaten der Kanäle verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält den Apprise-API-Dienst mit persistentem Konfigurationsspeicher – ohne nutzungsabhängige Lizenz- oder Nachrichtenkosten.
+  en: |
+    **Apprise** is a self-hosted notification gateway that provides a unified API for sending push and chat messages to more than 100 services. Instead of maintaining separate integrations to Slack, Telegram, Discord, email or webhooks in every application, applications send their messages to a single endpoint that distributes them to the configured targets.
+
+    Key features:
+
+    - Unified REST API for more than 100 notification services
+    - Stored configurations addressed by key (persistent mode)
+    - Attachments, formatting (text, Markdown, HTML) and tag-based delivery
+    - Lightweight, near-stateless service without an external database
+
+    For **agencies**, Apprise serves as a central notification building block behind their own applications and automations: monitoring, cron jobs, deployment scripts or client applications report events to Apprise, which handles delivery to the appropriate channels. This keeps notification logic in one place instead of reimplementing it in every application.
+
+    At mittwald, **Apprise** runs as a self-hosted container in German data centres; channel configurations and credentials stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes the Apprise API service with persistent configuration storage — with no usage-based licence or message costs.
+developer: Chris Caron
+website: https://github.com/caronc/apprise
+repository: https://github.com/caronc/apprise-api
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - communication
+domains:
+  - userInput: HOST
+    service: apprise
+    port: 8000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: API-Endpunkt
+      en: API endpoint
+    value: https://${domain.main}
+  alerts:
+  - status: warning
+    heading:
+      de: Keine eingebaute Authentifizierung
+      en: No built-in authentication
+    content:
+      de: Apprise bringt keine eigene Anmeldung mit. Der Dienst und die Verwaltungsoberfläche sind über die Domain ohne Passwort erreichbar. Beschränke den Zugriff (z. B. nur intern erreichbar machen) und behandle die Konfigurationsschlüssel wie Geheimnisse.
+      en: Apprise has no built-in sign-in. The service and its management interface are reachable via the domain without a password. Restrict access (for example keep it internal) and treat the configuration keys as secrets.
