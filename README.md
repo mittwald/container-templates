@@ -220,7 +220,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 ## Vorhandene Templates
 
 <!-- templates:start -->
-<!-- AUTO-GENERATED from each template's manifest (tagline.de) by gen-readme.mjs — do NOT edit by hand. Run: pnpm gen:readme -->
+<!-- AUTO-GENERATED from each template's manifest (tagline.de) by gen-readme.mjs. Do NOT edit by hand — it is regenerated automatically when changes are merged to main. -->
 | | Template | Beschreibung |
 |---|----------|-------------|
 | <img src="anythingllm/icon.svg" width="24" height="24" style="object-fit:contain"> | [anythingllm](anythingllm/) | All-in-One KI-Desktop- und Server-Anwendung mit RAG |

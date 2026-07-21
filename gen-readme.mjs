@@ -17,7 +17,7 @@ const README = join(ROOT, "README.md");
 const START = "<!-- templates:start -->";
 const END = "<!-- templates:end -->";
 const NOTE =
-  "<!-- AUTO-GENERATED from each template's manifest (tagline.de) by gen-readme.mjs — do NOT edit by hand. Run: pnpm gen:readme -->";
+  "<!-- AUTO-GENERATED from each template's manifest (tagline.de) by gen-readme.mjs. Do NOT edit by hand — it is regenerated automatically when changes are merged to main. -->";
 
 async function collectTemplates() {
   const entries = await readdir(ROOT, { withFileTypes: true });
