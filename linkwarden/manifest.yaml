@@ -1,0 +1,121 @@
+manifestVersion: 1.0
+name:
+  de: Linkwarden
+  en: Linkwarden
+version: "latest"
+type: standalone
+tagline:
+  de: Lesezeichen sammeln und archivieren
+  en: Collect and archive bookmarks
+description:
+  de: |
+    **Linkwarden** ist ein Lesezeichen- und Wissensmanager und eine self-hosted Alternative zu Raindrop.io oder Pocket. Die Anwendung sammelt Links strukturiert in Sammlungen, versieht sie mit Tags und archiviert den Seiteninhalt dauerhaft – als Screenshot, PDF und lesbaren Text – damit Quellen auch nach dem Offline-Gehen erhalten bleiben.
+
+    Zentrale Funktionen:
+
+    - Sammlungen und verschachtelte Ordner mit Tags für eine geordnete Ablage
+    - Automatische Archivierung jeder Seite als Screenshot, PDF und Volltext
+    - Volltextsuche über Titel, Beschreibung und archivierte Inhalte (Meilisearch)
+    - Geteilte Sammlungen mit Mitgliedern und abgestuften Zugriffsrechten
+    - Optionale KI-gestützte Verschlagwortung über das AI-Hosting von mittwald
+
+    Für **Agenturen** eignet sich Linkwarden als gemeinsame Recherche- und Referenzbibliothek über Kundenprojekte hinweg: Quellen, Wettbewerbsanalysen und Inspirationen werden pro Projekt in einer Sammlung gebündelt und im Team geteilt. Da Seiten archiviert werden, bleiben Belege und Rechercheergebnisse auch dann verfügbar, wenn die Originalseite verschwindet oder sich ändert.
+
+    Bei mittwald läuft **Linkwarden** als self-hosted Container in deutschen Rechenzentren; Links, Notizen und archivierte Inhalte verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Linkwarden zusammen mit einer PostgreSQL-Datenbank und Meilisearch für die Volltextsuche – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **Linkwarden** is a bookmark and knowledge manager and a self-hosted alternative to Raindrop.io or Pocket. It collects links in structured collections, organises them with tags and permanently archives the page content — as a screenshot, PDF and readable text — so that sources remain available even after they go offline.
+
+    Key features:
+
+    - Collections and nested folders with tags for tidy organisation
+    - Automatic archival of every page as screenshot, PDF and full text
+    - Full-text search across titles, descriptions and archived content (Meilisearch)
+    - Shared collections with members and granular access rights
+    - Optional AI-powered tagging via mittwald's AI hosting
+
+    For **agencies**, Linkwarden works as a shared research and reference library across client projects: sources, competitive analyses and inspiration are bundled per project in a collection and shared within the team. Because pages are archived, evidence and research results stay available even when the original page disappears or changes.
+
+    At mittwald, **Linkwarden** runs as a self-hosted container in German data centres; links, notes and archived content stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Linkwarden together with a PostgreSQL database and Meilisearch for full-text search — with no usage-based licence or seat costs.
+developer: Linkwarden
+website: https://linkwarden.app
+repository: https://github.com/linkwarden/linkwarden
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: linkwarden
+    port: 3000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
+    positionMeta: { step: "aiHosting", index: 2 }
+    required: false
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string" }'
+systemInputs:
+  - name: "NEXTAUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "MEILI_MASTER_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erstes Konto wird Admin
+      en: First account becomes admin
+    content:
+      de: Nach der Installation registrierst du dich über die Oberfläche mit E-Mail und Passwort. Das erste Konto erhält Administratorrechte; weitere Nutzende können anschließend eingeladen werden. Weitere Registrierungen kannst du über die Umgebungsvariable NEXT_PUBLIC_DISABLE_REGISTRATION unterbinden.
+      en: After installation, register via the interface with email and password. The first account receives administrator rights; additional users can then be invited. You can disable further sign-ups via the NEXT_PUBLIC_DISABLE_REGISTRATION environment variable.
