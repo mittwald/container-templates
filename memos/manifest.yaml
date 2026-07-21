@@ -87,5 +87,5 @@ help:
       de: Erstes Konto wird Host
       en: First account becomes host
     content:
-      de: Der erste Nutzer, der sich nach der Installation registriert, wird automatisch zum Host (Administrator). Weitere Nutzende können anschließend angelegt werden.
-      en: The first user to register after installation automatically becomes the host (administrator). Additional users can then be created.
+      de: Der erste Nutzer, der sich nach der Installation registriert, wird automatisch zum Host (Administrator). Weitere Nutzende können anschließend angelegt werden. Die Selbstregistrierung kannst du danach in den Workspace-Einstellungen deaktivieren.
+      en: The first user to register after installation automatically becomes the host (administrator). Additional users can then be created. You can then disable self-registration in the workspace settings.
