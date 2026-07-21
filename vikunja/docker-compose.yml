@@ -15,8 +15,17 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      vikunja-init:
+        condition: service_completed_successfully
     volumes:
       - vikunja_files:/app/vikunja/files
+  vikunja-init:
+    image: busybox:stable
+    user: "0:0"
+    command: ["sh", "-c", "chown -R 1000:1000 /app/vikunja/files"]
+    volumes:
+      - vikunja_files:/app/vikunja/files
+    restart: "no"
   postgres:
     image: pgautoupgrade/pgautoupgrade:18-alpine
     environment:
