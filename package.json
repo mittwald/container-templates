@@ -8,7 +8,7 @@
   },
   "scripts": {
     "app": "node dev.mjs",
-    "test": "pnpm run check && pnpm run gen:readme:check && pnpm run validate",
+    "test": "pnpm run check && pnpm run validate",
     "check": "node --check validate.mjs && node --check dev.mjs && node --check gen-readme.mjs",
     "validate": "node validate.mjs",
     "gen:readme": "node gen-readme.mjs",

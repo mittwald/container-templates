@@ -59,7 +59,7 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
 
 ## Pflege
 
-- Die Template-Tabelle in der `README.md` wird aus den Manifesten generiert (Ordnername + `tagline.de`) und **nicht** von Hand gepflegt. Nach dem Hinzufügen, Umbenennen oder Entfernen eines Templates `pnpm gen:readme` ausführen; `pnpm gen:readme:check` (Teil von `pnpm test`) erzwingt in der CI, dass die Tabelle aktuell ist. Die Tabelle steht zwischen den Markern `<!-- templates:start -->` und `<!-- templates:end -->`.
+- Die Template-Tabelle in der `README.md` wird aus den Manifesten generiert (Ordnername + `tagline.de`) und **nicht** von Hand gepflegt. Sie wird bei jedem Merge auf `main` automatisch durch die GitHub-Action `.github/workflows/update-readme.yml` (`gen-readme.mjs`) regeneriert und per `github-actions[bot]` committet. Pull Requests fassen die Tabelle also **nicht** an und können nicht darauf konflikten. Lokal lässt sie sich mit `pnpm gen:readme` erzeugen; sie steht zwischen den Markern `<!-- templates:start -->` und `<!-- templates:end -->`.
 - Änderungen an der Manifest-**Struktur** in `manifest.schema.json` pflegen (wird per CI gegen alle `manifest.yaml` validiert) und die Feld-Doku in der `README.md` nachziehen.
 - Regeln zu Screenshot-Bildern (Mindestbreite, Seitenverhältnis) stehen in `validate.mjs` als Konstanten; bei Änderungen die Konvention oben und die `README.md` nachziehen.
 - **Konventionen** werden hier in `AGENTS.md` gepflegt.
