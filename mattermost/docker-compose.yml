@@ -1,0 +1,55 @@
+services:
+  mattermost:
+    image: mattermost/mattermost-team-edition:11.8
+    ports:
+      - "8065:8065"
+    environment:
+      - TZ=Europe/Berlin
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:${POSTGRES_PASSWORD}@postgres:5432/mattermost?sslmode=disable&connect_timeout=10
+      - MM_SERVICESETTINGS_SITEURL=https://${HOST}
+      - MM_TEAMSETTINGS_ENABLEOPENSERVER=true
+      - MM_EMAILSETTINGS_SENDEMAILNOTIFICATIONS=true
+      - MM_EMAILSETTINGS_ENABLESMTPAUTH=true
+      - MM_EMAILSETTINGS_SMTPSERVER=${SMTP_HOST}
+      - MM_EMAILSETTINGS_SMTPPORT=${SMTP_PORT}
+      - MM_EMAILSETTINGS_SMTPUSERNAME=${SMTP_USER}
+      - MM_EMAILSETTINGS_SMTPPASSWORD=${SMTP_PASSWORD}
+      - MM_EMAILSETTINGS_CONNECTIONSECURITY=STARTTLS
+      - MM_EMAILSETTINGS_FEEDBACKEMAIL=${SMTP_FROM}
+      - MM_EMAILSETTINGS_REPLYTOADDRESS=${SMTP_FROM}
+      - MM_EMAILSETTINGS_REQUIREEMAILVERIFICATION=false
+    volumes:
+      - mattermost_config:/mattermost/config
+      - mattermost_data:/mattermost/data
+      - mattermost_plugins:/mattermost/plugins
+      - mattermost_client_plugins:/mattermost/client/plugins
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=mattermost
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  mattermost_config:
+  mattermost_data:
+  mattermost_plugins:
+  mattermost_client_plugins:
+  postgres_data:
