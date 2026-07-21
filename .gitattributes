@@ -1,0 +1,7 @@
+# The "Vorhandene Templates" table in README.md is generated from the manifests
+# (see gen-readme.mjs). Use Git's built-in "union" merge driver so that template
+# rows added concurrently in different pull requests merge without conflicts
+# (both additions are kept instead of producing conflict markers). CI runs
+# `pnpm gen:readme:check`, which re-canonicalises order if a union merge left it
+# slightly off. "union" is a built-in driver, so GitHub's PR merges honor it too.
+README.md merge=union
