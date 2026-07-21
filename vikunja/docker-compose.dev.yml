@@ -1,0 +1,18 @@
+services:
+  vikunja:
+    environment:
+      VIKUNJA_MAILER_HOST: ct-mail
+      VIKUNJA_MAILER_PORT: "1025"
+      VIKUNJA_MAILER_USERNAME: ""
+      VIKUNJA_MAILER_PASSWORD: ""
+      VIKUNJA_MAILER_FORCESSL: "false"
+    depends_on:
+      vikunja-init:
+        condition: service_completed_successfully
+  vikunja-init:
+    image: busybox:stable
+    user: "0:0"
+    command: ["sh", "-c", "chown -R 1000:1000 /app/vikunja/files"]
+    volumes:
+      - vikunja_files:/app/vikunja/files
+    restart: "no"
