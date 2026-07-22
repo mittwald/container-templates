@@ -49,6 +49,16 @@ screenshots:
     text:
       de: Workflows im visuellen Editor aus verbundenen Nodes aufbauen
       en: Building workflows from connected nodes in the visual editor
+  - bg: background.jpg
+    screenshot: screenshot-node-editor.jpg
+    text:
+      de: Nodes im visuellen Editor bearbeiten
+      en: Editing nodes in the visual editor
+  - bg: background.jpg
+    screenshot: screenshot-workflow-templates.jpg
+    text:
+      de: Vorgefertigte Workflow-Vorlagen importieren und anpassen
+      en: Importing and customizing pre-built workflow templates
 domains:
   - userInput: HOST
     service: n8n
