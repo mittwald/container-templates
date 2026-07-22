@@ -1,6 +1,6 @@
 services:
   memos:
-    image: neosmemo/memos:latest
+    image: neosmemo/memos:stable
     ports:
       - "5230:5230"
     environment:
