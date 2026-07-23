@@ -1,0 +1,48 @@
+services:
+  kimai:
+    image: kimai/kimai2:2
+    ports:
+      - "8001:8001"
+    environment:
+      - TZ=Europe/Berlin
+      - APP_ENV=prod
+      - APP_SECRET=${KIMAI_SECRET}
+      - TRUSTED_HOSTS=${HOST}|localhost|127\.0\.0\.1
+      - TRUSTED_PROXIES=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      - ADMINMAIL=${ADMIN_EMAIL}
+      - ADMINPASS=${ADMIN_PASSWORD}
+      - MAILER_URL=smtp://${SMTP_USER}:${SMTP_PASSWORD}@${SMTP_HOST}:${SMTP_PORT}?encryption=tls
+      - MAILER_FROM=${SMTP_FROM}
+      - DATABASE_URL=mysql://kimai:${MARIADB_PASSWORD}@database/kimai?charset=utf8mb4
+      - memory_limit=512M
+    volumes:
+      - kimai_data:/opt/kimai/var/data
+      - kimai_plugins:/opt/kimai/var/plugins
+    depends_on:
+      database:
+        condition: service_healthy
+  database:
+    image: mariadb:lts
+    environment:
+      - TZ=Europe/Berlin
+      - MARIADB_DATABASE=kimai
+      - MARIADB_USER=kimai
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/mysql/backups && \
+        mariadb-dump -u root -p"$MARIADB_ROOT_PASSWORD" --all-databases | gzip \
+          > /var/lib/mysql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/mysql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  kimai_data:
+  kimai_plugins:
+  mariadb_data:

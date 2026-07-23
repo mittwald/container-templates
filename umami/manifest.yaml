@@ -1,0 +1,105 @@
+manifestVersion: 1.0
+name:
+  de: Umami
+  en: Umami
+version: "latest"
+type: standalone
+tagline:
+  de: Datenschutzfreundliche Web-Analytics
+  en: Privacy-focused web analytics
+description:
+  de: |
+    **Umami** ist eine datenschutzfreundliche Web-Analytics-Lösung und eine self-hosted Alternative zu Google Analytics oder Matomo. Sie erfasst Seitenaufrufe, Besucherquellen, Events und Conversions in einem übersichtlichen Dashboard, ohne Cookies zu setzen oder personenbezogene Daten an Dritte weiterzugeben.
+
+    Zentrale Funktionen:
+
+    - Echtzeit-Auswertung von Traffic, Quellen und Geräten
+    - Benutzerdefinierte Events und Conversion-Ziele
+    - Getrennte Auswertung beliebig vieler Websites in einer Installation
+    - Öffentlich teilbare Dashboards und abgestufte Zugriffsrechte für Teammitglieder
+
+    Für **Agenturen** ist Umami besonders im Betrieb vieler Kundenprojekte interessant: Sämtliche Kundenseiten laufen über eine zentrale Instanz und lassen sich dort getrennt auswerten und als Reporting weitergeben. Neue Kundenseiten sind in wenigen Minuten angebunden, und abgestufte Zugriffsrechte ermöglichen schreibgeschützte Dashboard-Logins für Kunden. Da Umami ohne Cookie-Banner auskommt, vereinfacht es zugleich die DSGVO-Konformität der betreuten Websites.
+
+    Bei mittwald läuft **Umami** als self-hosted Container in deutschen Rechenzentren; erfasste Daten bleiben vollständig unter Kontrolle der Agentur und werden nicht in Drittländer übertragen — DSGVO-konform ohne externen Datentransfer. Dieses Template enthält Umami mit einer PostgreSQL-Datenbank und ist sofort einsatzbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, bleibt die Lösung auch über viele Kundenprojekte hinweg wirtschaftlich.
+  en: |
+    **Umami** is a privacy-friendly web analytics solution and a self-hosted alternative to Google Analytics or Matomo. It records page views, traffic sources, events and conversions in a clear dashboard without setting cookies or passing personal data to third parties.
+
+    Key features:
+
+    - Real-time analysis of traffic, sources and devices
+    - Custom events and conversion goals
+    - Multiple websites analysed separately from one installation
+    - Publicly shareable dashboards with granular access rights for team members
+
+    For **agencies**, Umami is particularly useful across many client projects: all sites run through a single central instance, analysed separately and shared as reporting. Granular access rights allow read-only dashboard logins for clients without exposing other projects. Because Umami works without a cookie banner, it also simplifies GDPR compliance for managed websites.
+
+    At mittwald, **Umami** runs as a self-hosted container in German data centres; collected data stays fully under the agency's control and is not transferred to third countries — GDPR-compliant with no external data transfer. This template includes Umami with a PostgreSQL database, ready to use immediately and with no usage-based licence costs.
+developer: Umami Software
+website: https://umami.is
+repository: https://github.com/umami-software/umami
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - monitoring
+domains:
+  - userInput: HOST
+    service: umami
+    port: 3000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "APP_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: admin
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: umami
+  alerts:
+  - status: warning
+    heading:
+      de: Standardzugangsdaten gesetzt
+      en: Default login credentials set
+    content:
+      de: Die Zugangsdaten werden für jede Installation standardmäßig gesetzt. Bitte ändere sie sofort nach dem ersten Login.
+      en: The login credentials are set by default for each installation. Please change them immediately after your first login.

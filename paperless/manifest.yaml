@@ -1,0 +1,106 @@
+manifestVersion: 1.0
+name:
+  de: Paperless-ngx
+  en: Paperless-ngx
+version: "latest"
+type: standalone
+tagline:
+  de: Dokumentenmanagement mit OCR
+  en: Document management with OCR
+description:
+  de: |
+    **Paperless-ngx** ist ein self-hosted Dokumentenmanagementsystem und eine Alternative zu kommerziellen Cloud-DMS-Lösungen wie DocuWare. Die Anwendung wandelt physische und digitale Dokumente per OCR in ein durchsuchbares digitales Archiv um, kategorisiert Dokumente automatisch und macht umfangreiche Papierarchive überflüssig.
+
+    Zentrale Funktionen:
+
+    - OCR-Texterkennung für gescannte Dokumente
+    - Automatische Verschlagwortung und Kategorisierung eingehender Dokumente
+    - Volltextsuche über den gesamten Dokumentenbestand
+    - Consume-Ordner und E-Mail-Posteingang für automatischen Dokumenteneingang
+
+    Für **Agenturen** bietet Paperless-ngx eine strukturierte Lösung für das interne Dokumentenmanagement: Eingehende Rechnungen, Verträge und Projektunterlagen lassen sich automatisch einlesen, klassifizieren und per Volltextsuche sofort wiederfinden. Durch Korrespondenten und Dokumenttypen kann der Schriftverkehr nach Kunden und Projekten geordnet werden. Die E-Mail-Posteingang-Funktion ermöglicht die direkte Anlieferung gescannter Rechnungen ohne manuelle Zwischenschritte. Da OCR vollständig im Container ausgeführt wird, sind keine externen Erkennungsdienste erforderlich.
+
+    Bei mittwald läuft **Paperless-ngx** als self-hosted Container in deutschen Rechenzentren; alle archivierten Dokumente bleiben in der eigenen Infrastruktur — ein wichtiger Aspekt für den DSGVO-konformen Umgang mit Rechnungen und Vertragsdokumenten. Dieses Template enthält Paperless-ngx zusammen mit PostgreSQL, Redis, Gotenberg und Tika und ist sofort einsatzbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich die Lösung auch bei steigendem Dokumentenvolumen wirtschaftlich betreiben.
+  en: |
+    **Paperless-ngx** is a self-hosted document management system and an alternative to commercial cloud DMS solutions such as DocuWare. The application transforms physical and digital documents into a searchable digital archive using OCR, categorises them automatically and makes extensive paper-based archives obsolete.
+
+    Key features:
+
+    - OCR text recognition for scanned documents
+    - Automatic tagging and categorisation of incoming documents
+    - Full-text search across the entire document archive
+    - Consume folder and email inbox for automatic document ingestion
+
+    For **agencies**, Paperless-ngx provides a structured solution for internal document management: invoices, contracts and project documents are ingested automatically, classified and retrieved instantly via full-text search. Correspondents and document types keep all correspondence organised by client and project. The email inbox delivers scanned invoices directly without manual steps; OCR runs entirely within the container.
+
+    At mittwald, **Paperless-ngx** runs as a self-hosted container in German data centres; all archived documents remain within the operator's infrastructure — an important consideration for GDPR-compliant handling of invoices and contracts. This template includes Paperless-ngx together with PostgreSQL, Redis, Gotenberg and Tika, ready to use immediately, with no usage-based licence costs.
+developer: Paperless-ngx
+website: https://docs.paperless-ngx.com
+repository: https://github.com/paperless-ngx/paperless-ngx
+license:
+  name: GPL-3.0
+  link: https://spdx.org/licenses/GPL-3.0.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: paperless
+    port: 8000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erste Anmeldung
+      en: First sign-in
+    content:
+      de: Der Admin-Benutzer wird beim ersten Start automatisch mit dem oben konfigurierten Benutzernamen und Passwort angelegt. Melde dich anschließend über die Oberfläche damit an.
+      en: The admin user is created automatically on first start using the username and password configured above. Sign in via the interface with those credentials.

@@ -1,0 +1,88 @@
+manifestVersion: 1.0
+name:
+  de: Stirling-PDF
+  en: Stirling-PDF
+version: "latest"
+type: standalone
+tagline:
+  de: Umfangreicher PDF-Werkzeugkasten
+  en: Comprehensive PDF toolkit
+description:
+  de: |
+    **Stirling-PDF** ist eine umfangreiche, self-hosted Plattform zum Bearbeiten und Automatisieren von PDF-Dokumenten. Sie ist eine Alternative zu Desktop- und Cloud-Angeboten wie Adobe Acrobat oder Smallpdf und verarbeitet hochgeladene Dateien innerhalb der eigenen Infrastruktur statt bei einem externen Dokumentendienst.
+
+    Zentrale Funktionen:
+
+    - PDF-Dateien zusammenführen, teilen, drehen, sortieren und komprimieren
+    - Dokumente konvertieren, per OCR erkennen und mit Wasserzeichen versehen
+    - Inhalte schwärzen, signieren, schützen und Metadaten bearbeiten
+    - Wiederkehrende Verarbeitungsschritte als Pipelines automatisieren
+
+    Für **Agenturen** deckt Stirling-PDF viele Arbeitsschritte rund um Angebote, Verträge, Präsentationen und Druckunterlagen über eine gemeinsame Oberfläche ab. Teams können Dokumente für Kunden zusammenstellen, sensible Inhalte schwärzen oder Scans durchsuchbar machen, ohne für jede Aufgabe einen separaten Dienst zu verwenden. Der aktivierte Login schützt die Oberfläche vor unberechtigtem Zugriff.
+
+    Bei mittwald läuft **Stirling-PDF** als self-hosted Container in deutschen Rechenzentren; verarbeitete Kundendokumente müssen die eigene Infrastruktur nicht verlassen. Das Template aktiviert die integrierte Anmeldung mit individuell vergebenen Zugangsdaten, setzt Deutsch als Standardsprache und deaktiviert Suchmaschinen-Sichtbarkeit sowie Umfragen. OCR-Daten, Konfiguration, Protokolle, Anpassungen und Pipelines werden in persistenten Volumes gespeichert. Die Community-Bestandteile sind ohne nutzungsabhängige Gebühren einsetzbar.
+  en: |
+    **Stirling-PDF** is a comprehensive, self-hosted platform for editing and automating PDF documents. It is an alternative to desktop and cloud products such as Adobe Acrobat or Smallpdf, processing uploaded files within the operator's own infrastructure rather than through an external document service.
+
+    Key features:
+
+    - Merge, split, rotate, reorder and compress PDF files
+    - Convert documents, perform OCR and add watermarks
+    - Redact, sign and protect content, and edit metadata
+    - Automate recurring processing steps through pipelines
+
+    For **agencies**, Stirling-PDF covers many tasks involving proposals, contracts, presentations and print documents in a single interface. Teams assemble client documents, redact confidential content and make scans searchable without using a separate service for every operation. Enabled authentication protects the interface from unauthorised access.
+
+    At mittwald, **Stirling-PDF** runs as a self-hosted container in German data centres; processed client documents do not need to leave the operator's infrastructure. The template enables built-in authentication with custom credentials, sets German as the default language and disables search-engine visibility and surveys. OCR data, configuration, logs, customisations and pipelines are stored in persistent volumes. Community features can be used without usage-based fees.
+developer: Stirling PDF Inc.
+website: https://stirling.com
+repository: https://github.com/Stirling-Tools/Stirling-PDF
+license:
+  name: MIT (Open Core)
+  link: https://github.com/Stirling-Tools/Stirling-PDF/blob/main/LICENSE
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: stirling-pdf
+    port: 8080
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${stirling-pdf.env.SECURITY_INITIALLOGIN_USERNAME}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${stirling-pdf.env.SECURITY_INITIALLOGIN_PASSWORD}

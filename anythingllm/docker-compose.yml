@@ -1,0 +1,44 @@
+services:
+  anythingllm:
+    image: mintplexlabs/anythingllm:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - TZ=Europe/Berlin
+      - STORAGE_DIR=/app/server/storage
+      - JWT_SECRET=${JWT_SECRET}
+      - SIG_KEY=${SIG_KEY}
+      - SIG_SALT=${SIG_SALT}
+      - AUTH_TOKEN=${AUTH_TOKEN}
+      - LLM_PROVIDER=generic-openai
+      - GENERIC_OPEN_AI_BASE_PATH=https://llm.aihosting.mittwald.de/v1
+      - GENERIC_OPEN_AI_MODEL_PREF=gpt-oss-120b
+      - GENERIC_OPEN_AI_API_KEY=${AI_API_KEY}
+      - GENERIC_OPEN_AI_MODEL_TOKEN_LIMIT=131072
+      - EMBEDDING_ENGINE=generic-openai
+      - EMBEDDING_BASE_PATH=https://llm.aihosting.mittwald.de/v1
+      - EMBEDDING_MODEL_PREF=Qwen3-Embedding-8B
+      - EMBEDDING_MODEL_MAX_CHUNK_LENGTH=8192
+      - GENERIC_OPEN_AI_EMBEDDING_MODEL_PREF=Qwen3-Embedding-8B
+      - GENERIC_OPEN_AI_EMBEDDING_API_KEY=${AI_API_KEY}
+      - VECTOR_DB=qdrant
+      - QDRANT_ENDPOINT=http://qdrant:6333
+      - QDRANT_API_KEY=${QDRANT_API_KEY}
+      - DISABLE_TELEMETRY=true
+      - SERVER_PORT=3001
+      - UID=1000
+      - GID=1000
+    depends_on:
+      - qdrant
+    volumes:
+      - anythingllm_data:/app/server/storage
+  qdrant:
+    image: qdrant/qdrant:v1
+    environment:
+      - TZ=Europe/Berlin
+      - QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY}
+    volumes:
+      - qdrant_data:/qdrant/storage
+volumes:
+  anythingllm_data:
+  qdrant_data:

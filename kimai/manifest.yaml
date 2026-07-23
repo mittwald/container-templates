@@ -1,0 +1,169 @@
+manifestVersion: 1.0
+name:
+  de: Kimai
+  en: Kimai
+version: "2.x.x"
+type: standalone
+tagline:
+  de: Zeiterfassung und Projektcontrolling
+  en: Time tracking and project cost reporting
+description:
+  de: |
+    **Kimai** ist eine self-hosted Anwendung für Arbeitszeiterfassung und Projektcontrolling und eine Alternative zu SaaS-Angeboten wie Harvest oder Toggl Track. Teams erfassen Arbeitszeiten im Browser, ordnen sie Kunden, Projekten und Tätigkeiten zu und werten Aufwand, Budgets und abrechenbare Leistungen zentral aus.
+
+    Zentrale Funktionen:
+
+    - Zeiterfassung per Timer oder nachträglichem Eintrag
+    - Verwaltung von Kunden, Projekten, Tätigkeiten und Budgets
+    - Benutzerrollen, Teams sowie individuelle Stunden- und Kostensätze
+    - Berichte, Rechnungen, Exporte, REST-API und Plugin-Unterstützung
+
+    Für **Agenturen** schafft Kimai eine nachvollziehbare Grundlage für Projektsteuerung und Kundenabrechnung. Mitarbeitende können Zeiten einheitlich auf Kundenprojekte buchen, während Projektverantwortliche Soll- und Ist-Aufwände vergleichen, Budgets überwachen und abrechenbare Stunden auswerten. Berichte und Exporte unterstützen die Übergabe an Buchhaltung oder Fakturierung; Rollen und Teams grenzen Kunden- und Projektbereiche voneinander ab.
+
+    Bei mittwald läuft **Kimai** als self-hosted Container in deutschen Rechenzentren; Zeitbuchungen, Kundenstammdaten und Projektauswertungen verbleiben in der eigenen Infrastruktur. Das unterstützt einen DSGVO-konformen Betrieb. Das Template enthält Kimai 2 mit MariaDB, persistenten Volumes für Anwendungsdaten und Plugins sowie SMTP für Benachrichtigungen und die Passwort-Wiederherstellung. Die Datenbank wird täglich vollständig gesichert, komprimiert gespeichert und nach sieben Tagen automatisch bereinigt. Die AGPL-lizenzierten Grundfunktionen lassen sich ohne nutzerabhängige SaaS-Gebühren betreiben; einzelne kommerzielle Plugins können separat lizenziert werden.
+  en: |
+    **Kimai** is a self-hosted time-tracking and project-controlling application and an alternative to Harvest or Toggl Track. Teams record time in the browser, assign entries to customers, projects and activities, and evaluate effort, budgets and billable work.
+
+    Key features:
+
+    - Time tracking through a timer or retrospective entries
+    - Management of customers, projects, activities and budgets
+    - User roles, teams, and individual hourly or cost rates
+    - Reports, invoices, exports, REST API and plugin support
+
+    For **agencies**, Kimai provides a traceable basis for project management and client billing. Team members book time against client projects, while project leads compare planned and actual effort, monitor budgets and evaluate billable hours. Reports and exports support accounting or invoicing; roles and teams separate customer and project areas.
+
+    At mittwald, **Kimai** runs in German data centres; time entries, customer records and reports remain within the organisation's infrastructure. This supports GDPR-compliant operation. The template includes Kimai 2, MariaDB, persistent volumes for application data and plugins, and SMTP for notifications and password recovery. The complete database is backed up daily, compressed and automatically cleaned up after seven days. The AGPL-licensed core runs without per-user SaaS fees; commercial plugins may require separate licences.
+developer: Kimai team
+website: https://www.kimai.org
+repository: https://github.com/kimai/kimai
+support: https://www.kimai.org/documentation/
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0-only.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: kimai
+    port: 8001
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "common", index: 2 }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 4, section: "email" }
+    defaultValue: "mail.agenturserver.de"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 5, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 6, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 7, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "password" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 8, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "KIMAI_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "MARIADB_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 20
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+  - name: "MARIADB_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 20
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${kimai.env.ADMINMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${kimai.env.ADMINPASS}

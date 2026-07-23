@@ -1,0 +1,20 @@
+services:
+  mariadb:
+    image: mariadb:lts
+    environment:
+      - TZ=Europe/Berlin
+      - MARIADB_DATABASE=${DATABASE_NAME}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_USER=${ADMIN_USER}
+      - MARIADB_PASSWORD=${ADMIN_PASSWORD}
+      - MARIADB_AUTO_UPGRADE=mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/mysql/backups && \
+        mariadb-dump -u root -p"$MARIADB_ROOT_PASSWORD" --all-databases | gzip \
+          > /var/lib/mysql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/mysql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  mariadb_data:

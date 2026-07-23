@@ -1,0 +1,74 @@
+manifestVersion: 1.0
+name:
+  de: Databasus
+  en: Databasus
+version: "latest"
+type: standalone
+tagline:
+  de: Datenbank-Backups automatisieren
+  en: Automate database backups
+description:
+  de: |
+    **Databasus** ist ein self-hosted Werkzeug zur automatisierten Sicherung von Datenbanken und eine Alternative zu SaaS-Backup-Diensten wie SimpleBackups oder SnapShooter. Über eine Weboberfläche werden Backup-Aufträge für verschiedene Datenbanken angelegt, zeitgesteuert ausgeführt und auf mehreren Zielspeichern abgelegt – mit Benachrichtigungen über Erfolg oder Fehler.
+
+    Zentrale Funktionen:
+
+    - Geplante Backups für gängige Datenbanken (u. a. PostgreSQL, MySQL/MariaDB, MongoDB)
+    - Mehrere Zielspeicher: S3-kompatibel, Google Drive, FTP und weitere
+    - Benachrichtigungen über Slack, Discord, Telegram und weitere Kanäle
+    - Verwaltung, Zeitpläne und Aufbewahrung zentral über die Weboberfläche
+
+    Für **Agenturen** eignet sich Databasus als zentrale Backup-Instanz für die Datenbanken von Kundenprojekten: Sicherungen mehrerer Anwendungen werden an einer Stelle geplant, auf unabhängige Speicherorte verteilt und im Fehlerfall automatisch gemeldet. So entsteht eine nachvollziehbare Sicherungsroutine über alle Projekte hinweg, ohne pro Kunde eigene Skripte zu pflegen.
+
+    Bei mittwald läuft **Databasus** als self-hosted Container in deutschen Rechenzentren; Zugangsdaten, Zeitpläne und Backup-Metadaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Databasus mit persistentem Datenspeicher – ohne nutzungsabhängige Lizenz- oder Volumenkosten.
+  en: |
+    **Databasus** is a self-hosted tool for automated database backups and an alternative to SaaS backup services such as SimpleBackups or SnapShooter. Through a web interface, backup jobs for various databases are created, scheduled and stored on multiple target storages — with notifications about success or failure.
+
+    Key features:
+
+    - Scheduled backups for common databases (including PostgreSQL, MySQL/MariaDB, MongoDB)
+    - Multiple target storages: S3-compatible, Google Drive, FTP and more
+    - Notifications via Slack, Discord, Telegram and other channels
+    - Management, schedules and retention centrally through the web interface
+
+    For **agencies**, Databasus works as a central backup instance for the databases of client projects: backups of multiple applications are scheduled in one place, distributed to independent storage locations and reported automatically on failure. This creates a traceable backup routine across all projects without maintaining separate scripts per client.
+
+    At mittwald, **Databasus** runs as a self-hosted container in German data centres; credentials, schedules and backup metadata stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Databasus with persistent storage — with no usage-based licence or volume costs.
+developer: Databasus
+website: https://databasus.com
+repository: https://github.com/databasus/databasus
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
+categories:
+  - development
+  - database
+domains:
+  - userInput: HOST
+    service: databasus
+    port: 4005
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Konto beim ersten Aufruf einrichten
+      en: Set up your account on first access
+    content:
+      de: Beim ersten Aufruf der Oberfläche legst du das Administratorkonto an. Ein vergessenes Passwort lässt sich per CLI zurücksetzen (`docker exec … databasus --new-password="…" --email="admin"`).
+      en: On first access to the interface you create the administrator account. A forgotten password can be reset via the CLI (`docker exec … databasus --new-password="…" --email="admin"`).

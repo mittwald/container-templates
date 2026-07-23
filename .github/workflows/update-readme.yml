@@ -1,0 +1,46 @@
+name: Update README table
+
+# The "Vorhandene Templates" table in README.md is generated from the manifests
+# (gen-readme.mjs). Contributors do not edit it: after a change lands on main,
+# this workflow regenerates the table and commits it, so pull requests never
+# touch the shared table and can never conflict on it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/manifest.yaml"
+      - "gen-readme.mjs"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-readme
+  cancel-in-progress: false
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Regenerate README template table
+        run: pnpm gen:readme
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain README.md)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "chore: update README template table [skip ci]"
+            git push
+          else
+            echo "README table already up to date."
+          fi

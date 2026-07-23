@@ -1,0 +1,6 @@
+services:
+  easyappointments:
+    environment:
+      MAIL_SMTP_HOST: ct-mail
+      MAIL_SMTP_PORT: 1025
+      MAIL_SMTP_CRYPTO: ""

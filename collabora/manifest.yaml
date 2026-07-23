@@ -1,0 +1,83 @@
+manifestVersion: 1.0
+name:
+  de: Collabora Online
+  en: Collabora Online
+version: "latest"
+type: component
+tagline:
+  de: Online-Office-Suite für kollaboratives Arbeiten
+  en: Online office suite for collaborative editing
+description:
+  de: |
+    **Collabora Online** ist eine browserbasierte Office-Suite auf Basis von LibreOffice und eine self-hosted Alternative zu Microsoft 365 oder Google Docs. Das Tool stellt einen WOPI-kompatiblen Document-Server bereit, über den Textdokumente, Tabellenkalkulationen und Präsentationen direkt im Browser gemeinsam bearbeitet werden können, ohne Desktop-Software auf Client-Geräten zu benötigen.
+
+    Zentrale Funktionen:
+
+    - Gemeinsame Echtzeit-Bearbeitung von Text-, Tabellen- und Präsentationsdokumenten im Browser
+    - WOPI-Schnittstelle für die nahtlose Einbindung in Nextcloud und andere kompatible Plattformen
+    - Breite Formatunterstützung auf Basis von LibreOffice (DOCX, XLSX, PPTX und offene Formate)
+    - Benutzeroberfläche in zahlreichen Sprachen verfügbar
+
+    Für **Agenturen** eignet sich Collabora Online als Baustein für kollaborative Arbeitsumgebungen: Das Tool wird typischerweise als Backend in eine bestehende Nextcloud-Instanz eingebunden und stellt dort die Online-Office-Funktionalität für Team- und Kundendokumente bereit. Agenturen können so auf externe SaaS-Office-Dienste verzichten und die vollständige Kontrolle über ihre Dokumente behalten.
+
+    Bei mittwald läuft **Collabora Online** als self-hosted Container in deutschen Rechenzentren; alle Dokumente verbleiben unter der Kontrolle der Organisation und werden nicht an externe Dienste übertragen, was die Einhaltung der DSGVO erleichtert. Dieses Template enthält Collabora Online als WOPI-Backend – ohne nutzungsabhängige Lizenzkosten.
+  en: |
+    **Collabora Online** is a browser-based office suite built on LibreOffice and a self-hosted alternative to Microsoft 365 or Google Docs. It provides a WOPI-compatible document server through which text documents, spreadsheets and presentations can be collaboratively edited directly in the browser, without desktop software on client devices.
+
+    Key features:
+
+    - Real-time collaborative editing of text, spreadsheet and presentation documents in the browser
+    - WOPI interface for seamless integration into Nextcloud and other compatible platforms
+    - Wide format support based on LibreOffice (DOCX, XLSX, PPTX and open formats)
+    - User interface available in many languages
+
+    For **agencies**, Collabora Online serves as a building block for collaborative working environments: typically embedded as a backend into an existing Nextcloud instance, it provides online office functionality for team and client documents without additional third-party accounts. This lets agencies avoid external SaaS office services and retain full control over their documents.
+
+    At mittwald, **Collabora Online** runs as a self-hosted container in German data centres; all documents remain under the organisation's control and are not transmitted to external services, making GDPR compliance easier. This template includes Collabora Online as a WOPI backend — with no usage-based licence costs.
+developer: Collabora Productivity
+website: https://www.collaboraoffice.com
+repository: https://github.com/CollaboraOnline/online
+license:
+  name: MPL-2.0
+  link: https://spdx.org/licenses/MPL-2.0.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: collabora
+    port: 9980
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Server-URL
+      en: Server URL
+    value: http://${collabora.hostname}:9980
+  alerts:
+  - status: info
+    heading:
+      de: Konfiguration in Nextcloud notwendig
+      en: Configuration required in Nextcloud
+    content:
+      de: Du findest eine Anleitung zur Konfiguration in Nextcloud in unserem Developer Portal.
+      en: You can find instructions for configuring Collabora in Nextcloud on our Developer Portal.
+    linkText:
+      de: Konfiguration in Nextcloud
+      en: Configuration in Nextcloud
+    link:
+      de: https://developer.mittwald.de/de/docs/v2/guides/apps/collabora/#integration-in-nextcloud
+      en: https://developer.mittwald.de/en/docs/v2/guides/apps/collabora/#integration-in-nextcloud

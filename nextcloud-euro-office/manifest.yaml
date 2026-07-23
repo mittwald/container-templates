@@ -1,0 +1,145 @@
+manifestVersion: 1.0
+name:
+  de: Nextcloud + Euro-Office
+  en: Nextcloud + Euro-Office
+version: "stable"
+type: standalone
+tagline:
+  de: Cloud-Speicher und Zusammenarbeit mit Online-Office
+  en: Cloud storage and collaboration with online office
+description:
+  de: |
+    **Nextcloud + Euro-Office** ist eine selbstgehostete Kollaborationsplattform für Dateispeicherung, Teamarbeit und Office-Bearbeitung — und eine Alternative zu Cloud-Diensten wie Google Workspace, Microsoft 365 oder Dropbox. Nextcloud übernimmt Dateispeicherung, Freigaben und Kommunikation, während Euro-Office die kollaborative Bearbeitung von Office-Dokumenten im Browser ermöglicht.
+
+    Zentrale Funktionen:
+
+    - Dateispeicher und -synchronisation über Web, Desktop- und Mobile-Clients
+    - Feingranulare Freigaben für interne Teams und externe Kontakte
+    - Integrierte Online-Office-Bearbeitung von Text-, Tabellen- und Präsentationsdateien (Euro-Office)
+    - Benutzer- und Gruppenverwaltung mit abgestuften Zugriffsrechten
+
+    Für **Agenturen** bietet diese Kombination eine zentrale Ablage für Kundenprojekte: Briefings, Entwürfe und Präsentationen können in Ordner pro Kunde strukturiert und direkt mit Kunden oder externen Partnern geteilt werden. Abgestufte Zugriffsrechte sorgen dafür, dass jeder Kunde nur freigegebene Inhalte sieht. Euro-Office erlaubt die gemeinsame Bearbeitung von Office-Dokumenten im Browser ohne Dateiaustausch per E-Mail.
+
+    Bei mittwald läuft **Nextcloud + Euro-Office** als self-hosted Container in deutschen Rechenzentren; alle Dateien bleiben unter vollständiger Kontrolle und werden nicht an Drittanbieter übertragen — was die DSGVO-Konformität erheblich vereinfacht. Dieses Template enthält Nextcloud und Euro-Office mit MariaDB und Redis und ist sofort einsatzbereit. Da keine Seat-Lizenzen anfallen, wächst die Nutzerbasis ohne zusätzliche Lizenzkosten.
+  en: |
+    **Nextcloud + Euro-Office** is a self-hosted collaboration platform for file storage, teamwork and office editing — an alternative to Google Workspace, Microsoft 365 or Dropbox. Nextcloud handles file storage, sharing and communication; Euro-Office enables collaborative editing of office documents in the browser.
+
+    Key features:
+
+    - File storage and synchronisation via web, desktop and mobile clients
+    - Fine-grained sharing for internal teams and external contacts
+    - Online editing of text, spreadsheet and presentation files (Euro-Office)
+    - User and group management with granular access rights
+
+    For **agencies**, this combination provides a central repository for client projects: briefings, drafts and presentations are organised into client folders and shared with clients or external partners. Granular access rights ensure each client sees only their content. Euro-Office enables collaborative document editing in the browser without email attachments.
+
+    At mittwald, **Nextcloud + Euro-Office** runs as a self-hosted container in German data centres; files remain under full control and are not transferred to third parties, simplifying GDPR compliance. This template includes Nextcloud and Euro-Office with MariaDB and Redis, ready to use immediately. With no per-seat licences, the user base grows without extra costs.
+developer: mittwald
+website: https://nextcloud.com
+repository: https://github.com/mittwald/nextcloud-eurooffice
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: nextcloud-euro-office
+    port: 80
+    purpose: nextcloud
+  - userInput: EUROOFFICE_HOST
+    service: eurooffice
+    port: 80
+    purpose: eurooffice
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "EUROOFFICE_HOST"
+    label:
+      de: Euro-Office Domain
+      en: Euro-Office Domain
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "adminuser", index: 5 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1}'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminuser", index: 5 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
+  - name: "MYSQL_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+  - name: "EUROOFFICE_JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "MARIADB_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Nextcloud Domain
+      en: Nextcloud Domain
+    value: https://${domain.nextcloud}
+  - key:
+      de: Euro-Office Domain
+      en: Euro-Office Domain
+    value: https://${domain.eurooffice}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${nextcloud-euro-office.env.NEXTCLOUD_ADMIN_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${nextcloud-euro-office.env.NEXTCLOUD_ADMIN_PASSWORD}

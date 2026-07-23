@@ -1,0 +1,28 @@
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+      - DOCKER_ENABLE_SECURITY=true
+      - SECURITY_ENABLELOGIN=true
+      - SECURITY_INITIALLOGIN_USERNAME=${ADMIN_USER}
+      - SECURITY_INITIALLOGIN_PASSWORD=${ADMIN_PASSWORD}
+      - LANGS=de_DE
+      - SYSTEM_DEFAULTLOCALE=de-DE
+      - SYSTEM_GOOGLEVISIBILITY=false
+      - SYSTEM_MAXFILESIZE=100
+      - SHOW_SURVEY=false
+    volumes:
+      - stirling_tessdata:/usr/share/tessdata
+      - stirling_configs:/configs
+      - stirling_logs:/logs
+      - stirling_customfiles:/customFiles
+      - stirling_pipeline:/pipeline
+volumes:
+  stirling_tessdata:
+  stirling_configs:
+  stirling_logs:
+  stirling_customfiles:
+  stirling_pipeline:

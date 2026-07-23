@@ -1,0 +1,48 @@
+services:
+  listmonk:
+    image: listmonk/listmonk:latest
+    ports:
+      - "9000:9000"
+    command:
+      - sh
+      - -c
+      - ./listmonk --install --idempotent --yes --config '' && ./listmonk --upgrade --yes --config '' && ./listmonk --config ''
+    environment:
+      - TZ=Europe/Berlin
+      - LISTMONK_app__address=0.0.0.0:9000
+      - LISTMONK_db__host=postgres
+      - LISTMONK_db__port=5432
+      - LISTMONK_db__user=listmonk
+      - LISTMONK_db__password=${POSTGRES_PASSWORD}
+      - LISTMONK_db__database=listmonk
+      - LISTMONK_db__ssl_mode=disable
+      - LISTMONK_ADMIN_USER=${ADMIN_USER}
+      - LISTMONK_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    volumes:
+      - listmonk_uploads:/listmonk/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=listmonk
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=listmonk
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  listmonk_uploads:
+  postgres_data:

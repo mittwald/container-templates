@@ -1,0 +1,50 @@
+services:
+  karakeep:
+    image: ghcr.io/karakeep-app/karakeep:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - DATA_DIR=/data
+      - NEXTAUTH_URL=https://${HOST}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - MEILI_ADDR=http://meilisearch:7700
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - BROWSER_WEB_URL=http://chrome:9222
+      - OPENAI_BASE_URL=https://llm.aihosting.mittwald.de/v1
+      - OPENAI_API_KEY=${AI_API_KEY}
+      - INFERENCE_TEXT_MODEL=gpt-oss-120b
+    volumes:
+      - karakeep_data:/data
+    depends_on:
+      meilisearch:
+        condition: service_healthy
+      chrome:
+        condition: service_started
+  chrome:
+    image: gcr.io/zenika-hub/alpine-chrome:124
+    command:
+      - --no-sandbox
+      - --disable-gpu
+      - --disable-dev-shm-usage
+      - --remote-debugging-address=0.0.0.0
+      - --remote-debugging-port=9222
+      - --hide-scrollbars
+      - --disable-blink-features=AutomationControlled
+      - --window-size=1440,900
+  meilisearch:
+    image: getmeili/meilisearch:v1
+    environment:
+      - TZ=Europe/Berlin
+      - MEILI_NO_ANALYTICS=true
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+    volumes:
+      - meili_data:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:7700/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  karakeep_data:
+  meili_data:

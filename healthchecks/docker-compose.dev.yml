@@ -1,0 +1,8 @@
+services:
+  healthchecks:
+    environment:
+      EMAIL_HOST: ct-mail
+      EMAIL_PORT: "1025"
+      EMAIL_USE_TLS: "False"
+      EMAIL_HOST_USER: ""
+      EMAIL_HOST_PASSWORD: ""

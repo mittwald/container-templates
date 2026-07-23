@@ -1,0 +1,108 @@
+manifestVersion: 1.0
+name:
+  de: AnythingLLM
+  en: AnythingLLM
+version: "latest"
+type: standalone
+tagline:
+  de: All-in-One KI-Desktop- und Server-Anwendung mit RAG
+  en: All-in-one AI desktop and server application with RAG
+description:
+  de: |
+    **AnythingLLM** ist eine All-in-One-Plattform für KI-gestützte Dokumentenanalyse und Chat-Assistenz und eine self-hosted Alternative zu Cloud-RAG-Diensten wie ChatGPT Enterprise oder Custom-GPT-Angeboten. Die Anwendung wandelt Dokumente, Webseiten und Inhalte in strukturierten Kontext um, den ein Language Model als Wissensgrundlage im Chat nutzt – ohne dass Daten das eigene System verlassen müssen.
+
+    Zentrale Funktionen:
+
+    - Dokumente, PDFs und Webseiten per RAG als Chat-Wissensquelle nutzbar machen
+    - KI-Agenten mit Tool-Aufruf und mehrstufiger Aufgabenbearbeitung
+    - Mehrere Workspaces für unterschiedliche Teams oder Kundenprojekte
+    - Anbindung kompatibler LLM-Endpunkte (OpenAI-kompatible APIs, mittwald AI Hosting, lokale Modelle)
+
+    Für **Agenturen** ermöglicht AnythingLLM den Aufbau eines internen Wissens-Chatbots auf Basis eigener Kundendokumente, Briefings oder Markenhandbücher. Jedes Kundenprojekt erhält einen eigenen Workspace, sodass Wissensstände sauber getrennt bleiben. In Kombination mit mittwald AI Hosting läuft das System vollständig im eigenen Rechenzentrum.
+
+    Bei mittwald läuft AnythingLLM als self-hosted Container in deutschen Rechenzentren; verarbeitete Dokumente und Chat-Verläufe verbleiben im eigenen System und werden nicht an Drittanbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält AnythingLLM zusammen mit Qdrant als Vektordatenbank. Da keine nutzungsabhängigen Lizenzkosten anfallen, skaliert die Lösung auch beim Einsatz für mehrere Teams oder Kundenprojekte wirtschaftlich.
+  en: |
+    **AnythingLLM** is an all-in-one platform for AI-powered document analysis and chat assistance, and a self-hosted alternative to ChatGPT Enterprise or Custom GPT offerings. It turns documents, web pages and content into structured context that a language model uses as a knowledge base — without data leaving the operator's own system.
+
+    Key features:
+
+    - Documents, PDFs and web pages queryable via RAG
+    - AI agents with tool calls and multi-step task handling
+    - Multiple workspaces for different teams or client projects
+    - LLM endpoints: OpenAI-compatible, mittwald AI Hosting, local models
+
+    For **agencies**, AnythingLLM enables an internal knowledge chatbot based on client documents, briefs or brand guides. Each project gets its own workspace, keeping knowledge bases cleanly separated. Integration with mittwald AI Hosting allows full operation within the operator's own data centre.
+
+    At mittwald, AnythingLLM runs as a self-hosted container in German data centres; processed documents and chat histories remain within the operator's own system, simplifying GDPR compliance. This template includes AnythingLLM with Qdrant as vector database. As there are no usage-based licence costs, the solution scales economically across multiple teams or client projects.
+developer: Mintplex Labs
+website: https://anythingllm.com
+repository: https://github.com/Mintplex-Labs/anything-llm
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - ai
+domains:
+  - userInput: HOST
+    service: anythingllm
+    port: 3001
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
+    positionMeta: { step: "aiHosting", index: 4 }
+    required: false
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string" }'
+systemInputs:
+  - name: "JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "SIG_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "SIG_SALT"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "AUTH_TOKEN"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "QDRANT_API_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Auth Token
+      en: Auth Token
+    value: ${anythingllm.env.AUTH_TOKEN}

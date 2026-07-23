@@ -1,0 +1,18 @@
+services:
+  databasus:
+    image: databasus/databasus:latest
+    ports:
+      - "4005:4005"
+    environment:
+      - TZ=Europe/Berlin
+      - IS_DISABLE_ANONYMOUS_TELEMETRY=true
+    volumes:
+      - databasus_data:/databasus-data
+    healthcheck:
+      test: ["CMD", "databasus", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+volumes:
+  databasus_data:

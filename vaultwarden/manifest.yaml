@@ -1,0 +1,99 @@
+manifestVersion: 1.0
+name:
+  de: Vaultwarden
+  en: Vaultwarden
+version: "latest"
+type: standalone
+tagline:
+  de: Selbst gehosteter Passwort-Manager
+  en: Self-hosted password manager
+description:
+  de: |
+    **Vaultwarden** ist eine leichtgewichtige, in Rust geschriebene Reimplementierung des Bitwarden-Servers und eine self-hosted Alternative zu gehosteten Passwort-Manager-Diensten wie 1Password, LastPass oder dem kostenpflichtigen Bitwarden-Cloud-Angebot. Vaultwarden ist vollständig kompatibel mit allen offiziellen Bitwarden-Clients, Browser-Erweiterungen und mobilen Apps, sodass bestehende Nutzende ohne Einarbeitungsaufwand wechseln können.
+
+    Zentrale Funktionen:
+
+    - Kompatibel mit allen offiziellen Bitwarden-Clients, Browser-Erweiterungen und mobilen Apps
+    - Organisationen und Collections für getrennte Zugriffskontexte im Team
+    - Zwei-Faktor-Authentifizierung (TOTP, FIDO2/WebAuthn, E-Mail) und Passwort-Generator
+    - Sichere Ende-zu-Ende-Verschlüsselung aller Tresordaten
+
+    Für **Agenturen** ist Vaultwarden besonders nützlich, wenn Zugangsdaten für Kunden-Systeme, Hosting-Zugänge, API-Keys und Social-Media-Konten zentral und teamübergreifend verwaltet werden müssen. Über Organisationen und Collections lassen sich Zugangsdaten je Kundenprojekt sauber trennen, sodass Mitarbeitende nur auf die für sie relevanten Einträge zugreifen können. Der Admin-Bereich ermöglicht eine kontrollierte Benutzerverwaltung ohne externe Abhängigkeiten.
+
+    Bei mittwald läuft **Vaultwarden** als self-hosted Container in deutschen Rechenzentren; alle Tresordaten sind verschlüsselt gespeichert und verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entspricht. Dieses Template enthält Vaultwarden mit einer PostgreSQL-Datenbank für die persistente Datenhaltung, und da keine Seat- oder Nutzungslizenzen anfallen, skaliert die Lösung auch für größere Teams wirtschaftlich.
+  en: |
+    **Vaultwarden** is a lightweight, Rust-based reimplementation of the Bitwarden server and a self-hosted alternative to managed password managers such as 1Password, LastPass or the paid Bitwarden cloud. Fully compatible with all official Bitwarden clients, browser extensions and mobile apps, existing users can migrate without any learning curve.
+
+    Key features:
+
+    - Compatible with all official Bitwarden clients, browser extensions and mobile apps
+    - Organisations and collections for separate access contexts within a team
+    - Two-factor authentication (TOTP, FIDO2/WebAuthn, e-mail) and password generator
+    - Secure end-to-end encryption of all vault data
+
+    For **agencies**, Vaultwarden is especially useful when credentials for client systems, hosting access, API keys and social media accounts need to be managed centrally across a team. Organisations and collections cleanly separate credentials per client project, so team members access only entries relevant to their work.
+
+    At mittwald, **Vaultwarden** runs as a self-hosted container in German data centres; all vault data is encrypted and stays within the agency's infrastructure, meeting GDPR requirements. This template includes Vaultwarden with a PostgreSQL database for persistent data storage; with no seat or usage licences, it scales economically for larger teams.
+developer: Vaultwarden
+website: https://github.com/dani-garcia/vaultwarden
+repository: https://github.com/dani-garcia/vaultwarden
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - security
+domains:
+  - userInput: HOST
+    service: vaultwarden
+    port: 80
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_TOKEN"
+    label:
+      de: Admin Token
+      en: Admin Token
+    positionMeta: { step: "common", index: 2 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin-Bereich
+      en: Admin Area
+    value: https://${domain.main}/admin
+  - key:
+      de: Admin Token
+      en: Admin Token
+    value: ${vaultwarden.env.ADMIN_TOKEN}

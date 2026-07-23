@@ -1,0 +1,133 @@
+manifestVersion: 1.0
+name:
+  de: Papra
+  en: Papra
+version: "latest"
+type: standalone
+tagline:
+  de: Dokumente archivieren und verwalten
+  en: Archive and manage documents
+description:
+  de: |
+    **Papra** ist eine minimalistische Plattform für Dokumentenmanagement und Langzeitarchivierung und eine self-hosted Alternative zu Paperless-ngx oder DMS-SaaS-Diensten. Dokumente werden zentral abgelegt, mit Tags und Sammlungen organisiert und über eine Volltextsuche schnell wiedergefunden – strukturiert nach Organisationen für getrennte Ablagebereiche.
+
+    Zentrale Funktionen:
+
+    - Dokumenten-Upload mit Tags, Sammlungen und Volltextsuche
+    - Organisationen mit Mitgliedern und abgestuften Zugriffsrechten
+    - Automatischer Import über einen überwachten Ingestion-Ordner
+    - REST-API und Webhooks zur Anbindung eigener Workflows
+    - Optionale KI-gestützte Verschlagwortung über das AI-Hosting von mittwald
+
+    Für **Agenturen** eignet sich Papra als revisionssichere Ablage für Verträge, Rechnungen und Projektunterlagen: Pro Kunde oder Mandat lässt sich eine eigene Organisation mit passenden Berechtigungen einrichten, während Tags und Sammlungen die Einordnung übernehmen. Der Ingestion-Ordner und die API ermöglichen automatisierte Importe aus bestehenden Prozessen.
+
+    Bei mittwald läuft **Papra** als self-hosted Container in deutschen Rechenzentren; Dokumente und Metadaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Papra mit persistenter SQLite-Datenbank und Dateispeicher und bindet einen vorhandenen SMTP-Dienst für Einladungen und Passwort-Wiederherstellung an – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **Papra** is a minimalist platform for document management and long-term archiving and a self-hosted alternative to Paperless-ngx or DMS SaaS services. Documents are stored centrally, organised with tags and collections and quickly retrieved via full-text search — structured by organisations for separate storage areas.
+
+    Key features:
+
+    - Document upload with tags, collections and full-text search
+    - Organisations with members and granular access rights
+    - Automatic import via a watched ingestion folder
+    - REST API and webhooks to connect your own workflows
+    - Optional AI-powered tagging via mittwald's AI hosting
+
+    For **agencies**, Papra works as an audit-friendly archive for contracts, invoices and project documents: a dedicated organisation with matching permissions can be set up per client or mandate, while tags and collections handle categorisation. The ingestion folder and the API enable automated imports from existing processes.
+
+    At mittwald, **Papra** runs as a self-hosted container in German data centres; documents and metadata stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Papra with a persistent SQLite database and file storage and connects an existing SMTP service for invitations and password recovery — with no usage-based licence or seat costs.
+developer: Papra
+website: https://papra.app
+repository: https://github.com/papra-hq/papra
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: papra
+    port: 1221
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_HOST"
+    label:
+      de: SMTP-Host
+      en: SMTP host
+    positionMeta: { step: "common", index: 2, section: "email" }
+    defaultValue: "mail.agenturserver.de"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PORT"
+    label:
+      de: SMTP-Port für STARTTLS
+      en: SMTP port for STARTTLS
+    positionMeta: { step: "common", index: 3, section: "email" }
+    defaultValue: "587"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
+  - name: "SMTP_USER"
+    label:
+      de: SMTP-Benutzer
+      en: SMTP username
+    positionMeta: { step: "common", index: 4, section: "email" }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_PASSWORD"
+    label:
+      de: SMTP-Passwort
+      en: SMTP password
+    positionMeta: { step: "common", index: 5, section: "email" }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 6, section: "email" }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
+    positionMeta: { step: "aiHosting", index: 7 }
+    required: false
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string" }'
+systemInputs:
+  - name: "AUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 96
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erstes Konto wird Admin
+      en: First account becomes admin
+    content:
+      de: Nach der Installation registrierst du dich über die Oberfläche mit E-Mail und Passwort. Das erste Konto erhält Administratorrechte; weitere Nutzende können anschließend eingeladen werden. Weitere Registrierungen kannst du über die Umgebungsvariable `AUTH_IS_REGISTRATION_ENABLED` unterbinden.
+      en: After installation, register via the interface with email and password. The first account receives administrator rights; additional users can then be invited. You can disable further sign-ups via the `AUTH_IS_REGISTRATION_ENABLED` environment variable.

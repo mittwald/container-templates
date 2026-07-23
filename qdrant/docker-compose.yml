@@ -1,0 +1,12 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:v1
+    ports:
+      - "6333:6333"
+    environment:
+      - TZ=Europe/Berlin
+      - QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY}
+    volumes:
+      - qdrant_data:/qdrant/storage
+volumes:
+  qdrant_data:

@@ -1,0 +1,22 @@
+services:
+  yopass:
+    image: jhaals/yopass:latest
+    ports:
+      - "1337:1337"
+    environment:
+      - TZ=Europe/Berlin
+      - PORT=1337
+      - DATABASE=redis
+      - REDIS=redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+  redis:
+    image: redis:8-alpine
+    environment:
+      - TZ=Europe/Berlin
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

@@ -1,0 +1,73 @@
+manifestVersion: 1.0
+name:
+  de: Excalidraw
+  en: Excalidraw
+version: "latest"
+type: standalone
+tagline:
+  de: Whiteboard für Skizzen und Diagramme
+  en: Whiteboard for sketches and diagrams
+description:
+  de: |
+    **Excalidraw** ist ein virtuelles Whiteboard für handgezeichnet wirkende Skizzen und Diagramme und eine self-hosted Alternative zu Miro oder tldraw. Auf einer unendlichen Leinwand entstehen Wireframes, Flussdiagramme, Architekturskizzen und Brainstormings – mit einem bewusst reduzierten, schnellen Werkzeugset im charakteristischen Skizzen-Look.
+
+    Zentrale Funktionen:
+
+    - Unendliche Leinwand mit Formen, Pfeilen, Text und Freihand-Zeichnen
+    - Handgezeichneter Stil, Bibliotheken wiederverwendbarer Elemente
+    - Export als PNG, SVG oder als `.excalidraw`-Datei zum Teilen und Archivieren
+    - Läuft vollständig im Browser, ohne Konto und ohne Server-Datenbank
+
+    Für **Agenturen** eignet sich Excalidraw für die schnelle Visualisierung in Kundenprojekten: Wireframes und User Flows für Websites, Systemskizzen für die Abstimmung mit Entwicklung oder Konzept-Skizzen für Workshops. Die Ergebnisse lassen sich als Bild oder Datei exportieren und direkt in Präsentationen, Tickets oder Dokumentationen weiterverwenden.
+
+    Bei mittwald läuft **Excalidraw** als self-hosted Container in deutschen Rechenzentren; die eigene Instanz ist unabhängig von excalidraw.com. Zeichnungen werden lokal im Browser gespeichert und nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält die schlanke, eigenständige Excalidraw-Oberfläche – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **Excalidraw** is a virtual whiteboard for hand-drawn-style sketches and diagrams and a self-hosted alternative to Miro or tldraw. On an infinite canvas you create wireframes, flowcharts, architecture sketches and brainstorms — with a deliberately minimal, fast tool set in its characteristic sketchy look.
+
+    Key features:
+
+    - Infinite canvas with shapes, arrows, text and freehand drawing
+    - Hand-drawn style and libraries of reusable elements
+    - Export as PNG, SVG or as an `.excalidraw` file for sharing and archiving
+    - Runs entirely in the browser, without an account and without a server database
+
+    For **agencies**, Excalidraw is ideal for quick visualisation in client projects: wireframes and user flows for websites, system sketches for aligning with development or concept sketches for workshops. Results can be exported as an image or file and reused directly in presentations, tickets or documentation.
+
+    At mittwald, **Excalidraw** runs as a self-hosted container in German data centres; your own instance is independent of excalidraw.com. Drawings are stored locally in the browser and not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes the lightweight, standalone Excalidraw interface — with no usage-based licence or seat costs.
+developer: Excalidraw
+website: https://excalidraw.com
+repository: https://github.com/excalidraw/excalidraw
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: excalidraw
+    port: 80
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Speicherung im Browser
+      en: Storage in the browser
+    content:
+      de: Excalidraw benötigt kein Konto. Zeichnungen werden lokal im Browser gespeichert; sichere wichtige Inhalte über den Export als Datei (.excalidraw, PNG oder SVG). Live-Kollaboration in Echtzeit erfordert einen zusätzlichen Kollaborations-Server und ist in diesem Template nicht enthalten.
+      en: Excalidraw requires no account. Drawings are stored locally in the browser; back up important content via export as a file (.excalidraw, PNG or SVG). Real-time live collaboration requires an additional collaboration server and is not included in this template.

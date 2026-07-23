@@ -1,0 +1,19 @@
+services:
+  pgvector:
+    image: pgvector/pgvector:pg18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=${ADMIN_USER}
+      - POSTGRES_PASSWORD=${ADMIN_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/data/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/data/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/data/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  pgvector_data:

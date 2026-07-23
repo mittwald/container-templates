@@ -1,0 +1,63 @@
+manifestVersion: 1.0
+name:
+  de: Yopass
+  en: Yopass
+version: "latest"
+type: standalone
+tagline:
+  de: Geheimnisse sicher und verschlüsselt teilen
+  en: Share secrets securely and encrypted
+description:
+  de: |
+    **Yopass** ist ein Open-Source-Dienst zum sicheren, verschlüsselten Teilen sensibler Informationen und eine self-hosted Alternative zu Diensten wie One-Time Secret (onetimesecret.com) oder Privnote. Der Nutzer verschlüsselt Daten direkt im Browser, bevor sie den Server erreichen; nach dem ersten Abruf oder Ablauf der Frist wird der Eintrag unwiderruflich gelöscht.
+
+    Zentrale Funktionen:
+
+    - Ende-zu-Ende-Verschlüsselung im Browser (AES-256), ohne serverseitige Klartextspeicherung
+    - Einmaliger Abruf: der Link wird nach dem ersten Öffnen automatisch gelöscht
+    - Konfigurierbare Ablaufzeiten (Stunden bis Tage) und optionaler Passwortschutz
+
+    Für **Agenturen** löst Yopass ein konkretes Alltagsproblem: das sichere Weitergeben von Zugangsdaten, Initialpasswörtern oder geheimen Schlüsseln an Kunden oder neue Teammitglieder. Statt Passwörter über E-Mail oder unverschlüsselte Tickets zu versenden, wird ein kurzlebiger, einmalig abrufbarer Link generiert – das reduziert das Risiko, dass Zugangsdaten dauerhaft in Kommunikationskanälen verbleiben.
+
+    Bei mittwald läuft **Yopass** als self-hosted Container in deutschen Rechenzentren; verschlüsselte Geheimnisse werden ausschließlich temporär gespeichert und verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entspricht. Dieses Template enthält Yopass mit einem Redis-Backend für die kurzlebige Zwischenspeicherung, und da keine Nutzungslizenzen anfallen, ist der Betrieb auch bei häufigem Einsatz im Agenturalltag wirtschaftlich.
+  en: |
+    **Yopass** is an open-source service for securely sharing sensitive information in encrypted form, and a self-hosted alternative to services such as One-Time Secret (onetimesecret.com) or Privnote. Data is encrypted in the browser before reaching the server; after the first retrieval or once the expiry period passes, the entry is irreversibly deleted.
+
+    Key features:
+
+    - End-to-end encryption in the browser (AES-256), with no plaintext storage on the server
+    - Single retrieval: the link is deleted automatically after first use
+    - Configurable expiry times (hours to days) and optional password protection
+
+    For **agencies**, Yopass solves a practical everyday problem: securely handing over credentials, initial passwords or secret keys to clients or new team members. Instead of using e-mail or unencrypted tickets, a short-lived, single-use link is generated, reducing the risk of credentials persisting in communication channels.
+
+    At mittwald, **Yopass** runs as a self-hosted container in German data centres; encrypted secrets are stored only temporarily and stay within the agency's own infrastructure, meeting GDPR requirements. This template includes Yopass with a Redis backend for short-lived buffering; with no usage licences it remains economical even with frequent day-to-day use.
+developer: Johan Haals
+website: https://yopass.se
+repository: https://github.com/jhaals/yopass
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
+categories:
+  - security
+domains:
+  - userInput: HOST
+    service: yopass
+    port: 1337
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}

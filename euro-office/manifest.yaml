@@ -1,0 +1,84 @@
+manifestVersion: 1.0
+name:
+  de: Euro-Office
+  en: Euro-Office
+version: "latest"
+type: component
+tagline:
+  de: Dokumente gemeinsam im Browser bearbeiten
+  en: Edit documents collaboratively in the browser
+description:
+  de: |
+    **Euro-Office Document Server** ist ein quelloffener Online-Dokumentenserver und europäischer Fork von ONLYOFFICE. Das Tool stellt ein serverseitiges Bearbeitungs-Backend bereit, über das Text-, Tabellen- und Präsentationsdokumente direkt im Browser gemeinsam bearbeitet werden können. Es ist eine self-hosted Alternative zu Microsoft Office Online oder ONLYOFFICE Cloud mit besonderem Fokus auf Datensouveränität und europäische Compliance.
+
+    Zentrale Funktionen:
+
+    - Kollaborative Browser-Bearbeitung von DOCX-, XLSX- und PPTX-Dokumenten sowie offenen Formaten
+    - JWT-gesicherte Integration in Drittanwendungen über die ONLYOFFICE-API
+    - Einbindung in Nextcloud und andere kompatible Plattformen als Document-Server
+    - Europäische Herkunft und Fokus auf Datensouveränität
+
+    Für **Agenturen** eignet sich Euro-Office als Baustein für kollaborative Arbeitsumgebungen: Das Tool wird typischerweise als Document-Server-Backend in Nextcloud eingebunden und stellt dort die Online-Office-Funktionalität für Team- und Kundendokumente bereit. Der europäische Ursprung und die JWT-gesicherte Anbindung sind besonders für Agenturen relevant, die Wert auf Datensouveränität und nachvollziehbare Lieferketten legen.
+
+    Bei mittwald läuft **Euro-Office Document Server** als self-hosted Container in deutschen Rechenzentren; alle Dokumente verbleiben unter der Kontrolle der Organisation und verlassen nicht die eigene Infrastruktur, was die Einhaltung der DSGVO erleichtert. Dieses Template enthält den Euro-Office Document Server als eigenständiges Backend – ohne nutzungsabhängige Lizenzkosten.
+  en: |
+    **Euro-Office Document Server** is an open-source, European fork of ONLYOFFICE that provides a server-side editing backend for browser-based collaborative work on text, spreadsheets and presentations. It is a self-hosted alternative to Microsoft Office Online or ONLYOFFICE Cloud, with a focus on data sovereignty and European compliance.
+
+    Key features:
+
+    - Browser-based collaborative editing of DOCX, XLSX and PPTX documents and open formats
+    - JWT-secured integration into third-party apps via the ONLYOFFICE API
+    - Integration into Nextcloud and other platforms as a document server backend
+    - European origin with a focus on data sovereignty
+
+    For **agencies**, Euro-Office is a building block for collaborative working environments: typically embedded as a document server backend in Nextcloud, it delivers online office functionality for team and client documents. The European origin and JWT-secured integration are especially relevant for agencies prioritising data sovereignty.
+
+    At mittwald, **Euro-Office Document Server** runs as a self-hosted container in German data centres; documents stay under the organisation's control and do not leave its infrastructure, making GDPR compliance easier. This template includes the Euro-Office Document Server as a standalone backend — with no usage-based licence costs.
+developer: Euro-Office
+website: https://euro-office.github.io
+repository: https://github.com/Euro-Office/DocumentServer
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: euro-office
+    port: 80
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: JWT-Secret
+      en: JWT Secret
+    value: ${euro-office.env.JWT_SECRET}
+  alerts:
+  - status: info
+    heading:
+      de: JWT-Secret für die Integration erforderlich
+      en: JWT secret required for integration
+    content:
+      de: Um Euro-Office in eine Anwendung (z. B. Nextcloud) einzubinden, hinterlege die Document-Server-URL zusammen mit dem JWT-Secret aus der Konfigurationsübersicht.
+      en: To embed Euro-Office in an application (e.g. Nextcloud), configure the document server URL together with the JWT secret shown in the configuration overview.

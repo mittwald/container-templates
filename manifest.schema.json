@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mittwald/container-templates/manifest.schema.json",
+  "title": "mStudio Container Template Manifest",
+  "description": "Schema für manifest.yaml der Container-Templates. Siehe README.md / AGENTS.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifestVersion",
+    "name",
+    "version",
+    "type",
+    "tagline",
+    "description",
+    "developer",
+    "website",
+    "repository",
+    "license",
+    "categories"
+  ],
+  "properties": {
+    "manifestVersion": {
+      "type": "number",
+      "description": "Version der Manifest-Syntax (aktuell 1.0)."
+    },
+    "name": {
+      "$ref": "#/$defs/i18n",
+      "description": "Menschenlesbarer, mehrsprachiger Name des Templates."
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Anzeige-Version, z.B. \"2.x.x\"."
+    },
+    "type": {
+      "enum": ["standalone", "component"],
+      "description": "standalone = eigenständige Anwendung (neuer Stack), component = Baustein (bestehender Stack)."
+    },
+    "tagline": { "$ref": "#/$defs/i18n" },
+    "description": { "$ref": "#/$defs/i18n" },
+    "developer": { "type": "string", "minLength": 1 },
+    "website": { "type": "string", "format": "uri" },
+    "repository": { "type": "string", "format": "uri" },
+    "support": { "type": "string", "format": "uri" },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "link"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "link": { "type": "string", "format": "uri" }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "description": "Kategorien des Templates. Hinweis: \"database\" ist keine offizielle Store-Kategorie, sondern wird nur intern verwendet, um gezielt Template-Listen im \"Datenbanken\"-Bereich anzuzeigen.",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "productivity",
+          "development",
+          "database",
+          "ai",
+          "security",
+          "monitoring",
+          "communication",
+          "media"
+        ]
+      }
+    },
+    "screenshots": {
+      "type": "array",
+      "description": "Katalog-Screenshots: je Eintrag ein Hintergrundbild, der darüber gelegte Screenshot und eine mehrsprachige Bildüberschrift. Dateien liegen im Template-Ordner.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["bg", "screenshot", "text"],
+        "properties": {
+          "bg": {
+            "$ref": "#/$defs/imageFile",
+            "description": "Hintergrundbild (Bühne) hinter dem Screenshot, Seitenverhältnis exakt 3:2."
+          },
+          "screenshot": {
+            "$ref": "#/$defs/imageFile",
+            "description": "Screenshot der Anwendungsoberfläche, wird auf das Hintergrundbild gelegt."
+          },
+          "text": {
+            "$ref": "#/$defs/i18n",
+            "description": "Mehrsprachige Bildüberschrift, wird über dem Screenshot angezeigt."
+          }
+        }
+      }
+    },
+    "domains": {
+      "type": "array",
+      "description": "Domain-Routing: verknüpft einen Host-userInput mit Service und Port.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["userInput", "service", "port", "purpose"],
+        "properties": {
+          "userInput": { "type": "string", "minLength": 1 },
+          "service": { "type": "string", "minLength": 1 },
+          "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+          "purpose": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Referenz-Slug, über den die Domain in help via ${domain.<purpose>} referenziert wird."
+          }
+        }
+      }
+    },
+    "userInputs": {
+      "type": "array",
+      "description": "Werte, die der Benutzer bei der Installation konfiguriert.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "label", "required", "validationSchema"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "label": {
+            "$ref": "#/$defs/i18n",
+            "description": "Mehrsprachiger Anzeigename des Feldes (für die Oberfläche)."
+          },
+          "dataType": { "enum": ["text", "number", "boolean", "select"] },
+          "format": { "enum": ["email", "password", "url", "uri"] },
+          "required": { "type": "boolean" },
+          "dataSource": { "type": "string" },
+          "defaultValue": { "type": "string" },
+          "positionMeta": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "step": { "type": "string" },
+              "index": { "type": "integer" },
+              "section": { "type": "string" }
+            }
+          },
+          "validationSchema": {
+            "type": "string",
+            "description": "JSON-Schema als String (https://json-schema.org/)."
+          }
+        }
+      }
+    },
+    "systemInputs": {
+      "type": "array",
+      "description": "Werte, die das System generiert (Passwörter, Tokens).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "schema"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "schema": {
+            "type": "object",
+            "required": ["schema"],
+            "properties": {
+              "kind": { "type": "integer" },
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["ruleType"],
+                  "properties": {
+                    "ruleType": { "type": "string" },
+                    "min": { "type": "integer" },
+                    "max": { "type": "integer" },
+                    "identifier": { "type": "string" },
+                    "charPools": { "type": "array", "items": { "type": "string" } },
+                    "pattern": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "help": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Kontext-Hilfe nach dem Deployment. Werte dürfen nur nach der Installation persistierende Platzhalter enthalten: ${<service>.env.NAME}, ${<service>.hostname}, ${domain.<purpose>}.",
+      "properties": {
+        "technicalDetails": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "value"],
+            "properties": {
+              "key": { "$ref": "#/$defs/i18n" },
+              "value": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "alerts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status", "heading", "content"],
+            "properties": {
+              "status": { "enum": ["danger", "info", "success", "warning"] },
+              "heading": { "$ref": "#/$defs/i18n" },
+              "content": { "$ref": "#/$defs/i18n" },
+              "linkText": { "$ref": "#/$defs/i18n" },
+              "link": { "$ref": "#/$defs/i18n" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "if": {
+    "required": ["categories"],
+    "properties": {
+      "categories": {
+        "type": "array",
+        "contains": { "const": "database" }
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "categories": {
+        "type": "array",
+        "minItems": 2,
+        "description": "\"database\" steht nie allein: Zusammen mit uniqueItems erzwingt minItems 2 mindestens eine weitere, fachliche Kategorie."
+      }
+    }
+  },
+  "$defs": {
+    "imageFile": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+\\.(jpe?g|png|webp)$",
+      "description": "Dateiname einer Bilddatei im Template-Ordner (ohne Pfadangabe)."
+    },
+    "i18n": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["de", "en"],
+      "properties": {
+        "de": { "type": "string", "minLength": 1 },
+        "en": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

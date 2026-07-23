@@ -1,0 +1,140 @@
+manifestVersion: 1.0
+name:
+  de: Shlink
+  en: Shlink
+version: "5.x.x"
+type: standalone
+tagline:
+  de: Kurzlinks erstellen und auswerten
+  en: Create and analyse short links
+description:
+  de: |
+    **Shlink** ist ein self-hosted URL-Shortener und eine Open-Source-Alternative zu Bitly. Lange Webadressen werden unter einer eigenen Domain in kompakte Links umgewandelt. Ein separates Dashboard und eine REST-API ermöglichen die zentrale Verwaltung, während Aufrufe und Kampagnenparameter für Auswertungen erfasst werden.
+
+    Zentrale Funktionen:
+
+    - Kurzlinks mit individuellen Slugs, Tags, Ablaufdaten und Weiterleitungsregeln
+    - Besuchsstatistiken nach Zeitraum, Referrer, Browser und Standort
+    - Mehrere Kurzlink-Domains und Import vorhandener Links aus unterstützten Diensten
+    - REST-API und Webhooks für Automatisierungen und eigene Anwendungen
+
+    Für **Agenturen** bündelt Shlink Kampagnen-, Social-Media- und Kundenlinks unter kontrollierten Domains. Tags trennen Projekte und Kanäle, während Statistiken die Nutzung einzelner Links nachvollziehbar machen. Über die API lassen sich Kurzlinks direkt aus Redaktionsworkflows, Kundenportalen oder Marketing-Automationen erzeugen. Individuelle Slugs sorgen zugleich für verständliche, markenkonforme Adressen.
+
+    Bei mittwald läuft **Shlink** als self-hosted Anwendung in deutschen Rechenzentren. Das Template enthält Shlink 5, den Shlink Web Client 4 und PostgreSQL, erzeugt einen initialen API-Key und sichert die Datenbank über das mittwald Backup-Label. Linkziele und Besuchsdaten verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Betriebsprozesse. Da keine link- oder klickabhängigen SaaS-Gebühren entstehen, bleibt der Betrieb auch über viele Kundenprojekte hinweg kalkulierbar.
+  en: |
+    **Shlink** is a self-hosted URL shortener and an open-source alternative to Bitly. Long web addresses are converted into compact links under a custom domain. A separate dashboard and REST API provide central management, while visits and campaign parameters are collected for reporting.
+
+    Key features:
+
+    - Short links with custom slugs, tags, expiration dates and redirect rules
+    - Visit statistics by time period, referrer, browser and location
+    - Multiple short-link domains and imports from supported services
+    - REST API and webhooks for automation and custom applications
+
+    For **agencies**, Shlink consolidates campaign, social-media and client links under controlled domains. Tags separate projects and channels, while statistics make the usage of individual links traceable. The API creates short links directly from editorial workflows, client portals or marketing automation. Custom slugs also provide clear, brand-consistent addresses.
+
+    At mittwald, **Shlink** runs as a self-hosted application in German data centres. The template includes Shlink 5, Shlink Web Client 4 and PostgreSQL, generates an initial API key and protects the database through the mittwald backup label. Link destinations and visit data remain within the operator's infrastructure, supporting GDPR-conscious processes. With no SaaS fees based on links or clicks, operating costs remain predictable across many client projects.
+developer: Alejandro Celaya
+website: https://shlink.io
+repository: https://github.com/shlinkio/shlink
+support: https://shlink.io/documentation/
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - productivity
+  - monitoring
+domains:
+  - userInput: SHORT_HOST
+    service: shlink
+    port: 8080
+    purpose: shortLinks
+  - userInput: DASHBOARD_HOST
+    service: shlink-web-client
+    port: 8080
+    purpose: dashboard
+userInputs:
+  - name: "SHORT_HOST"
+    label:
+      de: Kurzlink-Domain
+      en: Short-link domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "DASHBOARD_HOST"
+    label:
+      de: Dashboard-Domain
+      en: Dashboard domain
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "GEOLITE_LICENSE_KEY"
+    label:
+      de: MaxMind GeoLite2 Lizenzschlüssel
+      en: MaxMind GeoLite2 licence key
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: false
+    validationSchema: '{ "type": "string" }'
+systemInputs:
+  - name: "INITIAL_API_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools:
+            - numbers
+            - lowercase
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Dashboard
+      en: Dashboard
+    value: https://${domain.dashboard}
+  - key:
+      de: Shlink-Server
+      en: Shlink server
+    value: https://${domain.shortLinks}
+  - key:
+      de: Initialer API-Key
+      en: Initial API key
+    value: ${shlink.env.INITIAL_API_KEY}
+  alerts:
+  - status: info
+    heading:
+      de: Dashboard einmalig verbinden
+      en: Connect the dashboard once
+    content:
+      de: Öffne das Dashboard und füge den angezeigten Shlink-Server mit dem initialen API-Key hinzu. Die Verbindung wird lokal in deinem Browser gespeichert.
+      en: Open the dashboard and add the displayed Shlink server using the initial API key. The connection is stored locally in your browser.
+  - status: info
+    heading:
+      de: Standortdaten sind optional
+      en: Location data is optional
+    content:
+      de: Ohne einen MaxMind GeoLite2 Lizenzschlüssel erfasst Shlink keine geografischen Standortdaten für Besuche. Alle anderen Funktionen bleiben verfügbar.
+      en: Without a MaxMind GeoLite2 licence key, Shlink does not collect geographic location data for visits. All other features remain available.

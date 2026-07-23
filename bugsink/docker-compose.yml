@@ -1,0 +1,39 @@
+services:
+  bugsink:
+    image: bugsink/bugsink:2
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Europe/Berlin
+      - SECRET_KEY=${SECRET_KEY}
+      - BASE_URL=https://${HOST}
+      - PORT=8000
+      - CREATE_SUPERUSER=${ADMIN_EMAIL}:${ADMIN_PASSWORD}
+      - DATABASE_URL=postgresql://bugsink:${POSTGRES_PASSWORD}@postgres:5432/bugsink
+      - BEHIND_HTTPS_PROXY=true
+      - USE_X_FORWARDED_HOST=true
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=bugsink
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=bugsink
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'mkdir -p /var/lib/postgresql/backups && \
+        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
+          > /var/lib/postgresql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
+        find /var/lib/postgresql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  postgres_data:

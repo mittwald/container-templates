@@ -1,0 +1,106 @@
+manifestVersion: 1.0
+name:
+  de: Hoppscotch
+  en: Hoppscotch
+version: "2026.x.x"
+type: standalone
+tagline:
+  de: APIs entwickeln, testen und dokumentieren
+  en: Build, test and document APIs
+description:
+  de: |
+    **Hoppscotch** ist eine webbasierte Plattform zum Entwickeln und Testen von APIs und eine self-hosted Alternative zu Postman. HTTP-, GraphQL-, WebSocket- und weitere Anfragen werden direkt im Browser erstellt, organisiert und gemeinsam im Team genutzt.
+
+    Zentrale Funktionen:
+
+    - API-Anfragen für REST, GraphQL, WebSocket, MQTT und weitere Protokolle
+    - Umgebungen, Variablen, Sammlungen und automatisierte Tests
+    - Team-Arbeitsbereiche mit gemeinsam gepflegten Requests
+    - Import, Export, API-Dokumentation und Proxy-Unterstützung
+
+    Für **Agenturen** bietet Hoppscotch einen zentralen Arbeitsplatz für Schnittstellen aus Kundenprojekten. Entwicklungsteams dokumentieren wiederkehrende Requests, teilen Testumgebungen und prüfen Integrationen zu Shops, CMS- oder Drittsystemen. Sammlungen reduzieren Übergabeverluste zwischen Backend, Frontend und Qualitätssicherung und lassen sich projektspezifisch organisieren.
+
+    Bei mittwald läuft **Hoppscotch** als self-hosted Anwendung in deutschen Rechenzentren. Das Template stellt die All-in-One-Anwendung mit PostgreSQL bereit, führt Datenbankmigrationen automatisch aus und erzeugt den Schlüssel zur Verschlüsselung sensibler Konfigurationswerte. Die Datenbank wird über das mittwald Backup-Label gesichert. Requests, Umgebungen und Teamdaten verbleiben in der eigenen Infrastruktur und unterstützen DSGVO-gerechte Entwicklungsprozesse. Die erste Administration wird über den integrierten Einrichtungsbereich vorgenommen.
+  en: |
+    **Hoppscotch** is a web-based platform for developing and testing APIs and a self-hosted alternative to Postman. HTTP, GraphQL, WebSocket and other requests are created in the browser, organised into collections and shared across teams.
+
+    Key features:
+
+    - API requests for REST, GraphQL, WebSocket, MQTT and other protocols
+    - Environments, variables, collections and automated tests
+    - Team workspaces with shared request definitions
+    - Import, export, API documentation and proxy support
+
+    For **agencies**, Hoppscotch provides a central workspace for interfaces used in client projects. Development teams document recurring requests, share test environments and verify integrations with shops, content systems or third-party services. Collections reduce handover friction between backend, frontend and quality assurance and can be organised by project.
+
+    At mittwald, **Hoppscotch** runs as a self-hosted application in German data centres. The template deploys the all-in-one application with PostgreSQL, applies database migrations automatically and generates the key used to encrypt sensitive configuration. PostgreSQL is protected through the mittwald backup label. Requests, environments and team data remain within the operator's infrastructure, supporting GDPR-conscious development processes. Initial administration is completed through the integrated setup area.
+developer: Hoppscotch
+website: https://hoppscotch.io
+repository: https://github.com/hoppscotch/hoppscotch
+support: https://docs.hoppscotch.io
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - development
+domains:
+  - userInput: HOST
+    service: hoppscotch
+    port: 80
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "DATA_ENCRYPTION_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+          max: 32
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools: [numbers]
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Anwendung
+      en: Application
+    value: https://${domain.main}
+  - key:
+      de: Administration
+      en: Administration
+    value: https://${domain.main}/admin
+  alerts:
+  - status: info
+    heading:
+      de: Ersteinrichtung abschließen
+      en: Complete initial setup
+    content:
+      de: Öffne zuerst den Administrationsbereich und schließe dort das Onboarding sowie die gewünschte Anmeldung und E-Mail-Konfiguration ab.
+      en: Open the administration area first and complete onboarding, authentication and email configuration there.

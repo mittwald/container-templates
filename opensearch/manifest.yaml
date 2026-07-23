@@ -1,0 +1,77 @@
+manifestVersion: 1.0
+name:
+  de: OpenSearch
+  en: OpenSearch
+version: "3.x.x"
+type: component
+tagline:
+  de: Verteilte Such- und Analyse-Engine
+  en: Distributed search and analytics engine
+description:
+  de: |
+    **OpenSearch** ist eine verteilte Such- und Analyse-Engine auf Basis von Apache Lucene und Open-Source-Alternative zu kostenpflichtigen Managed-Diensten wie Elastic Cloud oder Algolia. Sie bietet Volltextsuche, Aggregationen und Log-Analyse über eine einheitliche REST-API und lässt sich als Backend-Baustein in vielfältige Anwendungsarchitekturen integrieren.
+
+    Zentrale Funktionen:
+
+    - Volltextsuche mit Relevanz-Ranking auf Basis von Apache Lucene
+    - Aggregationen und Metriken für analytische Auswertungen und Dashboards
+    - Log- und Ereignis-Analyse für Observability-Szenarien
+    - Horizontale Skalierung durch Sharding und Replikation sowie rollenbasierte Zugriffssteuerung
+
+    Für **Agenturen** fungiert OpenSearch als Such- und Analyse-Backend hinter Kundenanwendungen: Online-Shops und Portale nutzen es für schnelle, relevanzbewertete Produktsuche; Content-Plattformen binden es für Volltextsuche über Artikelarchive ein; Observability-Setups sammeln Anwendungslogs zentral zur Auswertung. Als isolierter Dienst lässt sich OpenSearch in bestehende Container-Stacks einbinden, ohne die Anwendungslogik zu verändern.
+
+    Bei mittwald läuft **OpenSearch** als self-hosted Container in deutschen Rechenzentren; die indizierten Daten bleiben vollständig unter Kontrolle und werden nicht an Drittanbieter übertragen — ein wesentlicher Vorteil für die DSGVO-Konformität. Dieses Template enthält OpenSearch als eigenständigen Dienst und ist nach der Konfiguration des Admin-Passworts sofort betriebsbereit. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich die Lösung wirtschaftlich für mehrere Kundenprojekte einsetzen.
+  en: |
+    **OpenSearch** is a distributed search and analytics engine built on Apache Lucene, and an open-source alternative to paid managed services like Elastic Cloud or Algolia. It provides full-text search, aggregations and log analysis through a REST API, and integrates as a backend building block across diverse architectures.
+
+    Key features:
+
+    - Full-text search with relevance ranking
+    - Aggregations and metrics for analytical evaluations and dashboards
+    - Log and event analysis for observability scenarios
+    - Horizontal scaling through sharding and replication, with role-based access control
+
+    For **agencies**, OpenSearch serves as a search and analytics backend: online shops use it for fast, relevance-ranked product search; content platforms integrate it for full-text search across article archives; observability setups aggregate logs for analysis. As an isolated service, it embeds into container stacks without modifying application logic.
+
+    At mittwald, **OpenSearch** runs as a self-hosted container in German data centres; indexed data stays fully under control and is not transferred to third parties, supporting GDPR compliance. This template provides OpenSearch as a standalone service, ready after setting the admin password. No usage-based licence costs make the solution economical across multiple client projects.
+developer: OpenSearch Project
+website: https://opensearch.org
+repository: https://github.com/opensearch-project/OpenSearch
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
+categories:
+  - development
+  - database
+userInputs:
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminuser", index: 5 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${opensearch.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 9200/TCP
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${opensearch.env.OPENSEARCH_INITIAL_ADMIN_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: TLS-Check deaktiviert
+      en: TLS check disabled
+    content:
+      de: Verbindungen zu OpenSearch werden hergestellt, ohne das Serverzertifikat zu überprüfen. Dies kann in Entwicklungs- oder Testumgebungen sinnvoll sein, wird für produktive Systeme jedoch nicht empfohlen.
+      en: Connections to OpenSearch are established without verifying the server certificate. This may be useful in development or test environments, but is not recommended for production systems.

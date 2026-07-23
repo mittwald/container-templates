@@ -1,0 +1,65 @@
+manifestVersion: 1.0
+name:
+  de: BentoPDF
+  en: BentoPDF
+version: "latest"
+type: standalone
+tagline:
+  de: PDF-Werkzeugkasten direkt im Browser
+  en: PDF toolkit running directly in the browser
+description:
+  de: |
+    **BentoPDF** ist ein datenschutzorientierter, self-hosted PDF-Werkzeugkasten und eine Alternative zu Online-Diensten wie Smallpdf oder iLovePDF. Die Anwendung verarbeitet Dokumente direkt im Browser, sodass PDF-Dateien nicht zur Bearbeitung an einen externen Server übertragen werden. Über eine gemeinsame Oberfläche stehen Werkzeuge für alltägliche und anspruchsvollere Dokumentaufgaben bereit.
+
+    Zentrale Funktionen:
+
+    - PDF-Dateien zusammenführen, teilen, drehen und neu anordnen
+    - Dokumente und Bilder in verschiedene Formate konvertieren
+    - PDFs komprimieren, reparieren, per OCR erkennen und schützen
+    - Inhalte bearbeiten, kommentieren, schwärzen und signieren
+
+    Für **Agenturen** eignet sich BentoPDF als zentraler Werkzeugkasten für Projektteams und Kunden. Angebote, Präsentationen, Druckfreigaben oder gescannte Unterlagen können bearbeitet werden, ohne vertrauliche Kundendokumente bei einem zusätzlichen SaaS-Anbieter hochzuladen. Die browserbasierte Verarbeitung entlastet zugleich den Container und ermöglicht eine gemeinsame, einfach erreichbare Arbeitsoberfläche.
+
+    Bei mittwald läuft **BentoPDF** als self-hosted Container in deutschen Rechenzentren. Das Template stellt die für interne Teams vorgesehene Simple-Variante bereit; die eigentliche Dokumentverarbeitung erfolgt auf dem Endgerät. Dadurch unterstützt die Lösung datensparsame und DSGVO-gerechte Arbeitsabläufe. Für die Open-Source-Version fallen keine nutzungsabhängigen Gebühren an.
+  en: |
+    **BentoPDF** is a privacy-focused, self-hosted PDF toolkit and an alternative to online services such as Smallpdf or iLovePDF. It processes documents directly in the browser, so PDF files do not need to be uploaded to an external server for editing. A single interface provides tools for both everyday and more advanced document tasks.
+
+    Key features:
+
+    - Merge, split, rotate and reorder PDF files
+    - Convert documents and images between multiple formats
+    - Compress, repair, OCR and protect PDFs
+    - Edit, annotate, redact and sign content
+
+    For **agencies**, BentoPDF provides a shared toolkit for project teams and clients. Proposals, presentations, print approvals and scanned documents can be processed without sending confidential client files to an additional SaaS provider. Browser-side processing also reduces work on the container while providing one accessible interface for the whole team.
+
+    At mittwald, **BentoPDF** runs as a self-hosted container in German data centres. The template deploys the Simple edition intended for internal teams, while document processing takes place on the user's device. This supports data-minimising, GDPR-conscious workflows. The open-source edition has no usage-based fees.
+developer: BentoPDF
+website: https://bentopdf.com
+repository: https://github.com/alam00000/bentopdf
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0-only.html
+categories:
+  - productivity
+domains:
+  - userInput: HOST
+    service: bentopdf
+    port: 8080
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}

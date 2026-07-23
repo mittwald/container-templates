@@ -1,0 +1,97 @@
+manifestVersion: 1.0
+name:
+  de: Open WebUI
+  en: Open WebUI
+version: "main"
+type: standalone
+tagline:
+  de: Selbstgehostete Oberfläche für KI-Modelle
+  en: Self-hosted interface for AI models
+description:
+  de: |
+    **Open WebUI** ist eine selbst gehostete Weboberfläche für große Sprachmodelle (LLMs) und eine Alternative zu vollständig verwalteten Diensten wie gehostetes ChatGPT. Die Plattform ermöglicht die Interaktion mit verschiedenen KI-Modellen über eine einheitliche, browserbasierte Oberfläche, ohne Nutzereingaben über externe Server zu leiten.
+
+    Zentrale Funktionen:
+
+    - Benutzerfreundliche Chat-Oberfläche für lokale und remote LLMs
+    - Einbindung mehrerer Modelle und API-Endpunkte (z. B. Ollama, OpenAI-kompatible APIs)
+    - Benutzerverwaltung mit Rollen und differenzierten Zugriffsrechten
+    - Prompt-Vorlagen und persistente Chat-Verläufe je Nutzer
+
+    Für **Agenturen** bietet Open WebUI die Möglichkeit, ein eigenes, kontrolliertes Chat-Interface für Teams bereitzustellen. KI-Assistenten lassen sich gezielt für interne Prozesse einsetzen — etwa Texterstellung, Briefing-Analyse oder Content-Recherche — ohne sensible Kundendaten an externe Dienste weiterzugeben. Durch die direkte Anbindung an das mittwald AI Hosting behalten Teams die volle Kontrolle über eingesetzte Modelle und Kosten.
+
+    Bei mittwald läuft **Open WebUI** als self-hosted Container in deutschen Rechenzentren; alle Konversationsdaten bleiben unter der Kontrolle des Betreibers — DSGVO-Konformität ist gewährleistet. Dieses Template enthält Open WebUI als eigenständige Anwendung, verbunden mit dem mittwald AI Hosting. Da keine nutzungsabhängigen Lizenzgebühren anfallen, bleibt die Lösung auch bei wachsender Nutzerzahl wirtschaftlich.
+  en: |
+    **Open WebUI** is a self-hosted web interface for large language models (LLMs) and an alternative to fully managed services such as hosted ChatGPT. It enables interaction with various AI models through a unified, browser-based interface without routing inputs through external servers.
+
+    Key features:
+
+    - User-friendly chat interface for local and remote LLMs
+    - Multiple model integrations and API endpoints (e.g. Ollama, OpenAI-compatible APIs)
+    - User management with roles and granular access rights
+    - Prompt templates and persistent chat histories per user
+
+    For **agencies**, Open WebUI provides a dedicated, controlled chat interface for teams. AI assistants can be targeted at internal processes — copywriting, brief analysis or content research — without exposing sensitive client data to external services. Direct integration with mittwald AI Hosting lets teams use their own language models while retaining full cost control.
+
+    At mittwald, **Open WebUI** runs as a self-hosted container in German data centres; all conversation data remains under the operator's control — GDPR compliance is ensured without additional measures. This template includes Open WebUI as a standalone application connected to mittwald AI Hosting; no usage-based licence fees apply.
+developer: Open WebUI
+website: https://openwebui.com
+repository: https://github.com/open-webui/open-webui
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - ai
+domains:
+  - userInput: HOST
+    service: openwebui
+    port: 8080
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
+    positionMeta: { step: "aiHosting", index: 4 }
+    required: false
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string" }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminuser", index: 5 }
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminuser", index: 5 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${openwebui.env.WEBUI_ADMIN_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${openwebui.env.WEBUI_ADMIN_PASSWORD}

@@ -1,0 +1,66 @@
+manifestVersion: 1.0
+name:
+  de: changedetection.io
+  en: changedetection.io
+version: "latest"
+type: standalone
+tagline:
+  de: Website-Änderungen automatisch erkennen
+  en: Detect website changes automatically
+description:
+  de: |
+    **changedetection.io** ist ein self-hosted Dienst zur automatischen Überwachung von Websites auf Inhaltsänderungen und eine Alternative zu SaaS-Lösungen wie Visualping oder Distill.io. Die Software prüft in konfigurierbaren Intervallen, ob sich Seiteninhalte verändert haben, und benachrichtigt bei Änderungen sofort die konfigurierten Empfänger über verschiedene Kanäle.
+
+    Zentrale Funktionen:
+
+    - Visuelle und textbasierte Diffs zum genauen Vergleich von Seitenversionen
+    - Gezielte Überwachung einzelner Elemente per CSS- und XPath-Selektoren
+    - Benachrichtigungen per E-Mail, Webhook, Slack, Telegram und weitere Kanäle
+    - Vollständiges Browser-Rendering für JavaScript-basierte und dynamische Websites
+
+    Für **Agenturen** ist changedetection.io ein nützliches Werkzeug zur systematischen Überwachung von Kunden- und Wettbewerber-Websites. Content-Änderungen auf Kundenwebsites werden automatisch erkannt, Preisänderungen bei Wettbewerbern und SEO-relevante Seitenaktualisierungen lassen sich gezielt verfolgen. Agenturen erhalten so einen strukturierten Überblick über relevante Änderungen, ohne Seiten manuell prüfen zu müssen.
+
+    Bei mittwald läuft changedetection.io als self-hosted Container in deutschen Rechenzentren; überwachte Seiteninhalte und Änderungshistorien verbleiben im eigenen System und werden nicht an Dritte übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält changedetection.io zusammen mit einem Browser-Service (sockpuppetbrowser) für zuverlässiges JavaScript-Rendering. Da keine nutzungsabhängigen Lizenzkosten anfallen, lässt sich eine beliebige Anzahl von Websites ohne zusätzliche Kosten überwachen.
+  en: |
+    **changedetection.io** is a self-hosted service for automatically monitoring websites for content changes, and an alternative to SaaS solutions such as Visualping or Distill.io. It checks at configurable intervals whether a site's content has changed and immediately notifies configured recipients via various channels.
+
+    Key features:
+
+    - Visual and text-based diffs for precise page comparison
+    - Element-level monitoring using CSS and XPath selectors
+    - Notifications via email, webhook, Slack, Telegram and more
+    - Full browser rendering for JavaScript-based and dynamic websites
+
+    For **agencies**, changedetection.io is a practical tool for systematically monitoring client and competitor websites. Content changes are detected automatically; competitor price changes and SEO-relevant updates can be tracked selectively. Agencies gain a structured overview of relevant changes without checking pages manually.
+
+    At mittwald, changedetection.io runs as a self-hosted container in German data centres; monitored content and change histories remain within the operator's own system and are not transferred to third parties, simplifying GDPR compliance. This template includes changedetection.io with a full browser service (sockpuppetbrowser) for reliable JavaScript rendering. As there are no usage-based licence costs, any number of websites can be monitored without additional expense.
+developer: dgtlmoon
+website: https://changedetection.io
+repository: https://github.com/dgtlmoon/changedetection.io
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
+categories:
+  - monitoring
+  - productivity
+domains:
+  - userInput: HOST
+    service: changedetection
+    port: 5000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}

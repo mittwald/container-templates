@@ -1,0 +1,106 @@
+manifestVersion: 1.0
+name:
+  de: listmonk
+  en: listmonk
+version: "latest"
+type: standalone
+tagline:
+  de: Newsletter und Mailinglisten verwalten
+  en: Manage newsletters and mailing lists
+description:
+  de: |
+    **listmonk** ist ein leistungsfähiger, self-hosted Newsletter- und Mailinglisten-Manager und eine Alternative zu SaaS-Angeboten wie Mailchimp oder Brevo. Die Anwendung verwaltet große Empfängerlisten, erstellt Kampagnen über eine moderne Web-Oberfläche und versendet Nachrichten über einen selbst gewählten SMTP-Dienst.
+
+    Zentrale Funktionen:
+
+    - Empfängerlisten, benutzerdefinierte Attribute und dynamische Segmentierung
+    - Kampagnen mit Vorlagen, Vorschau und zeitgesteuertem Versand
+    - Auswertungen zu Zustellung, Öffnungen, Klicks und Bounces
+    - REST-API, Webhooks und Formulare für die Integration in Anwendungen
+
+    Für **Agenturen** eignet sich listmonk für Kundennewsletter, Produktinformationen und interne Verteiler. Empfänger können nach Projekten, Interessen oder Vertragsmerkmalen segmentiert werden, während Vorlagen ein konsistentes Erscheinungsbild sicherstellen. Über API und Webhooks lässt sich der Versand mit Websites, Shops oder individuellen Kundenanwendungen verbinden. Der verwendete SMTP-Anbieter bleibt frei wählbar.
+
+    Bei mittwald läuft **listmonk** als self-hosted Container in deutschen Rechenzentren; Kontaktlisten, Kampagneninhalte und Auswertungen bleiben in der eigenen Infrastruktur. Das Template enthält listmonk mit PostgreSQL, legt den gewünschten Administrator an und führt Datenbankmigrationen beim Start idempotent aus. Die PostgreSQL-Datenbank wird über das mittwald Backup-Label gesichert. Da keine kontaktabhängigen Lizenzkosten anfallen, bleibt die Lösung auch bei wachsenden Verteilern wirtschaftlich.
+  en: |
+    **listmonk** is a high-performance, self-hosted newsletter and mailing-list manager and an alternative to SaaS products such as Mailchimp or Brevo. It manages large subscriber lists, creates campaigns through a modern web interface and sends messages through an SMTP service selected by the operator.
+
+    Key features:
+
+    - Subscriber lists, custom attributes and dynamic segmentation
+    - Campaigns with templates, previews and scheduled delivery
+    - Reporting for delivery, opens, clicks and bounces
+    - REST API, webhooks and forms for application integration
+
+    For **agencies**, listmonk supports client newsletters, product updates and internal mailing lists. Subscribers can be segmented by project, interest or contract attributes, while templates maintain a consistent visual identity. APIs and webhooks connect delivery with websites, shops or custom client applications. The SMTP provider remains freely selectable.
+
+    At mittwald, **listmonk** runs as a self-hosted container in German data centres; contact lists, campaign content and reports remain within the operator's infrastructure. The template includes listmonk with PostgreSQL, creates the requested administrator and runs database migrations idempotently at startup. PostgreSQL is protected through the mittwald backup label. With no contact-based licence fees, the solution remains economical as mailing lists grow.
+developer: Kailash Nadh
+website: https://listmonk.app
+repository: https://github.com/knadh/listmonk
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0-only.html
+categories:
+  - communication
+domains:
+  - userInput: HOST
+    service: listmonk
+    port: 9000
+    purpose: main
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "common", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${listmonk.env.LISTMONK_ADMIN_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${listmonk.env.LISTMONK_ADMIN_PASSWORD}
