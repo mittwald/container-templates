@@ -98,7 +98,7 @@ services:
       redis:
         condition: service_healthy
   postgres:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg18
     environment:
       - TZ=Europe/Berlin
       - POSTGRES_DB=chatwoot
