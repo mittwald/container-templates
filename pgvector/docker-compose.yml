@@ -11,9 +11,10 @@ services:
       - pgvector_data:/var/lib/postgresql/data
     labels:
       backup.command: >-
-        sh -lc 'mkdir -p /var/lib/postgresql/data/backups && \
-        pg_dumpall -h localhost -U "$POSTGRES_USER" | gzip \
-          > /var/lib/postgresql/data/backups/backup_$(date +%F_%H%M%S).sql.gz; \
-        find /var/lib/postgresql/data/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+        sh -lc 'set -e; d=/var/lib/postgresql/data/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
 volumes:
   pgvector_data:
