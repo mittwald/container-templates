@@ -6,12 +6,11 @@ services:
       - POSTGRES_USER=${ADMIN_USER}
       - POSTGRES_PASSWORD=${ADMIN_PASSWORD}
       - POSTGRES_DB=${DATABASE_NAME}
-      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - pgvector_data:/var/lib/postgresql/data
+      - pgvector_data:/var/lib/postgresql
     labels:
       backup.command: >-
-        sh -lc 'set -e; d=/var/lib/postgresql/data/backups; mkdir -p "$$d";
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
         f=$$d/backup_$$(date +%F_%H%M%S).sql;
         { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
         gzip "$$f";

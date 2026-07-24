@@ -104,9 +104,8 @@ services:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -h localhost -U postgres"]
       interval: 10s
@@ -114,7 +113,7 @@ services:
       retries: 5
     labels:
       backup.command: >-
-        sh -lc 'set -e; d=/var/lib/postgresql/data/backups; mkdir -p "$$d";
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
         f=$$d/backup_$$(date +%F_%H%M%S).sql;
         { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
         gzip "$$f";
