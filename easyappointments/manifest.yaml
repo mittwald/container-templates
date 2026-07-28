@@ -43,6 +43,22 @@ license:
   link: https://spdx.org/licenses/GPL-3.0-only.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-booking-website.png
+    text:
+      de: Kundinnen und Kunden buchen Termine über eine öffentliche Seite
+      en: Customers book appointments through a public booking page
+  - bg: background.jpg
+    screenshot: screenshot-bookingslot-editor.png
+    text:
+      de: Leistungen mit Dauer, Preis, Zeitfenster und Anbietern anlegen
+      en: Creating services with duration, price, time slots and providers
+  - bg: background.jpg
+    screenshot: screenshot-integrations.png
+    text:
+      de: Anbindung an Webhooks, Kalender, LDAP und Videokonferenzen
+      en: Connecting webhooks, calendars, LDAP and video conferencing
 domains:
   main:
     userInput: HOST
