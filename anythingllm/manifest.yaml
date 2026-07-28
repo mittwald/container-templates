@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - ai
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-chat.png
+    text:
+      de: Antworten aus hochgeladenen Dokumenten mit Angabe der Quellen
+      en: Answers from uploaded documents with the sources used
+  - bg: background.jpg
+    screenshot: screenshot-llm-settings.jpg
+    text:
+      de: Einstellungen für LLM-Anbieter, Modell und Kontextfenster
+      en: Settings for the LLM provider, model and context window
+  - bg: background.jpg
+    screenshot: screenshot-whitelabeling.jpg
+    text:
+      de: Branding der Instanz mit eigenem Namen, Logo und Tab-Titel
+      en: Branding the instance with a custom name, logo and tab title
 domains:
   main:
     userInput: HOST
