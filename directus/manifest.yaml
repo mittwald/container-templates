@@ -43,6 +43,22 @@ license:
   link: https://github.com/directus/directus/blob/v12.1.1/license
 categories:
   - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-collection.png
+    text:
+      de: Inhalte pflegen, unterstützt vom KI-Assistenten in der Seitenleiste
+      en: Editing content, supported by the AI assistant in the sidebar
+  - bg: background.jpg
+    screenshot: screenshot-collection-fields.png
+    text:
+      de: Das Datenmodell aus Feldtypen wie Text, Auswahl und Bild aufbauen
+      en: Building the data model from field types like text, select and image
+  - bg: background.jpg
+    screenshot: screenshot-flows.png
+    text:
+      de: Flows verketten Bedingungen, Skripte, Webhooks und E-Mail-Versand
+      en: Flows chain conditions, scripts, webhooks and email delivery
 domains:
   main:
     userInput: HOST
