@@ -11,7 +11,7 @@ services:
       - TRUSTED_PROXIES=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
       - ADMINMAIL=${ADMIN_EMAIL}
       - ADMINPASS=${ADMIN_PASSWORD}
-      - MAILER_URL=smtp://${SMTP_USER}:${SMTP_PASSWORD}@${SMTP_HOST}:${SMTP_PORT}?encryption=tls
+      - MAILER_URL=smtp://${MW_DELIVERYBOX_MAIN_USERNAME}:${MW_DELIVERYBOX_MAIN_PASSWORD}@mail.agenturserver.de?encryption=tls
       - MAILER_FROM=${SMTP_FROM}
       - DATABASE_URL=mysql://kimai:${MARIADB_PASSWORD}@database/kimai?charset=utf8mb4
       - memory_limit=512M

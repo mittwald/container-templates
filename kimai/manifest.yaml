@@ -73,37 +73,6 @@ userInputs:
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
-  - name: "SMTP_HOST"
-    label:
-      de: SMTP-Host
-      en: SMTP host
-    positionMeta: { step: "common", index: 4, section: "email" }
-    defaultValue: "mail.agenturserver.de"
-    required: true
-    validationSchema: '{ "type": "string", "minLength": 1 }'
-  - name: "SMTP_PORT"
-    label:
-      de: SMTP-Port für STARTTLS
-      en: SMTP port for STARTTLS
-    positionMeta: { step: "common", index: 5, section: "email" }
-    defaultValue: "587"
-    required: true
-    validationSchema: '{ "type": "string", "pattern": "^[0-9]{1,5}$" }'
-  - name: "SMTP_USER"
-    label:
-      de: SMTP-Benutzer
-      en: SMTP username
-    positionMeta: { step: "common", index: 6, section: "email" }
-    required: true
-    validationSchema: '{ "type": "string", "minLength": 1 }'
-  - name: "SMTP_PASSWORD"
-    label:
-      de: SMTP-Passwort
-      en: SMTP password
-    positionMeta: { step: "common", index: 7, section: "email" }
-    format: "password"
-    required: true
-    validationSchema: '{ "type": "string", "minLength": 1, "format": "password" }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
@@ -153,6 +122,8 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+deliveryBoxes:
+  - purpose: main
 help:
   technicalDetails:
   - key:
