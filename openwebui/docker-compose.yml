@@ -5,7 +5,7 @@ services:
       - "8080:8080"
     environment:
       - TZ=Europe/Berlin
-      - OPENAI_API_BASE_URLS=https://llm.aihosting.mittwald.de/v1
+      - OPENAI_API_BASE_URLS=${AI_ENDPOINT}
       - OPENAI_API_KEYS=${AI_API_KEY}
       - WEBUI_AUTH=true
       - WEBUI_ADMIN_EMAIL=${ADMIN_EMAIL}
