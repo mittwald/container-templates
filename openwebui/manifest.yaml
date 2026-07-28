@@ -43,10 +43,10 @@ license:
 categories:
   - ai
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: openwebui
     port: 8080
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

@@ -44,10 +44,10 @@ categories:
   - development
   - database
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: databasus
     port: 4005
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

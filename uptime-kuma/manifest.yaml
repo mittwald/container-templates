@@ -43,10 +43,10 @@ license:
 categories:
   - monitoring
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: uptime-kuma
     port: 3001
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

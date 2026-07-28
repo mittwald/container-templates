@@ -43,10 +43,10 @@ license:
 categories:
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: vikunja
     port: 3456
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

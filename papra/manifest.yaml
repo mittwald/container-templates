@@ -45,10 +45,10 @@ license:
 categories:
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: papra
     port: 1221
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

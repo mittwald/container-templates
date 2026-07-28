@@ -43,10 +43,10 @@ license:
 categories:
   - monitoring
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: healthchecks
     port: 8000
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

@@ -44,10 +44,10 @@ license:
 categories:
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: fider
     port: 3000
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

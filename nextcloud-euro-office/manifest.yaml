@@ -43,14 +43,14 @@ license:
 categories:
   - productivity
 domains:
-  - userInput: HOST
+  nextcloud:
+    userInput: HOST
     service: nextcloud-euro-office
     port: 80
-    purpose: nextcloud
-  - userInput: EUROOFFICE_HOST
+  eurooffice:
+    userInput: EUROOFFICE_HOST
     service: eurooffice
     port: 80
-    purpose: eurooffice
 userInputs:
   - name: "HOST"
     label:

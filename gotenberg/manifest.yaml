@@ -43,10 +43,10 @@ license:
 categories:
   - development
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: gotenberg
     port: 3000
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

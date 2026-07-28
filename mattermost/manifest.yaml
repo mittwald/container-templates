@@ -43,10 +43,10 @@ license:
 categories:
   - communication
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: mattermost
     port: 8065
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

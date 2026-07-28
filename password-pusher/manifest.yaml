@@ -43,10 +43,10 @@ license:
 categories:
   - security
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: password-pusher
     port: 5100
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

@@ -44,10 +44,10 @@ license:
 categories:
   - development
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: hoppscotch
     port: 80
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

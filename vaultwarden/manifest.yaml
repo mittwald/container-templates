@@ -43,10 +43,10 @@ license:
 categories:
   - security
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: vaultwarden
     port: 80
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

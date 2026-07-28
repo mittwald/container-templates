@@ -43,10 +43,10 @@ license:
 categories:
   - security
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: pocket-id
     port: 1411
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

@@ -44,10 +44,10 @@ categories:
   - development
   - database
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: meilisearch
     port: 7700
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

@@ -43,10 +43,10 @@ license:
 categories:
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: collabora
     port: 9980
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

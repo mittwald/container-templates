@@ -43,10 +43,10 @@ license:
 categories:
   - media
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: immich
     port: 2283
-    purpose: main
 userInputs:
   - name: "HOST"
     label:
