@@ -48,7 +48,7 @@ userInputs:
     label:
       de: Admin Passwort
       en: Admin Password
-    positionMeta: { step: "adminuser", index: 5 }
+    positionMeta: { step: "adminUser", index: 1 }
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'

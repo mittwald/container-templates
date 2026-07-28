@@ -58,11 +58,11 @@ services:
       - PUBLIC_FILESYSTEM_DISK=public
       - GOTENBERG_URL=http://gotenberg:3000
       - MAIL_MAILER=smtp
-      - MAIL_HOST=${SMTP_HOST}
-      - MAIL_PORT=${SMTP_PORT}
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
       - MAIL_ENCRYPTION=tls
-      - MAIL_USERNAME=${SMTP_USER}
-      - MAIL_PASSWORD=${SMTP_PASSWORD}
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
       - MAIL_FROM_ADDRESS=${SMTP_FROM}
       - MAIL_FROM_NAME=solidtime
     volumes:
@@ -100,11 +100,11 @@ services:
       - QUEUE_CONNECTION=database
       - GOTENBERG_URL=http://gotenberg:3000
       - MAIL_MAILER=smtp
-      - MAIL_HOST=${SMTP_HOST}
-      - MAIL_PORT=${SMTP_PORT}
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
       - MAIL_ENCRYPTION=tls
-      - MAIL_USERNAME=${SMTP_USER}
-      - MAIL_PASSWORD=${SMTP_PASSWORD}
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
       - MAIL_FROM_ADDRESS=${SMTP_FROM}
       - MAIL_FROM_NAME=solidtime
     volumes:
@@ -138,11 +138,11 @@ services:
       - QUEUE_CONNECTION=database
       - GOTENBERG_URL=http://gotenberg:3000
       - MAIL_MAILER=smtp
-      - MAIL_HOST=${SMTP_HOST}
-      - MAIL_PORT=${SMTP_PORT}
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
       - MAIL_ENCRYPTION=tls
-      - MAIL_USERNAME=${SMTP_USER}
-      - MAIL_PASSWORD=${SMTP_PASSWORD}
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
       - MAIL_FROM_ADDRESS=${SMTP_FROM}
       - MAIL_FROM_NAME=solidtime
     volumes:

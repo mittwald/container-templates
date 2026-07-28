@@ -58,7 +58,7 @@ userInputs:
     label:
       de: Kurzlink-Domain
       en: Short-link domain
-    positionMeta: { step: "common", index: 1 }
+    positionMeta: { step: "domain", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
@@ -66,7 +66,7 @@ userInputs:
     label:
       de: Dashboard-Domain
       en: Dashboard domain
-    positionMeta: { step: "common", index: 2 }
+    positionMeta: { step: "domain", index: 2 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
@@ -74,7 +74,7 @@ userInputs:
     label:
       de: MaxMind GeoLite2 Lizenzschlüssel
       en: MaxMind GeoLite2 licence key
-    positionMeta: { step: "common", index: 3 }
+    positionMeta: { step: "common", index: 1 }
     format: "password"
     required: false
     validationSchema: '{ "type": "string" }'

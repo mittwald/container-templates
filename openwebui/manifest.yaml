@@ -52,7 +52,7 @@ userInputs:
     label:
       de: Domain
       en: Domain
-    positionMeta: { step: "common", index: 1 }
+    positionMeta: { step: "domain", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
@@ -60,7 +60,7 @@ userInputs:
     label:
       de: AI API-Key
       en: AI API Key
-    positionMeta: { step: "aiHosting", index: 4 }
+    positionMeta: { step: "ai", index: 1 }
     required: true
     dataSource: "aiHosting.apiKey"
     validationSchema: '{ "type": "string", "minLength": 1 }'
@@ -68,7 +68,7 @@ userInputs:
     label:
       de: AI Endpunkt
       en: AI endpoint
-    positionMeta: { step: "aiHosting", index: 5 }
+    positionMeta: { step: "ai", index: 2 }
     defaultValue: "${aiHosting.llmEndpoint}"
     format: "url"
     required: true
@@ -77,7 +77,7 @@ userInputs:
     label:
       de: Admin E-Mail-Adresse
       en: Admin email address
-    positionMeta: { step: "adminuser", index: 5 }
+    positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
     format: "email"
     required: true
@@ -86,7 +86,7 @@ userInputs:
     label:
       de: Admin Passwort
       en: Admin Password
-    positionMeta: { step: "adminuser", index: 5 }
+    positionMeta: { step: "adminUser", index: 2 }
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'

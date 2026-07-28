@@ -52,7 +52,7 @@ userInputs:
     label:
       de: Domain
       en: Domain
-    positionMeta: { step: "common", index: 1 }
+    positionMeta: { step: "domain", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
@@ -60,14 +60,14 @@ userInputs:
     label:
       de: Benutzername Web-Oberfläche
       en: Web interface username
-    positionMeta: { step: "common", index: 2 }
+    positionMeta: { step: "adminUser", index: 1 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[^\\s:]+$" }'
   - name: "UI_PASSWORD"
     label:
       de: Passwort Web-Oberfläche
       en: Web interface password
-    positionMeta: { step: "common", index: 3 }
+    positionMeta: { step: "adminUser", index: 2 }
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password" }'
@@ -75,7 +75,7 @@ userInputs:
     label:
       de: SMTP-Passwort
       en: SMTP password
-    positionMeta: { step: "common", index: 4 }
+    positionMeta: { step: "common", index: 1 }
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password" }'

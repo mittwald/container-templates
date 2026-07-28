@@ -56,7 +56,7 @@ userInputs:
     label:
       de: Domain
       en: Domain
-    positionMeta: { step: "common", index: 1 }
+    positionMeta: { step: "domain", index: 1 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
@@ -64,7 +64,7 @@ userInputs:
     label:
       de: Euro-Office Domain
       en: Euro-Office Domain
-    positionMeta: { step: "common", index: 2 }
+    positionMeta: { step: "domain", index: 2 }
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
@@ -72,7 +72,7 @@ userInputs:
     label:
       de: Admin Benutzername
       en: Admin username
-    positionMeta: { step: "adminuser", index: 5 }
+    positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.username}"
     required: true
     validationSchema: '{ "type": "string", "minLength": 1}'
@@ -80,7 +80,7 @@ userInputs:
     label:
       de: Admin Passwort
       en: Admin Password
-    positionMeta: { step: "adminuser", index: 5 }
+    positionMeta: { step: "adminUser", index: 2 }
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'

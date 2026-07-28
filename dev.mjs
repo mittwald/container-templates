@@ -559,6 +559,14 @@ async function createValues(templateData, overrides) {
       values[input.name] = domains[input.name] ?? defaultUserValue(input);
     }
   }
+  // Die Zugangsdaten der Delivery-Boxen legt mStudio an. Lokal übernimmt Mailpit
+  // den Versand (siehe docker-compose.dev.yml), deshalb genügen leere Werte.
+  for (const box of manifest.deliveryBoxes ?? []) {
+    const prefix = `MW_DELIVERYBOX_${box.purpose.toUpperCase()}`;
+    values[`${prefix}_USERNAME`] ??= "";
+    values[`${prefix}_PASSWORD`] ??= "";
+  }
+
   for (const input of manifest.systemInputs ?? []) {
     if (values[input.name] === undefined) {
       values[input.name] = generateSystemValue(input);

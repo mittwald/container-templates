@@ -136,15 +136,40 @@
           "positionMeta": {
             "type": "object",
             "additionalProperties": false,
+            "description": "Platzierung im Installations-Assistenten.",
+            "required": ["step", "index"],
             "properties": {
-              "step": { "type": "string" },
-              "index": { "type": "integer" },
-              "section": { "type": "string" }
+              "step": {
+                "enum": ["domain", "adminUser", "ai", "common"],
+                "description": "Schritt des Assistenten. Die Auswahl ist abschließend, weil das Frontend je Schritt eine Übersetzung pflegt."
+              },
+              "index": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Reihenfolge innerhalb des Schritts, je Schritt bei 1 beginnend."
+              }
             }
           },
           "validationSchema": {
             "type": "string",
             "description": "JSON-Schema als String (https://json-schema.org/)."
+          }
+        }
+      }
+    },
+    "deliveryBoxes": {
+      "type": "array",
+      "description": "Delivery-Boxen für den Mailversand. Das System legt je Eintrag eine Box an und stellt die Zugangsdaten als ${MW_DELIVERYBOX_<PURPOSE>_USERNAME} und ${MW_DELIVERYBOX_<PURPOSE>_PASSWORD} bereit.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["purpose"],
+        "properties": {
+          "purpose": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$",
+            "description": "Referenz-Slug der Box, z.B. \"main\". Bestimmt den Namen der Umgebungsvariablen."
           }
         }
       }

@@ -41,6 +41,7 @@ Beschreibt das Template mit folgenden Feldern. Die maschinenlesbare, per CI vali
 | `domains`         | Domain-Zuordnung zu Services und Ports; Map mit dem `purpose` als Schlüssel und Referenz (z.B. in `help`)        |
 | `userInputs`      | Vom Benutzer konfigurierte Werte                                                                                 |
 | `systemInputs`    | Automatisch vom System generierte Werte (Passwörter, Tokens)                                                     |
+| `deliveryBoxes`   | Delivery-Boxen für den Mailversand; die Zugangsdaten legt das System an                                          |
 | `type`            | Gibt an, ob das Template als eigenständige Anwendung in einem neuen Stack (`standalone`) oder als Baustein in einen bestehenden Stack (`component`) deployt wird |
 | `help`            | Optionale Kontext-Hilfe nach dem Deployment: technische Details (`technicalDetails`) und Hinweise (`alerts`)     |
 
@@ -109,7 +110,7 @@ domains:
 | `validationSchema` | ja | Validierung als JSON-Schema-String (siehe [json-schema.org](https://json-schema.org/)) |
 | `format` | nein | Eingabeformat/Maskierung: `email`, `password`, `url` oder `uri` |
 | `dataSource` | nein | Verknüpft den Input mit einer Systemquelle, z.B. `ingress.paths` (Domain) oder `aiHosting.apiKey` |
-| `positionMeta` | nein | Platzierung im Installations-Assistenten: `{ step, index, section }` |
+| `positionMeta` | nein | Platzierung im Installations-Assistenten: `{ step, index }` (siehe unten) |
 | `defaultValue` | nein | Vorbelegter Standardwert; kann Platzhalter enthalten (siehe unten) |
 
 ```yaml
@@ -121,7 +122,7 @@ userInputs:
     dataType: "text"
     required: true
     dataSource: "ingress.paths"
-    positionMeta: { step: "common", index: 1 }
+    positionMeta: { step: "domain", index: 1 }
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_PASSWORD"
     label:
@@ -130,8 +131,22 @@ userInputs:
     dataType: "text"
     format: "password"
     required: true
+    positionMeta: { step: "adminUser", index: 1 }
     validationSchema: '{ "type": "string", "minLength": 12 }'
 ```
+
+#### Steps in `positionMeta`
+
+`step` ordnet den Input einem Schritt des Installations-Assistenten zu. Die Auswahl ist **abschließend** — für jeden Schritt pflegt das Frontend eine Übersetzung, neue Werte müssen dort zuerst angelegt werden:
+
+| Step | Inhalt |
+|---|---|
+| `domain` | Domains des Stacks — alle Inputs mit `dataSource: "ingress.paths"` |
+| `adminUser` | Zugangsdaten des Administrators: Benutzername, E-Mail-Adresse, Passwort, Token |
+| `ai` | Anbindung an das mittwald AI Hosting: Endpunkt und API-Key |
+| `common` | Alles Übrige, also templatespezifische Einstellungen |
+
+`index` bestimmt die Reihenfolge **innerhalb** eines Steps und beginnt je Step bei 1.
 
 #### Platzhalter in `defaultValue`
 
@@ -152,7 +167,7 @@ userInputs:
     label:
       de: Admin E-Mail-Adresse
       en: Admin email address
-    positionMeta: { step: "common", index: 2 }
+    positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
     format: "email"
     required: true
@@ -160,6 +175,26 @@ userInputs:
 ```
 
 Sie werden nur zur Installationszeit aufgelöst und stehen — anders als die Platzhalter in `help` — danach nicht mehr zur Verfügung.
+
+### deliveryBoxes
+
+Versendet ein Template Mails, deklariert es dafür eine Delivery-Box statt SMTP-Zugangsdaten abzufragen. Das System legt die Box beim Deployment an und stellt die Zugangsdaten als Umgebungsvariablen bereit:
+
+```yaml
+deliveryBoxes:
+  - purpose: main
+```
+
+Der `purpose` bestimmt den Namen der Variablen — aus `main` wird `${MW_DELIVERYBOX_MAIN_USERNAME}` und `${MW_DELIVERYBOX_MAIN_PASSWORD}`. Der Mailserver ist fest `mail.agenturserver.de` auf Port `587` mit STARTTLS:
+
+```yaml
+services:
+  kimai:
+    environment:
+      - MAILER_URL=smtp://${MW_DELIVERYBOX_MAIN_USERNAME}:${MW_DELIVERYBOX_MAIN_PASSWORD}@mail.agenturserver.de?encryption=tls
+```
+
+Die Absenderadresse bleibt ein `userInput` (`SMTP_FROM`), weil sie eine inhaltliche Entscheidung ist und nicht zu den Zugangsdaten gehört.
 
 ### help
 

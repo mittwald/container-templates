@@ -19,10 +19,10 @@ services:
       - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_SSLMODE=disable
       - DEFAULT_FROM_EMAIL=${SMTP_FROM}
-      - EMAIL_HOST=${SMTP_HOST}
-      - EMAIL_PORT=${SMTP_PORT}
-      - EMAIL_HOST_USER=${SMTP_USER}
-      - EMAIL_HOST_PASSWORD=${SMTP_PASSWORD}
+      - EMAIL_HOST=mail.agenturserver.de
+      - EMAIL_PORT=587
+      - EMAIL_HOST_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - EMAIL_HOST_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
       - EMAIL_USE_TLS=True
     depends_on:
       postgres:
