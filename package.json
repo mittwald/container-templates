@@ -9,8 +9,9 @@
   "scripts": {
     "app": "node dev.mjs",
     "test": "pnpm run check && pnpm run validate",
-    "check": "node --check validate.mjs && node --check dev.mjs && node --check gen-readme.mjs",
+    "check": "node --check validate.mjs && node --check dev.mjs && node --check gen-readme.mjs && node --check gen-background.mjs",
     "validate": "node validate.mjs",
+    "gen:background": "node gen-background.mjs",
     "gen:readme": "node gen-readme.mjs",
     "gen:readme:check": "node gen-readme.mjs --check"
   },

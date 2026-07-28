@@ -47,13 +47,13 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-issues.jpg
     text:
-      de: Offene Fehler eines Projekts mit Anzahl der Vorkommen, Zeitraum und betroffener Seite
-      en: Open errors of a project with occurrence count, time range and affected page
+      de: Offene Fehler mit Häufigkeit, Zeitraum und betroffener Seite
+      en: Open errors with frequency, time range and affected page
   - bg: background.jpg
     screenshot: screenshot-error.jpg
     text:
-      de: Stacktrace eines JavaScript-Fehlers mit Quelltext-Ausschnitt, Variablen und Tags
-      en: Stack trace of a JavaScript error with source excerpt, variables and tags
+      de: Stacktrace eines JavaScript-Fehlers mit Quelltext und Variablen
+      en: Stack trace of a JavaScript error with source excerpt and variables
   - bg: background.jpg
     screenshot: screenshot-connect.jpg
     text:

@@ -67,6 +67,18 @@ Beide Bilder liegen als Datei im Template-Ordner; im Manifest steht nur der Date
 | `bg` | Seitenverhältnis **exakt 3:2** (z.B. 3000×2000) |
 | `screenshot` | kein festes Seitenverhältnis |
 
+Für die Bildüberschrift `text` gilt zusätzlich eine Längenvorgabe, die der Validator **nicht** erzwingt: höchstens **70 Zeichen je Sprache**, ein Satz ohne Punkt am Ende, kürzer ist besser.
+
+Das Hintergrundbild wird nicht von Hand gebaut, sondern aus den Farben des Templates erzeugt:
+
+```bash
+pnpm gen:background bugsink              # Farben aus icon.svg
+pnpm gen:background bugsink --from screenshot   # Farben aus dem ersten Screenshot
+pnpm gen:background --all --dry-run      # nur die Paletten anzeigen
+```
+
+Das Ergebnis ist ein weicher Verlauf als `<template>/background.jpg` mit 3000×2000 px. Der Verlauf ist deterministisch aus dem Templatenamen abgeleitet, dasselbe Template erhält also immer dieselbe Bühne. Ein vorhandenes `background.jpg` wird nur mit `--force` überschrieben.
+
 Lokal prüfen:
 
 ```bash
