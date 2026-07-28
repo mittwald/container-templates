@@ -46,8 +46,8 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-api-overview.png
     text:
-      de: API-Endpunkte für Benachrichtigungen und gespeicherte Konfigurationen
-      en: API endpoints for notifications and stored configurations
+      de: Endpunkte für Benachrichtigungen und Konfigurationen
+      en: Endpoints for notifications and configurations
   - bg: background.jpg
     screenshot: screenshot-config.png
     text:
@@ -56,8 +56,8 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-url-builder.png
     text:
-      de: Der URL-Builder der Apprise-Dokumentation setzt Dienst-URLs zusammen
-      en: The URL builder in the Apprise documentation assembles service URLs
+      de: Dienst-URLs im Builder der Apprise-Dokumentation bauen
+      en: Building service URLs in the Apprise documentation
 help:
   technicalDetails:
   - key:
