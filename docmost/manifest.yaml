@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-editor.png
+    text:
+      de: Seiten aus Textblöcken, Überschriften und Aufgabenlisten aufbauen
+      en: Building pages from text blocks, headings and to-do lists
+  - bg: background.jpg
+    screenshot: screenshot-editor-miro-integration.png
+    text:
+      de: Externe Inhalte wie ein Miro-Board direkt in die Seite einbetten
+      en: Embedding external content such as a Miro board into the page
+  - bg: background.jpg
+    screenshot: screenshot-members.png
+    text:
+      de: Mitglieder einladen und ihre Rolle im Arbeitsbereich festlegen
+      en: Inviting members and setting their role in the workspace
 domains:
   main:
     userInput: HOST
