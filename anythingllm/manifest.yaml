@@ -61,9 +61,18 @@ userInputs:
       de: AI API-Key
       en: AI API Key
     positionMeta: { step: "aiHosting", index: 4 }
-    required: false
+    required: true
     dataSource: "aiHosting.apiKey"
-    validationSchema: '{ "type": "string" }'
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_ENDPOINT"
+    label:
+      de: AI Endpunkt
+      en: AI endpoint
+    positionMeta: { step: "aiHosting", index: 5 }
+    defaultValue: "${aiHosting.llmEndpoint}"
+    format: "url"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
 systemInputs:
   - name: "JWT_SECRET"
     schema:

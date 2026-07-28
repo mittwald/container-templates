@@ -129,7 +129,10 @@
           "format": { "enum": ["email", "password", "url", "uri"] },
           "required": { "type": "boolean" },
           "dataSource": { "type": "string" },
-          "defaultValue": { "type": "string" },
+          "defaultValue": {
+            "type": "string",
+            "description": "Vorbelegter Standardwert. Darf Platzhalter enthalten, die beim Öffnen des Installations-Assistenten aufgelöst werden: ${user.email}, ${user.username}, ${user.firstName}, ${user.lastName}, ${user.fullName}, ${aiHosting.llmEndpoint}."
+          },
           "positionMeta": {
             "type": "object",
             "additionalProperties": false,

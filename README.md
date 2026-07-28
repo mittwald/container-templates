@@ -110,7 +110,7 @@ domains:
 | `format` | nein | Eingabeformat/Maskierung: `email`, `password`, `url` oder `uri` |
 | `dataSource` | nein | Verknüpft den Input mit einer Systemquelle, z.B. `ingress.paths` (Domain) oder `aiHosting.apiKey` |
 | `positionMeta` | nein | Platzierung im Installations-Assistenten: `{ step, index, section }` |
-| `defaultValue` | nein | Vorbelegter Standardwert |
+| `defaultValue` | nein | Vorbelegter Standardwert; kann Platzhalter enthalten (siehe unten) |
 
 ```yaml
 userInputs:
@@ -132,6 +132,34 @@ userInputs:
     required: true
     validationSchema: '{ "type": "string", "minLength": 12 }'
 ```
+
+#### Platzhalter in `defaultValue`
+
+`defaultValue` kann Platzhalter enthalten, die beim Öffnen des Installations-Assistenten mit Werten des angemeldeten Benutzers bzw. des Projekts vorbelegt werden. Der Benutzer kann den vorbelegten Wert anschließend überschreiben.
+
+| Platzhalter | Wert |
+|---|---|
+| `${user.email}` | E-Mail-Adresse des angemeldeten Benutzers |
+| `${user.username}` | Benutzername |
+| `${user.firstName}` | Vorname |
+| `${user.lastName}` | Nachname |
+| `${user.fullName}` | Vor- und Nachname |
+| `${aiHosting.llmEndpoint}` | Endpunkt-URL des mittwald AI Hostings |
+
+```yaml
+userInputs:
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+```
+
+Sie werden nur zur Installationszeit aufgelöst und stehen — anders als die Platzhalter in `help` — danach nicht mehr zur Verfügung.
 
 ### help
 

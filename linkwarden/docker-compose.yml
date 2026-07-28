@@ -11,7 +11,7 @@ services:
       - NEXT_PUBLIC_CREDENTIALS_ENABLED=true
       - MEILI_HOST=http://meilisearch:7700
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
-      - CUSTOM_OPENAI_BASE_URL=https://llm.aihosting.mittwald.de/v1
+      - CUSTOM_OPENAI_BASE_URL=${AI_ENDPOINT}
       - OPENAI_MODEL=gpt-oss-120b
       - OPENAI_API_KEY=${AI_API_KEY}
     depends_on:

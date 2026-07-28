@@ -62,6 +62,7 @@ userInputs:
       de: Admin E-Mail-Adresse
       en: Admin email address
     positionMeta: { step: "common", index: 2 }
+    defaultValue: "${user.email}"
     format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
@@ -109,6 +110,7 @@ userInputs:
       de: Absenderadresse
       en: Sender address
     positionMeta: { step: "common", index: 8, section: "email" }
+    defaultValue: "${user.email}"
     format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
