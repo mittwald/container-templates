@@ -45,15 +45,20 @@ categories:
   - productivity
 screenshots:
   - bg: background.jpg
-    screenshot: screenshot-feature-request.png
+    screenshot: screenshot-feature-list.png
     text:
-      de: Rückmeldungen einreichen, dafür abstimmen und sie diskutieren
-      en: Submitting feedback, voting for it and discussing it
+      de: Rückmeldungen nach Stimmen sortiert, mit Status und Kommentaren
+      en: Feedback sorted by votes, with status and comments
   - bg: background.jpg
-    screenshot: screenshot-roadmap.png
+    screenshot: screenshot-2fa-feature-request.png
     text:
-      de: Beiträge nach Status in einer öffentlichen Roadmap ordnen
-      en: Organising posts by status in a public roadmap
+      de: Ein Beitrag mit seinen Wählern, Statusmeldung und Diskussion
+      en: A post with its voters, status update and discussion
+  - bg: background.jpg
+    screenshot: screenshot-feature-roadmap.png
+    text:
+      de: Die Roadmap zeigt Geplantes, Gestartetes und Erledigtes
+      en: The roadmap shows planned, started and completed items
   - bg: background.jpg
     screenshot: screenshot-oauth-provider.png
     text:
