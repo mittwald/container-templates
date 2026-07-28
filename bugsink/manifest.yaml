@@ -43,6 +43,22 @@ license:
 categories:
   - monitoring
   - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-issues.jpg
+    text:
+      de: Offene Fehler eines Projekts mit Anzahl der Vorkommen, Zeitraum und betroffener Seite
+      en: Open errors of a project with occurrence count, time range and affected page
+  - bg: background.jpg
+    screenshot: screenshot-error.jpg
+    text:
+      de: Stacktrace eines JavaScript-Fehlers mit Quelltext-Ausschnitt, Variablen und Tags
+      en: Stack trace of a JavaScript error with source excerpt, variables and tags
+  - bg: background.jpg
+    screenshot: screenshot-connect.jpg
+    text:
+      de: Verbindungsdaten und SDK-Hinweise zum Anbinden einer Anwendung
+      en: Connection details and SDK instructions for connecting an application
 domains:
   main:
     userInput: HOST
