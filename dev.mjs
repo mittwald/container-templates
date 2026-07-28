@@ -689,13 +689,12 @@ function escapeContainerVariables(value) {
 function renderCompose(templateData, publishes) {
   const { compose, manifest, template } = templateData;
   const rendered = escapeContainerVariables(structuredClone(compose));
-  const routedServices = new Set(domainEntries(manifest).map(([, domain]) => domain.service));
-
   for (const [name, service] of Object.entries(rendered.services)) {
     delete service.ports;
-    if (routedServices.has(name)) {
-      addServiceNetwork(service, networkAlias(template, name));
-    }
+    // Alle Services ins Dev-Netz haengen, nicht nur die mit Domain: sonst
+    // erreichen Worker das gemeinsame Mailpit nicht. Chatwoot verschickt
+    // Mails etwa ausschliesslich aus sidekiq, nicht aus dem Web-Service.
+    addServiceNetwork(service, networkAlias(template, name));
   }
 
   for (const publish of publishes) {
