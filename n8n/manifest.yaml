@@ -45,20 +45,20 @@ categories:
   - productivity
 screenshots:
   - bg: background.jpg
-    screenshot: screenshot-workflow-editor.jpg
+    screenshot: screenshot-mittwald-nodes-onboarding.png
     text:
-      de: Workflows im visuellen Editor aus verbundenen Nodes aufbauen
-      en: Building workflows from connected nodes in the visual editor
+      de: Kundenprojekte mit den mittwald-Nodes automatisch anlegen
+      en: Creating customer projects automatically with the mittwald nodes
   - bg: background.jpg
-    screenshot: screenshot-node-editor.jpg
+    screenshot: screenshot-llm-chat.png
     text:
-      de: Nodes im visuellen Editor bearbeiten
-      en: Editing nodes in the visual editor
+      de: KI-Agent aus Chat-Auslöser, Modell, Speicher und Datenbank
+      en: An AI agent built from chat trigger, model, memory and database
   - bg: background.jpg
-    screenshot: screenshot-workflow-templates.jpg
+    screenshot: screenshot-templates.jpg
     text:
-      de: Vorgefertigte Workflow-Vorlagen importieren und anpassen
-      en: Importing and customizing pre-built workflow templates
+      de: Vorgefertigte Workflow-Vorlagen als Ausgangspunkt übernehmen
+      en: Using ready-made workflow templates as a starting point
 domains:
   main:
     userInput: HOST
