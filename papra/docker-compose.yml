@@ -15,7 +15,7 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - SMTP_SECURE=false
       - AI_IS_ENABLED=true
-      - OPENAI_BASE_URL=https://llm.aihosting.mittwald.de/v1
+      - OPENAI_BASE_URL=${AI_ENDPOINT}
       - AI_DEFAULT_MODEL=openai://gpt-oss-120b
       - OPENAI_API_KEY=${AI_API_KEY}
     volumes:

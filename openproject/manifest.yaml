@@ -92,6 +92,7 @@ userInputs:
       de: Absenderadresse
       en: Sender address
     positionMeta: { step: "common", index: 6, section: "email" }
+    defaultValue: "${user.email}"
     format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
