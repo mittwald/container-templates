@@ -42,6 +42,17 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-whiteboard.png
+    text:
+      de: Skizzen aus Formen, Freihand und Text auf der Zeichenfläche
+      en: Sketches from shapes, freehand strokes and text on the canvas
+  - bg: background.jpg
+    screenshot: screenshot-live-editing.png
+    text:
+      de: Eine Sitzung per Link und QR-Code zum Mitzeichnen teilen
+      en: Sharing a session by link and QR code for drawing together
 domains:
   main:
     userInput: HOST
