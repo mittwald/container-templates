@@ -8,6 +8,7 @@ services:
       - LC_ALL=de_DE.UTF-8
       - PLAYWRIGHT_DRIVER_URL=ws://browser:3000
       - BASE_URL=https://${HOST}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     depends_on:
       - browser
     volumes:

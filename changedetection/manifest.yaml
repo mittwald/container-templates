@@ -43,6 +43,22 @@ license:
 categories:
   - monitoring
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-overview.png
+    text:
+      de: Überwachte Seiten mit Gruppen, letzter Prüfung und letzter Änderung
+      en: Monitored pages with groups, last check and last change
+  - bg: background.jpg
+    screenshot: screenshot-check-filter.png
+    text:
+      de: Filter und Trigger grenzen ein, welche Änderungen überhaupt zählen
+      en: Filters and triggers narrow down which changes count at all
+  - bg: background.jpg
+    screenshot: screenshot-llm.png
+    text:
+      de: Optional bewertet ein LLM Änderungen und fasst sie in Klartext
+      en: Optionally an LLM judges changes and summarises them in plain text
 domains:
   main:
     userInput: HOST
@@ -57,6 +73,14 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Passwort
+      en: Password
+    positionMeta: { step: "adminUser", index: 1 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
 
 help:
   technicalDetails:
