@@ -1,0 +1,9 @@
+services:
+  directus:
+    environment:
+      EMAIL_SMTP_HOST: ct-mail
+      EMAIL_SMTP_PORT: "1025"
+      EMAIL_SMTP_USER: ""
+      EMAIL_SMTP_PASSWORD: ""
+      EMAIL_SMTP_SECURE: "false"
+      EMAIL_SMTP_IGNORE_TLS: "true"

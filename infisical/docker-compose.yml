@@ -12,6 +12,13 @@ services:
       - REDIS_URL=redis://redis:6379
       - SITE_URL=https://${HOST}
       - TELEMETRY_ENABLED=false
+      - SMTP_HOST=mail.agenturserver.de
+      - SMTP_PORT=587
+      - SMTP_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - SMTP_FROM_ADDRESS=${SMTP_FROM}
+      - SMTP_FROM_NAME=Infisical
+      - SMTP_REQUIRE_TLS=true
     depends_on:
       postgres:
         condition: service_healthy
@@ -40,6 +47,8 @@ services:
         find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
     image: redis:8-alpine
+    environment:
+      - TZ=Europe/Berlin
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
       interval: 10s

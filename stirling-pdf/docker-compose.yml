@@ -13,7 +13,15 @@ services:
       - SYSTEM_DEFAULTLOCALE=de-DE
       - SYSTEM_GOOGLEVISIBILITY=false
       - SYSTEM_MAXFILESIZE=100
+      - SYSTEM_ENABLEANALYTICS=false
       - SHOW_SURVEY=false
+      - MAIL_ENABLED=true
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM=${SMTP_FROM}
+      - MAIL_STARTTLSENABLE=true
     volumes:
       - stirling_tessdata:/usr/share/tessdata
       - stirling_configs:/configs

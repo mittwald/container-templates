@@ -56,6 +56,8 @@ services:
         find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
     image: redis:8-alpine
+    environment:
+      - TZ=Europe/Berlin
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
       interval: 10s

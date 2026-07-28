@@ -1,0 +1,8 @@
+services:
+  stirling-pdf:
+    environment:
+      MAIL_HOST: ct-mail
+      MAIL_PORT: "1025"
+      MAIL_USERNAME: ""
+      MAIL_PASSWORD: ""
+      MAIL_STARTTLSENABLE: "false"

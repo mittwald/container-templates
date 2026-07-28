@@ -12,6 +12,12 @@ services:
       - DATABASE_URL=postgresql://bugsink:${POSTGRES_PASSWORD}@postgres:5432/bugsink
       - BEHIND_HTTPS_PROXY=true
       - USE_X_FORWARDED_HOST=true
+      - EMAIL_HOST=mail.agenturserver.de
+      - EMAIL_PORT=587
+      - EMAIL_HOST_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - EMAIL_HOST_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - EMAIL_USE_TLS=True
+      - DEFAULT_FROM_EMAIL=${SMTP_FROM}
     depends_on:
       postgres:
         condition: service_healthy

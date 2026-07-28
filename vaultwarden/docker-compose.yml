@@ -9,6 +9,12 @@ services:
       - SIGNUPS_ALLOWED=true
       - DATABASE_URL=postgresql://vaultwarden:${POSTGRES_PASSWORD}@postgres:5432/vaultwarden
       - DOMAIN=https://${HOST}
+      - SMTP_HOST=mail.agenturserver.de
+      - SMTP_PORT=587
+      - SMTP_SECURITY=starttls
+      - SMTP_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
     depends_on:
       postgres:
         condition: service_healthy

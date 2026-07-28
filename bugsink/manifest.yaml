@@ -74,6 +74,15 @@ userInputs:
     format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "SECRET_KEY"
     schema:
@@ -105,6 +114,8 @@ systemInputs:
           pattern: "[a-z]"
           min: 1
 
+deliveryBoxes:
+  - purpose: main
 help:
   technicalDetails:
   - key:

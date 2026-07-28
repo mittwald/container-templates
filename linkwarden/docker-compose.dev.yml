@@ -1,0 +1,4 @@
+services:
+  linkwarden:
+    environment:
+      EMAIL_SERVER: smtp://ct-mail:1025

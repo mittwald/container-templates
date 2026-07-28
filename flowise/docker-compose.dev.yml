@@ -1,0 +1,8 @@
+services:
+  flowise:
+    environment:
+      SMTP_HOST: ct-mail
+      SMTP_PORT: "1025"
+      SMTP_USER: ""
+      SMTP_PASSWORD: ""
+      SMTP_SECURE: "false"

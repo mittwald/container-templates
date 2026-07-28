@@ -23,6 +23,8 @@ services:
         condition: service_started
   chrome:
     image: gcr.io/zenika-hub/alpine-chrome:124
+    environment:
+      - TZ=Europe/Berlin
     command:
       - --no-sandbox
       - --disable-gpu

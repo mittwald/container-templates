@@ -8,6 +8,8 @@ services:
       - APP_URL=https://${HOST}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY}
       - TRUST_PROXY=true
+      - ALLOW_INSECURE_CALLBACK_URLS=false
+      - ANALYTICS_DISABLED=true
       - PUID=1000
       - PGID=1000
     volumes:

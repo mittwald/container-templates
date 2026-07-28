@@ -5,5 +5,10 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - chroma_data:/data
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/8000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 volumes:
   chroma_data:

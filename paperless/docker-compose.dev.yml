@@ -1,0 +1,8 @@
+services:
+  paperless:
+    environment:
+      PAPERLESS_EMAIL_HOST: ct-mail
+      PAPERLESS_EMAIL_PORT: "1025"
+      PAPERLESS_EMAIL_HOST_USER: ""
+      PAPERLESS_EMAIL_HOST_PASSWORD: ""
+      PAPERLESS_EMAIL_USE_TLS: "false"

@@ -42,32 +42,24 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - communication
-domains:
-  main:
-    userInput: HOST
-    service: apprise
-    port: 8000
-userInputs:
-  - name: "HOST"
-    label:
-      de: Domain
-      en: Domain
-    positionMeta: { step: "domain", index: 1 }
-    required: true
-    dataSource: "ingress.paths"
-    validationSchema: '{ "type": "string", "minLength": 1 }'
-
 help:
   technicalDetails:
   - key:
-      de: API-Endpunkt
-      en: API endpoint
-    value: https://${domain.main}
+      de: Interne API-URL
+      en: Internal API URL
+    value: http://${apprise.hostname}:8000
   alerts:
   - status: warning
     heading:
       de: Keine eingebaute Authentifizierung
       en: No built-in authentication
     content:
-      de: Apprise bringt keine eigene Anmeldung mit. Der Dienst und die Verwaltungsoberfläche sind über die Domain ohne Passwort erreichbar. Beschränke den Zugriff (z. B. nur intern erreichbar machen) und behandle die Konfigurationsschlüssel wie Geheimnisse.
-      en: Apprise has no built-in sign-in. The service and its management interface are reachable via the domain without a password. Restrict access (for example keep it internal) and treat the configuration keys as secrets.
+      de: Apprise bringt keine eigene Anmeldung mit. Der Dienst wird deshalb nicht über eine Domain veröffentlicht und ist nur innerhalb des Stacks über den Hostnamen erreichbar. Sprich ihn ausschließlich aus Anwendungen desselben Stacks an und behandle die Konfigurationsschlüssel wie Geheimnisse.
+      en: Apprise has no built-in sign-in. The service is therefore not published via a domain and is only reachable inside the stack via its hostname. Address it exclusively from applications in the same stack and treat the configuration keys as secrets.
+  - status: info
+    heading:
+      de: Admin-Modus ist aktiv
+      en: Admin mode is enabled
+    content:
+      de: Mit `APPRISE_ADMIN` ist der Admin-Modus aktiviert (Upstream-Empfehlung). Die Oberfläche listet damit alle gespeicherten Konfigurationsschlüssel auf, statt die Kenntnis des jeweiligen Schlüssels vorauszusetzen. Das ist vertretbar, solange der Dienst nur im Stack erreichbar ist; wird er später doch veröffentlicht, setze die Variable auf `no`.
+      en: "`APPRISE_ADMIN` enables admin mode (the upstream recommendation). The interface then lists all stored configuration keys instead of requiring knowledge of each key. This is acceptable as long as the service is only reachable inside the stack; if it is later published, set the variable to `no`."

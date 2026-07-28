@@ -8,5 +8,11 @@ services:
       - SOLR_MODULES=scripting,analysis-extras,langid,clustering,extraction
     volumes:
       - solr_data:/var/solr
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost:8983/solr/admin/info/system"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 volumes:
   solr_data:

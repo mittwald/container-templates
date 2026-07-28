@@ -68,6 +68,8 @@ services:
         find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   valkey:
     image: valkey/valkey:9-alpine
+    environment:
+      - TZ=Europe/Berlin
     command: ["valkey-server", "--save", "60", "1", "--loglevel", "warning"]
     volumes:
       - valkey_data:/data

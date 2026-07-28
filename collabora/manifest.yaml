@@ -56,6 +56,13 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "WOPI_HOST"
+    label:
+      de: Domain der Anwendung
+      en: Application domain
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
 
 help:
   technicalDetails:
@@ -68,6 +75,13 @@ help:
       en: Server URL
     value: http://${collabora.hostname}:9980
   alerts:
+  - status: info
+    heading:
+      de: Nur die eingetragene Anwendung darf zugreifen
+      en: Only the configured application may connect
+    content:
+      de: Collabora akzeptiert Dokumente ausschließlich von der oben angegebenen Domain der Anwendung (`storage.wopi.host`). Kommt eine weitere Anwendung hinzu, ergänze deren Domain über die Umgebungsvariable `WOPI_HOST`.
+      en: Collabora only accepts documents from the application domain configured above (`storage.wopi.host`). If another application is added, extend its domain via the `WOPI_HOST` environment variable.
   - status: info
     heading:
       de: Konfiguration in Nextcloud notwendig

@@ -10,6 +10,11 @@ services:
       - MARIADB_AUTO_UPGRADE=mariadb
     volumes:
       - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     labels:
       backup.command: >-
         sh -lc 'set -e; d=/var/lib/mysql/backups; mkdir -p "$$d";

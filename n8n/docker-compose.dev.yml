@@ -1,0 +1,9 @@
+services:
+  n8n:
+    environment:
+      N8N_SMTP_HOST: ct-mail
+      N8N_SMTP_PORT: "1025"
+      N8N_SMTP_USER: ""
+      N8N_SMTP_PASS: ""
+      N8N_SMTP_SSL: "false"
+      N8N_SMTP_STARTTLS: "false"

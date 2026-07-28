@@ -17,7 +17,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-  machinelearning:
+  immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:v3
     environment:
       - TZ=Europe/Berlin
@@ -25,6 +25,8 @@ services:
       - immich_model_cache:/cache
   redis:
     image: valkey/valkey:9
+    environment:
+      - TZ=Europe/Berlin
     healthcheck:
       test: ["CMD-SHELL", "valkey-cli ping | grep -q PONG"]
       interval: 10s

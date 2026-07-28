@@ -5,6 +5,8 @@ services:
       - "8000:8000"
     environment:
       - TZ=Europe/Berlin
+      - PAPERLESS_TIME_ZONE=Europe/Berlin
+      - PAPERLESS_SECRET_KEY=${PAPERLESS_SECRET_KEY}
       - PAPERLESS_REDIS=redis://redis:6379
       - PAPERLESS_DBHOST=postgres
       - PAPERLESS_DBNAME=paperless
@@ -17,6 +19,13 @@ services:
       - PAPERLESS_URL=https://${HOST}
       - PAPERLESS_ADMIN_USER=${ADMIN_USER}
       - PAPERLESS_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - PAPERLESS_ACCOUNT_ALLOW_SIGNUPS=false
+      - PAPERLESS_EMAIL_HOST=mail.agenturserver.de
+      - PAPERLESS_EMAIL_PORT=587
+      - PAPERLESS_EMAIL_HOST_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - PAPERLESS_EMAIL_HOST_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - PAPERLESS_EMAIL_USE_TLS=true
+      - PAPERLESS_EMAIL_FROM=${SMTP_FROM}
     depends_on:
       postgres:
         condition: service_healthy
@@ -54,6 +63,8 @@ services:
         find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
     image: redis:8
+    environment:
+      - TZ=Europe/Berlin
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
       interval: 10s
@@ -61,6 +72,8 @@ services:
       retries: 5
   gotenberg:
     image: gotenberg/gotenberg:8
+    environment:
+      - TZ=Europe/Berlin
     command:
       - "gotenberg"
       - "--chromium-disable-javascript=true"
@@ -68,6 +81,8 @@ services:
       - "--chromium-disable-routes=true"
   tika:
     image: apache/tika:latest
+    environment:
+      - TZ=Europe/Berlin
 volumes:
   paperless_media:
   paperless_data:

@@ -1,0 +1,8 @@
+services:
+  vaultwarden:
+    environment:
+      SMTP_HOST: ct-mail
+      SMTP_PORT: "1025"
+      SMTP_SECURITY: "off"
+      SMTP_USERNAME: ""
+      SMTP_PASSWORD: ""

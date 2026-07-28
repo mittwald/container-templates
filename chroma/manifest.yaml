@@ -54,3 +54,11 @@ help:
       de: Port
       en: Port
     value: 8000/TCP
+  alerts:
+  - status: warning
+    heading:
+      de: Keine eingebaute Authentifizierung
+      en: No built-in authentication
+    content:
+      de: Chroma bringt seit Version 1.0 keine eigene Authentifizierung mehr mit; die Umgebungsvariablen `CHROMA_SERVER_AUTHN_*` sind wirkungslos. Der Dienst ist im Stack ohne Passwort erreichbar und wird deshalb nicht über eine Domain veröffentlicht. Beschränke den Zugriff auf die Anwendungen desselben Stacks.
+      en: As of version 1.0, Chroma no longer ships its own authentication; the `CHROMA_SERVER_AUTHN_*` environment variables have no effect. The service is reachable within the stack without a password and is therefore not published via a domain. Restrict access to applications in the same stack.

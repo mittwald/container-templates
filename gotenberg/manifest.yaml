@@ -42,32 +42,17 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - development
-domains:
-  main:
-    userInput: HOST
-    service: gotenberg
-    port: 3000
-userInputs:
-  - name: "HOST"
-    label:
-      de: Domain
-      en: Domain
-    positionMeta: { step: "domain", index: 1 }
-    required: true
-    dataSource: "ingress.paths"
-    validationSchema: '{ "type": "string", "minLength": 1 }'
-
 help:
   technicalDetails:
   - key:
-      de: API-Endpunkt
-      en: API endpoint
-    value: https://${domain.main}
+      de: Interne API-URL
+      en: Internal API URL
+    value: http://${gotenberg.hostname}:3000
   alerts:
   - status: warning
     heading:
       de: Keine eingebaute Authentifizierung
       en: No built-in authentication
     content:
-      de: Gotenberg bringt keine eigene Anmeldung mit. Der Konvertierungsdienst ist über die Domain ohne Passwort erreichbar. Beschränke den Zugriff, damit der Dienst nur von deinen eigenen Anwendungen genutzt wird.
-      en: Gotenberg has no built-in sign-in. The conversion service is reachable via the domain without a password. Restrict access so that only your own applications use the service.
+      de: Gotenberg bringt keine eigene Anmeldung mit. Der Konvertierungsdienst wird deshalb nicht über eine Domain veröffentlicht und ist nur innerhalb des Stacks über den Hostnamen erreichbar. Sprich ihn ausschließlich aus Anwendungen desselben Stacks an.
+      en: Gotenberg has no built-in sign-in. The conversion service is therefore not published via a domain and is only reachable inside the stack via its hostname. Address it exclusively from applications in the same stack.

@@ -27,6 +27,17 @@ services:
       - N8N_SKIP_AUTH_ON_OAUTH_CALLBACK=false
       - N8N_PROXY_HOPS=2
       - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+      - N8N_EMAIL_MODE=smtp
+      - N8N_SMTP_HOST=mail.agenturserver.de
+      - N8N_SMTP_PORT=587
+      - N8N_SMTP_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - N8N_SMTP_PASS=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - N8N_SMTP_SENDER=${SMTP_FROM}
+      - N8N_SMTP_SSL=false
+      - N8N_SMTP_STARTTLS=true
+      - EXECUTIONS_DATA_PRUNE=true
+      - EXECUTIONS_DATA_MAX_AGE=336
+      - EXECUTIONS_DATA_PRUNE_MAX_COUNT=10000
     depends_on:
       postgres:
         condition: service_healthy
@@ -35,6 +46,7 @@ services:
   n8nrunner:
     image: n8nio/runners:latest
     environment:
+      - TZ=Europe/Berlin
       - N8N_RUNNERS_TASK_BROKER_URI=http://n8n:5679
       - N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}
   postgres:

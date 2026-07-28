@@ -11,5 +11,11 @@ services:
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=${ADMIN_PASSWORD}
     volumes:
       - opensearch_data:/usr/share/opensearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail -u \"admin:$$OPENSEARCH_INITIAL_ADMIN_PASSWORD\" http://localhost:9200/_cluster/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 volumes:
   opensearch_data:
