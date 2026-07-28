@@ -52,8 +52,8 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-llm-chat.png
     text:
-      de: KI-Agent aus Chat-Auslöser, Modell, Speicher und Datenbank
-      en: An AI agent built from chat trigger, model, memory and database
+      de: Per Chat die eigene Datenbank abfragen und auswerten
+      en: Querying and analysing your own database via chat
   - bg: background.jpg
     screenshot: screenshot-templates.jpg
     text:

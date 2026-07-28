@@ -43,6 +43,22 @@ license:
 categories:
   - development
   - database
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-postgres-backup.png
+    text:
+      de: Zeitplan, Aufbewahrung und Verschlüsselung je Datenbank festlegen
+      en: Setting schedule, retention and encryption per database
+  - bg: background.jpg
+    screenshot: screenshot-storage-types.png
+    text:
+      de: Backups lokal oder in einem S3-kompatiblen Speicher ablegen
+      en: Storing backups locally or in S3-compatible object storage
+  - bg: background.jpg
+    screenshot: screenshot-notifications.png
+    text:
+      de: Benachrichtigungen per E-Mail, Chat oder Webhook einrichten
+      en: Setting up notifications by email, chat or webhook
 domains:
   main:
     userInput: HOST
