@@ -54,10 +54,10 @@ screenshots:
       de: Datenverbindungen holen Inhalte aus GitHub, Confluence und mehr
       en: Data connectors pull content from GitHub, Confluence and others
   - bg: background.jpg
-    screenshot: screenshot-llm-provider.png
+    screenshot: screenshot-branding.png
     text:
-      de: Einstellungen für LLM-Anbieter, Modell und Kontextfenster
-      en: Settings for the LLM provider, model and context window
+      de: Eigenes Branding mit Name, Logo und Tab-Titel der Instanz
+      en: Custom branding with the instance name, logo and tab title
 domains:
   main:
     userInput: HOST
