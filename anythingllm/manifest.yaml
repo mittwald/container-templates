@@ -46,18 +46,18 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-chat.png
     text:
-      de: Antworten aus hochgeladenen Dokumenten mit Angabe der Quellen
-      en: Answers from uploaded documents with the sources used
+      de: Antwort aus einem eingebetteten Dokument mit Angabe der Quelle
+      en: Answer drawn from an embedded document, with its source listed
   - bg: background.jpg
-    screenshot: screenshot-llm-settings.jpg
+    screenshot: screenshot-connections.png
+    text:
+      de: Datenverbindungen holen Inhalte aus GitHub, Confluence und mehr
+      en: Data connectors pull content from GitHub, Confluence and others
+  - bg: background.jpg
+    screenshot: screenshot-llm-provider.png
     text:
       de: Einstellungen für LLM-Anbieter, Modell und Kontextfenster
       en: Settings for the LLM provider, model and context window
-  - bg: background.jpg
-    screenshot: screenshot-whitelabeling.jpg
-    text:
-      de: Branding der Instanz mit eigenem Namen, Logo und Tab-Titel
-      en: Branding the instance with a custom name, logo and tab title
 domains:
   main:
     userInput: HOST
