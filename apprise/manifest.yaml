@@ -35,7 +35,7 @@ description:
 
     At mittwald, **Apprise** runs as a self-hosted container in German data centres; channel configurations and credentials stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes the Apprise API service with persistent configuration storage — with no usage-based licence or message costs.
 developer: Chris Caron
-website: https://github.com/caronc/apprise
+website: https://appriseit.com
 repository: https://github.com/caronc/apprise-api
 license:
   name: MIT
