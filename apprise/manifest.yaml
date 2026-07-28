@@ -42,6 +42,17 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - communication
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-config.png
+    text:
+      de: Gespeicherte Konfiguration mit eigener ID und Abrufadresse
+      en: A stored configuration with its own ID and retrieval address
+  - bg: background.jpg
+    screenshot: screenshot-api-overview.png
+    text:
+      de: API-Endpunkte für Benachrichtigungen und gespeicherte Konfigurationen
+      en: API endpoints for notifications and stored configurations
 help:
   technicalDetails:
   - key:
