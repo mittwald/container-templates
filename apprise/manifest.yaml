@@ -44,15 +44,20 @@ categories:
   - communication
 screenshots:
   - bg: background.jpg
+    screenshot: screenshot-api-overview.png
+    text:
+      de: API-Endpunkte für Benachrichtigungen und gespeicherte Konfigurationen
+      en: API endpoints for notifications and stored configurations
+  - bg: background.jpg
     screenshot: screenshot-config.png
     text:
       de: Gespeicherte Konfiguration mit eigener ID und Abrufadresse
       en: A stored configuration with its own ID and retrieval address
   - bg: background.jpg
-    screenshot: screenshot-api-overview.png
+    screenshot: screenshot-url-builder.png
     text:
-      de: API-Endpunkte für Benachrichtigungen und gespeicherte Konfigurationen
-      en: API endpoints for notifications and stored configurations
+      de: Der URL-Builder der Apprise-Dokumentation setzt Dienst-URLs zusammen
+      en: The URL builder in the Apprise documentation assembles service URLs
 help:
   technicalDetails:
   - key:
