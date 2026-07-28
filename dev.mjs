@@ -334,7 +334,10 @@ function repeatToLength(value, minimumLength) {
 // Platzhalter, die mStudio zur Installationszeit in defaultValue auflöst.
 // Lokal stehen die echten Werte nicht zur Verfügung, deshalb Dev-Fixtures.
 const defaultValuePlaceholders = {
-  "user.email": "admin@example.test",
+  // example.com statt example.test: beide sind nach RFC 2606 reserviert, aber
+  // strenge Validierungen lehnen die .test-TLD ab (Directus etwa verweigert
+  // damit die Anlage des Admin-Kontos und startet gar nicht erst).
+  "user.email": "admin@example.com",
   "user.username": "admin",
   "user.firstName": "Ada",
   "user.lastName": "Lovelace",
