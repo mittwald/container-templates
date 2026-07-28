@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - communication
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-chat-answer.png
+    text:
+      de: Kundengespräche beantworten, mit privaten Notizen fürs Team
+      en: Answering customer conversations, with private notes for the team
+  - bg: background.jpg
+    screenshot: screenshot-chat-widget.jpg
+    text:
+      de: Live-Chat-Widget einrichten, mit Vorschau der Besucheransicht
+      en: Configuring the live chat widget with a preview for visitors
+  - bg: background.jpg
+    screenshot: screenshot-channel.png
+    text:
+      de: Kanäle wie Website, WhatsApp, E-Mail oder SMS anbinden
+      en: Connecting channels such as website, WhatsApp, email or SMS
 domains:
   main:
     userInput: HOST
