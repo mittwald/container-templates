@@ -44,10 +44,10 @@ license:
 categories:
   - development
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: directus
     port: 8055
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

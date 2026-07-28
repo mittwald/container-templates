@@ -44,10 +44,10 @@ categories:
   - productivity
   - monitoring
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: kutt
     port: 3000
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

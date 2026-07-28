@@ -45,10 +45,10 @@ license:
 categories:
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: linkwarden
     port: 3000
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

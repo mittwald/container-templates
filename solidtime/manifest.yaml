@@ -43,10 +43,10 @@ license:
 categories:
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: app
     port: 8000
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

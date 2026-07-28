@@ -44,10 +44,10 @@ categories:
   - monitoring
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: changedetection
     port: 5000
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

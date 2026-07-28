@@ -45,14 +45,14 @@ categories:
   - productivity
   - monitoring
 domains:
-  - userInput: SHORT_HOST
+  shortLinks:
+    userInput: SHORT_HOST
     service: shlink
     port: 8080
-    purpose: shortLinks
-  - userInput: DASHBOARD_HOST
+  dashboard:
+    userInput: DASHBOARD_HOST
     service: shlink-web-client
     port: 8080
-    purpose: dashboard
 userInputs:
   - name: "SHORT_HOST"
     label:

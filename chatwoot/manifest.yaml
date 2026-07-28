@@ -43,10 +43,10 @@ license:
 categories:
   - communication
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: rails
     port: 3000
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

@@ -60,10 +60,10 @@ screenshots:
       de: Vorgefertigte Workflow-Vorlagen importieren und anpassen
       en: Importing and customizing pre-built workflow templates
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: n8n
     port: 5678
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

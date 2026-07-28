@@ -44,10 +44,10 @@ license:
 categories:
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: kimai
     port: 8001
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

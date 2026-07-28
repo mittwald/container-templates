@@ -290,19 +290,27 @@ async function loadTemplate(template) {
   return { compose, manifest, template, templateRoot };
 }
 
-function domainHostname(template, domain, domainCount) {
+function domainHostname(template, purpose, domainCount) {
   if (domainCount === 1) {
     return `${template}${localhostSuffix}`;
   }
-  return `${slugify(domain.purpose)}.${template}${localhostSuffix}`;
+  return `${slugify(purpose)}.${template}${localhostSuffix}`;
+}
+
+function domainEntries(manifest) {
+  const domains = manifest?.domains;
+  if (!domains || typeof domains !== "object") {
+    return [];
+  }
+  return Object.entries(domains);
 }
 
 function domainValues(template, manifest) {
-  const domains = Array.isArray(manifest.domains) ? manifest.domains : [];
+  const domains = domainEntries(manifest);
   return Object.fromEntries(
-    domains.map((domain) => [
+    domains.map(([purpose, domain]) => [
       domain.userInput,
-      domainHostname(template, domain, domains.length),
+      domainHostname(template, purpose, domains.length),
     ]),
   );
 }
@@ -673,7 +681,7 @@ function escapeContainerVariables(value) {
 function renderCompose(templateData, publishes) {
   const { compose, manifest, template } = templateData;
   const rendered = escapeContainerVariables(structuredClone(compose));
-  const routedServices = new Set((manifest.domains ?? []).map((domain) => domain.service));
+  const routedServices = new Set(domainEntries(manifest).map(([, domain]) => domain.service));
 
   for (const [name, service] of Object.entries(rendered.services)) {
     delete service.ports;
@@ -712,7 +720,7 @@ async function optionalDevComposePath(templateData) {
 function createRoutes(templateData, values) {
   const { manifest, template } = templateData;
   const hostnames = new Set();
-  return (manifest.domains ?? []).map((domain) => {
+  return domainEntries(manifest).map(([purpose, domain]) => {
     const hostname = values[domain.userInput];
     const validHostname =
       typeof hostname === "string" &&
@@ -729,7 +737,7 @@ function createRoutes(templateData, values) {
     hostnames.add(hostname);
     return {
       hostname,
-      purpose: domain.purpose,
+      purpose,
       template,
       upstream: `${networkAlias(template, domain.service)}:${domain.port}`,
     };

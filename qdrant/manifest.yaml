@@ -44,10 +44,10 @@ categories:
   - ai
   - database
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: qdrant
     port: 6333
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

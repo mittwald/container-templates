@@ -43,10 +43,10 @@ license:
 categories:
   - security
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: infisical
     port: 8080
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

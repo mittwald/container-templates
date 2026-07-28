@@ -38,7 +38,7 @@ Beschreibt das Template mit folgenden Feldern. Die maschinenlesbare, per CI vali
 | `license`         | Lizenz der Software, besteht aus `name` und `link`.                                                              |
 | `categories`      | Kategorien: `productivity`, `development`, `database`, `ai`, `security`, `monitoring`, `communication`, `media`. `database` ist keine offizielle Store-Kategorie, sondern nur intern für Template-Listen im „Datenbanken"-Bereich |
 | `screenshots`     | Optionale Katalog-Screenshots: Hintergrundbild, Screenshot und mehrsprachige Bildüberschrift                     |
-| `domains`         | Domain-Zuordnung zu Services und Ports; je Eintrag ein `purpose` als Referenz (z.B. in `help`)                   |
+| `domains`         | Domain-Zuordnung zu Services und Ports; Map mit dem `purpose` als Schlüssel und Referenz (z.B. in `help`)        |
 | `userInputs`      | Vom Benutzer konfigurierte Werte                                                                                 |
 | `systemInputs`    | Automatisch vom System generierte Werte (Passwörter, Tokens)                                                     |
 | `type`            | Gibt an, ob das Template als eigenständige Anwendung in einem neuen Stack (`standalone`) oder als Baustein in einen bestehenden Stack (`component`) deployt wird |
@@ -74,14 +74,26 @@ pnpm validate
 
 ### domains
 
-Verknüpft einen `userInput` (Host) mit einem Service und Port für automatisches Domain-Routing. Jeder Eintrag hat ein `purpose`, über das die zugewiesene Domain an anderer Stelle referenziert werden kann (z.B. in `help` via `${domain.<purpose>}`). Bei einer einzelnen Domain ist `purpose` üblicherweise `main`; bei mehreren Domains je Eintrag ein eigener, sprechender Wert.
+Verknüpft einen `userInput` (Host) mit einem Service und Port für automatisches Domain-Routing. `domains` ist eine Map, deren Schlüssel der `purpose` ist — darüber wird die zugewiesene Domain an anderer Stelle referenziert (z.B. in `help` via `${domain.<purpose>}`). Bei einer einzelnen Domain ist der Schlüssel üblicherweise `main`; bei mehreren Domains je Eintrag ein eigener, sprechender Wert.
 
 ```yaml
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: n8n
     port: 5678
-    purpose: main
+```
+
+```yaml
+domains:
+  shortLinks:
+    userInput: SHORT_HOST
+    service: shlink
+    port: 8080
+  dashboard:
+    userInput: DASHBOARD_HOST
+    service: shlink-web-client
+    port: 8080
 ```
 
 ### userInputs

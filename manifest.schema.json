@@ -94,21 +94,21 @@
       }
     },
     "domains": {
-      "type": "array",
-      "description": "Domain-Routing: verknüpft einen Host-userInput mit Service und Port.",
-      "items": {
+      "type": "object",
+      "description": "Domain-Routing: verknüpft einen Host-userInput mit Service und Port. Der Schlüssel ist der purpose, über den die Domain in help via ${domain.<purpose>} referenziert wird.",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[A-Za-z][A-Za-z0-9]*$",
+        "description": "Purpose der Domain als Referenz-Slug, z.B. \"main\" oder \"dashboard\"."
+      },
+      "additionalProperties": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["userInput", "service", "port", "purpose"],
+        "required": ["userInput", "service", "port"],
         "properties": {
           "userInput": { "type": "string", "minLength": 1 },
           "service": { "type": "string", "minLength": 1 },
-          "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
-          "purpose": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Referenz-Slug, über den die Domain in help via ${domain.<purpose>} referenziert wird."
-          }
+          "port": { "type": "integer", "minimum": 1, "maximum": 65535 }
         }
       }
     },

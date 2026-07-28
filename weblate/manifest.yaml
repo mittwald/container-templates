@@ -45,10 +45,10 @@ categories:
   - development
   - productivity
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: weblate
     port: 8080
-    purpose: main
 userInputs:
   - name: "HOST"
     label:

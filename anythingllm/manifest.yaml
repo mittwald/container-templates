@@ -43,10 +43,10 @@ license:
 categories:
   - ai
 domains:
-  - userInput: HOST
+  main:
+    userInput: HOST
     service: anythingllm
     port: 3001
-    purpose: main
 userInputs:
   - name: "HOST"
     label:
