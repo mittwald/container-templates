@@ -62,6 +62,7 @@ userInputs:
       de: Admin E-Mail-Adresse
       en: Admin email address
     positionMeta: { step: "common", index: 2 }
+    defaultValue: "${user.email}"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "ADMIN_PASSWORD"

@@ -47,10 +47,11 @@ services:
       retries: 10
     labels:
       backup.command: >-
-        sh -lc 'mkdir -p /var/lib/mysql/backups && \
-        mariadb-dump -u root -p"$MARIADB_ROOT_PASSWORD" --all-databases | gzip \
-          > /var/lib/mysql/backups/backup_$(date +%F_%H%M%S).sql.gz; \
-        find /var/lib/mysql/backups -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+        sh -lc 'set -e; d=/var/lib/mysql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { MYSQL_PWD="$$MARIADB_ROOT_PASSWORD" mariadb-dump -u root --all-databases --routines --events --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
 volumes:
   easyappointments_storage:
   mariadb_data:

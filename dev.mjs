@@ -323,9 +323,27 @@ function repeatToLength(value, minimumLength) {
   return result.slice(0, Math.max(value.length, minimumLength));
 }
 
+// Platzhalter, die mStudio zur Installationszeit in defaultValue auflöst.
+// Lokal stehen die echten Werte nicht zur Verfügung, deshalb Dev-Fixtures.
+const defaultValuePlaceholders = {
+  "user.email": "admin@example.test",
+  "user.username": "admin",
+  "user.firstName": "Ada",
+  "user.lastName": "Lovelace",
+  "user.fullName": "Ada Lovelace",
+  "aiHosting.llmEndpoint": "https://llm.aihosting.mittwald.de/v1",
+};
+
+function resolveDefaultValuePlaceholders(value) {
+  return value.replaceAll(
+    /\$\{([^{}]*)\}/g,
+    (placeholder, name) => defaultValuePlaceholders[name] ?? placeholder,
+  );
+}
+
 function defaultUserValue(input) {
   if (input.defaultValue !== undefined) {
-    return String(input.defaultValue);
+    return resolveDefaultValuePlaceholders(String(input.defaultValue));
   }
   if (!input.required) {
     return "";

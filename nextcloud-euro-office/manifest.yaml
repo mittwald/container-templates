@@ -73,6 +73,7 @@ userInputs:
       de: Admin Benutzername
       en: Admin username
     positionMeta: { step: "adminuser", index: 5 }
+    defaultValue: "${user.username}"
     required: true
     validationSchema: '{ "type": "string", "minLength": 1}'
   - name: "ADMIN_PASSWORD"

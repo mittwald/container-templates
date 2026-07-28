@@ -13,6 +13,14 @@ const MIN_WIDTH = 1500;
 const BG_RATIO_WIDTH = 3;
 const BG_RATIO_HEIGHT = 2;
 const REQUIRED_TEMPLATE_FILES = ["docker-compose.yml", "manifest.yaml", "icon.svg"];
+const DEFAULT_VALUE_PLACEHOLDERS = new Set([
+  "user.email",
+  "user.username",
+  "user.firstName",
+  "user.lastName",
+  "user.fullName",
+  "aiHosting.llmEndpoint",
+]);
 const IGNORED_DIRECTORIES = new Set(["node_modules"]);
 const repositoryRoot = dirname(fileURLToPath(import.meta.url));
 
@@ -82,6 +90,26 @@ function formatSchemaError(manifestPath, error) {
   return `${displayPath(manifestPath)}${location}: ${error.message}${detail}`;
 }
 
+function validateDefaultValues(errors, manifestPath, manifest) {
+  const userInputs = Array.isArray(manifest?.userInputs) ? manifest.userInputs : [];
+
+  for (const input of userInputs) {
+    if (typeof input?.defaultValue !== "string") {
+      continue;
+    }
+
+    for (const [match, placeholder] of input.defaultValue.matchAll(/\$?\{([^{}]*)\}/g)) {
+      const location = `${displayPath(manifestPath)}: userInputs -> ${input.name}: defaultValue`;
+
+      if (!match.startsWith("$")) {
+        errors.push(`${location} uses {${placeholder}}, expected \${${placeholder}}`);
+      } else if (!DEFAULT_VALUE_PLACEHOLDERS.has(placeholder)) {
+        errors.push(`${location} uses unknown placeholder \${${placeholder}}`);
+      }
+    }
+  }
+}
+
 async function validateScreenshot(errors, manifestPath, location, field, filename) {
   const imagePath = join(dirname(manifestPath), filename);
   let metadata;
@@ -143,6 +171,8 @@ for (const manifestPath of manifestPaths) {
       errors.push(formatSchemaError(manifestPath, error));
     }
   }
+
+  validateDefaultValues(errors, manifestPath, manifest);
 
   if (!Array.isArray(manifest?.screenshots)) {
     continue;

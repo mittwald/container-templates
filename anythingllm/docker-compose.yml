@@ -11,12 +11,12 @@ services:
       - SIG_SALT=${SIG_SALT}
       - AUTH_TOKEN=${AUTH_TOKEN}
       - LLM_PROVIDER=generic-openai
-      - GENERIC_OPEN_AI_BASE_PATH=https://llm.aihosting.mittwald.de/v1
+      - GENERIC_OPEN_AI_BASE_PATH=${AI_ENDPOINT}
       - GENERIC_OPEN_AI_MODEL_PREF=gpt-oss-120b
       - GENERIC_OPEN_AI_API_KEY=${AI_API_KEY}
       - GENERIC_OPEN_AI_MODEL_TOKEN_LIMIT=131072
       - EMBEDDING_ENGINE=generic-openai
-      - EMBEDDING_BASE_PATH=https://llm.aihosting.mittwald.de/v1
+      - EMBEDDING_BASE_PATH=${AI_ENDPOINT}
       - EMBEDDING_MODEL_PREF=Qwen3-Embedding-8B
       - EMBEDDING_MODEL_MAX_CHUNK_LENGTH=8192
       - GENERIC_OPEN_AI_EMBEDDING_MODEL_PREF=Qwen3-Embedding-8B
