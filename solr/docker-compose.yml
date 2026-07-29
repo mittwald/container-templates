@@ -5,7 +5,11 @@ services:
       - TZ=Europe/Berlin
       - SOLR_HEAP=512m
       - SOLR_CONFIG_LIB_ENABLED=true
-      - SOLR_MODULES=scripting,analysis-extras,langid,clustering,extraction
+      # extraction ist nicht enthalten: seit Solr 10 bringt das Modul kein
+      # eingebettetes Tika mehr mit, sondern verlangt einen externen
+      # Tika-Server ueber tikaserver.url. Ohne den scheitert jeder Aufruf
+      # mit "Tika Server URL must be configured".
+      - SOLR_MODULES=scripting,analysis-extras,langid,clustering
     volumes:
       - solr_data:/var/solr
     healthcheck:
