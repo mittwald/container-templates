@@ -1,9 +1,0 @@
-services:
-  super-productivity:
-    image: johannesjo/super-productivity:latest
-    ports:
-      - "80:80"
-    environment:
-      - TZ=Europe/Berlin
-      - SYNC_INTERVAL=15
-      - IS_COMPRESSION_ENABLED=true
