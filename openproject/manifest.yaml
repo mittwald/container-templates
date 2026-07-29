@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/GPL-3.0-only.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-boards.png
+    text:
+      de: Aufgaben auf Boards nach Status und Priorität sortieren
+      en: Sort tasks on boards by status and priority
+  - bg: background.jpg
+    screenshot: screenshot-meetings.png
+    text:
+      de: Besprechungen mit Tagesordnung und Teilnehmenden planen
+      en: Plan meetings with an agenda and participants
+  - bg: background.jpg
+    screenshot: screenshot-task.png
+    text:
+      de: Arbeitspakete mit Zuständigkeit, Aufwand und Terminen anlegen
+      en: Create work packages with assignee, effort and dates
 domains:
   main:
     userInput: HOST
