@@ -42,6 +42,17 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - ai
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-ai-chat.png
+    text:
+      de: Chat mit den Modellen des mittwald AI Hostings
+      en: Chat with the models of mittwald AI hosting
+  - bg: background.jpg
+    screenshot: screenshot-ai-models.png
+    text:
+      de: Einzelne Modelle freischalten und Standardwerte festlegen
+      en: Enable individual models and define default settings
 domains:
   main:
     userInput: HOST
