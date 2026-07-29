@@ -67,11 +67,18 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ALLOWED_EMAIL_DOMAINS"
+    label:
+      de: Registrierung auf E-Mail-Domains beschränken
+      en: Restrict sign-up to email domains
+    positionMeta: { step: "common", index: 1 }
+    required: false
+    validationSchema: '{ "type": "string" }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
       en: Sender address
-    positionMeta: { step: "common", index: 1 }
+    positionMeta: { step: "common", index: 2 }
     defaultValue: "${user.email}"
     format: "email"
     required: true
@@ -111,3 +118,16 @@ help:
     content:
       de: Der erste Nutzer, der sich nach der Installation registriert, wird automatisch zum System-Administrator. Weitere Registrierungen kannst du danach in der System-Konsole beschränken.
       en: The first user to register after installation automatically becomes the System Administrator. You can then restrict further sign-ups in the System Console.
+  - status: warning
+    heading:
+      de: Registrierung ist zunächst offen
+      en: Sign-up is open at first
+    content:
+      de: |
+        Damit das erste Konto entstehen kann, ist die Registrierung nach der Installation für alle möglich. Wer die Domain kennt, kann sich ein Konto anlegen, bis du das änderst.
+
+        Trage unter *Registrierung auf E-Mail-Domains beschränken* eine oder mehrere Domains ein (durch Komma getrennt, etwa `agentur.de, kunde.de`), dann akzeptiert Mattermost nur Adressen dieser Domains – auch für das erste Konto. Alternativ deaktivierst du die Registrierung nach der Einrichtung in der System-Konsole unter *Authentication › Signup*. Über die Oberfläche gesetzte Werte lassen sich dort später nicht mehr ändern, weil die Konfiguration aus der Umgebung stammt.
+      en: |
+        So that the first account can be created, sign-up is open to everyone after installation. Anyone who knows the domain can create an account until you change this.
+
+        Enter one or more domains under *Restrict sign-up to email domains* (comma-separated, for example `agency.com, client.com`); Mattermost then only accepts addresses from those domains – including for the first account. Alternatively, disable sign-up after setup in the System Console under *Authentication › Signup*. Values set here cannot be changed there later, because the configuration comes from the environment.
