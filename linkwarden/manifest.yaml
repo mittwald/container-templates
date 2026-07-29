@@ -44,6 +44,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-dashboard-links.png
+    text:
+      de: Gesammelte Links mit Vorschau, Sammlungen und Schlagwörtern
+      en: Collected links with preview, collections and tags
+  - bg: background.jpg
+    screenshot: screenshot-rss-feeds.png
+    text:
+      de: Abonnierte Feeds legen neue Beiträge selbstständig ab
+      en: Subscribed feeds file new articles automatically
+  - bg: background.jpg
+    screenshot: screenshot-search.png
+    text:
+      de: Volltextsuche über Titel, Adresse, Schlagwort und Datum
+      en: Full-text search across title, address, tag and date
 domains:
   main:
     userInput: HOST
