@@ -42,6 +42,17 @@ license:
   link: https://github.com/Stirling-Tools/Stirling-PDF/blob/main/LICENSE
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-overview-dashboard.png
+    text:
+      de: Werkzeuge für Umwandeln, Signieren, Schwärzen und Prüfen
+      en: Tools for converting, signing, redacting and verifying
+  - bg: background.jpg
+    screenshot: screenshot-pdf-viewer.png
+    text:
+      de: Mehrere PDFs laden und Seite für Seite durchsehen
+      en: Load several PDFs and review them page by page
 domains:
   main:
     userInput: HOST
