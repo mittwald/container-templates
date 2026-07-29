@@ -42,6 +42,22 @@ license:
   link: https://github.com/Infisical/infisical/blob/main/LICENSE
 categories:
   - security
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-secrets.png
+    text:
+      de: Secrets je Umgebung getrennt, von Entwicklung bis Produktion
+      en: Secrets kept separate per environment, from development to production
+  - bg: background.jpg
+    screenshot: screenshot-access-token.png
+    text:
+      de: Maschinenidentitäten holen Secrets mit eigenen Rechten ab
+      en: Machine identities fetch secrets with their own permissions
+  - bg: background.jpg
+    screenshot: screenshot-org-overview.png
+    text:
+      de: Secrets, Zertifikate, Schlüssel und Zugriffe in einer Oberfläche
+      en: Secrets, certificates, keys and access in a single interface
 domains:
   main:
     userInput: HOST
