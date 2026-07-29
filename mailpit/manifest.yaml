@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-html-mail.png
+    text:
+      de: Abgefangene Mail als HTML, mit Bildern und Anhängen
+      en: Captured message rendered as HTML, with images and attachments
+  - bg: background.jpg
+    screenshot: screenshot-html-check.png
+    text:
+      de: Prüfung, wie gut das HTML in gängigen Mailprogrammen läuft
+      en: Check how well the HTML holds up in common mail clients
+  - bg: background.jpg
+    screenshot: screenshot-mail-header.png
+    text:
+      de: Alle Kopfzeilen einer Nachricht im Original nachvollziehen
+      en: Inspect every header of a message exactly as it was received
 domains:
   main:
     userInput: HOST
