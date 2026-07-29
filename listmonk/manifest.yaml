@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0-only.html
 categories:
   - communication
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-campaigns.png
+    text:
+      de: Kampagnen als Entwurf, geplant oder versendet, mit Auswertung
+      en: Campaigns as draft, scheduled or sent, including statistics
+  - bg: background.jpg
+    screenshot: screenshot-visual-editor.png
+    text:
+      de: Newsletter aus Bausteinen wie Text, Bild und Schaltfläche bauen
+      en: Building newsletters from blocks like text, image and button
+  - bg: background.jpg
+    screenshot: screenshot-lists.png
+    text:
+      de: Listen mit Single- oder Double-Opt-in, öffentlich oder privat
+      en: Lists with single or double opt-in, public or private
 domains:
   main:
     userInput: HOST
