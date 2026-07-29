@@ -43,6 +43,22 @@ license:
 categories:
   - productivity
   - monitoring
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-links.png
+    text:
+      de: Kurzlinks mit Zieladresse, Notiz und Anzahl der Aufrufe
+      en: Short links with target, note and number of views
+  - bg: background.jpg
+    screenshot: screenshot-analytics.png
+    text:
+      de: Auswertung nach Herkunft, Browser, Betriebssystem und Land
+      en: Statistics by referrer, browser, operating system and country
+  - bg: background.jpg
+    screenshot: screenshot-user-management.png
+    text:
+      de: Benutzerverwaltung mit Rollen, Domains und Linkzahlen
+      en: User management with roles, domains and link counts
 domains:
   main:
     userInput: HOST
