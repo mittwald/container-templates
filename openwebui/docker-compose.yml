@@ -8,6 +8,10 @@ services:
       - OPENAI_API_BASE_URLS=${AI_ENDPOINT}
       - OPENAI_API_KEYS=${AI_API_KEY}
       - WEBUI_AUTH=true
+      # Ohne diese Abschaltung sucht Open WebUI bei jedem Modellabruf
+      # zusaetzlich einen lokalen Ollama-Dienst, den das Template nicht
+      # enthaelt, und laeuft dabei jedes Mal in einen Verbindungsfehler.
+      - ENABLE_OLLAMA_API=false
       - WEBUI_ADMIN_EMAIL=${ADMIN_EMAIL}
       - WEBUI_ADMIN_PASSWORD=${ADMIN_PASSWORD}
     volumes:
