@@ -5,6 +5,10 @@ services:
       - "3001:3001"
     environment:
       - TZ=Europe/Berlin
+      # Ohne Vorgabe bleibt Uptime Kuma 2 in einem Einrichtungsassistenten
+      # stehen und wartet auf die Auswahl einer Datenbank; der Dienst
+      # startet dann gar nicht. SQLite genuegt fuer die Ueberwachung.
+      - UPTIME_KUMA_DB_TYPE=sqlite
     volumes:
       - uptimekuma_data:/app/data
 volumes:

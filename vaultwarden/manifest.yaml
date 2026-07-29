@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - security
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-dashboard.png
+    text:
+      de: Zugangsdaten und Zwei-Faktor-Token sicher speichern
+      en: Store credentials and two-factor tokens securely
+  - bg: background.jpg
+    screenshot: screenshot-security.png
+    text:
+      de: Berichte zu schwachen, mehrfach genutzten und geleakten Passwörtern
+      en: Reports on weak, reused and leaked passwords
+  - bg: background.jpg
+    screenshot: screenshot-teams-roles.png
+    text:
+      de: Mitglieder einladen und Rollen je Organisation vergeben
+      en: Invite members and assign roles per organisation
 domains:
   main:
     userInput: HOST

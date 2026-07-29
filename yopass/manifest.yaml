@@ -40,6 +40,22 @@ license:
   link: https://spdx.org/licenses/Apache-2.0.html
 categories:
   - security
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-encrypt.jpg
+    text:
+      de: Geheimnis im Browser verschlüsseln, mit Ablauf und Einmalabruf
+      en: Encrypt a secret in the browser, with expiry and one-time access
+  - bg: background.jpg
+    screenshot: screenshot-urls.jpg
+    text:
+      de: Fertiger Link zum Weitergeben, Schlüssel bleibt getrennt
+      en: Ready-made link to share, the key stays separate
+  - bg: background.jpg
+    screenshot: screenshot-decrypt.jpg
+    text:
+      de: Empfänger entschlüsselt im Browser, danach ist es gelöscht
+      en: Recipients decrypt in the browser, then it is deleted
 domains:
   main:
     userInput: HOST

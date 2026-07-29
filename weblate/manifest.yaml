@@ -44,6 +44,17 @@ license:
 categories:
   - development
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-language-overview.png
+    text:
+      de: Fortschritt je Sprache mit offenen und geprüften Zeichenketten
+      en: Progress per language with open and checked strings
+  - bg: background.jpg
+    screenshot: screenshot-translation-strings.png
+    text:
+      de: Zeichenketten übersetzen, mit Verlauf, Vorschlägen und Glossar
+      en: Translate strings with history, suggestions and glossary
 domains:
   main:
     userInput: HOST

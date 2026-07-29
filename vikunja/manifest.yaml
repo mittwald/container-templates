@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/GPL-3.0-or-later.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-tasks.jpg
+    text:
+      de: Aufgaben je Projekt mit Fälligkeit, Priorität und Labels
+      en: Tasks per project with due date, priority and labels
+  - bg: background.jpg
+    screenshot: screenshot-gantt.png
+    text:
+      de: Projektverlauf als Zeitplan mit Aufgaben und Meilensteinen
+      en: Project timeline with tasks and milestones
+  - bg: background.jpg
+    screenshot: screenshot-teams.jpg
+    text:
+      de: Teams anlegen und Projekte gemeinsam bearbeiten
+      en: Create teams and work on projects together
 domains:
   main:
     userInput: HOST

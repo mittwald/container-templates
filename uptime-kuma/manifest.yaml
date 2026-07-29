@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - monitoring
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-uptime-checks.png
+    text:
+      de: Verfügbarkeit, Antwortzeiten und Verlauf je überwachtem Dienst
+      en: Availability, response times and history per monitored service
+  - bg: background.jpg
+    screenshot: screenshot-uptime-status-page.png
+    text:
+      de: Öffentliche Statusseite mit Gruppen für Kunden und Team
+      en: Public status page with groups for clients and team
+  - bg: background.jpg
+    screenshot: screenshot-new-uptime-check.png
+    text:
+      de: Neue Überwachung mit Prüfintervall und Benachrichtigung anlegen
+      en: Add a monitor with check interval and notification
 domains:
   main:
     userInput: HOST
