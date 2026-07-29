@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/BSD-2-Clause.html
 categories:
   - security
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-passkey-login.png
+    text:
+      de: Anmeldung per Passkey, ohne Passwort und ohne zweiten Faktor
+      en: Sign in with a passkey, without password or second factor
+  - bg: background.jpg
+    screenshot: screenshot-oidc-clients.png
+    text:
+      de: Angebundene Anwendungen als OIDC-Clients verwalten
+      en: Manage connected applications as OIDC clients
+  - bg: background.jpg
+    screenshot: screenshot-whitelabel.png
+    text:
+      de: Name, Sitzungsdauer und Akzentfarbe selbst festlegen
+      en: Define name, session duration and accent colour
 domains:
   main:
     userInput: HOST
