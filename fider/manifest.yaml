@@ -59,11 +59,6 @@ screenshots:
     text:
       de: Die Roadmap zeigt Geplantes, Gestartetes und Erledigtes
       en: The roadmap shows planned, started and completed items
-  - bg: background.jpg
-    screenshot: screenshot-oauth-provider.png
-    text:
-      de: Anmeldung per E-Mail oder über eigene OAuth-Anbieter
-      en: Sign-in by email or through your own OAuth providers
 domains:
   main:
     userInput: HOST

@@ -43,6 +43,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0-only.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-edit-time.png
+    text:
+      de: Zeiten je Kunde, Projekt und Tätigkeit erfassen und nachbearbeiten
+      en: Recording and editing times per customer, project and activity
+  - bg: background.jpg
+    screenshot: screenshot-weekly-overview.png
+    text:
+      de: Die Wochenansicht summiert Zeiten je Kunde, Projekt und Tätigkeit
+      en: The weekly view totals times per customer, project and activity
+  - bg: background.jpg
+    screenshot: screenshot-dashboard.png
+    text:
+      de: Erfasste Stunden für Tag, Woche, Monat und Jahr auf einen Blick
+      en: Recorded hours for day, week, month and year at a glance
 domains:
   main:
     userInput: HOST
