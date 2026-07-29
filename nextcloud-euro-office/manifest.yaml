@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-files.png
+    text:
+      de: Dateien und Ordner ablegen, sortieren und im Team freigeben
+      en: Store, sort and share files and folders across the team
+  - bg: background.jpg
+    screenshot: screenshot-office.png
+    text:
+      de: Office-Dokumente direkt im Browser gemeinsam bearbeiten
+      en: Edit office documents together directly in the browser
+  - bg: background.jpg
+    screenshot: screenshot-talk.png
+    text:
+      de: Chat und Anrufe im Team über die Nextcloud-App Talk
+      en: Team chat and calls via the Nextcloud app Talk
 domains:
   nextcloud:
     userInput: HOST
@@ -68,6 +84,21 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "MAIL_FROM_ADDRESS"
+    label:
+      de: Absender vor dem @
+      en: Sender before the @
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "noreply"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[A-Za-z0-9._%+-]+$" }'
+  - name: "MAIL_DOMAIN"
+    label:
+      de: Absender-Domain
+      en: Sender domain
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 4, "maxLength": 253, "pattern": "^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)+$" }'
   - name: "ADMIN_USER"
     label:
       de: Admin Benutzername
@@ -126,6 +157,8 @@ systemInputs:
           pattern: "[a-z]"
           min: 1
 
+deliveryBoxes:
+  - purpose: main
 help:
   technicalDetails:
   - key:

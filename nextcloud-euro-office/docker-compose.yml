@@ -17,6 +17,16 @@ services:
       - MYSQL_USER=nextcloud
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - REDIS_HOST=redis
+      # Nextcloud setzt die Absenderadresse aus zwei Werten zusammen:
+      # mail_from_address ist der Teil vor dem @, mail_domain der dahinter.
+      - SMTP_HOST=mail.agenturserver.de
+      - SMTP_PORT=587
+      - SMTP_SECURE=tls
+      - SMTP_AUTHTYPE=LOGIN
+      - SMTP_NAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
+      - MAIL_DOMAIN=${MAIL_DOMAIN}
       - EUROOFFICE_DOMAIN=https://${EUROOFFICE_HOST}
       - EUROOFFICE_JWT_SECRET=${EUROOFFICE_JWT_SECRET}
       - EUROOFFICE_INTERNAL_URL=http://eurooffice

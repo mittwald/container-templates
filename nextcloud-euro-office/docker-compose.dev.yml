@@ -1,0 +1,9 @@
+services:
+  nextcloud-euro-office:
+    # Lokal gegen das gemeinsame Mailpit statt gegen den Delivery-Box-Versand.
+    environment:
+      SMTP_HOST: ct-mail
+      SMTP_PORT: "1025"
+      SMTP_SECURE: ""
+      SMTP_NAME: "dev"
+      SMTP_PASSWORD: "dev"
