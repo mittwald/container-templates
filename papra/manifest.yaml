@@ -44,6 +44,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-document-dashboard.png
+    text:
+      de: Abgelegte Dokumente mit Schlagwörtern und Speicherbedarf
+      en: Filed documents with tags and storage usage
+  - bg: background.jpg
+    screenshot: screenshot-document-details.png
+    text:
+      de: Vorschau und automatisch ausgelesener Text eines Dokuments
+      en: Preview and automatically extracted text of a document
+  - bg: background.jpg
+    screenshot: screenshot-tagging.png
+    text:
+      de: Regeln vergeben Schlagwörter beim Import selbstständig
+      en: Rules assign tags automatically during import
 domains:
   main:
     userInput: HOST
