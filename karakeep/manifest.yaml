@@ -44,6 +44,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-overview.png
+    text:
+      de: Lesezeichen und Notizen mit Vorschau, Schlagwörtern und Listen
+      en: Bookmarks and notes with preview, tags and lists
+  - bg: background.jpg
+    screenshot: screenshot-details.png
+    text:
+      de: Gespeicherte Seiten bleiben als Lesefassung dauerhaft erhalten
+      en: Saved pages remain permanently available as a reader view
+  - bg: background.jpg
+    screenshot: screenshot-lists.png
+    text:
+      de: Listen bündeln Lesezeichen nach Projekt oder Thema
+      en: Lists group bookmarks by project or topic
 domains:
   main:
     userInput: HOST
