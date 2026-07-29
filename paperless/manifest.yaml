@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/GPL-3.0.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-document.png
+    text:
+      de: Erkannter Text, Korrespondent, Typ und Schlagwörter je Dokument
+      en: Recognised text, correspondent, type and tags per document
+  - bg: background.jpg
+    screenshot: screenshot-workflows.png
+    text:
+      de: Regeln, die Dokumente beim Einlesen automatisch einsortieren
+      en: Rules that file documents automatically on intake
+  - bg: background.jpg
+    screenshot: screenshot-mailregeln-import.png
+    text:
+      de: Anhänge aus einem Postfach selbstständig übernehmen
+      en: Pick up attachments from a mailbox automatically
 domains:
   main:
     userInput: HOST
