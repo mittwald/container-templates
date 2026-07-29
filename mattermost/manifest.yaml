@@ -42,6 +42,17 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - communication
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-chat.png
+    text:
+      de: Kanäle je Projekt oder Team, mit Threads und Reaktionen
+      en: Channels per project or team, with threads and reactions
+  - bg: background.jpg
+    screenshot: screenshot-app-marketplace.png
+    text:
+      de: Anbindung an GitHub, GitLab, Jira und weitere Werkzeuge
+      en: Connect GitHub, GitLab, Jira and other tools
 domains:
   main:
     userInput: HOST
