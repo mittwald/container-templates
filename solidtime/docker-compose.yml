@@ -107,6 +107,11 @@ services:
       - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
       - MAIL_FROM_ADDRESS=${SMTP_FROM}
       - MAIL_FROM_NAME=solidtime
+    # Das Image bringt einen Healthcheck mit, der den Caddy-Admin-Endpunkt auf
+    # Port 2019 abfragt. Den gibt es nur im HTTP-Modus, weshalb Worker- und
+    # Scheduler-Container sonst dauerhaft als unhealthy gelten.
+    healthcheck:
+      disable: true
     volumes:
       - app_storage:/var/www/html/storage
     depends_on:
@@ -145,6 +150,11 @@ services:
       - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
       - MAIL_FROM_ADDRESS=${SMTP_FROM}
       - MAIL_FROM_NAME=solidtime
+    # Das Image bringt einen Healthcheck mit, der den Caddy-Admin-Endpunkt auf
+    # Port 2019 abfragt. Den gibt es nur im HTTP-Modus, weshalb Worker- und
+    # Scheduler-Container sonst dauerhaft als unhealthy gelten.
+    healthcheck:
+      disable: true
     volumes:
       - app_storage:/var/www/html/storage
     depends_on:

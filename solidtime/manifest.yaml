@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-time-overview.png
+    text:
+      de: Laufender Timer, Wochenverlauf und abrechenbare Zeit im Blick
+      en: Running timer, weekly trend and billable time at a glance
+  - bg: background.jpg
+    screenshot: screenshot-calendar.png
+    text:
+      de: Erfasste Zeiten je Tag als Kalender mit Projektfarben
+      en: Tracked time per day as a calendar with project colours
+  - bg: background.jpg
+    screenshot: screenshot-reporting.png
+    text:
+      de: Auswertung nach Projekt, Aufgabe, Kunde und Zeitraum
+      en: Reports by project, task, client and period
 domains:
   main:
     userInput: HOST
