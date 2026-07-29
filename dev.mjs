@@ -76,7 +76,7 @@ Examples:
   pnpm app postgresql up --publish 5432
   pnpm app postgresql up --publish 15432:5432
   pnpm app bugsink up --set ADMIN_EMAIL=me@example.test
-  pnpm app shlink logs
+  pnpm app paperless logs
 
 Local infrastructure:
   Proxy:   https://${proxyHostname}

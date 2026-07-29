@@ -99,14 +99,14 @@ domains:
 
 ```yaml
 domains:
-  shortLinks:
-    userInput: SHORT_HOST
-    service: shlink
-    port: 8080
-  dashboard:
-    userInput: DASHBOARD_HOST
-    service: shlink-web-client
-    port: 8080
+  nextcloud:
+    userInput: HOST
+    service: nextcloud-euro-office
+    port: 80
+  eurooffice:
+    userInput: EUROOFFICE_HOST
+    service: eurooffice
+    port: 80
 ```
 
 ### userInputs
@@ -254,7 +254,7 @@ Voraussetzungen sind Docker mit Docker Compose sowie die für die Validierung be
 pnpm app n8n up
 ```
 
-Danach ist sie unter `https://n8n.localhost` erreichbar. Templates mit mehreren Domains erhalten pro `purpose` eine Subdomain, beispielsweise `https://dashboard.shlink.localhost`. Mehrere Templates können gleichzeitig laufen, da nur der gemeinsame Proxy die Host-Ports 80 und 443 belegt.
+Danach ist sie unter `https://n8n.localhost` erreichbar. Templates mit mehreren Domains erhalten pro `purpose` eine Subdomain, beispielsweise `https://eurooffice.nextcloud-euro-office.localhost`. Mehrere Templates können gleichzeitig laufen, da nur der gemeinsame Proxy die Host-Ports 80 und 443 belegt.
 
 Neben Caddy läuft ein globales Mailpit für lokale E-Mail-Tests. Die Web-Oberfläche ist unter `https://mail.localhost` erreichbar; Apps im gemeinsamen Dev-Netz erreichen SMTP unter `ct-mail:1025` ohne TLS. Das eigenständige Mailpit-Template bleibt davon getrennt und läuft wie jedes andere Template unter `https://mailpit.localhost`.
 
@@ -352,7 +352,6 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="pocket-id/icon.svg" width="24" height="24" style="object-fit:contain"> | [pocket-id](pocket-id/) | OIDC-Provider mit Passkeys |
 | <img src="postgresql/icon.svg" width="24" height="24" style="object-fit:contain"> | [postgresql](postgresql/) | Leistungsstarke relationale Open-Source Datenbank |
 | <img src="qdrant/icon.svg" width="24" height="24" style="object-fit:contain"> | [qdrant](qdrant/) | Hochperformante Vektordatenbank für KI-Anwendungen |
-| <img src="shlink/icon.svg" width="24" height="24" style="object-fit:contain"> | [shlink](shlink/) | Kurzlinks erstellen und auswerten |
 | <img src="solidtime/icon.svg" width="24" height="24" style="object-fit:contain"> | [solidtime](solidtime/) | Moderne Zeiterfassung für Teams |
 | <img src="solr/icon.svg" width="24" height="24" style="object-fit:contain"> | [solr](solr/) | Enterprise-Suchplattform |
 | <img src="stirling-pdf/icon.svg" width="24" height="24" style="object-fit:contain"> | [stirling-pdf](stirling-pdf/) | Umfangreicher PDF-Werkzeugkasten |
