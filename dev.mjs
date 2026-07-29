@@ -701,15 +701,47 @@ function escapeContainerVariables(value) {
   return value;
 }
 
-function renderCompose(templateData, publishes) {
+function referencesMailService(value) {
+  if (typeof value === "string") return value.includes(mailServiceAlias);
+  if (Array.isArray(value)) return value.some(referencesMailService);
+  if (value && typeof value === "object") return Object.values(value).some(referencesMailService);
+  return false;
+}
+
+function devNetworkServices(templateData, devCompose) {
+  const { compose, manifest } = templateData;
+  const namen = new Set();
+
+  // Services mit Domain muessen fuer den Proxy erreichbar sein.
+  for (const [, domain] of domainEntries(manifest)) {
+    if (domain?.service) namen.add(domain.service);
+  }
+
+  // Services, die Mail ueber das gemeinsame Mailpit verschicken. Chatwoot etwa
+  // versendet ausschliesslich aus sidekiq, nicht aus dem Web-Service.
+  for (const quelle of [compose, devCompose]) {
+    for (const [name, service] of Object.entries(quelle?.services ?? {})) {
+      if (referencesMailService(service?.environment)) namen.add(name);
+    }
+  }
+
+  return namen;
+}
+
+function renderCompose(templateData, publishes, devCompose) {
   const { compose, manifest, template } = templateData;
   const rendered = escapeContainerVariables(structuredClone(compose));
+  const imDevNetz = devNetworkServices(templateData, devCompose);
   for (const [name, service] of Object.entries(rendered.services)) {
     delete service.ports;
-    // Alle Services ins Dev-Netz haengen, nicht nur die mit Domain: sonst
-    // erreichen Worker das gemeinsame Mailpit nicht. Chatwoot verschickt
-    // Mails etwa ausschliesslich aus sidekiq, nicht aus dem Web-Service.
-    addServiceNetwork(service, networkAlias(template, name));
+    // Nur was den Proxy oder das gemeinsame Mailpit braucht, kommt ins Dev-Netz.
+    // Docker Compose vergibt dort zusaetzlich den Dienstnamen als Alias; haengen
+    // auch Datenbanken darin, loest "postgres" bei mehreren gleichzeitig
+    // laufenden Templates mehrdeutig auf und Anwendungen landen in der falschen
+    // Datenbank.
+    if (imDevNetz.has(name)) {
+      addServiceNetwork(service, networkAlias(template, name));
+    }
   }
 
   for (const publish of publishes) {
@@ -718,11 +750,13 @@ function renderCompose(templateData, publishes) {
     service.ports.push(`127.0.0.1:${publish.hostPort}:${publish.containerPort}`);
   }
 
-  rendered.networks = rendered.networks ?? {};
-  rendered.networks[devNetworkKey] = {
-    external: true,
-    name: devNetworkName,
-  };
+  if (imDevNetz.size > 0) {
+    rendered.networks = rendered.networks ?? {};
+    rendered.networks[devNetworkKey] = {
+      external: true,
+      name: devNetworkName,
+    };
+  }
   return rendered;
 }
 
@@ -774,9 +808,10 @@ async function prepareApp(template, options = {}) {
   await writeValuesFile(template, values);
   const environmentPath = await writeEnvironmentFile(template, values);
   const composePath = appFile(template, "compose.yaml");
-  const rendered = renderCompose(templateData, publishes);
-  await writeFile(composePath, YAML.stringify(rendered, { lineWidth: 0 }));
   const devComposePath = await optionalDevComposePath(templateData);
+  const devCompose = devComposePath ? YAML.parse(await readFile(devComposePath, "utf8")) : null;
+  const rendered = renderCompose(templateData, publishes, devCompose);
+  await writeFile(composePath, YAML.stringify(rendered, { lineWidth: 0 }));
   return {
     ...templateData,
     composePath,
