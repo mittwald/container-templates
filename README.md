@@ -328,7 +328,6 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="flowise/icon.svg" width="24" height="24" style="object-fit:contain"> | [flowise](flowise/) | KI-Workflows visuell entwickeln |
 | <img src="gotenberg/icon.svg" width="24" height="24" style="object-fit:contain"> | [gotenberg](gotenberg/) | Dokumente per API in PDF umwandeln |
 | <img src="healthchecks/icon.svg" width="24" height="24" style="object-fit:contain"> | [healthchecks](healthchecks/) | Cronjobs und geplante Aufgaben überwachen |
-| <img src="hoppscotch/icon.svg" width="24" height="24" style="object-fit:contain"> | [hoppscotch](hoppscotch/) | APIs entwickeln, testen und dokumentieren |
 | <img src="immich/icon.svg" width="24" height="24" style="object-fit:contain"> | [immich](immich/) | Foto- und Videoverwaltung |
 | <img src="infisical/icon.svg" width="24" height="24" style="object-fit:contain"> | [infisical](infisical/) | Secrets zentral verwalten |
 | <img src="karakeep/icon.svg" width="24" height="24" style="object-fit:contain"> | [karakeep](karakeep/) | Lesezeichen und Notizen sammeln |
