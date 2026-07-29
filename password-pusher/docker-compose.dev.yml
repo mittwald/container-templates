@@ -1,0 +1,5 @@
+services:
+  password-pusher:
+    # pwpush wird nur fuer amd64 veroeffentlicht; Plattform fuer lokale Tests
+    # auf arm64-Hosts erzwingen. Im produktiven Deployment nicht verwendet.
+    platform: linux/amd64

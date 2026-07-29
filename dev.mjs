@@ -501,7 +501,14 @@ function generateSystemValue(input) {
       required.push(...Array.from({ length: count }, () => randomCharacter("abcdefghijklmnopqrstuvwxyz")));
     } else if (rule.ruleType === "charPool") {
       const pool = rule.charPools.map((name) => characterPools[name]).join("");
-      required.push(...Array.from({ length: count }, () => randomCharacter(pool)));
+      // Bei Hex-Werten nur Zeichen einstreuen, die im Hex-Alphabet vorkommen:
+      // sonst landet aus einem breiteren Pool etwa ein "q" im Schluessel, und
+      // Anwendungen mit strenger Hex-Pruefung lehnen ihn ab.
+      const erlaubt = useHex ? [...pool].filter((z) => alphabet.includes(z)).join("") : pool;
+      if (!erlaubt) {
+        throw new Error(`${input.name} has a character pool without characters valid for its value`);
+      }
+      required.push(...Array.from({ length: count }, () => randomCharacter(erlaubt)));
     }
   }
 

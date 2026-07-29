@@ -42,6 +42,22 @@ license:
   link: https://github.com/pglombardo/PasswordPusher/blob/master/LICENSE
 categories:
   - security
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-new-secret.png
+    text:
+      de: Passwort mit Ablauf nach Tagen oder Aufrufen hinterlegen
+      en: Store a password expiring after days or views
+  - bg: background.jpg
+    screenshot: screenshot-share-secret.png
+    text:
+      de: Geheimer Link mit QR-Code und fertigem Begleittext
+      en: Secret link with QR code and a ready-made message
+  - bg: background.jpg
+    screenshot: screenshot-secret-show.png
+    text:
+      de: Empfänger sehen das Passwort erst nach dem Aufdecken
+      en: Recipients only see the password after revealing it
 domains:
   main:
     userInput: HOST
@@ -87,7 +103,6 @@ systemInputs:
           ruleType: charPool
           charPools:
             - numbers
-            - lowercase
           min: 1
 
 help:
