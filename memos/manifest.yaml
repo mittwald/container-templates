@@ -42,6 +42,12 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-memos.png
+    text:
+      de: Notizen mit Schlagwörtern, Aufgabenlisten und Codeblöcken
+      en: Notes with tags, task lists and code blocks
 domains:
   main:
     userInput: HOST
