@@ -44,6 +44,22 @@ license:
 categories:
   - ai
   - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-rag-flow.png
+    text:
+      de: Ein Agent prüft, sucht Dokumente und formuliert die Antwort
+      en: An agent checks, retrieves documents and formulates the answer
+  - bg: background.jpg
+    screenshot: screenshot-rag-external-integrations.png
+    text:
+      de: Dokumente aus Confluence, Jira, GitHub, Google Drive und mehr
+      en: Documents from Confluence, Jira, GitHub, Google Drive and more
+  - bg: background.jpg
+    screenshot: screenshot-website-chat-integration.png
+    text:
+      de: Fertige Flows als Chat-Widget einbinden oder per API aufrufen
+      en: Embedding finished flows as a chat widget or calling them by API
 domains:
   main:
     userInput: HOST

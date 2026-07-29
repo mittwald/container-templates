@@ -3,6 +3,9 @@ services:
     environment:
       SMTP_HOST: ct-mail
       SMTP_PORT: "1025"
-      SMTP_USER: ""
-      SMTP_PASSWORD: ""
+      # Nicht leer lassen: Flowise prueft in isSmtpConfigured(), ob Host, Port,
+      # Benutzer und Passwort gesetzt sind, und meldet sonst "Email (SMTP) is
+      # not configured on this server". Mailpit nimmt beliebige Zugangsdaten an.
+      SMTP_USER: "dev"
+      SMTP_PASSWORD: "dev"
       SMTP_SECURE: "false"
