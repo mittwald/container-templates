@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - monitoring
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-page-overview.png
+    text:
+      de: Besucher, Aufrufe und Verweildauer je Website im Verlauf
+      en: Visitors, views and time on site per website over time
+  - bg: background.jpg
+    screenshot: screenshot-events.png
+    text:
+      de: Eigene Ereignisse wie Bestellungen oder Anfragen auswerten
+      en: Track custom events such as orders or enquiries
+  - bg: background.jpg
+    screenshot: screenshot-sessions.png
+    text:
+      de: Einzelne Sitzungen mit Standort, Browser und Endgerät
+      en: Individual sessions with location, browser and device
 domains:
   main:
     userInput: HOST
