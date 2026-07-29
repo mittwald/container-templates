@@ -35,10 +35,14 @@ services:
       - --disable-blink-features=AutomationControlled
       - --window-size=1440,900
   meilisearch:
-    image: getmeili/meilisearch:v1
+    image: getmeili/meilisearch:v1.51
     environment:
       - TZ=Europe/Berlin
       - MEILI_NO_ANALYTICS=true
+      # Meilisearch startet nicht, wenn die Datenbank aelter ist als die
+      # Engine. Da der Tag auf Minor gepinnt ist, migriert dieses Flag nur
+      # bei einem bewussten Versionswechsel; sonst ist es wirkungslos.
+      - MEILI_UPGRADE_DB=true
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     volumes:
       - meili_data:/meili_data

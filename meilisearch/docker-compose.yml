@@ -1,6 +1,6 @@
 services:
   meilisearch:
-    image: getmeili/meilisearch:v1
+    image: getmeili/meilisearch:v1.51
     ports:
       - "7700:7700"
     environment:
@@ -8,6 +8,10 @@ services:
       - MEILI_ENV=production
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
       - MEILI_NO_ANALYTICS=true
+      # Meilisearch startet nicht, wenn die Datenbank aelter ist als die
+      # Engine. Da der Tag auf Minor gepinnt ist, migriert dieses Flag nur
+      # bei einem bewussten Versionswechsel; sonst ist es wirkungslos.
+      - MEILI_UPGRADE_DB=true
     volumes:
       - meili_data:/meili_data
     healthcheck:
