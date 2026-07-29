@@ -26,7 +26,7 @@ Usage:
   pnpm gen:background --all [options]
 
 Options:
-  --from icon|screenshot   Farbquelle (Standard: icon)
+  --from icon|screenshot   Farbquelle (Standard: screenshot, sonst icon)
   --width <px>             Breite des Ergebnisses (Standard: ${DEFAULT_WIDTH}, Höhe folgt aus 3:2)
   --force                  vorhandenes ${OUTPUT_NAME} überschreiben
   --dry-run                nur die ermittelte Farbpalette ausgeben
@@ -230,7 +230,9 @@ async function resolveSource(template, from) {
   const manifestPath = join(template, "manifest.yaml");
   const manifest = YAML.parse(await readFile(manifestPath, "utf8"));
   const first = manifest?.screenshots?.[0]?.screenshot;
-  if (!first) throw new Error(`${template}: kein Screenshot im Manifest, --from icon verwenden`);
+  // Templates ohne Screenshots - etwa Komponenten ohne Oberflaeche - bekommen
+  // die Farben aus dem Icon, damit --all nicht an ihnen scheitert.
+  if (!first) return resolveSource(template, "icon");
   const path = join(template, first);
   if (!(await isFile(path))) throw new Error(`${template}: ${first} nicht gefunden`);
   return path;
@@ -249,7 +251,7 @@ async function listTemplates() {
 // --- CLI --------------------------------------------------------------------
 
 function parseArguments(argv) {
-  const options = { from: "icon", width: DEFAULT_WIDTH, force: false, dryRun: false, all: false };
+  const options = { from: "screenshot", width: DEFAULT_WIDTH, force: false, dryRun: false, all: false };
   const templates = [];
   for (let i = 0; i < argv.length; i += 1) {
     const argument = argv[i];

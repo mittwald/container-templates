@@ -72,8 +72,8 @@ Für die Bildüberschrift `text` gilt zusätzlich eine Längenvorgabe, die der V
 Das Hintergrundbild wird nicht von Hand gebaut, sondern aus den Farben des Templates erzeugt:
 
 ```bash
-pnpm gen:background bugsink              # Farben aus icon.svg
-pnpm gen:background bugsink --from screenshot   # Farben aus dem ersten Screenshot
+pnpm gen:background bugsink              # Farben aus dem ersten Screenshot
+pnpm gen:background bugsink --from icon  # Farben aus icon.svg
 pnpm gen:background --all --dry-run      # nur die Paletten anzeigen
 ```
 
