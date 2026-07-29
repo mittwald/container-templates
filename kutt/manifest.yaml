@@ -57,6 +57,23 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SITE_NAME"
+    label:
+      de: Name der Seite
+      en: Site name
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "Kutt"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "JWT_SECRET"
     schema:
@@ -81,6 +98,8 @@ systemInputs:
           pattern: "[a-z]"
           min: 1
 
+deliveryBoxes:
+  - purpose: main
 help:
   technicalDetails:
   - key:

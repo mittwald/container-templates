@@ -1,0 +1,8 @@
+services:
+  kutt:
+    environment:
+      MAIL_HOST: ct-mail
+      MAIL_PORT: "1025"
+      MAIL_SECURE: "false"
+      MAIL_USER: "dev"
+      MAIL_PASSWORD: "dev"

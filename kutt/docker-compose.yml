@@ -7,7 +7,7 @@ services:
       - TZ=Europe/Berlin
       - NODE_ENV=production
       - PORT=3000
-      - SITE_NAME=Kutt
+      - SITE_NAME=${SITE_NAME}
       - DEFAULT_DOMAIN=${HOST}
       - JWT_SECRET=${JWT_SECRET}
       - DB_CLIENT=pg
@@ -25,7 +25,17 @@ services:
       - TRUST_PROXY=true
       - CUSTOM_DOMAIN_USE_HTTPS=true
       - ENABLE_RATE_LIMIT=true
-      - MAIL_ENABLED=false
+      # Ohne Mailversand sind Passwort-Reset, Adressaenderung und
+      # Missbrauchsmeldungen deaktiviert.
+      - MAIL_ENABLED=true
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_SECURE=false
+      - MAIL_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM=${SMTP_FROM}
+      - REPORT_EMAIL=${SMTP_FROM}
+      - CONTACT_EMAIL=${SMTP_FROM}
     volumes:
       - kutt_custom:/kutt/custom
     depends_on:
