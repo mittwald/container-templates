@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/BSD-3-Clause.html
 categories:
   - monitoring
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-checks.png
+    text:
+      de: Überwachte Cronjobs mit Ping-URL, Zeitplan und letztem Signal
+      en: Monitored cron jobs with ping URL, schedule and last signal
+  - bg: background.jpg
+    screenshot: screenshot-check-detail.png
+    text:
+      de: Verlauf eines Checks mit allen eingegangenen Signalen
+      en: History of a check with every signal it received
+  - bg: background.jpg
+    screenshot: screenshot-notification-provider.png
+    text:
+      de: Benachrichtigungen an E-Mail, Chat, Webhook oder Pager
+      en: Notifications to email, chat, webhook or pager services
 domains:
   main:
     userInput: HOST
@@ -56,6 +72,23 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 2 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
@@ -98,11 +131,19 @@ help:
       de: Domain
       en: Domain
     value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${healthchecks.env.SUPERUSER_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${healthchecks.env.SUPERUSER_PASSWORD}
   alerts:
   - status: info
     heading:
-      de: Konto registrieren
-      en: Register an account
+      de: Registrierung ist geschlossen
+      en: Registration is closed
     content:
-      de: Registriere dich nach der Installation über die Oberfläche mit deiner E-Mail-Adresse. Die Anmeldung und Benachrichtigungen erfolgen über den konfigurierten SMTP-Dienst.
-      en: After installation, register via the interface with your email address. Sign-in and notifications are delivered through the configured SMTP service.
+      de: Das Administratorkonto wird beim ersten Start mit den oben angezeigten Zugangsdaten angelegt. Weitere Konten entstehen nicht durch Selbstregistrierung, sondern über Team-Einladungen in den Projekteinstellungen oder über die Django-Verwaltung unter `/admin/`. Öffnen lässt sich die Registrierung über die Umgebungsvariable `REGISTRATION_OPEN`.
+      en: The administrator account is created on first start using the credentials shown above. Further accounts are not created by self-registration but through team invitations in the project settings or via the Django administration at `/admin/`. Registration can be opened up through the `REGISTRATION_OPEN` environment variable.
