@@ -371,6 +371,11 @@ function defaultUserValue(input) {
     value = "DevPassword123!";
   } else if (name.endsWith("_USER") || name.endsWith("_USERNAME")) {
     value = "admin";
+  } else if (name.endsWith("_DOMAIN")) {
+    // example.com statt eines einzelnen Labels wie "local": Anwendungen
+    // verwerfen Absenderdomains ohne Punkt, Nextcloud faellt dann etwa auf
+    // localhost.localdomain zurueck.
+    value = "example.com";
   } else if (name === "DATABASE_NAME") {
     value = "app";
   } else if (name === "BRAND_TITLE") {
