@@ -42,6 +42,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0-only.html
 categories:
   - media
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-fotos.jpg
+    text:
+      de: Fotos in einer durchsuchbaren Zeitleiste, nach Aufnahmedatum sortiert
+      en: Photos in a searchable timeline, ordered by capture date
+  - bg: background.jpg
+    screenshot: screenshot-share.png
+    text:
+      de: Aufnahmen per Link teilen, wahlweise mit Passwort und Ablaufdatum
+      en: Sharing photos by link, optionally with password and expiry date
+  - bg: background.jpg
+    screenshot: screenshot-workflow-builder.png
+    text:
+      de: Neue Fotos nach dem Hochladen automatisch weiterverarbeiten
+      en: Processing new photos automatically after upload
 domains:
   main:
     userInput: HOST
