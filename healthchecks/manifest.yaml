@@ -34,7 +34,7 @@ description:
     For **agencies**, Healthchecks works as a central control point for recurring tasks across client projects: backups, data imports, cron scripts and maintenance jobs report their runs, and missing reports are escalated immediately. A dedicated project with team members and notification channels can be set up per client or project.
 
     At mittwald, **Healthchecks** runs as a self-hosted container in German data centres; check data and contact channels stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Healthchecks with PostgreSQL and connects an SMTP service for notifications and sign-in — with no usage-based licence or seat costs.
-developer: Healthchecks OÜ
+developer: SIA Monkey See Monkey Do
 website: https://healthchecks.io
 repository: https://github.com/healthchecks/healthchecks
 license:
