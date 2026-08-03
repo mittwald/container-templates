@@ -1,0 +1,216 @@
+manifestVersion: 1.0
+name:
+  de: LibreChat
+  en: LibreChat
+version: "latest"
+type: standalone
+tagline:
+  de: Selbstgehostete Chat-Oberfläche für KI-Modelle
+  en: Self-hosted chat interface for AI models
+description:
+  de: |
+    **LibreChat** ist eine selbst gehostete Chat-Oberfläche für große Sprachmodelle (LLMs) und eine Alternative zu vollständig verwalteten Diensten wie gehostetes ChatGPT. Die Anwendung bündelt Konversationen, Dateien und Prompt-Vorlagen an einem Ort, ohne Nutzereingaben über die Server eines SaaS-Anbieters zu leiten.
+
+    Zentrale Funktionen:
+
+    - Chat-Oberfläche mit Konversationsverzweigungen, Nachrichtenbearbeitung und Modellwechsel im Dialog
+    - Anbindung OpenAI-kompatibler Endpunkte, hier vorkonfiguriert auf das mittwald AI Hosting
+    - Dateiupload mit RAG: hochgeladene Dokumente werden eingebettet und im Chat als Kontext genutzt
+    - Volltextsuche über alle Konversationen, geteilte Prompt-Vorlagen und Agenten
+    - Benutzerverwaltung mit Rollen, Registrierungssteuerung und Passwort-Reset per E-Mail
+
+    Für **Agenturen** stellt LibreChat einen gemeinsamen KI-Arbeitsplatz bereit. Briefings, Angebote und technische Dokumentation lassen sich hochladen und im Dialog auswerten, ohne Kundendaten an externe Dienste weiterzugeben. Geteilte Prompt-Vorlagen ergeben wiederholbare Abläufe für Textproduktion und Recherche; Modellauswahl und Kosten bleiben zentral steuerbar.
+
+    Bei mittwald läuft **LibreChat** als self-hosted Container in deutschen Rechenzentren; Konversationen, Dateien und Einbettungen verbleiben unter der Kontrolle des Betreibers — das vereinfacht die Einhaltung der DSGVO. Dieses Template enthält LibreChat mit MongoDB, Meilisearch sowie RAG-API und pgvector-Datenbank, verbunden mit dem mittwald AI Hosting. Nutzungsabhängige Lizenz- oder Seat-Kosten fallen nicht an.
+  en: |
+    **LibreChat** is a self-hosted chat interface for large language models (LLMs) and an alternative to managed services such as hosted ChatGPT. It brings conversations, files and prompt templates together without routing input through a SaaS provider's servers.
+
+    Key features:
+
+    - Chat interface with conversation branching, message editing and model switching mid-dialogue
+    - Integration of OpenAI-compatible endpoints, preconfigured for mittwald AI Hosting
+    - File upload with RAG: uploaded documents are embedded and used as context in the chat
+    - Full-text search across all conversations, plus shared prompt templates and agents
+    - User management with roles, registration control and password reset by email
+
+    For **agencies**, LibreChat provides a shared AI workspace. Briefs, proposals and technical documentation can be uploaded and analysed in dialogue without passing client data to external services. Shared prompt templates turn recurring copywriting and research into repeatable workflows, while model selection and cost stay centrally controlled.
+
+    At mittwald, **LibreChat** runs as a self-hosted container in German data centres; conversations, files and embeddings stay under the operator's control, which simplifies GDPR compliance. This template includes LibreChat with MongoDB, Meilisearch, the RAG API and a pgvector database, connected to mittwald AI Hosting. No usage-based licence or seat costs apply.
+developer: LibreChat
+website: https://www.librechat.ai
+repository: https://github.com/danny-avila/LibreChat
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - ai
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-file-search.png
+    text:
+      de: Der Agent beantwortet Fragen aus dem hochgeladenen Projekthandbuch
+      en: The agent answers questions from the uploaded project handbook
+  - bg: background.jpg
+    screenshot: screenshot-prompt-template.png
+    text:
+      de: Wiederkehrende Prompts als Vorlage mit Variablen speichern
+      en: Saving recurring prompts as a template with variables
+  - bg: background.jpg
+    screenshot: screenshot-files.png
+    text:
+      de: Hochgeladene Dateien zentral verwalten
+      en: Managing uploaded files in one place
+domains:
+  main:
+    userInput: HOST
+    service: librechat
+    port: 3080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
+    positionMeta: { step: "ai", index: 1 }
+    required: true
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_ENDPOINT"
+    label:
+      de: AI Endpunkt
+      en: AI endpoint
+    positionMeta: { step: "ai", index: 2 }
+    defaultValue: "${aiHosting.llmEndpoint}"
+    format: "url"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "CREDS_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+          max: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "CREDS_IV"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+          max: 32
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "JWT_REFRESH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "MEILI_MASTER_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "MONGO_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Absenderadresse
+      en: Sender address
+    value: ${librechat.env.EMAIL_FROM}
+  alerts:
+  - status: warning
+    heading:
+      de: Erstes Konto zügig anlegen
+      en: Create the first account promptly
+    content:
+      de: Registriere dich direkt nach der Installation über die Oberfläche mit E-Mail und Passwort — das erste Konto erhält Administratorrechte. LibreChat verschickt dazu eine Bestätigungsmail; erst nach dem Klick auf den Link ist die Anmeldung möglich. Setze anschließend die Umgebungsvariable `ALLOW_REGISTRATION` im Service `librechat` auf `false`, damit sich niemand sonst über die Domain anmelden kann.
+      en: Register via the interface with email and password right after installation — the first account receives administrator rights. LibreChat sends a confirmation email for this; sign-in is only possible after the link has been opened. Then set the `ALLOW_REGISTRATION` environment variable on the `librechat` service to `false` so that nobody else can sign up via the domain.
+  - status: info
+    heading:
+      de: Modelle des mittwald AI Hostings
+      en: Models from mittwald AI Hosting
+    content:
+      de: LibreChat lädt die verfügbaren Modelle beim Start vom konfigurierten AI-Endpunkt. Für den Dateiupload werden Einbettungen mit `Qwen3-Embedding-8B` erzeugt; steht dieses Modell im gebuchten Tarif nicht bereit, passe `EMBEDDINGS_MODEL` im Service `rag-api` an.
+      en: LibreChat loads the available models from the configured AI endpoint at startup. File uploads are embedded using `Qwen3-Embedding-8B`; if that model is not available in your plan, adjust `EMBEDDINGS_MODEL` on the `rag-api` service.

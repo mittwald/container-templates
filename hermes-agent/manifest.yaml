@@ -1,0 +1,139 @@
+manifestVersion: 1.0
+name:
+  de: Hermes Agent
+  en: Hermes Agent
+version: "latest"
+type: standalone
+tagline:
+  de: Selbstgehosteter KI-Agent mit dauerhaftem Gedächtnis
+  en: Self-hosted AI agent with persistent memory
+description:
+  de: |
+    **Hermes Agent** ist ein selbst gehosteter KI-Agent von Nous Research und eine Alternative zu verwalteten Assistenz-Diensten. Anders als eine reine Chat-Oberfläche behält der Agent Wissen über Sitzungen hinweg, nutzt Werkzeuge und lässt sich über mehrere Kanäle gleichzeitig ansprechen.
+
+    Zentrale Funktionen:
+
+    - Dauerhaftes Gedächtnis über Sitzungen hinweg, statt Kontext nur je Unterhaltung
+    - Mehrstufiges Arbeiten mit Werkzeugaufrufen und selbst angelegten Fähigkeiten
+    - Ein Gateway für Telegram, Discord, Slack, WhatsApp, Signal und die Kommandozeile
+    - Web-Oberfläche mit Sitzungen, Protokollen, Kosten- und Token-Auswertung
+    - Freie Wahl des Sprachmodells über verschiedene Anbieter
+
+    Für **Agenturen** eignet sich Hermes Agent als dauerhaft laufender Assistent, der in den Kanälen erreichbar ist, in denen das Team ohnehin arbeitet. Wiederkehrende Aufgaben wie Recherche, Statusabfragen oder Auswertungen laufen über denselben Agenten, der den Projektkontext behält, statt ihn bei jeder Anfrage neu zu erhalten.
+
+    Bei mittwald läuft **Hermes Agent** als self-hosted Container in deutschen Rechenzentren; Gedächtnis, Protokolle und hinterlegte Zugangsdaten verbleiben unter der Kontrolle des Betreibers — das vereinfacht die Einhaltung der DSGVO. Dieses Template enthält das Gateway und die abgesicherte Web-Oberfläche. Nutzungsabhängige Lizenz- oder Seat-Kosten fallen nicht an.
+  en: |
+    **Hermes Agent** is a self-hosted AI agent by Nous Research and an alternative to managed assistant services. Unlike a plain chat interface, the agent retains knowledge across sessions, uses tools and can be reached through several channels at once.
+
+    Key features:
+
+    - Persistent memory across sessions instead of context per conversation only
+    - Multi-step work with tool calls and self-created skills
+    - One gateway for Telegram, Discord, Slack, WhatsApp, Signal and the command line
+    - Web interface with sessions, logs and token and cost reporting
+    - Free choice of language model across various providers
+
+    For **agencies**, Hermes Agent works as a permanently running assistant reachable in the channels the team already uses. Recurring tasks such as research, status queries or reporting run through the same agent, which keeps the project context instead of being handed it again with every request.
+
+    At mittwald, **Hermes Agent** runs as a self-hosted container in German data centres; memory, logs and stored credentials stay under the operator's control, which simplifies GDPR compliance. This template includes the gateway and the secured web interface. No usage-based licence or seat costs apply.
+developer: Nous Research
+website: https://hermes-agent.nousresearch.com
+repository: https://github.com/NousResearch/hermes-agent
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - ai
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-chat-memory.png
+    text:
+      de: Der Agent legt Projektkontext dauerhaft im Gedächtnis ab
+      en: The agent stores project context in its persistent memory
+  - bg: background.jpg
+    screenshot: screenshot-kanban.png
+    text:
+      de: Aufgaben werden selbst zerlegt und von einem Worker bearbeitet
+      en: Tasks are decomposed automatically and picked up by a worker
+  - bg: background.jpg
+    screenshot: screenshot-cron.png
+    text:
+      de: Wiederkehrende Aufgaben laufen nach Zeitplan
+      en: Recurring tasks run on a schedule
+domains:
+  main:
+    userInput: HOST
+    service: hermes-agent
+    port: 9119
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.username}"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminUser", index: 2 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
+  - name: "DASHBOARD_AUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${hermes-agent.env.HERMES_DASHBOARD_BASIC_AUTH_USERNAME}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${hermes-agent.env.HERMES_DASHBOARD_BASIC_AUTH_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: Sprachmodell nach der Installation auswählen
+      en: Choose the language model after installation
+    content:
+      de: Hermes Agent bringt kein eigenes Sprachmodell mit. Melde dich nach der Installation an der Oberfläche an und hinterlege unter den Modell-Einstellungen einen Anbieter samt API-Schlüssel; bis dahin kann der Agent keine Anfragen beantworten.
+      en: Hermes Agent does not ship a language model of its own. Sign in to the interface after installation and configure a provider and API key under the model settings; until then the agent cannot answer requests.
+  - status: warning
+    heading:
+      de: Zugang für das öffentliche Internet härten
+      en: Harden access for the public internet
+    content:
+      de: Die Oberfläche speichert API-Schlüssel und Messenger-Tokens und kann Shell-Hooks ausführen. Sie ist durch das oben angezeigte Konto geschützt; dieses geteilte Passwort ist laut Hersteller aber nur für vertrauenswürdige Netze oder VPN gedacht, nicht für eine öffentlich erreichbare Domain. Hinterlege für den Dauerbetrieb zusätzlich einen OAuth- oder OIDC-Anbieter über `HERMES_DASHBOARD_OAUTH_CLIENT_ID` und gib die Zugangsdaten nur an Personen weiter, die den Agenten administrieren.
+      en: The interface stores API keys and messenger tokens and can run shell hooks. It is protected by the account shown above, but the vendor intends this shared password for trusted networks or a VPN only, not for a publicly reachable domain. For permanent operation, additionally configure an OAuth or OIDC provider via `HERMES_DASHBOARD_OAUTH_CLIENT_ID`, and share the credentials only with people who administer the agent.
+  - status: info
+    heading:
+      de: Abbruch bei Werkzeugschleifen aktivieren
+      en: Enable the circuit breaker for tool loops
+    content:
+      de: "Der Agent läuft unbeaufsichtigt weiter. Wiederholt fehlschlagende Werkzeugaufrufe werden in der Voreinstellung nur protokolliert, nicht abgebrochen. Setze in der `config.yaml` unter `tool_loop_guardrails` den Wert `hard_stop_enabled: true` — für Dauerbetrieb ohne Aufsicht empfiehlt der Hersteller das ausdrücklich."
+      en: "The agent runs unattended. By default, repeatedly failing tool calls are only logged, not stopped. Set `hard_stop_enabled: true` under `tool_loop_guardrails` in `config.yaml` — the vendor explicitly recommends this for unattended operation."

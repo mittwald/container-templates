@@ -1,0 +1,136 @@
+manifestVersion: 1.0
+name:
+  de: Paperclip
+  en: Paperclip
+version: "latest"
+type: standalone
+tagline:
+  de: Steuerzentrale für Teams aus KI-Agenten
+  en: Control centre for teams of AI agents
+description:
+  de: |
+    **Paperclip** ist eine Steuerzentrale für Teams aus KI-Agenten und eine self-hosted Alternative zu verwalteten Agent-Plattformen. Die Anwendung sieht aus wie ein Aufgaben-Tool, verwaltet darunter aber Organigramme, Budgets und Freigaben für Agenten unterschiedlicher Anbieter.
+
+    Zentrale Funktionen:
+
+    - Ziele definieren und in Aufgaben zerlegen, die einzelnen Agenten zugewiesen werden
+    - Agenten verschiedener Anbieter über Adapter anbinden, etwa Claude Code, Codex oder Hermes
+    - Rollen und Organigramm je Team, mit Freigabestufen für kritische Aktionen
+    - Budgets je Agent und Auswertung der angefallenen Kosten im Dashboard
+    - Nachvollziehbare Protokolle über Aufgaben, Werkzeugaufrufe und Ergebnisse
+
+    Für **Agenturen** ist Paperclip die gemeinsame Oberfläche, wenn mehrere Agenten an Kundenprojekten arbeiten. Statt verstreuter Terminalsitzungen laufen Aufträge, Zwischenstände und Kosten an einer Stelle zusammen; über Freigabestufen bleibt steuerbar, welche Aktionen ein Agent ohne Rückfrage ausführen darf.
+
+    Bei mittwald läuft **Paperclip** als self-hosted Container in deutschen Rechenzentren; Ziele, Protokolle und Zugangsdaten der angebundenen Agenten verbleiben unter der Kontrolle des Betreibers — das vereinfacht die Einhaltung der DSGVO. Dieses Template enthält Paperclip mit einer PostgreSQL-Datenbank. Nutzungsabhängige Lizenz- oder Seat-Kosten fallen nicht an.
+  en: |
+    **Paperclip** is a control centre for teams of AI agents and a self-hosted alternative to managed agent platforms. It looks like a task tool, but underneath it manages org charts, budgets and approvals for agents from different providers.
+
+    Key features:
+
+    - Define goals and break them into tasks assigned to individual agents
+    - Connect agents from various providers through adapters, such as Claude Code, Codex or Hermes
+    - Roles and org chart per team, with approval levels for critical actions
+    - Budgets per agent and a cost breakdown in the dashboard
+    - Traceable logs of tasks, tool calls and results
+
+    For **agencies**, Paperclip is the shared surface once several agents work on client projects. Instead of scattered terminal sessions, assignments, progress and costs come together in one place, while approval levels keep control over which actions an agent may perform unattended.
+
+    At mittwald, **Paperclip** runs as a self-hosted container in German data centres; goals, logs and the credentials of connected agents stay under the operator's control, which simplifies GDPR compliance. This template includes Paperclip with a PostgreSQL database. No usage-based licence or seat costs apply.
+developer: Paperclip
+website: https://paperclip.ing
+repository: https://github.com/paperclipai/paperclip
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - ai
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-dashboard.png
+    text:
+      de: Laufende Agenten, Aufgaben und Kosten auf einer Übersicht
+      en: Running agents, tasks and costs on a single overview
+  - bg: background.jpg
+    screenshot: screenshot-tasks.png
+    text:
+      de: Aufgaben im Board vom Backlog bis zur Abnahme verfolgen
+      en: Tracking tasks on the board from backlog to review
+  - bg: background.jpg
+    screenshot: screenshot-instructions.png
+    text:
+      de: Rolle und Arbeitsanweisungen eines Agenten als Markdown pflegen
+      en: Maintaining an agent's role and working instructions as Markdown
+domains:
+  main:
+    userInput: HOST
+    service: paperclip
+    port: 3100
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "BETTER_AUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "TOOL_ACTION_SIGNING_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: warning
+    heading:
+      de: Instanz zügig übernehmen
+      en: Claim the instance promptly
+    content:
+      de: Öffne die Domain direkt nach der Installation, lege ein Konto an und wähle `Claim this instance`. Damit wird dieses Konto zum Administrator und die Übernahme ist für alle weiteren gesperrt.
+      en: Open the domain right after installation, create an account and choose `Claim this instance`. This makes that account the administrator and locks the claim for everyone else.
+  - status: info
+    heading:
+      de: Agenten anbinden
+      en: Connecting agents
+    content:
+      de: Paperclip bringt selbst kein Sprachmodell mit, sondern steuert vorhandene Agenten. Die Zugangsdaten der Anbieter — etwa Claude Code, Codex oder ein Hermes-Gateway — werden nach der Installation in der Oberfläche unter den Verbindungen hinterlegt.
+      en: Paperclip does not ship a language model of its own; it orchestrates existing agents. Provider credentials — for example Claude Code, Codex or a Hermes gateway — are configured in the interface under connections after installation.

@@ -1,0 +1,8 @@
+services:
+  librechat:
+    environment:
+      EMAIL_HOST: ct-mail
+      EMAIL_PORT: "1025"
+      EMAIL_ENCRYPTION: ""
+      EMAIL_USERNAME: ""
+      EMAIL_PASSWORD: ""

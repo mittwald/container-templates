@@ -1,0 +1,20 @@
+services:
+  hermes-agent:
+    image: nousresearch/hermes-agent:latest
+    command: ["gateway", "run"]
+    ports:
+      - "9119:9119"
+    environment:
+      - TZ=Europe/Berlin
+      - HERMES_UID=10000
+      - HERMES_GID=10000
+      - HERMES_DASHBOARD=1
+      - HERMES_DASHBOARD_HOST=0.0.0.0
+      - HERMES_DASHBOARD_PORT=9119
+      - HERMES_DASHBOARD_BASIC_AUTH_USERNAME=${ADMIN_USER}
+      - HERMES_DASHBOARD_BASIC_AUTH_PASSWORD=${ADMIN_PASSWORD}
+      - HERMES_DASHBOARD_BASIC_AUTH_SECRET=${DASHBOARD_AUTH_SECRET}
+    volumes:
+      - hermes_data:/opt/data
+volumes:
+  hermes_data:

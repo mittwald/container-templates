@@ -1,0 +1,148 @@
+services:
+  librechat:
+    image: ghcr.io/danny-avila/librechat:latest
+    ports:
+      - "3080:3080"
+    environment:
+      - TZ=Europe/Berlin
+      - HOST=0.0.0.0
+      - PORT=3080
+      - APP_TITLE=LibreChat
+      - DOMAIN_CLIENT=https://${HOST}
+      - DOMAIN_SERVER=https://${HOST}
+      - TRUST_PROXY=1
+      - NO_INDEX=true
+      - MONGO_URI=mongodb://librechat:${MONGO_PASSWORD}@mongodb:27017/LibreChat?authSource=admin
+      - CREDS_KEY=${CREDS_KEY}
+      - CREDS_IV=${CREDS_IV}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - ENDPOINTS=openAI,agents
+      - OPENAI_API_KEY=${AI_API_KEY}
+      - OPENAI_REVERSE_PROXY=${AI_ENDPOINT}
+      - SEARCH=true
+      - MEILI_HOST=http://meilisearch:7700
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - MEILI_NO_ANALYTICS=true
+      - RAG_API_URL=http://rag-api:8000
+      - ALLOW_EMAIL_LOGIN=true
+      - ALLOW_REGISTRATION=true
+      - ALLOW_SOCIAL_LOGIN=false
+      - ALLOW_SOCIAL_REGISTRATION=false
+      - ALLOW_PASSWORD_RESET=true
+      - ALLOW_UNVERIFIED_EMAIL_LOGIN=false
+      - DEBUG_LOGGING=false
+      - DEBUG_CONSOLE=false
+      - EMAIL_HOST=mail.agenturserver.de
+      - EMAIL_PORT=587
+      - EMAIL_ENCRYPTION=starttls
+      - EMAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - EMAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - EMAIL_FROM=${SMTP_FROM}
+      - EMAIL_FROM_NAME=LibreChat
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      meilisearch:
+        condition: service_healthy
+      rag-api:
+        condition: service_healthy
+    volumes:
+      - librechat_uploads:/app/uploads
+      - librechat_images:/app/client/public/images
+      - librechat_logs:/app/logs
+  mongodb:
+    image: mongo:8
+    environment:
+      - TZ=Europe/Berlin
+      - MONGO_INITDB_ROOT_USERNAME=librechat
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval \"db.adminCommand('ping').ok\" | grep -q 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/data/db/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).archive;
+        { mongodump --username "$$MONGO_INITDB_ROOT_USERNAME" --password "$$MONGO_INITDB_ROOT_PASSWORD"
+        --authenticationDatabase admin --archive="$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.archive.gz" -type f -mtime +7 -delete'
+  meilisearch:
+    # Bewusst auf dem Minor, gegen den LibreChat testet (Upstream-Compose nutzt
+    # v1.35.1) - nicht auf v1.51 wie die uebrigen Templates anheben, ohne die
+    # Suche neu zu pruefen. MEILI_UPGRADE_DB laesst die Migration nur bei einem
+    # bewussten Versionswechsel durchlaufen.
+    image: getmeili/meilisearch:v1.35
+    environment:
+      - TZ=Europe/Berlin
+      - MEILI_ENV=production
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - MEILI_NO_ANALYTICS=true
+      - MEILI_UPGRADE_DB=true
+    volumes:
+      - meili_data:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:7700/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  rag-api:
+    image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
+    environment:
+      - TZ=Europe/Berlin
+      - RAG_PORT=8000
+      - VECTOR_DB_TYPE=pgvector
+      - DB_HOST=vectordb
+      - DB_PORT=5432
+      - POSTGRES_DB=librechat_vectors
+      - POSTGRES_USER=librechat
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - EMBEDDINGS_PROVIDER=openai
+      - EMBEDDINGS_MODEL=Qwen3-Embedding-8B
+      - RAG_OPENAI_BASEURL=${AI_ENDPOINT}
+      - RAG_OPENAI_API_KEY=${AI_API_KEY}
+      - RAG_CHECK_EMBEDDING_CTX_LENGTH=false
+    depends_on:
+      vectordb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+  vectordb:
+    image: pgvector/pgvector:pg18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_DB=librechat_vectors
+      - POSTGRES_USER=librechat
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - vectordb_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  librechat_uploads:
+  librechat_images:
+  librechat_logs:
+  mongo_data:
+  meili_data:
+  vectordb_data:
