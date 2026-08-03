@@ -328,11 +328,13 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="flowise/icon.svg" width="24" height="24" style="object-fit:contain"> | [flowise](flowise/) | KI-Workflows visuell entwickeln |
 | <img src="gotenberg/icon.svg" width="24" height="24" style="object-fit:contain"> | [gotenberg](gotenberg/) | Dokumente per API in PDF umwandeln |
 | <img src="healthchecks/icon.svg" width="24" height="24" style="object-fit:contain"> | [healthchecks](healthchecks/) | Cronjobs und geplante Aufgaben überwachen |
+| <img src="hermes-agent/icon.svg" width="24" height="24" style="object-fit:contain"> | [hermes-agent](hermes-agent/) | Selbstgehosteter KI-Agent mit dauerhaftem Gedächtnis |
 | <img src="immich/icon.svg" width="24" height="24" style="object-fit:contain"> | [immich](immich/) | Foto- und Videoverwaltung |
 | <img src="infisical/icon.svg" width="24" height="24" style="object-fit:contain"> | [infisical](infisical/) | Secrets zentral verwalten |
 | <img src="karakeep/icon.svg" width="24" height="24" style="object-fit:contain"> | [karakeep](karakeep/) | Lesezeichen und Notizen sammeln |
 | <img src="kimai/icon.svg" width="24" height="24" style="object-fit:contain"> | [kimai](kimai/) | Zeiterfassung und Projektcontrolling |
 | <img src="kutt/icon.svg" width="24" height="24" style="object-fit:contain"> | [kutt](kutt/) | Kurzlinks unter eigener Domain verwalten |
+| <img src="librechat/icon.svg" width="24" height="24" style="object-fit:contain"> | [librechat](librechat/) | Selbstgehostete Chat-Oberfläche für KI-Modelle |
 | <img src="linkwarden/icon.svg" width="24" height="24" style="object-fit:contain"> | [linkwarden](linkwarden/) | Lesezeichen sammeln und archivieren |
 | <img src="listmonk/icon.svg" width="24" height="24" style="object-fit:contain"> | [listmonk](listmonk/) | Newsletter und Mailinglisten verwalten |
 | <img src="mailpit/icon.svg" width="24" height="24" style="object-fit:contain"> | [mailpit](mailpit/) | E-Mail-Testserver für Entwicklung und Staging |
@@ -345,6 +347,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="openproject/icon.svg" width="24" height="24" style="object-fit:contain"> | [openproject](openproject/) | Projektmanagement und Teamarbeit |
 | <img src="opensearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
 | <img src="openwebui/icon.svg" width="24" height="24" style="object-fit:contain"> | [openwebui](openwebui/) | Selbstgehostete Oberfläche für KI-Modelle |
+| <img src="paperclip/icon.svg" width="24" height="24" style="object-fit:contain"> | [paperclip](paperclip/) | Steuerzentrale für Teams aus KI-Agenten |
 | <img src="paperless/icon.svg" width="24" height="24" style="object-fit:contain"> | [paperless](paperless/) | Dokumentenmanagement mit OCR |
 | <img src="papra/icon.svg" width="24" height="24" style="object-fit:contain"> | [papra](papra/) | Dokumente archivieren und verwalten |
 | <img src="password-pusher/icon.svg" width="24" height="24" style="object-fit:contain"> | [password-pusher](password-pusher/) | Passwörter und Geheimnisse sicher teilen |
