@@ -1,0 +1,140 @@
+manifestVersion: 1.0
+name:
+  de: Kaneo
+  en: Kaneo
+version: "latest"
+type: standalone
+tagline:
+  de: Projektmanagement mit Board, Backlog und Zeiterfassung
+  en: Project management with board, backlog and time tracking
+description:
+  de: |
+    **Kaneo** ist ein schlankes Werkzeug für Projektmanagement und eine self-hosted Alternative zu Jira oder Linear. Aufgaben laufen über Boards, Listen und einen Backlog, ohne dass das Team sich durch aufwendige Konfiguration arbeiten muss.
+
+    Zentrale Funktionen:
+
+    - Aufgaben in Board- und Listenansicht, mit Backlog, Labels und Prioritäten
+    - Getrennte Arbeitsbereiche je Kunde oder Team, mit Einladungen per E-Mail
+    - Kommentare, Teilaufgaben und Aktivitätsverlauf an jeder Aufgabe
+    - Zeiterfassung je Aufgabe und eine Gantt-Zeitachse über das Projekt
+    - Anbindung an GitHub, Gitea, Slack, Discord und Telegram
+
+    Für **Agenturen** eignet sich Kaneo als gemeinsames Projektboard über mehrere Kundenmandate hinweg: Jeder Arbeitsbereich bündelt die Projekte eines Kunden, Aufgaben lassen sich über Labels und Prioritäten steuern, und die erfasste Zeit liefert die Grundlage für die Abrechnung.
+
+    Bei mittwald läuft **Kaneo** als self-hosted Container in deutschen Rechenzentren; Aufgaben, Kommentare und Zeiten verbleiben unter der Kontrolle des Betreibers — das vereinfacht die Einhaltung der DSGVO. Dieses Template enthält Kaneo mit einer PostgreSQL-Datenbank. Nutzungsabhängige Lizenz- oder Seat-Kosten fallen nicht an.
+  en: |
+    **Kaneo** is a lightweight project management tool and a self-hosted alternative to Jira or Linear. Work runs through boards, lists and a backlog, without the team having to fight through elaborate configuration first.
+
+    Key features:
+
+    - Tasks in board and list view, with backlog, labels and priorities
+    - Separate workspaces per client or team, with invitations by email
+    - Comments, subtasks and an activity history on every task
+    - Time tracking per task and a Gantt timeline across the project
+    - Integrations with GitHub, Gitea, Slack, Discord and Telegram
+
+    For **agencies**, Kaneo works as a shared project board across several client engagements: each workspace bundles one client's projects, tasks are steered through labels and priorities, and the tracked time provides the basis for invoicing.
+
+    At mittwald, **Kaneo** runs as a self-hosted container in German data centres; tasks, comments and tracked time stay under the operator's control, which simplifies GDPR compliance. This template includes Kaneo with a PostgreSQL database. No usage-based licence or seat costs apply.
+developer: Kaneo
+website: https://kaneo.app
+repository: https://github.com/usekaneo/kaneo
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-board.png
+    text:
+      de: Aufgaben wandern über das Board vom Backlog bis zur Abnahme
+      en: Tasks move across the board from backlog to acceptance
+  - bg: background.jpg
+    screenshot: screenshot-task.png
+    text:
+      de: Jede Aufgabe sammelt Beschreibung, Kommentare und Verlauf
+      en: Every task collects its description, comments and history
+  - bg: background.jpg
+    screenshot: screenshot-gantt.png
+    text:
+      de: Die Zeitachse zeigt Termine über das ganze Projekt hinweg
+      en: The timeline shows dates across the entire project
+domains:
+  main:
+    userInput: HOST
+    service: kaneo
+    port: 5173
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "AUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Absenderadresse
+      en: Sender address
+    value: ${kaneo.env.SMTP_FROM}
+  alerts:
+  - status: info
+    heading:
+      de: Erstes Konto anlegen und Instanz übernehmen
+      en: Create the first account and claim the instance
+    content:
+      de: Kaneo bringt kein vorkonfiguriertes Konto mit. Registriere dich direkt nach der Installation über die Domain — die erste Registrierung wird durchgelassen und automatisch zum Instanz-Admin. Danach ist die offene Registrierung geschlossen; weitere Personen kommen nur noch über eine Einladung aus einem Arbeitsbereich herein.
+      en: Kaneo ships without a preconfigured account. Sign up through your domain right after installation — the first registration is let through and automatically becomes the instance admin. Open sign-up is closed afterwards; further people join only through an invitation from a workspace.
+  - status: info
+    heading:
+      de: Anmeldung per Code aus der E-Mail
+      en: Sign-in with a code from your email
+    content:
+      de: Da dieses Template eine Delivery Box hinterlegt, meldet Kaneo dich standardmäßig mit einem Einmal-Code per E-Mail an, statt mit einem Passwort. Wenn du lieber ein Passwort vergibst, setze `DISABLE_EMAIL_OTP_SIGN_IN` im Service `kaneo` auf `true` — Einladungen laufen weiterhin per E-Mail.
+      en: Because this template configures a delivery box, Kaneo signs you in with a one-time code by email rather than a password. If you prefer a password, set `DISABLE_EMAIL_OTP_SIGN_IN` to `true` on the `kaneo` service — invitations still go out by email.

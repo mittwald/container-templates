@@ -1,0 +1,12 @@
+services:
+  kaneo:
+    environment:
+      SMTP_HOST: ct-mail
+      SMTP_PORT: "1025"
+      SMTP_SECURE: "false"
+      SMTP_REQUIRE_TLS: "false"
+      # Kaneo reicht "auth" bedingungslos an nodemailer durch, leere Werte
+      # brechen mit "Missing credentials for PLAIN" ab. Mailpit laeuft mit
+      # MP_SMTP_AUTH_ACCEPT_ANY und nimmt daher beliebige Platzhalter an.
+      SMTP_USER: "dev"
+      SMTP_PASSWORD: "dev"
