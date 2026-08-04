@@ -1,0 +1,8 @@
+services:
+  rallly:
+    environment:
+      SMTP_HOST: ct-mail
+      SMTP_PORT: "1025"
+      SMTP_SECURE: "false"
+      SMTP_USER: ""
+      SMTP_PWD: ""

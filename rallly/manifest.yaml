@@ -1,0 +1,153 @@
+manifestVersion: 1.0
+name:
+  de: Rallly
+  en: Rallly
+version: "4"
+type: standalone
+tagline:
+  de: Terminabstimmung ohne Konto für Teilnehmende
+  en: Meeting polls without accounts for participants
+description:
+  de: |
+    **Rallly** ist ein Werkzeug zur Terminabstimmung und eine self-hosted Alternative zu Doodle. Statt Terminvorschläge per E-Mail hin- und herzuschicken, teilen Organisierende einen Link, unter dem alle Beteiligten ihre Verfügbarkeit eintragen.
+
+    Zentrale Funktionen:
+
+    - Terminumfragen mit mehreren Vorschlägen; Teilnehmende brauchen kein Konto
+    - Antwortmöglichkeiten „Ja", „Nein" und „Wenn nötig" samt Notiz je Person
+    - Übersicht, welcher Vorschlag die meisten Zusagen hat, mit anschließender Fixierung
+    - Benachrichtigungen per E-Mail bei neuen Antworten
+    - Anmeldung der Organisierenden per Magic-Link, ohne Passwort
+
+    Für **Agenturen** löst Rallly die alltägliche Terminfindung mit Kundinnen und Kunden, die keinen Zugang zum eigenen Kalender haben: Workshops, Abnahmetermine oder Redaktionsrunden lassen sich per Link abstimmen, ohne dass die Gegenseite ein Konto anlegt. Die Abstimmung läuft dabei unter der eigenen Domain statt auf einer fremden Plattform.
+
+    Bei mittwald läuft **Rallly** als self-hosted Container in deutschen Rechenzentren; Termine, Namen und E-Mail-Adressen der Teilnehmenden verbleiben unter der Kontrolle des Betreibers — das vereinfacht die Einhaltung der DSGVO. Dieses Template enthält Rallly mit einer PostgreSQL-Datenbank. Für Teilnehmende an Umfragen fallen keine Kosten an; ab dem zweiten registrierten Konto sieht der Hersteller eine gestaffelte Lizenz vor.
+  en: |
+    **Rallly** is a tool for scheduling meetings and a self-hosted alternative to Doodle. Instead of trading date proposals by email, organisers share one link where everyone enters their availability.
+
+    Key features:
+
+    - Meeting polls with several proposed dates; participants need no account
+    - Answer options "yes", "no" and "if need be", plus a note per person
+    - Overview of which option has the most votes, followed by booking the final date
+    - Email notifications when new responses arrive
+    - Passwordless magic-link sign-in for organisers
+
+    For **agencies**, Rallly solves everyday scheduling with clients who have no access to the internal calendar: workshops, review meetings or editorial rounds can be agreed by link without the other side creating an account. The poll runs on the agency's own domain rather than on a third-party platform.
+
+    At mittwald, **Rallly** runs as a self-hosted container in German data centres; dates, names and participant email addresses stay under the operator's control, which simplifies GDPR compliance. This template includes Rallly with a PostgreSQL database. Poll participants incur no cost; from the second registered account onwards the vendor requires a tiered licence.
+developer: Luke Vella
+website: https://rallly.co
+repository: https://github.com/lukevella/rallly
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-create-poll.png
+    text:
+      de: Terminvorschläge im Kalender auswählen und Umfrage anlegen
+      en: Pick proposed dates in the calendar and create the poll
+  - bg: background.jpg
+    screenshot: screenshot-vote.png
+    text:
+      de: Teilnehmende antworten über den Link, ganz ohne Konto
+      en: Participants respond via the link, entirely without an account
+  - bg: background.jpg
+    screenshot: screenshot-results.png
+    text:
+      de: Der Überblick zeigt, welcher Termin die meisten Zusagen hat
+      en: The overview shows which date has the most acceptances
+domains:
+  main:
+    userInput: HOST
+    service: rallly
+    port: 3000
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "SECRET_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${rallly.env.INITIAL_ADMIN_EMAIL}
+  - key:
+      de: Absenderadresse
+      en: Sender address
+    value: ${rallly.env.NOREPLY_EMAIL}
+  alerts:
+  - status: info
+    heading:
+      de: Anmeldung ohne Passwort
+      en: Passwordless sign-in
+    content:
+      de: Rallly verschickt zum Anmelden einen Einmal-Link per E-Mail; es gibt kein Passwort. Melde dich mit der oben angezeigten Admin-Adresse an und rufe anschließend `/control-panel` auf, um die Administratorrolle zu übernehmen.
+      en: Rallly sends a one-time sign-in link by email; there is no password. Sign in with the admin address shown above, then open `/control-panel` to claim the administrator role.
+  - status: info
+    heading:
+      de: Lizenz ab mehreren Konten
+      en: Licence required beyond one account
+    content:
+      de: Rallly steht unter der AGPL-3.0 und lässt sich frei betreiben. Der Hersteller sieht ab dem zweiten registrierten Konto eine kostenpflichtige Lizenz vor, die nach Anzahl der Konten gestaffelt ist; Teilnehmende an Umfragen zählen nicht mit. Die Grenze wird technisch nicht erzwungen. Einen erworbenen Schlüssel hinterlegst du unter `/control-panel` im Bereich „Lizenz".
+      en: Rallly is licensed under AGPL-3.0 and can be operated freely. The vendor requires a paid licence from the second registered account onwards, tiered by the number of accounts; poll participants do not count. The limit is not technically enforced. Enter a purchased key under "Licence" in `/control-panel`.
