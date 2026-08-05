@@ -1,0 +1,197 @@
+services:
+  init:
+    image: solidtime/solidtime:latest
+    user: "1000:1000"
+    command:
+      - sh
+      - -c
+      - "php artisan migrate --force && (test -f storage/oauth-private.key || php artisan passport:keys --force)"
+    environment:
+      - TZ=Europe/Berlin
+      - APP_NAME=solidtime
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://${HOST}
+      - APP_KEY=${APP_KEY}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_SSLMODE=disable
+      - DB_DATABASE=solidtime
+      - DB_USERNAME=solidtime
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - QUEUE_CONNECTION=database
+    volumes:
+      - app_storage:/var/www/html/storage
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: "no"
+  app:
+    image: solidtime/solidtime:latest
+    user: "1000:1000"
+    ports:
+      - "8000:8000"
+    environment:
+      - TZ=Europe/Berlin
+      - CONTAINER_MODE=http
+      - APP_NAME=solidtime
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://${HOST}
+      - APP_FORCE_HTTPS=true
+      - TRUSTED_PROXIES=*
+      - APP_KEY=${APP_KEY}
+      - APP_ENABLE_REGISTRATION=true
+      - SUPER_ADMINS=${SUPER_ADMIN_EMAIL}
+      - LOG_CHANNEL=stderr
+      - LOG_LEVEL=warning
+      - DB_CONNECTION=pgsql
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_SSLMODE=disable
+      - DB_DATABASE=solidtime
+      - DB_USERNAME=solidtime
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - QUEUE_CONNECTION=database
+      - FILESYSTEM_DISK=local
+      - PUBLIC_FILESYSTEM_DISK=public
+      - GOTENBERG_URL=http://gotenberg:3000
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM_ADDRESS=${SMTP_FROM}
+      - MAIL_FROM_NAME=solidtime
+    volumes:
+      - app_storage:/var/www/html/storage
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8000/health-check/up"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      database:
+        condition: service_healthy
+      init:
+        condition: service_completed_successfully
+  scheduler:
+    image: solidtime/solidtime:latest
+    user: "1000:1000"
+    environment:
+      - TZ=Europe/Berlin
+      - CONTAINER_MODE=scheduler
+      - APP_NAME=solidtime
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://${HOST}
+      - APP_KEY=${APP_KEY}
+      - LOG_CHANNEL=stderr
+      - LOG_LEVEL=warning
+      - DB_CONNECTION=pgsql
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_SSLMODE=disable
+      - DB_DATABASE=solidtime
+      - DB_USERNAME=solidtime
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - QUEUE_CONNECTION=database
+      - GOTENBERG_URL=http://gotenberg:3000
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM_ADDRESS=${SMTP_FROM}
+      - MAIL_FROM_NAME=solidtime
+    # Das Image bringt einen Healthcheck mit, der den Caddy-Admin-Endpunkt auf
+    # Port 2019 abfragt. Den gibt es nur im HTTP-Modus, weshalb Worker- und
+    # Scheduler-Container sonst dauerhaft als unhealthy gelten.
+    healthcheck:
+      disable: true
+    volumes:
+      - app_storage:/var/www/html/storage
+    depends_on:
+      database:
+        condition: service_healthy
+      init:
+        condition: service_completed_successfully
+  queue:
+    image: solidtime/solidtime:latest
+    user: "1000:1000"
+    environment:
+      - TZ=Europe/Berlin
+      - CONTAINER_MODE=worker
+      - WORKER_COMMAND=php /var/www/html/artisan queue:work
+      - APP_NAME=solidtime
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://${HOST}
+      - APP_KEY=${APP_KEY}
+      - LOG_CHANNEL=stderr
+      - LOG_LEVEL=warning
+      - DB_CONNECTION=pgsql
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_SSLMODE=disable
+      - DB_DATABASE=solidtime
+      - DB_USERNAME=solidtime
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - QUEUE_CONNECTION=database
+      - GOTENBERG_URL=http://gotenberg:3000
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM_ADDRESS=${SMTP_FROM}
+      - MAIL_FROM_NAME=solidtime
+    # Das Image bringt einen Healthcheck mit, der den Caddy-Admin-Endpunkt auf
+    # Port 2019 abfragt. Den gibt es nur im HTTP-Modus, weshalb Worker- und
+    # Scheduler-Container sonst dauerhaft als unhealthy gelten.
+    healthcheck:
+      disable: true
+    volumes:
+      - app_storage:/var/www/html/storage
+    depends_on:
+      database:
+        condition: service_healthy
+      init:
+        condition: service_completed_successfully
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    environment:
+      - TZ=Europe/Berlin
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  database:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=solidtime
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=solidtime
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  app_storage:
+  postgres_data:
