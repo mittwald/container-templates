@@ -85,7 +85,7 @@ userInputs:
     positionMeta: { step: "adminUser", index: 2 }
     format: "password"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12 }'
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
