@@ -1,0 +1,128 @@
+manifestVersion: 1.0
+name:
+  de: OpenProject
+  en: OpenProject
+version: "latest"
+type: standalone
+tagline:
+  de: Projektmanagement und Teamarbeit
+  en: Project management and team collaboration
+description:
+  de: |
+    **OpenProject** ist eine umfassende Plattform für Projektmanagement und Teamarbeit und eine self-hosted Alternative zu Jira, Asana oder MS Project. Teams planen Vorhaben klassisch, agil oder hybrid, verwalten Aufgaben und Arbeitspakete und behalten Zeitpläne, Zuständigkeiten und Fortschritt zentral im Blick.
+
+    Zentrale Funktionen:
+
+    - Arbeitspakete mit Status, Priorität, Zuständigen und Abhängigkeiten
+    - Gantt-Terminplanung sowie agile Boards für Scrum und Kanban
+    - Zeiterfassung, Budgets, Meilensteine, Wikis und Dokumentenablage
+    - Rollen- und rechtebasierte Projekte, Benachrichtigungen und REST-API
+
+    Für **Agenturen** eignet sich OpenProject als zentrale Steuerungsplattform über Kundenprojekte hinweg: Pro Kunde oder Auftrag lässt sich ein eigenes Projekt mit passenden Rollen anlegen, Aufgaben werden zugewiesen und über Boards oder Gantt-Diagramme nachverfolgt. Budgets und Zeiterfassung schaffen die Grundlage für Auswertung und Abrechnung, während Wikis und Dateien projektbezogenes Wissen bündeln.
+
+    Bei mittwald läuft **OpenProject** als self-hosted Container in deutschen Rechenzentren; Projekt-, Aufgaben- und Kundendaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält OpenProject mit PostgreSQL, Hintergrund-Worker, Scheduler und Memcached und bindet einen SMTP-Dienst an – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **OpenProject** is a comprehensive project management and collaboration platform and a self-hosted alternative to Jira, Asana or MS Project. Teams plan work in classic, agile or hybrid styles, manage tasks and work packages and keep schedules, responsibilities and progress in one place.
+
+    Key features:
+
+    - Work packages with status, priority, assignees and dependencies
+    - Gantt scheduling plus agile boards for Scrum and Kanban
+    - Time and cost tracking, budgets, milestones, wikis and document storage
+    - Role- and permission-based projects, notifications and a REST API
+
+    For **agencies**, OpenProject works as a central control platform across client projects: a dedicated project with matching roles can be created per client or engagement, tasks are assigned and tracked via boards or Gantt charts. Budgets and time tracking form the basis for evaluation and billing, while wikis and files bundle project-related knowledge.
+
+    At mittwald, **OpenProject** runs as a self-hosted container in German data centres; project, task and client data stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes OpenProject with PostgreSQL, a background worker, scheduler and Memcached, and connects an SMTP service — with no usage-based licence or seat costs.
+developer: OpenProject GmbH
+website: https://www.openproject.org
+repository: https://github.com/opf/openproject
+license:
+  name: GPL-3.0
+  link: https://spdx.org/licenses/GPL-3.0-only.html
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-boards.png
+    text:
+      de: Aufgaben auf Boards nach Status und Priorität sortieren
+      en: Sort tasks on boards by status and priority
+  - bg: background.jpg
+    screenshot: screenshot-meetings.png
+    text:
+      de: Besprechungen mit Tagesordnung und Teilnehmenden planen
+      en: Plan meetings with an agenda and participants
+  - bg: background.jpg
+    screenshot: screenshot-task.png
+    text:
+      de: Arbeitspakete mit Zuständigkeit, Aufwand und Terminen anlegen
+      en: Create work packages with assignee, effort and dates
+domains:
+  main:
+    userInput: HOST
+    service: web
+    port: 8080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "SECRET_KEY_BASE"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: hex
+          ruleType: charPool
+          charPools: [numbers, lowercase]
+          min: 1
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erste Anmeldung
+      en: First sign-in
+    content:
+      de: Melde dich nach der Installation mit Benutzername „admin" und Passwort „admin" an. OpenProject fordert bei der ersten Anmeldung eine Änderung des Passworts.
+      en: After installation, sign in with username "admin" and password "admin". OpenProject requires a password change on first sign-in.

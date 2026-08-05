@@ -1,0 +1,129 @@
+services:
+  seeder:
+    image: openproject/openproject:16-slim
+    command: "./docker/prod/seeder"
+    environment:
+      - TZ=Europe/Berlin
+      - OPENPROJECT_HTTPS=true
+      - OPENPROJECT_HOST__NAME=${HOST}
+      - OPENPROJECT_RAILS__CACHE__STORE=memcache
+      - OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211
+      - DATABASE_URL=postgres://openproject:${POSTGRES_PASSWORD}@postgres:5432/openproject?pool=20&encoding=unicode&reconnect=true
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+  web:
+    image: openproject/openproject:16-slim
+    command: "./docker/prod/web"
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+      - OPENPROJECT_HTTPS=true
+      - OPENPROJECT_HOST__NAME=${HOST}
+      - OPENPROJECT_HSTS=true
+      - OPENPROJECT_RAILS__CACHE__STORE=memcache
+      - OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211
+      - DATABASE_URL=postgres://openproject:${POSTGRES_PASSWORD}@postgres:5432/openproject?pool=20&encoding=unicode&reconnect=true
+      - RAILS_MIN_THREADS=4
+      - RAILS_MAX_THREADS=16
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - OPENPROJECT_EMAIL__DELIVERY__METHOD=smtp
+      - OPENPROJECT_SMTP__ADDRESS=mail.agenturserver.de
+      - OPENPROJECT_SMTP__PORT=587
+      - OPENPROJECT_SMTP__USER__NAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - OPENPROJECT_SMTP__PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO=true
+      - OPENPROJECT_MAIL__FROM=${SMTP_FROM}
+    volumes:
+      - openproject_assets:/var/openproject/assets
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health_checks/default"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+    depends_on:
+      postgres:
+        condition: service_healthy
+      cache:
+        condition: service_started
+      seeder:
+        condition: service_completed_successfully
+  worker:
+    image: openproject/openproject:16-slim
+    command: "./docker/prod/worker"
+    environment:
+      - TZ=Europe/Berlin
+      - OPENPROJECT_HTTPS=true
+      - OPENPROJECT_HOST__NAME=${HOST}
+      - OPENPROJECT_RAILS__CACHE__STORE=memcache
+      - OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211
+      - DATABASE_URL=postgres://openproject:${POSTGRES_PASSWORD}@postgres:5432/openproject?pool=20&encoding=unicode&reconnect=true
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - OPENPROJECT_EMAIL__DELIVERY__METHOD=smtp
+      - OPENPROJECT_SMTP__ADDRESS=mail.agenturserver.de
+      - OPENPROJECT_SMTP__PORT=587
+      - OPENPROJECT_SMTP__USER__NAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - OPENPROJECT_SMTP__PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO=true
+      - OPENPROJECT_MAIL__FROM=${SMTP_FROM}
+    volumes:
+      - openproject_assets:/var/openproject/assets
+    depends_on:
+      postgres:
+        condition: service_healthy
+      cache:
+        condition: service_started
+      seeder:
+        condition: service_completed_successfully
+  cron:
+    image: openproject/openproject:16-slim
+    command: "./docker/prod/cron"
+    environment:
+      - TZ=Europe/Berlin
+      - OPENPROJECT_HTTPS=true
+      - OPENPROJECT_HOST__NAME=${HOST}
+      - OPENPROJECT_RAILS__CACHE__STORE=memcache
+      - OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211
+      - DATABASE_URL=postgres://openproject:${POSTGRES_PASSWORD}@postgres:5432/openproject?pool=20&encoding=unicode&reconnect=true
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    volumes:
+      - openproject_assets:/var/openproject/assets
+    depends_on:
+      postgres:
+        condition: service_healthy
+      cache:
+        condition: service_started
+      seeder:
+        condition: service_completed_successfully
+  cache:
+    image: memcached:1.6-alpine
+    environment:
+      - TZ=Europe/Berlin
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=openproject
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=openproject
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  openproject_assets:
+  postgres_data:
