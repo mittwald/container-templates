@@ -1,0 +1,139 @@
+manifestVersion: 1.0
+name:
+  de: Mattermost
+  en: Mattermost
+version: "11.x"
+type: standalone
+tagline:
+  de: Sichere Team-Kommunikation und Chat
+  en: Secure team communication and chat
+description:
+  de: |
+    **Mattermost** ist eine Plattform für sichere Team-Kommunikation und eine self-hosted Alternative zu Slack oder Microsoft Teams. Teams tauschen sich in Kanälen und Direktnachrichten aus, teilen Dateien und binden über Integrationen ihre Werkzeuge an – mit Fokus auf Datenhoheit und Anpassbarkeit für technische Teams.
+
+    Zentrale Funktionen:
+
+    - Öffentliche und private Kanäle, Direktnachrichten und Threads
+    - Dateifreigabe, Volltextsuche, Reaktionen und Markdown-Nachrichten
+    - Integrationen über Webhooks, Slash-Commands, Bots und REST-API
+    - Desktop- und Mobile-Apps sowie Plugin-Unterstützung
+
+    Für **Agenturen** eignet sich Mattermost als zentrale interne Kommunikations- und ChatOps-Plattform: Kanäle je Kunde oder Projekt bündeln Abstimmungen, während Benachrichtigungen aus CI/CD, Monitoring oder Ticketsystemen per Webhook direkt im Chat landen. So bleiben Kommunikation und technische Ereignisse an einem Ort, ohne Projektdaten an externe Chat-Dienste zu geben.
+
+    Bei mittwald läuft **Mattermost** als self-hosted Container in deutschen Rechenzentren; Nachrichten, Dateien und Nutzerdaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Mattermost mit PostgreSQL und bindet einen SMTP-Dienst für Einladungen und Benachrichtigungen an – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+  en: |
+    **Mattermost** is a platform for secure team communication and a self-hosted alternative to Slack or Microsoft Teams. Teams collaborate in channels and direct messages, share files and connect their tools through integrations — with a focus on data ownership and customisation for technical teams.
+
+    Key features:
+
+    - Public and private channels, direct messages and threads
+    - File sharing, full-text search, reactions and Markdown messages
+    - Integrations via webhooks, slash commands, bots and a REST API
+    - Desktop and mobile apps plus plugin support
+
+    For **agencies**, Mattermost works as a central internal communication and ChatOps platform: channels per client or project bundle discussions, while notifications from CI/CD, monitoring or ticketing systems arrive directly in chat via webhook. This keeps communication and technical events in one place without handing project data to external chat services.
+
+    At mittwald, **Mattermost** runs as a self-hosted container in German data centres; messages, files and user data stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Mattermost with PostgreSQL and connects an SMTP service for invitations and notifications — with no usage-based licence or seat costs.
+developer: Mattermost, Inc.
+website: https://mattermost.com
+repository: https://github.com/mattermost/mattermost
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - communication
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-chat.png
+    text:
+      de: Kanäle je Projekt oder Team, mit Threads und Reaktionen
+      en: Channels per project or team, with threads and reactions
+  - bg: background.jpg
+    screenshot: screenshot-app-marketplace.png
+    text:
+      de: Anbindung an GitHub, GitLab, Jira und weitere Werkzeuge
+      en: Connect GitHub, GitLab, Jira and other tools
+domains:
+  main:
+    userInput: HOST
+    service: mattermost
+    port: 8065
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ALLOWED_EMAIL_DOMAINS"
+    label:
+      de: Registrierung auf E-Mail-Domains beschränken
+      en: Restrict sign-up to email domains
+    positionMeta: { step: "common", index: 1 }
+    required: false
+    validationSchema: '{ "type": "string" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  alerts:
+  - status: info
+    heading:
+      de: Erstes Konto wird System-Admin
+      en: First account becomes System Admin
+    content:
+      de: Der erste Nutzer, der sich nach der Installation registriert, wird automatisch zum System-Administrator. Weitere Registrierungen kannst du danach in der System-Konsole beschränken.
+      en: The first user to register after installation automatically becomes the System Administrator. You can then restrict further sign-ups in the System Console.
+  - status: warning
+    heading:
+      de: Registrierung ist zunächst offen
+      en: Sign-up is open at first
+    content:
+      de: |
+        Damit das erste Konto entstehen kann, ist die Registrierung nach der Installation für alle möglich. Wer die Domain kennt, kann sich ein Konto anlegen, bis du das änderst.
+
+        Trage unter *Registrierung auf E-Mail-Domains beschränken* eine oder mehrere Domains ein (durch Komma getrennt, etwa `agentur.de, kunde.de`), dann akzeptiert Mattermost nur Adressen dieser Domains – auch für das erste Konto. Alternativ deaktivierst du die Registrierung nach der Einrichtung in der System-Konsole unter *Authentication › Signup*. Über die Oberfläche gesetzte Werte lassen sich dort später nicht mehr ändern, weil die Konfiguration aus der Umgebung stammt.
+      en: |
+        So that the first account can be created, sign-up is open to everyone after installation. Anyone who knows the domain can create an account until you change this.
+
+        Enter one or more domains under *Restrict sign-up to email domains* (comma-separated, for example `agency.com, client.com`); Mattermost then only accepts addresses from those domains – including for the first account. Alternatively, disable sign-up after setup in the System Console under *Authentication › Signup*. Values set here cannot be changed there later, because the configuration comes from the environment.
