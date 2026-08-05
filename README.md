@@ -344,7 +344,6 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="memos/icon.svg" width="24" height="24" style="object-fit:contain"> | [memos](memos/) | Notizen und Gedanken schnell festhalten |
 | <img src="n8n/icon.svg" width="24" height="24" style="object-fit:contain"> | [n8n](n8n/) | Automatisierung für deine Geschäftsprozesse |
 | <img src="nextcloud-euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [nextcloud-euro-office](nextcloud-euro-office/) | Cloud-Speicher und Zusammenarbeit mit Online-Office |
-| <img src="openproject/icon.svg" width="24" height="24" style="object-fit:contain"> | [openproject](openproject/) | Projektmanagement und Teamarbeit |
 | <img src="opensearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
 | <img src="openwebui/icon.svg" width="24" height="24" style="object-fit:contain"> | [openwebui](openwebui/) | Selbstgehostete Oberfläche für KI-Modelle |
 | <img src="paperclip/icon.svg" width="24" height="24" style="object-fit:contain"> | [paperclip](paperclip/) | Steuerzentrale für Teams aus KI-Agenten |
