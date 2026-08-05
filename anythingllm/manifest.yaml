@@ -72,6 +72,14 @@ userInputs:
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AUTH_TOKEN"
+    label:
+      de: Passwort
+      en: Password
+    positionMeta: { step: "adminUser", index: 1 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
   - name: "AI_API_KEY"
     label:
       de: AI API-Key
@@ -108,12 +116,6 @@ systemInputs:
       schema:
         - ruleType: length
           min: 32
-  - name: "AUTH_TOKEN"
-    schema:
-      kind: 1
-      schema:
-        - ruleType: length
-          min: 32
   - name: "QDRANT_API_KEY"
     schema:
       kind: 1
@@ -128,14 +130,14 @@ help:
       en: Domain
     value: https://${domain.main}
   - key:
-      de: Auth Token
-      en: Auth Token
+      de: Passwort
+      en: Password
     value: ${anythingllm.env.AUTH_TOKEN}
   alerts:
   - status: info
     heading:
-      de: Anmeldung über den Auth Token
-      en: Sign in with the auth token
+      de: Anmeldung mit dem vergebenen Passwort
+      en: Sign in with the password you set
     content:
-      de: AnythingLLM startet im Einzelbenutzer-Modus; beim ersten Aufruf meldest du dich allein mit dem Auth Token an. Benutzerkonten mit Rollen gibt es erst im Mehrbenutzer-Modus, den du in der Oberfläche unter Einstellungen → Sicherheit aktivierst und dabei das erste Administratorkonto anlegst. Der Wechsel lässt sich nicht rückgängig machen.
-      en: AnythingLLM starts in single-user mode; on first access you sign in with the auth token alone. User accounts with roles only exist in multi-user mode, which you enable in the interface under Settings → Security, creating the first administrator account in the process. The switch cannot be undone.
+      de: AnythingLLM startet im Einzelbenutzer-Modus; beim ersten Aufruf meldest du dich allein mit dem vergebenen Passwort an. Benutzerkonten mit Rollen gibt es erst im Mehrbenutzer-Modus, den du in der Oberfläche unter Einstellungen → Sicherheit aktivierst und dabei das erste Administratorkonto anlegst. Der Wechsel lässt sich nicht rückgängig machen.
+      en: AnythingLLM starts in single-user mode; on first access you sign in with the password you set alone. User accounts with roles only exist in multi-user mode, which you enable in the interface under Settings → Security, creating the first administrator account in the process. The switch cannot be undone.
