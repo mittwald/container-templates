@@ -315,6 +315,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="bentopdf/icon.svg" width="24" height="24" style="object-fit:contain"> | [bentopdf](bentopdf/) | PDF-Werkzeugkasten direkt im Browser |
 | <img src="bugsink/icon.svg" width="24" height="24" style="object-fit:contain"> | [bugsink](bugsink/) | Sentry-kompatibles Error-Tracking |
 | <img src="changedetection/icon.svg" width="24" height="24" style="object-fit:contain"> | [changedetection](changedetection/) | Website-Änderungen automatisch erkennen |
+| <img src="chatwoot/icon.svg" width="24" height="24" style="object-fit:contain"> | [chatwoot](chatwoot/) | Kundensupport und Live-Chat |
 | <img src="chroma/icon.svg" width="24" height="24" style="object-fit:contain"> | [chroma](chroma/) | Open-Source Vektordatenbank für KI-Anwendungen |
 | <img src="collabora/icon.svg" width="24" height="24" style="object-fit:contain"> | [collabora](collabora/) | Online-Office-Suite für kollaboratives Arbeiten |
 | <img src="databasus/icon.svg" width="24" height="24" style="object-fit:contain"> | [databasus](databasus/) | Datenbank-Backups automatisieren |
