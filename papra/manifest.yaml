@@ -107,10 +107,18 @@ systemInputs:
       schema:
         - ruleType: length
           min: 96
-        - identifier: hex
+          max: 96
+        - identifier: hexOnly
           ruleType: charPool
-          charPools: [numbers, lowercase]
-          min: 1
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
 
 deliveryBoxes:
   - purpose: main

@@ -199,7 +199,8 @@
                     "max": { "type": "integer" },
                     "identifier": { "type": "string" },
                     "charPools": { "type": "array", "items": { "type": "string" } },
-                    "pattern": { "type": "string" }
+                    "pattern": { "type": "string" },
+                    "chars": { "type": "string" }
                   }
                 }
               }

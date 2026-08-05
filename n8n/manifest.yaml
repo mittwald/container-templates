@@ -100,6 +100,12 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
   - name: "N8N_RUNNERS_AUTH_TOKEN"
     schema:
       kind: 1

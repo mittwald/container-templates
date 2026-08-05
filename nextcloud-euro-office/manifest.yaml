@@ -133,6 +133,12 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
   - name: "EUROOFFICE_JWT_SECRET"
     schema:
       kind: 1
@@ -156,6 +162,12 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
 
 deliveryBoxes:
   - purpose: main

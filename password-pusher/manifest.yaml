@@ -99,11 +99,18 @@ systemInputs:
       schema:
         - ruleType: length
           min: 64
-        - identifier: hex
+          max: 64
+        - identifier: hexOnly
           ruleType: charPool
           charPools:
-            - numbers
-          min: 1
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
 
 help:
   technicalDetails:
