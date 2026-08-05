@@ -320,6 +320,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="databasus/icon.svg" width="24" height="24" style="object-fit:contain"> | [databasus](databasus/) | Datenbank-Backups automatisieren |
 | <img src="directus/icon.svg" width="24" height="24" style="object-fit:contain"> | [directus](directus/) | Headless CMS und Datenplattform |
 | <img src="docmost/icon.svg" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
+| <img src="easyappointments/icon.svg" width="24" height="24" style="object-fit:contain"> | [easyappointments](easyappointments/) | Termine online koordinieren |
 | <img src="euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [euro-office](euro-office/) | Dokumente gemeinsam im Browser bearbeiten |
 | <img src="excalidraw/icon.svg" width="24" height="24" style="object-fit:contain"> | [excalidraw](excalidraw/) | Whiteboard für Skizzen und Diagramme |
 | <img src="fider/icon.svg" width="24" height="24" style="object-fit:contain"> | [fider](fider/) | Kundenfeedback sammeln und priorisieren |
