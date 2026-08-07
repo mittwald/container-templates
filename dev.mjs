@@ -411,6 +411,37 @@ const characterPools = {
   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 };
 
+// Manche Pools beschreiben eine Menge, die sich nicht als Zeichenliste
+// aufzaehlen laesst: "nonAscii" meint alles ausserhalb von ASCII. Solche Pools
+// koennen nur geprueft werden, erzeugt wird aus ihnen nie etwas.
+const poolPredicates = {
+  nonAscii: (character) => character.codePointAt(0) > 127,
+};
+
+function poolExists(pool) {
+  return Boolean(characterPools[pool] || poolPredicates[pool]);
+}
+
+// Liefert zu einer Regel die Funktion "gehoert dieses Zeichen zu ihr?".
+function ruleMatcher(rule) {
+  if (rule.ruleType === "char") {
+    const chars = String(rule.chars);
+    return (character) => chars.includes(character);
+  }
+  return (character) =>
+    rule.charPools.some((pool) =>
+      poolPredicates[pool]
+        ? poolPredicates[pool](character)
+        : characterPools[pool].includes(character),
+    );
+}
+
+// Zeichenregeln sind charPool- und char-Regeln: beide grenzen einen Vorrat ein,
+// die eine ueber benannte Pools, die andere ueber eine direkte Zeichenliste.
+function isCharacterRule(rule) {
+  return rule.ruleType === "charPool" || rule.ruleType === "char";
+}
+
 function systemInputRules(input) {
   if (input.schema?.kind !== 1) {
     throw new Error(`${input.name} uses unsupported system input kind: ${input.schema?.kind}`);
@@ -421,23 +452,29 @@ function systemInputRules(input) {
   }
 
   for (const rule of rules) {
-    if (!new Set(["charPool", "length", "regex"]).has(rule.ruleType)) {
+    if (!new Set(["char", "charPool", "length", "regex"]).has(rule.ruleType)) {
       throw new Error(`${input.name} uses unsupported system rule: ${rule.ruleType}`);
     }
-    if (rule.identifier && !new Set(["hex", "numbers"]).has(rule.identifier)) {
-      throw new Error(`${input.name} uses unsupported system rule identifier: ${rule.identifier}`);
+    // Der Identifier benennt eine Regel nur, damit Fehlermeldungen sie
+    // wiedererkennbar machen. Er steuert nichts, deshalb ist jeder Name recht --
+    // was ein Wert enthalten darf, steht ausschliesslich in den Regeln selbst.
+    if (rule.identifier !== undefined && typeof rule.identifier !== "string") {
+      throw new Error(`${input.name} uses a non-string system rule identifier`);
     }
     if (rule.ruleType === "charPool") {
       if (!Array.isArray(rule.charPools) || rule.charPools.length === 0) {
         throw new Error(`${input.name} has a charPool rule without character pools`);
       }
       for (const pool of rule.charPools) {
-        if (!characterPools[pool]) {
+        if (!poolExists(pool)) {
           throw new Error(`${input.name} uses unsupported character pool: ${pool}`);
         }
       }
     }
-    if (rule.ruleType !== "length" && rule.max !== undefined) {
+    if (rule.ruleType === "char" && (typeof rule.chars !== "string" || rule.chars === "")) {
+      throw new Error(`${input.name} has a char rule without characters`);
+    }
+    if (rule.ruleType === "regex" && rule.max !== undefined) {
       throw new Error(`${input.name} uses unsupported maximum on ${rule.ruleType} rule`);
     }
     if (rule.ruleType === "regex" && !new Set(["[A-Z]", "[a-z]"]).has(rule.pattern)) {
@@ -461,11 +498,17 @@ function validateSystemValue(input, value) {
           `${input.name} must have a length between ${minimum} and ${rule.max ?? "infinity"}`,
         );
       }
-    } else if (rule.ruleType === "charPool") {
-      const alphabet = rule.charPools.map((pool) => characterPools[pool]).join("");
-      const matches = [...value].filter((character) => alphabet.includes(character)).length;
+    } else if (isCharacterRule(rule)) {
+      const matcher = ruleMatcher(rule);
+      const matches = [...value].filter(matcher).length;
+      const name = rule.identifier ?? "character";
       if (matches < minimum) {
-        throw new Error(`${input.name} does not satisfy its ${rule.identifier ?? "character"} rule`);
+        throw new Error(`${input.name} does not satisfy its ${name} rule`);
+      }
+      if (rule.max !== undefined && matches > Number(rule.max)) {
+        throw new Error(
+          `${input.name} violates its ${name} rule: at most ${rule.max} of these characters are allowed, found ${matches}`,
+        );
       }
     } else if (countPatternMatches(value, rule.pattern) < minimum) {
       throw new Error(`${input.name} does not satisfy system pattern ${rule.pattern}`);
@@ -487,29 +530,53 @@ function generateSystemValue(input) {
     throw new Error(`${input.name} has incompatible minimum and maximum lengths`);
   }
   const targetLength = Math.min(Math.max(24, minimumLength), maximumLength);
-  const useHex = rules.some((rule) => rule.identifier === "hex");
-  const alphabet = useHex
-    ? "abcdef0123456789"
-    : "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  // Der Zeichenvorrat ergibt sich aus den Regeln, nicht aus einem Namen: jede
+  // Zeichenregel mit einem Maximum begrenzt, wie oft ihre Zeichen vorkommen
+  // duerfen, also wird der Wert nicht mit ihnen aufgefuellt. Aus "keine
+  // Grossbuchstaben, keine Sonderzeichen, kein g bis z" wird so von selbst das
+  // Hex-Alphabet, ohne dass der Generator die Regel kennen muss.
+  const begrenzt = rules
+    .filter((rule) => isCharacterRule(rule) && rule.max !== undefined)
+    .map(ruleMatcher);
+  const alphabet = [...(characterPools.lowercase + characterPools.uppercase + characterPools.numbers)]
+    .filter((zeichen) => !begrenzt.some((passt) => passt(zeichen)))
+    .join("");
+  if (!alphabet) {
+    throw new Error(`${input.name} excludes every character available for generation`);
+  }
+
+  // Was eine Regel ganz verbietet, darf auch dann nicht eingestreut werden,
+  // wenn eine andere Regel ein Minimum aus einem ueberlappenden Pool fordert.
+  const verboten = rules
+    .filter((rule) => isCharacterRule(rule) && Number(rule.max) === 0)
+    .map(ruleMatcher);
+  const zulaessig = (zeichen) => !verboten.some((passt) => passt(zeichen));
   const required = [];
 
   for (const rule of rules) {
     const count = Number(rule.min) || 0;
-    if (rule.ruleType === "regex" && rule.pattern === "[A-Z]") {
-      required.push(...Array.from({ length: count }, () => randomCharacter("ABCDEFGHIJKLMNOPQRSTUVWXYZ")));
-    } else if (rule.ruleType === "regex" && rule.pattern === "[a-z]") {
-      required.push(...Array.from({ length: count }, () => randomCharacter("abcdefghijklmnopqrstuvwxyz")));
-    } else if (rule.ruleType === "charPool") {
-      const pool = rule.charPools.map((name) => characterPools[name]).join("");
-      // Bei Hex-Werten nur Zeichen einstreuen, die im Hex-Alphabet vorkommen:
-      // sonst landet aus einem breiteren Pool etwa ein "q" im Schluessel, und
-      // Anwendungen mit strenger Hex-Pruefung lehnen ihn ab.
-      const erlaubt = useHex ? [...pool].filter((z) => alphabet.includes(z)).join("") : pool;
-      if (!erlaubt) {
-        throw new Error(`${input.name} has a character pool without characters valid for its value`);
-      }
-      required.push(...Array.from({ length: count }, () => randomCharacter(erlaubt)));
+    if (count === 0) {
+      continue;
     }
+    let pool;
+    if (rule.ruleType === "regex" && rule.pattern === "[A-Z]") {
+      pool = characterPools.uppercase;
+    } else if (rule.ruleType === "regex" && rule.pattern === "[a-z]") {
+      pool = characterPools.lowercase;
+    } else if (rule.ruleType === "char") {
+      pool = rule.chars;
+    } else if (rule.ruleType === "charPool") {
+      // Pools ohne Zeichenliste (etwa "nonAscii") liefern nichts Erzeugbares.
+      pool = rule.charPools.map((name) => characterPools[name] ?? "").join("");
+    } else {
+      continue;
+    }
+    const erlaubt = [...pool].filter(zulaessig).join("");
+    if (!erlaubt) {
+      throw new Error(`${input.name} has a character pool without characters valid for its value`);
+    }
+    required.push(...Array.from({ length: count }, () => randomCharacter(erlaubt)));
   }
 
   if (required.length > targetLength) {
