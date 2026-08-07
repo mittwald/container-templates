@@ -108,10 +108,17 @@ systemInputs:
         - ruleType: length
           min: 64
           max: 64
-        - identifier: hex
+        - identifier: hexOnly
           ruleType: charPool
-          charPools: [numbers, lowercase]
-          min: 1
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
   - name: "CREDS_IV"
     schema:
       kind: 1
@@ -119,40 +126,86 @@ systemInputs:
         - ruleType: length
           min: 32
           max: 32
-        - identifier: hex
+        - identifier: hexOnly
           ruleType: charPool
-          charPools: [numbers, lowercase]
-          min: 1
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
   - name: "JWT_SECRET"
     schema:
       kind: 1
       schema:
         - ruleType: length
           min: 64
-        - identifier: hex
+        - identifier: numbers
           ruleType: charPool
-          charPools: [numbers, lowercase]
+          charPools:
+            - numbers
           min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
   - name: "JWT_REFRESH_SECRET"
     schema:
       kind: 1
       schema:
         - ruleType: length
           min: 64
-        - identifier: hex
+        - identifier: numbers
           ruleType: charPool
-          charPools: [numbers, lowercase]
+          charPools:
+            - numbers
           min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
   - name: "MEILI_MASTER_KEY"
     schema:
       kind: 1
       schema:
         - ruleType: length
           min: 32
-        - identifier: hex
+        - identifier: numbers
           ruleType: charPool
-          charPools: [numbers, lowercase]
+          charPools:
+            - numbers
           min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
   - name: "MONGO_PASSWORD"
     schema:
       kind: 1
@@ -170,6 +223,12 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
   - name: "POSTGRES_PASSWORD"
     schema:
       kind: 1
@@ -187,6 +246,12 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
 deliveryBoxes:
   - purpose: main
 help:

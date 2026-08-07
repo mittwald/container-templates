@@ -188,6 +188,98 @@ userInputs:
 
 Sie werden nur zur Installationszeit aufgelöst und stehen — anders als die Platzhalter in `help` — danach nicht mehr zur Verfügung.
 
+### systemInputs
+
+`systemInputs` sind Werte, die das System bei der Installation selbst erzeugt — Passwörter, Schlüssel und Tokens. Im Installations-Assistenten tauchen sie nicht auf.
+
+| Feld | Pflicht | Beschreibung |
+|------|---------|--------------|
+| `name` | ja | Technischer Schlüssel; in der `docker-compose.yml` als `${name}` referenzierbar |
+| `schema.kind` | ja | Art des Regelsatzes; für generierte Werte immer `1` |
+| `schema.schema` | ja | Regelliste, aus der der Wert erzeugt **und** gegen die er validiert wird |
+
+Erzeugt werden die Werte vom Password-Service auf Basis von [`@mittwald/password-tools-js`](https://github.com/mittwald/password-tools-js). Es gibt keine getrennte Konfiguration für Generierung und Validierung — dieselbe Regelliste tut beides.
+
+#### Regeltypen
+
+| `ruleType` | Felder | Bedeutung |
+|---|---|---|
+| `length` | `min`, `max` | Zeichenzahl. `min` bestimmt zugleich, wie lang der erzeugte Wert wird |
+| `charPool` | `charPools`, `min`, `max` | Zählt Zeichen aus den genannten Pools: `lowercase`, `uppercase`, `numbers`, `special`, `nonAscii` |
+| `char` | `chars`, `min`, `max` | Dasselbe für eine explizit aufgezählte Zeichenmenge |
+| `regex` | `pattern`, `min`, `max` | Zählt die Treffer des Musters |
+
+`identifier` ist überall optional und dient nur als Label.
+
+#### `min` fordert, `max: 0` verbietet
+
+Eine Regel mit `min` ist eine **Untergrenze, keine Einschränkung**: `charPools: [numbers]` mit `min: 1` verlangt mindestens eine Ziffer, sagt über den Rest des Werts aber nichts. Ausgeschlossen wird ein Pool nur mit `max: 0` — und nur das nimmt ihn auch aus dem Zeichenvorrat der Generierung heraus.
+
+Fehlen `min` **und** `max`, gilt `min: 1`. Eine Regel ohne beides *erzwingt* das Zeichen also, statt es zu verbieten.
+
+#### Passwörter: alphanumerisch
+
+Datenbank-Passwörter landen oft in einer DSN wie `postgres://user:${POSTGRES_PASSWORD}@postgres:5432/db`. Zeichen wie `@`, `#` oder `%` zerlegen diese URL. Deshalb bekommt **jedes** Passwort den Sonderzeichen-Ausschluss:
+
+```yaml
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+```
+
+#### Hex-Werte
+
+Verlangt eine Anwendung einen Hex-String — erkennbar daran, dass die Upstream-Doku `openssl rand -hex N` nennt —, genügen zwei Ausschlüsse: ohne `uppercase` bleibt `a-z0-9`, ohne `g-z` bleibt `[0-9a-f]`. Die Länge wird auf `min` = `max` = 2 × N fixiert:
+
+```yaml
+systemInputs:
+  - name: "CREDS_KEY" # openssl rand -hex 32
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+          max: 64
+        - identifier: hexOnly
+          ruleType: charPool
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
+```
+
+#### Fallstricke
+
+- **`char` mit `min` ≥ 1 zerstört die Generierung.** Geforderte Einzelzeichen überschreiben intern Muster *und* Länge des erzeugten Werts. Er wird dann so lang wie die `chars`-Angabe, scheitert an der `length`-Regel, und die Generierung läuft in den Timeout. `char` ist nur mit `max: 0` gefahrlos.
+- **Base64 lässt sich nicht abbilden.** Pools können nur vollständig verboten werden; einzelne Sonderzeichen wie `+` und `/` gezielt zu erlauben, geht nicht. Wo die Doku `openssl rand -base64 N` empfiehlt, ist ein alphanumerischer Wert gleicher Länge der richtige Ersatz.
+- **Die Länge folgt der Doku, nicht dem Minimum.** `openssl rand -base64 32` ergibt 44 Zeichen, `openssl rand -hex 32` ergibt 64. Diese Zahl gehört in `length`, auch wenn die Anwendung nominell weniger verlangt.
+
 ### deliveryBoxes
 
 Versendet ein Template Mails, deklariert es dafür eine Delivery-Box statt SMTP-Zugangsdaten abzufragen. Das System legt die Box beim Deployment an und stellt die Zugangsdaten als Umgebungsvariablen bereit:

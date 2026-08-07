@@ -104,12 +104,23 @@ systemInputs:
       schema:
         - ruleType: length
           min: 64
-        - identifier: hex
+        - identifier: numbers
           ruleType: charPool
           charPools:
             - numbers
-            - lowercase
           min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
   - name: "POSTGRES_PASSWORD"
     schema:
       kind: 1
@@ -127,6 +138,12 @@ systemInputs:
         - ruleType: regex
           pattern: "[a-z]"
           min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
 
 deliveryBoxes:
   - purpose: main
