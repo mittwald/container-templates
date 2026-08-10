@@ -38,8 +38,8 @@ developer: Vikunja
 website: https://vikunja.io
 repository: https://github.com/go-vikunja/vikunja
 license:
-  name: GPL-3.0
-  link: https://spdx.org/licenses/GPL-3.0-or-later.html
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - productivity
 screenshots:

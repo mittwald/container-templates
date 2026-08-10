@@ -36,7 +36,7 @@ description:
     At mittwald, **Nextcloud + Euro-Office** runs as a self-hosted container in German data centres; files remain under full control and are not transferred to third parties, simplifying GDPR compliance. This template includes Nextcloud and Euro-Office with MariaDB and Redis, ready to use immediately. With no per-seat licences, the user base grows without extra costs.
 developer: mittwald
 website: https://nextcloud.com
-repository: https://github.com/mittwald/nextcloud-eurooffice
+repository: https://github.com/mittwald/docker-nextcloud-eurooffice
 license:
   name: AGPL-3.0
   link: https://spdx.org/licenses/AGPL-3.0.html

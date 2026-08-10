@@ -38,8 +38,8 @@ developer: Open WebUI
 website: https://openwebui.com
 repository: https://github.com/open-webui/open-webui
 license:
-  name: MIT
-  link: https://spdx.org/licenses/MIT.html
+  name: Open WebUI License
+  link: https://github.com/open-webui/open-webui/blob/main/LICENSE
 categories:
   - ai
 screenshots:
