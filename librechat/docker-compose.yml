@@ -34,8 +34,8 @@ services:
       - DEBUG_LOGGING=false
       - DEBUG_CONSOLE=false
       - EMAIL_HOST=mail.agenturserver.de
-      - EMAIL_PORT=587
-      - EMAIL_ENCRYPTION=starttls
+      - EMAIL_PORT=465
+      - EMAIL_ENCRYPTION=tls
       - EMAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
       - EMAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
       - EMAIL_FROM=${SMTP_FROM}
