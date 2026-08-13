@@ -1,0 +1,113 @@
+manifestVersion: 1.0
+name:
+  de: Checkmk
+  en: Checkmk
+version: "2.5.x"
+type: standalone
+tagline:
+  de: IT-Monitoring für Server, Dienste und Anwendungen
+  en: IT monitoring for servers, services and applications
+description:
+  de: |
+    **Checkmk** ist eine umfassende IT-Monitoring-Plattform und eine self-hosted Alternative zu Diensten wie Datadog, New Relic oder PRTG. Die Community Edition überwacht Server, Netzwerkgeräte, Container und Anwendungen über Agenten, SNMP oder aktive Checks und bereitet Zustände, Metriken und Verläufe in konfigurierbaren Dashboards auf.
+
+    Zentrale Funktionen:
+
+    - Automatische Erkennung von Diensten auf überwachten Hosts (Service Discovery)
+    - Über 2.000 mitgelieferte Check-Plugins für Betriebssysteme, Datenbanken und Netzwerkgeräte
+    - Aktive Checks für HTTP, TCP, Ping, Zertifikate und weitere Endpunkte
+    - Regelbasierte Konfiguration, Schwellwerte, Zeitperioden und Benachrichtigungen
+    - Dashboards, Metrik-Graphen, Verfügbarkeitsberichte und REST-API
+
+    Für **Agenturen** eignet sich Checkmk als zentrale Monitoring-Instanz über Kundenprojekte hinweg: Webserver, Datenbanken und APIs werden in Ordnern je Kunde organisiert, Ausfälle und Kapazitätsengpässe fallen auf, bevor sie Endnutzer erreichen, und Verfügbarkeitsberichte dokumentieren eingehaltene Service-Level.
+
+    Bei mittwald läuft **Checkmk** als self-hosted Container in deutschen Rechenzentren; Monitoring-Daten, Hostnamen und Benachrichtigungswege verbleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Das Template stellt die Checkmk Community Edition mit persistenter Site bereit, angemeldet wird sich mit dem Benutzer `cmkadmin`. Für die Open-Source-Edition fallen keine hostabhängigen Lizenzkosten an.
+  en: |
+    **Checkmk** is a comprehensive IT monitoring platform and a self-hosted alternative to services such as Datadog, New Relic or PRTG. The Community Edition monitors servers, network devices, containers and applications through agents, SNMP or active checks and presents states, metrics and history in configurable dashboards.
+
+    Key features:
+
+    - Automatic detection of services on monitored hosts (service discovery)
+    - More than 2,000 bundled check plug-ins for operating systems, databases and network devices
+    - Active checks for HTTP, TCP, ping, certificates and other endpoints
+    - Rule-based configuration, thresholds, time periods and notifications
+    - Dashboards, metric graphs, availability reports and a REST API
+
+    For **agencies**, Checkmk works as a central monitoring instance across client projects: web servers, databases and APIs are organised in folders per client, outages and capacity issues surface before they reach end users, and availability reports document service levels.
+
+    At mittwald, **Checkmk** runs as a self-hosted container in German data centres; monitoring data, host names and notification channels remain within the operator's infrastructure, simplifying GDPR compliance. The template deploys the Checkmk Community Edition with a persistent site; sign-in uses the `cmkadmin` user. The open-source edition has no per-host licence fees.
+developer: Checkmk GmbH
+website: https://checkmk.com
+repository: https://github.com/Checkmk/checkmk
+license:
+  name: GPL-2.0
+  link: https://spdx.org/licenses/GPL-2.0-only.html
+categories:
+  - monitoring
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-dashboard.png
+    text:
+      de: Haupt-Dashboard mit Host- und Servicestatus und aktuellen Events
+      en: Main dashboard with host and service status and recent events
+  - bg: background.jpg
+    screenshot: screenshot-all-hosts.png
+    text:
+      de: Alle überwachten Hosts mit Status und Serviceübersicht
+      en: All monitored hosts with state and service summary
+  - bg: background.jpg
+    screenshot: screenshot-host-services.png
+    text:
+      de: Services eines Hosts mit Status und aktuellen Messwerten
+      en: Services of a host with state and current metrics
+domains:
+  main:
+    userInput: HOST
+    service: checkmk
+    port: 5000
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 1 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin Benutzer
+      en: Admin user
+    value: cmkadmin
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${checkmk.env.CMK_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: Erster Start dauert einige Minuten
+      en: First start takes a few minutes
+    content:
+      de: Beim ersten Start legt Checkmk die Monitoring-Site `cmk` an; die Oberfläche ist erst danach erreichbar. Der Admin-Benutzer heißt fest `cmkadmin` und lässt sich nicht per Umgebungsvariable ändern; weitere Benutzer werden in der Oberfläche angelegt. Das Passwort aus `CMK_PASSWORD` gilt für die Erstanlage der Site, spätere Passwortänderungen erfolgen in der Oberfläche.
+      en: On first start, Checkmk creates the monitoring site `cmk`; the interface becomes available afterwards. The admin user is fixed as `cmkadmin` and cannot be changed through an environment variable; additional users are created in the interface. The password from `CMK_PASSWORD` applies to the initial site creation; later password changes are made in the interface.
+  - status: info
+    heading:
+      de: Überwachung per aktiver Checks und Agenten
+      en: Monitoring via active checks and agents
+    content:
+      de: Checkmk prüft entfernte Systeme ausgehend über Ping, HTTP, SNMP oder den Checkmk-Agenten (Abruf auf Port `6556`). Der Agent Receiver für die TLS-Registrierung des Agent Controllers (Port `8000`) ist über die Domain nicht erreichbar; Agenten werden daher im Pull-Modus ohne Registrierung eingebunden.
+      en: Checkmk monitors remote systems outbound via ping, HTTP, SNMP or the Checkmk agent (pulled on port `6556`). The agent receiver used for TLS registration of the agent controller (port `8000`) is not reachable through the domain; agents are therefore integrated in pull mode without registration.
