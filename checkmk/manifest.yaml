@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Checkmk
   en: Checkmk
-version: "2.5.x"
+version: "latest"
 type: standalone
 tagline:
   de: IT-Monitoring für Server, Dienste und Anwendungen
