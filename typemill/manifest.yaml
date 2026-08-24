@@ -1,0 +1,100 @@
+manifestVersion: 1.0
+name:
+  de: Typemill
+  en: Typemill
+version: "latest"
+type: standalone
+
+tagline:
+  de: Flat-File-CMS für Manuals, Nutzerhandbücher und Dokumentationen.
+  en: Flat-file CMS for manuals, user guides and documentation.
+
+description:
+  de: |
+    **Typemill** ist ein leichtgewichtiges Flat-File-CMS für Manuals, Nutzerhandbücher und Dokumentationen und eine selbst gehostete Alternative zu GitBook oder Confluence. Es speichert alle Inhalte als Markdown-Dateien auf dem Dateisystem statt in einer Datenbank – portabel, einfach zu sichern und direkt mit Git versionierbar.
+
+    Zentrale Funktionen:
+
+    - Visueller Block-Editor und reiner Markdown-Editor für strukturierte Inhalte
+    - Interaktive Drag-and-Drop-Navigation mit hierarchischer Struktur
+    - Veröffentlichung als Website, PDF und eBook aus denselben Quelldateien
+    - Themes, Plugins, REST-API, Rollenverwaltung und KI-Schreibassistent
+    - Nur 2 MB komprimiert; läuft auf Apache oder Nginx mit PHP 8.2+
+
+    Für **Agenturen** eignet sich Typemill für Kundenprojekte, die strukturierte Dokumentationen, Nutzerhandbücher oder interne Wikis benötigen. Der dateibasierte Aufbau bindet Inhalte direkt in bestehende Git-Workflows ein und vereinfacht so Reviews und verteiltes Arbeiten zwischen Agentur und Kunde. Über "Projekte" lassen sich zudem mehrere unabhängige Wissensbereiche (z. B. Teams, Produkte) in einer Installation organisieren.
+
+    Bei mittwald läuft **Typemill** als self-hosted Container in deutschen Rechenzentren; Inhalte bleiben unter der Kontrolle der Agentur, statt an externe SaaS-Anbieter übertragen zu werden, was die DSGVO-Einhaltung vereinfacht. Dieses Template enthält Typemill mit persistenten Volumes für Inhalte, Medien, Themes und Plugins – ohne Datenbank und ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+
+  en: |
+    **Typemill** is a lightweight flat-file CMS for manuals, user guides and documentation, and a self-hosted alternative to GitBook or Confluence. It stores all content as Markdown files on the filesystem instead of a database — portable, easy to back up and directly versionable with Git.
+
+    Key features:
+
+    - Visual block editor and raw Markdown editor for structured content
+    - Interactive drag-and-drop navigation with hierarchical structure
+    - Publishing as websites, PDFs and eBooks from the same source files
+    - Themes, plugins, REST API, role management and AI writing assistant
+    - Only 2 MB compressed; runs on Apache or Nginx with PHP 8.2+
+
+    For **agencies**, Typemill suits client projects that require structured documentation, user handbooks or internal wikis. The file-based structure integrates content directly into existing Git workflows, simplifying reviews and distributed collaboration between agency and client. The "projects" feature also lets multiple independent knowledge areas (e.g. teams, products) run within the same installation.
+
+    At mittwald, **Typemill** runs as a self-hosted container in German data centres; content stays under the agency's control instead of being transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Typemill with persistent volumes for content, media, themes and plugins — without a database and without usage-based licence or seat costs.
+
+developer: Typemill
+website: https://typemill.net
+repository: https://github.com/typemill/typemill
+support: https://docs.typemill.net/
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+
+categories:
+  - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-editor.png
+    text:
+      de: Seiten mit dem Markdown-Block-Editor bearbeiten
+      en: Editing pages with the Markdown block editor
+  - bg: background.jpg
+    screenshot: screenshot-settings.png
+    text:
+      de: System-Einstellungen, Nutzer und Erweiterungen verwalten
+      en: Managing system settings, users and extensions
+  - bg: background.jpg
+    screenshot: screenshot-docs-website.png
+    text:
+      de: Die Frontend-Webseite individuell gestalten
+      en: Customizing the frontend website
+
+domains:
+  main:
+    userInput: HOST
+    service: typemill
+    port: 80
+
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+
+help:
+  technicalDetails:
+    - key:
+        de: Domain
+        en: Domain
+      value: https://${domain.main}
+
+  alerts:
+    - status: info
+      heading:
+        de: Administratorkonto einrichten
+        en: Set up the administrator account
+      content:
+        de: Der erste Nutzer, der sich nach der Installation registriert, wird automatisch zum Administrator. Weitere Benutzer können anschließend über die Systemeinstellungen verwaltet werden.
+        en: The first user to register after installation automatically becomes the administrator. Additional users can be managed through the system settings.
