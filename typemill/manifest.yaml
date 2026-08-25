@@ -18,8 +18,8 @@ description:
     - Visueller Block-Editor und reiner Markdown-Editor für strukturierte Inhalte
     - Interaktive Drag-and-Drop-Navigation mit hierarchischer Struktur
     - Veröffentlichung als Website, PDF und eBook aus denselben Quelldateien
-    - Themes, Plugins, REST-API, Rollenverwaltung und KI-Schreibassistent
-    - Nur 2 MB komprimiert; läuft auf Apache oder Nginx mit PHP 8.2+
+    - Themes, Plugins, REST-API, Rollenverwaltung und KI-Konnektoren
+    - Leichtgewichtig und ohne Datenbank; das Docker-Image nutzt Apache und PHP 8.5
 
     Für **Agenturen** eignet sich Typemill für Kundenprojekte, die strukturierte Dokumentationen, Nutzerhandbücher oder interne Wikis benötigen. Der dateibasierte Aufbau bindet Inhalte direkt in bestehende Git-Workflows ein und vereinfacht so Reviews und verteiltes Arbeiten zwischen Agentur und Kunde. Über "Projekte" lassen sich zudem mehrere unabhängige Wissensbereiche (z. B. Teams, Produkte) in einer Installation organisieren.
 
@@ -33,8 +33,8 @@ description:
     - Visual block editor and raw Markdown editor for structured content
     - Interactive drag-and-drop navigation with hierarchical structure
     - Publishing as websites, PDFs and eBooks from the same source files
-    - Themes, plugins, REST API, role management and AI writing assistant
-    - Only 2 MB compressed; runs on Apache or Nginx with PHP 8.2+
+    - Themes, plugins, REST API, role management and AI connectors
+    - Lightweight and database-free; the Docker image uses Apache and PHP 8.5
 
     For **agencies**, Typemill suits client projects that require structured documentation, user handbooks or internal wikis. The file-based structure integrates content directly into existing Git workflows, simplifying reviews and distributed collaboration between agency and client. The "projects" feature also lets multiple independent knowledge areas (e.g. teams, products) run within the same installation.
 
