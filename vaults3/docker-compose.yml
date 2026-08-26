@@ -1,0 +1,29 @@
+services:
+  vaults3:
+    image: eniz1806/vaults3:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - TZ=Europe/Berlin
+      - VAULTS3_ACCESS_KEY=${ADMIN_USER}
+      - VAULTS3_SECRET_KEY=${ADMIN_PASSWORD}
+      # Dashboard and its API on a separate port, so S3 objects and the
+      # admin session never share an origin.
+      - VAULTS3_CONSOLE_PORT=9001
+      # 64-char hex key; enables AES-256-GCM encryption at rest for all objects.
+      - VAULTS3_ENCRYPTION_KEY=${ENCRYPTION_KEY}
+    volumes:
+      - vaults3_data:/data
+      - vaults3_metadata:/metadata
+    healthcheck:
+      test: ["CMD", "vaults3", "healthcheck", "-config", "/etc/vaults3/vaults3.yaml"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      # The search index is built synchronously before the listener opens.
+      start_period: 2m
+      start_interval: 2s
+volumes:
+  vaults3_data:
+  vaults3_metadata:
