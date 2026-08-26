@@ -450,6 +450,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="typemill/icon.svg" width="24" height="24" style="object-fit:contain"> | [typemill](typemill/) | Flat-File-CMS für Manuals, Nutzerhandbücher und Dokumentationen. |
 | <img src="umami/icon.svg" width="24" height="24" style="object-fit:contain"> | [umami](umami/) | Datenschutzfreundliche Web-Analytics |
 | <img src="uptime-kuma/icon.svg" width="24" height="24" style="object-fit:contain"> | [uptime-kuma](uptime-kuma/) | Monitoring und Statusseiten |
+| <img src="vaults3/icon.svg" width="24" height="24" style="object-fit:contain"> | [vaults3](vaults3/) | Leichtgewichtiger S3-Objektspeicher mit Dashboard |
 | <img src="vaultwarden/icon.svg" width="24" height="24" style="object-fit:contain"> | [vaultwarden](vaultwarden/) | Selbst gehosteter Passwort-Manager |
 | <img src="vikunja/icon.svg" width="24" height="24" style="object-fit:contain"> | [vikunja](vikunja/) | Aufgaben und Projekte selbst verwalten |
 | <img src="weblate/icon.svg" width="24" height="24" style="object-fit:contain"> | [weblate](weblate/) | Software gemeinsam übersetzen |
