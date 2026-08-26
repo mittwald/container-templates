@@ -1,0 +1,146 @@
+manifestVersion: 1.0
+name:
+  de: Silo
+  en: Silo
+version: "latest"
+type: component
+tagline:
+  de: S3-kompatibler Objektspeicher (MinIO-Fork)
+  en: S3-compatible object storage (MinIO fork)
+description:
+  de: |
+    **Silo** ist ein S3-kompatibler Objektspeicher und der von PGSTY gepflegte Community-Fork des MinIO-Servers. Nachdem MinIO die Community-Distribution beendet und die Konsole auf einen Object Browser reduziert hat, führt Silo diese Release-Linie mit Sicherheitsupdates, Multi-Arch-Images und vollständiger Konsole weiter. Silo ist eine self-hosted Alternative zu Amazon S3, Cloudflare R2 oder Backblaze B2.
+
+    Zentrale Funktionen:
+
+    - S3-API mit Buckets, Versionierung, Object Locking und Lifecycle-Regeln
+    - Web-Konsole zur Verwaltung von Buckets, Objekten, Benutzern und Richtlinien
+    - Zugriffsschlüssel und Richtlinien nach dem IAM-Prinzip für einzelne Anwendungen
+    - Kompatibel mit gängigen S3-SDKs, CLI-Tools und Backup-Werkzeugen; `mcli` ist im Image enthalten
+    - Ereignis-Benachrichtigungen und Prometheus-Metriken
+
+    Für **Agenturen** dient Silo als zentraler Datei- und Medienspeicher hinter Kundenanwendungen: Uploads aus CMS- und Shop-Systemen, Assets für Web-Apps, Ablage von Datenbank-Backups oder Austauschspeicher zwischen mehreren Diensten. Jede Anwendung erhält eigene Zugriffsschlüssel mit auf ihren Bucket beschränkten Rechten.
+
+    Bei mittwald läuft **Silo** als self-hosted Container-Komponente in deutschen Rechenzentren; alle Objekte verbleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Dieses Template stellt S3-API und Konsole über getrennte Domains bereit, legt den Root-Benutzer an und speichert die Daten in einem persistenten Volume. Lizenzkosten fallen nicht an (AGPLv3).
+  en: |
+    **Silo** is an S3-compatible object storage server and the community fork of the MinIO server maintained by PGSTY. After MinIO ended community distribution and cut the console down to an object browser, Silo keeps this release line alive with security fixes, multi-arch images and the full console. Silo is a self-hosted alternative to Amazon S3, Cloudflare R2 or Backblaze B2.
+
+    Key features:
+
+    - S3 API with buckets, versioning, object locking and lifecycle rules
+    - Web console for buckets, objects, users and policies
+    - IAM-style access keys and policies per application
+    - Works with common S3 SDKs, CLI and backup tools; `mcli` is bundled
+    - Event notifications and Prometheus metrics
+
+    For **agencies**, Silo serves as a central file and media store behind client applications: uploads from CMS and shop systems, assets for web apps, database backups or shared storage between services. Each application gets its own access keys restricted to its bucket.
+
+    At mittwald, **Silo** runs as a self-hosted container component in German data centres; all objects remain within the operator's infrastructure, simplifying GDPR compliance. This template exposes the S3 API and the console on separate domains, creates the root user and stores data in a persistent volume. No licence costs apply (AGPLv3).
+developer: PGSTY
+website: https://silo.pgsty.com
+repository: https://github.com/pgsty/silo
+support: https://github.com/pgsty/silo/issues
+license:
+  name: AGPL-3.0
+  link: https://github.com/pgsty/silo/blob/main/LICENSE
+categories:
+  - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-buckets.png
+    text:
+      de: Buckets mit Belegung und Objektanzahl in der Konsole verwalten
+      en: Managing buckets with usage and object count in the console
+  - bg: background.jpg
+    screenshot: screenshot-object-browser.png
+    text:
+      de: Objekte eines Buckets im Object Browser durchsuchen und hochladen
+      en: Browsing and uploading objects of a bucket in the object browser
+  - bg: background.jpg
+    screenshot: screenshot-performance.png
+    text:
+      de: Durchsatz für GET und PUT mit dem integrierten Speedtest messen
+      en: Measuring GET and PUT throughput with the built-in speed test
+domains:
+  console:
+    userInput: HOST
+    service: silo
+    port: 9001
+  s3:
+    userInput: S3_HOST
+    service: silo
+    port: 9000
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain der Konsole
+      en: Console domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "S3_HOST"
+    label:
+      de: Domain der S3-API
+      en: S3 API domain
+    positionMeta: { step: "domain", index: 2 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Root-Benutzer (Access Key)
+      en: Root user (access key)
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.username}"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 3 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Root-Passwort (Secret Key)
+      en: Root password (secret key)
+    positionMeta: { step: "adminUser", index: 2 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Konsole
+      en: Console
+    value: https://${domain.console}
+  - key:
+      de: S3-Endpunkt
+      en: S3 endpoint
+    value: https://${domain.s3}
+  - key:
+      de: Root Access Key
+      en: Root access key
+    value: ${silo.env.MINIO_ROOT_USER}
+  - key:
+      de: Root Secret Key
+      en: Root secret key
+    value: ${silo.env.MINIO_ROOT_PASSWORD}
+  alerts:
+  - status: warning
+    heading:
+      de: Einzelner Knoten ohne Redundanz
+      en: Single node without redundancy
+    content:
+      de: Das Template betreibt Silo mit einem Knoten und einem Volume. Erasure Coding und Replikation greifen dabei nicht; halte deshalb eigene Backups der Buckets vor, etwa mit `mcli mirror`.
+      en: The template runs Silo with a single node and a single volume. Erasure coding and replication do not apply; keep your own backups of the buckets, for example with `mcli mirror`.
+  - status: warning
+    heading:
+      de: Root-Zugangsdaten nicht in Anwendungen verwenden
+      en: Do not use root credentials in applications
+    content:
+      de: Der Root-Benutzer hat Vollzugriff auf alle Buckets. Lege in der Konsole unter `Access Keys` je Anwendung eigene Schlüssel mit eingeschränkter Richtlinie an.
+      en: The root user has full access to all buckets. Create separate keys with a restricted policy per application in the console under `Access Keys`.
+  - status: info
+    heading:
+      de: Path-Style-Adressierung verwenden
+      en: Use path-style addressing
+    content:
+      de: Buckets werden als Pfad angesprochen (`https://${domain.s3}/bucket`), nicht als Subdomain. In S3-Clients ist daher `forcePathStyle` bzw. `use_path_style_endpoint` zu aktivieren; als Region gilt `us-east-1`.
+      en: Buckets are addressed as a path (`https://${domain.s3}/bucket`), not as a subdomain. Enable `forcePathStyle` or `use_path_style_endpoint` in S3 clients; the region is `us-east-1`.

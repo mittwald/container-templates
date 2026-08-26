@@ -1,0 +1,26 @@
+services:
+  silo:
+    image: pgsty/silo:latest
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - TZ=Europe/Berlin
+      - MINIO_ROOT_USER=${ADMIN_USER}
+      - MINIO_ROOT_PASSWORD=${ADMIN_PASSWORD}
+      # Requests to the S3 domain from a browser are redirected to the console.
+      - MINIO_BROWSER_REDIRECT_URL=https://${HOST}
+      # Upgrades happen by replacing the image, not via the built-in updater.
+      - MINIO_UPDATE=off
+    volumes:
+      - silo_data:/data
+    healthcheck:
+      test: ["CMD", "silo", "healthcheck", "ready", "--quiet"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m
+      start_interval: 2s
+volumes:
+  silo_data:
