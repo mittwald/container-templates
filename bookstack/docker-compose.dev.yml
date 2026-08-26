@@ -1,0 +1,9 @@
+services:
+  bookstack:
+    # Locally deliver mail to the shared Mailpit instead of the delivery box.
+    environment:
+      MAIL_HOST: ct-mail
+      MAIL_PORT: "1025"
+      MAIL_ENCRYPTION: ""
+      MAIL_USERNAME: ""
+      MAIL_PASSWORD: ""
