@@ -1,0 +1,64 @@
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack:latest
+    ports:
+      - "80:80"
+    environment:
+      - TZ=Europe/Berlin
+      - PUID=1000
+      - PGID=1000
+      - APP_URL=https://${HOST}
+      - APP_KEY=${APP_KEY}
+      # TLS terminates at the ingress; trust its forwarded headers from private ranges.
+      - APP_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_DATABASE=bookstack
+      - DB_USERNAME=bookstack
+      - DB_PASSWORD=${DB_PASSWORD}
+      - MAIL_DRIVER=smtp
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM=${SMTP_FROM}
+      - MAIL_FROM_NAME=BookStack
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - bookstack_data:/config
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m
+      start_interval: 5s
+  mariadb:
+    image: mariadb:lts
+    environment:
+      - TZ=Europe/Berlin
+      - MARIADB_AUTO_UPGRADE=1
+      - MARIADB_DATABASE=bookstack
+      - MARIADB_USER=bookstack
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/mysql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { MYSQL_PWD="$$MARIADB_ROOT_PASSWORD" mariadb-dump -u root --all-databases --routines --events --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  bookstack_data:
+  mariadb_data:

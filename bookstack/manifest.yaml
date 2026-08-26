@@ -1,0 +1,181 @@
+manifestVersion: 1.0
+name:
+  de: BookStack
+  en: BookStack
+version: "latest"
+type: standalone
+tagline:
+  de: Wiki und Dokumentation in Regalen, Büchern und Seiten
+  en: Wiki and documentation in shelves, books and pages
+description:
+  de: |
+    **BookStack** ist eine selbstgehostete Wiki- und Dokumentationsplattform, die Inhalte in der festen Struktur Regale, Bücher, Kapitel und Seiten organisiert. Die einfache Gliederung macht BookStack zu einer self-hosted Alternative zu Confluence, Notion oder GitBook.
+
+    Zentrale Funktionen:
+
+    - WYSIWYG- und Markdown-Editor mit Bildern, Anhängen, Code-Blöcken und Zeichnungen (diagrams.net)
+    - Volltextsuche über alle Inhalte sowie Tags und Querverweise zwischen Seiten
+    - Rollen und Berechtigungen bis auf Ebene einzelner Bücher, Kapitel und Seiten
+    - Versionsverlauf je Seite mit Vergleich und Wiederherstellung
+    - Externe Anmeldung über LDAP, SAML 2.0 und OpenID Connect; REST-API und Webhooks
+    - Export als PDF, HTML, Markdown oder Klartext
+
+    Für **Agenturen** eignet sich BookStack als zentrale Wissensbasis: Projektdokumentation, Onboarding-Handbücher und interne Prozesse liegen in eigenen Regalen, Kunden-Handbücher in getrennten Büchern. Über die Berechtigungen erhalten Kunden bei Bedarf Lesezugriff auf genau ihr Buch, ohne andere Inhalte zu sehen.
+
+    Bei mittwald läuft **BookStack** als self-hosted Container in deutschen Rechenzentren; alle Inhalte bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält BookStack mit MariaDB, verdrahtet den Mailversand über eine Delivery-Box und speichert Uploads und Datenbank in persistenten Volumes. Lizenzkosten fallen nicht an (MIT).
+  en: |
+    **BookStack** is a self-hosted wiki and documentation platform that organises content in a fixed structure of shelves, books, chapters and pages. Its simple hierarchy makes BookStack a self-hosted alternative to Confluence, Notion or GitBook.
+
+    Key features:
+
+    - WYSIWYG and Markdown editor with images, attachments, code blocks and drawings (diagrams.net)
+    - Full-text search across all content plus tags and cross-references between pages
+    - Roles and permissions down to individual books, chapters and pages
+    - Revision history per page with diff and restore
+    - External login via LDAP, SAML 2.0 and OpenID Connect; REST API and webhooks
+    - Export as PDF, HTML, Markdown or plain text
+
+    For **agencies**, BookStack serves as a central knowledge base: project documentation, onboarding guides and internal processes live on their own shelves, client handbooks in separate books. Permissions grant clients read access to exactly their book without exposing other content.
+
+    At mittwald, **BookStack** runs as a self-hosted container in German data centres; all content stays within the operator's infrastructure, simplifying GDPR compliance. This template ships BookStack with MariaDB, wires outgoing mail to a delivery box and stores uploads and the database in persistent volumes. No licence costs apply (MIT).
+developer: Dan Brown
+website: https://www.bookstackapp.com
+repository: https://github.com/BookStackApp/BookStack
+support: https://www.bookstackapp.com/docs/
+license:
+  name: MIT
+  link: https://github.com/BookStackApp/BookStack/blob/development/LICENSE
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-shelf.png
+    text:
+      de: Bücher eines Regals mit Beschreibung in der Kachelansicht
+      en: Books of a shelf with descriptions in the grid view
+  - bg: background.jpg
+    screenshot: screenshot-page.png
+    text:
+      de: Seite mit Code-Block, Buch-Navigation und Seitenaktionen
+      en: Page with code block, book navigation and page actions
+  - bg: background.jpg
+    screenshot: screenshot-editor.png
+    text:
+      de: Markdown-Editor mit Live-Vorschau beim Bearbeiten einer Seite
+      en: Markdown editor with live preview while editing a page
+domains:
+  main:
+    userInput: HOST
+    service: bookstack
+    port: 80
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  # Laravel expects exactly 32 bytes when the key is not base64-prefixed.
+  - name: "APP_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+          max: 32
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "DB_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "MARIADB_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail
+      en: Admin email
+    value: admin@admin.com
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: password
+  alerts:
+  - status: warning
+    heading:
+      de: Standardzugangsdaten gesetzt
+      en: Default login credentials set
+    content:
+      de: BookStack legt bei jeder Installation denselben Administrator `admin@admin.com` mit dem Passwort `password` an. Ändere E-Mail-Adresse und Passwort sofort nach dem ersten Login im Profil.
+      en: BookStack creates the same administrator `admin@admin.com` with the password `password` on every installation. Change the email address and password in your profile immediately after your first login.
+  - status: info
+    heading:
+      de: Registrierung standardmäßig deaktiviert
+      en: Registration disabled by default
+    content:
+      de: Neue Benutzer werden unter `Einstellungen > Benutzer` angelegt oder eingeladen. Die öffentliche Registrierung lässt sich unter `Einstellungen > Registrierung` freischalten.
+      en: New users are created or invited under `Settings > Users`. Public registration can be enabled under `Settings > Registration`.
