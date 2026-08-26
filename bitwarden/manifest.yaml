@@ -1,0 +1,166 @@
+manifestVersion: 1.0
+name:
+  de: Bitwarden
+  en: Bitwarden
+version: "latest"
+type: standalone
+tagline:
+  de: Offizieller Bitwarden-Server zum Selbsthosten
+  en: Official self-hosted Bitwarden server
+description:
+  de: |
+    **Bitwarden** ist der offizielle, vom Hersteller entwickelte Passwort-Manager-Server und eine self-hosted Alternative zur Bitwarden-Cloud sowie zu Diensten wie 1Password oder LastPass. Dieses Template setzt **Bitwarden Lite** ein, die offiziell unterstützte Ein-Container-Variante, die Web-Tresor, API, Identity und Admin-Portal bündelt und mit PostgreSQL betrieben wird.
+
+    Zentrale Funktionen:
+
+    - Offizielle Server-Software, kompatibel mit allen Bitwarden-Clients, Browser-Erweiterungen und mobilen Apps
+    - Organisationen und Collections für getrennte Zugriffskontexte im Team
+    - Zwei-Faktor-Authentifizierung (TOTP, FIDO2/WebAuthn, E-Mail), Bitwarden Send und Passwort-Generator
+    - Admin-Portal zur Benutzerverwaltung, Ende-zu-Ende-Verschlüsselung aller Tresordaten
+
+    Für **Agenturen** eignet sich Bitwarden, wenn Zugangsdaten für Kunden-Systeme, Hosting-Zugänge und API-Keys zentral verwaltet werden sollen und bewusst die Original-Software des Herstellers statt einer Reimplementierung wie Vaultwarden gewünscht ist. Bitwarden positioniert Bitwarden Lite für den privaten Einsatz und Home-Labs; für den Unternehmenseinsatz empfiehlt der Hersteller sein Standard-Deployment. Kostenpflichtige Organisationsfunktionen setzen eine Lizenz aus einem Bitwarden-Konto voraus.
+
+    Bei mittwald läuft **Bitwarden** als self-hosted Container in deutschen Rechenzentren; alle Tresordaten bleiben verschlüsselt in der eigenen Infrastruktur, was den Anforderungen der DSGVO entspricht. Das Template enthält Bitwarden Lite, PostgreSQL, persistente Speicherung und vorkonfigurierten Mailversand. Benötigt werden eine Installations-ID und ein Installationsschlüssel von `bitwarden.com/host`.
+  en: |
+    **Bitwarden** is the official password manager server developed by the vendor and a self-hosted alternative to the Bitwarden cloud, 1Password or LastPass. This template uses **Bitwarden Lite**, the officially supported single-container variant that bundles web vault, API, identity and admin portal and runs on PostgreSQL.
+
+    Key features:
+
+    - Official server software, compatible with all Bitwarden clients, browser extensions and mobile apps
+    - Organisations and collections for separate access contexts within a team
+    - Two-factor authentication (TOTP, FIDO2/WebAuthn, e-mail), Bitwarden Send and password generator
+    - Admin portal for user management, end-to-end encryption of all vault data
+
+    For **agencies**, Bitwarden fits when credentials for client systems and hosting access need central management and the vendor's original software is preferred over a reimplementation such as Vaultwarden. Bitwarden positions Bitwarden Lite for personal use and home labs; for business use the vendor recommends its standard deployment. Paid organisation features require a licence from a Bitwarden account.
+
+    At mittwald, **Bitwarden** runs as a self-hosted container in German data centres; all vault data stays encrypted within the agency's infrastructure, meeting GDPR requirements. The template includes Bitwarden Lite, PostgreSQL, persistent storage and preconfigured e-mail delivery. An installation ID and installation key from `bitwarden.com/host` are required.
+developer: Bitwarden Inc.
+website: https://bitwarden.com
+repository: https://github.com/bitwarden/self-host
+support: https://bitwarden.com/help/
+license:
+  name: AGPL-3.0
+  link: https://spdx.org/licenses/AGPL-3.0.html
+categories:
+  - security
+domains:
+  main:
+    userInput: HOST
+    service: bitwarden
+    port: 8080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "INSTALLATION_ID"
+    label:
+      de: Installations-ID (bitwarden.com/host)
+      en: Installation ID (bitwarden.com/host)
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$" }'
+  - name: "INSTALLATION_KEY"
+    label:
+      de: Installationsschlüssel (bitwarden.com/host)
+      en: Installation key (bitwarden.com/host)
+    positionMeta: { step: "common", index: 2 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "password" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 3 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "IDENTITY_CERT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin-Portal
+      en: Admin portal
+    value: https://${domain.main}/admin
+  alerts:
+  - status: warning
+    heading:
+      de: Registrierung ist offen
+      en: Registration is open
+    content:
+      de: Nach der Installation kann sich jeder über die Domain ein Konto anlegen. Lege zuerst dein eigenes Konto an. Das Admin-Portal kann keine Nutzenden einladen; Einladungen laufen über eine Organisation, die ohne Lizenz auf zwei Mitglieder begrenzt ist. Sollen sich weitere Personen selbst registrieren, lass die Registrierung offen, andernfalls setze `globalSettings__disableUserRegistration` auf `true`.
+      en: After installation, anyone can create an account via the domain. Create your own account first. The admin portal cannot invite users; invitations go through an organisation, which is limited to two members without a licence. If other people should register themselves, keep registration open; otherwise set `globalSettings__disableUserRegistration` to `true`.
+  - status: info
+    heading:
+      de: Anmeldung am Admin-Portal per E-Mail
+      en: Admin portal login by e-mail
+    content:
+      de: Das Admin-Portal hat kein Passwort. Gib dort die bei der Installation hinterlegte Admin E-Mail-Adresse (`adminSettings__admins`) ein; Bitwarden sendet einen Anmeldelink an diese Adresse.
+      en: The admin portal has no password. Enter the admin email address configured during installation (`adminSettings__admins`); Bitwarden sends a login link to that address.

@@ -69,4 +69,5 @@ Struktur, Typen und erlaubte Werte definiert `manifest.schema.json`; die ausfüh
 - Änderungen an der Manifest-**Struktur** in `manifest.schema.json` pflegen (wird per CI gegen alle `manifest.yaml` validiert) und die Feld-Doku in der `README.md` nachziehen.
 - Regeln zu Screenshot-Bildern (Mindestbreite, Seitenverhältnis) stehen in `validate.mjs` als Konstanten; bei Änderungen die Konvention oben und die `README.md` nachziehen.
 - Die in `defaultValue` erlaubten Platzhalter stehen als `DEFAULT_VALUE_PLACEHOLDERS` in `validate.mjs` (unbekannte Platzhalter sind ein CI-Fehler) und mit lokalen Ersatzwerten als `defaultValuePlaceholders` in `dev.mjs`. Kommt ein Platzhalter hinzu, sind beide Stellen sowie die Konvention oben und die `README.md` nachzuziehen.
+- `pnpm app validate` läuft in der CI über alle Templates und erzeugt dafür mit `dev.mjs` lokale Werte für jeden `userInput`. Ein Pflicht-Input, dessen `validationSchema` ein `pattern` erzwingt (z. B. eine UUID), braucht deshalb einen passenden Ersatzwert in `defaultUserValue()` in `dev.mjs`, sonst schlägt die CI für alle Templates fehl.
 - **Konventionen** werden hier in `AGENTS.md` gepflegt.
