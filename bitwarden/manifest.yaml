@@ -78,9 +78,8 @@ userInputs:
       de: Installationsschlüssel (bitwarden.com/host)
       en: Installation key (bitwarden.com/host)
     positionMeta: { step: "common", index: 2 }
-    format: "password"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1, "format": "password" }'
+    validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
