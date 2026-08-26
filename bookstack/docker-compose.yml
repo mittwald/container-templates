@@ -8,6 +8,7 @@ services:
       - PUID=1000
       - PGID=1000
       - APP_URL=https://${HOST}
+      - APP_TIMEZONE=Europe/Berlin
       - APP_KEY=${APP_KEY}
       # TLS terminates at the ingress; trust its forwarded headers from private ranges.
       - APP_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
