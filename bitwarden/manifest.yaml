@@ -43,6 +43,22 @@ license:
   link: https://spdx.org/licenses/AGPL-3.0.html
 categories:
   - security
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-vault.png
+    text:
+      de: Zugangsdaten nach Kunden und Projekten in Ordnern verwalten
+      en: Manage credentials by client and project in folders
+  - bg: background.jpg
+    screenshot: screenshot-login-item.png
+    text:
+      de: Zugangsdaten mit Passwort, TOTP-Code und Website je Eintrag
+      en: Credentials with password, TOTP code and website per entry
+  - bg: background.jpg
+    screenshot: screenshot-send.png
+    text:
+      de: Sensible Texte und Dateien per Bitwarden Send zeitlich begrenzt teilen
+      en: Share sensitive text and files for a limited time via Bitwarden Send
 domains:
   main:
     userInput: HOST
