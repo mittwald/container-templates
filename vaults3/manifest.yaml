@@ -1,0 +1,183 @@
+manifestVersion: 1.0
+name:
+  de: VaultS3
+  en: VaultS3
+version: "latest"
+type: component
+tagline:
+  de: Leichtgewichtiger S3-Objektspeicher mit Dashboard
+  en: Lightweight S3 object storage with dashboard
+description:
+  de: |
+    **VaultS3** ist ein leichtgewichtiger, S3-kompatibler Objektspeicher als einzelnes Binary mit eingebautem Web-Dashboard und eine self-hosted Alternative zu Amazon S3, Cloudflare R2 oder Backblaze B2. Entwickelt wird VaultS3 von Kodiqa Solutions als Projekt eines einzelnen Maintainers.
+
+    Zentrale Funktionen:
+
+    - S3-API mit über 80 Operationen, SigV4, Multipart-Uploads und Presigned URLs
+    - Web-Dashboard mit Datei-Browser, IAM, Audit-Log, Suche und Backups, auch auf Deutsch
+    - IAM-Benutzer, Gruppen und Richtlinien, optional OIDC- oder LDAP-Anmeldung
+    - Verschlüsselung at rest (AES-256-GCM), Versionierung, Object Lock und Lifecycle-Regeln
+    - Geringer Ressourcenbedarf, Prometheus-Metriken, Import aus anderen S3-Quellen
+
+    Für **Agenturen** dient VaultS3 als Datei- und Medienspeicher hinter Kundenanwendungen: Uploads aus CMS- und Shop-Systemen, Assets für Web-Apps oder die Ablage von Backups. Jede Anwendung erhält eigene, auf ihren Bucket beschränkte Zugriffsschlüssel; das Dashboard erlaubt die Verwaltung ohne Kommandozeile.
+
+    Bei mittwald läuft **VaultS3** als self-hosted Container-Komponente in deutschen Rechenzentren; alle Objekte verbleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Das Template stellt S3-API und Dashboard über getrennte Domains bereit, legt den Admin-Zugang an, aktiviert die Verschlüsselung at rest mit einem generierten Schlüssel und speichert Objekte und Index in getrennten Volumes. Lizenzkosten fallen nicht an (AGPLv3).
+  en: |
+    **VaultS3** is a lightweight, S3-compatible object storage server shipped as a single binary with a built-in web dashboard, and a self-hosted alternative to Amazon S3, Cloudflare R2 or Backblaze B2. VaultS3 is developed by Kodiqa Solutions as a single-maintainer project.
+
+    Key features:
+
+    - S3 API with 80+ operations, SigV4, multipart uploads and presigned URLs
+    - Web dashboard with file browser, IAM, audit log, search and backups
+    - IAM users, groups and policies, optional OIDC or LDAP sign-in
+    - Encryption at rest (AES-256-GCM), versioning, object lock and lifecycle rules
+    - Low resource footprint, Prometheus metrics, import from other S3 sources
+
+    For **agencies**, VaultS3 serves as a file and media store behind client applications: uploads from CMS and shop systems, assets for web apps or storage for backups. Each application gets its own access keys restricted to its bucket, and the dashboard allows management without a command line.
+
+    At mittwald, **VaultS3** runs as a self-hosted container component in German data centres; all objects remain within the operator's infrastructure, simplifying GDPR compliance. The template exposes the S3 API and the dashboard on separate domains, creates the admin account, enables encryption at rest with a generated key and stores objects and index in separate volumes. No licence costs apply (AGPLv3).
+developer: Kodiqa Solutions
+website: https://www.vaults3.com
+repository: https://github.com/Kodiqa-Solutions/VaultS3
+support: https://github.com/Kodiqa-Solutions/VaultS3/issues
+license:
+  name: AGPL-3.0
+  link: https://github.com/Kodiqa-Solutions/VaultS3/blob/main/LICENSE
+categories:
+  - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-file-browser.png
+    text:
+      de: Objekte eines Buckets im Datei-Browser verwalten und hochladen
+      en: Managing and uploading objects of a bucket in the file browser
+  - bg: background.jpg
+    screenshot: screenshot-storage-stats.png
+    text:
+      de: Speicherbelegung, Anfragen und Bucket-Größen in der Statistik
+      en: Storage usage, requests and bucket sizes in the statistics view
+  - bg: background.jpg
+    screenshot: screenshot-bucket-settings.png
+    text:
+      de: Versionierung, Lifecycle-Regel und CORS je Bucket einstellen
+      en: Configuring versioning, lifecycle rule and CORS per bucket
+domains:
+  console:
+    userInput: HOST
+    service: vaults3
+    port: 9001
+  s3:
+    userInput: S3_HOST
+    service: vaults3
+    port: 9000
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain des Dashboards
+      en: Dashboard domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "S3_HOST"
+    label:
+      de: Domain der S3-API
+      en: S3 API domain
+    positionMeta: { step: "domain", index: 2 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername (Access Key)
+      en: Admin username (access key)
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.username}"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 3 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort (Secret Key)
+      en: Admin password (secret key)
+    positionMeta: { step: "adminUser", index: 2 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+systemInputs:
+  - name: "ENCRYPTION_KEY" # openssl rand -hex 32
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+          max: 64
+        - identifier: hexOnly
+          ruleType: charPool
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
+
+help:
+  technicalDetails:
+  - key:
+      de: Dashboard
+      en: Dashboard
+    value: https://${domain.console}
+  - key:
+      de: S3-Endpunkt
+      en: S3 endpoint
+    value: https://${domain.s3}
+  - key:
+      de: Admin Access Key
+      en: Admin access key
+    value: ${vaults3.env.VAULTS3_ACCESS_KEY}
+  - key:
+      de: Admin Secret Key
+      en: Admin secret key
+    value: ${vaults3.env.VAULTS3_SECRET_KEY}
+  - key:
+      de: Verschlüsselungsschlüssel
+      en: Encryption key
+    value: ${vaults3.env.VAULTS3_ENCRYPTION_KEY}
+  alerts:
+  - status: info
+    heading:
+      de: Zugangsdaten sind Startwerte
+      en: Credentials are initial values
+    content:
+      de: Access Key und Secret Key aus der Installation gelten nur, bis sie im Dashboard geändert werden. Danach zeigt diese Übersicht weiterhin die alten Werte, und eine Änderung der Umgebungsvariablen hat keine Wirkung mehr.
+      en: The access key and secret key from the installation apply only until they are changed in the dashboard. After that this overview still shows the old values, and changing the environment variables has no effect any more.
+  - status: warning
+    heading:
+      de: Verschlüsselungsschlüssel sichern
+      en: Back up the encryption key
+    content:
+      de: Alle Objekte sind mit `VAULTS3_ENCRYPTION_KEY` verschlüsselt. Ohne diesen Schlüssel sind die Daten in den Volumes nicht lesbar – bewahre ihn getrennt von den Backups auf.
+      en: All objects are encrypted with `VAULTS3_ENCRYPTION_KEY`. Without this key the data in the volumes cannot be read – keep it separately from your backups.
+  - status: warning
+    heading:
+      de: Admin-Zugangsdaten nicht in Anwendungen verwenden
+      en: Do not use admin credentials in applications
+    content:
+      de: Der Admin Access Key hat Vollzugriff auf alle Buckets. Lege im Dashboard unter `Zugriffsschlüssel` je Anwendung eigene Schlüssel mit eingeschränkter Richtlinie an.
+      en: The admin access key has full access to all buckets. Create separate keys with a restricted policy per application in the dashboard under `Access Keys`.
+  - status: info
+    heading:
+      de: Path-Style-Adressierung verwenden
+      en: Use path-style addressing
+    content:
+      de: Buckets werden als Pfad angesprochen (`https://${domain.s3}/bucket`), nicht als Subdomain. In S3-Clients ist daher `forcePathStyle` bzw. `use_path_style_endpoint` zu aktivieren; als Region gilt `us-east-1`. Die Namen `metrics`, `health` und `ready` sind für Buckets nicht nutzbar, weil diese Pfade vom Server belegt sind.
+      en: Buckets are addressed as a path (`https://${domain.s3}/bucket`), not as a subdomain. Enable `forcePathStyle` or `use_path_style_endpoint` in S3 clients; the region is `us-east-1`. The names `metrics`, `health` and `ready` cannot be used for buckets because the server reserves these paths.
+  - status: info
+    heading:
+      de: Metriken und Login-Sperre hinter dem Proxy
+      en: Metrics and login lockout behind the proxy
+    content:
+      de: "`/metrics` (Prometheus) ist auf dem S3-Endpunkt ohne Authentifizierung abrufbar. Nach mehreren fehlgeschlagenen Dashboard-Logins sperrt VaultS3 die Absender-IP zeitweise; hinter dem Proxy trifft das alle Nutzer gleichzeitig. Beides lässt sich per Umgebungsvariable nicht ändern."
+      en: "`/metrics` (Prometheus) can be fetched from the S3 endpoint without authentication. After several failed dashboard logins VaultS3 temporarily locks the sender IP; behind the proxy this affects all users at once. Neither can be changed via environment variables."
