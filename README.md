@@ -405,6 +405,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="anythingllm/icon.svg" width="24" height="24" style="object-fit:contain"> | [anythingllm](anythingllm/) | All-in-One KI-Desktop- und Server-Anwendung mit RAG |
 | <img src="apprise/icon.svg" width="24" height="24" style="object-fit:contain"> | [apprise](apprise/) | Benachrichtigungen über eine API verteilen |
 | <img src="bentopdf/icon.svg" width="24" height="24" style="object-fit:contain"> | [bentopdf](bentopdf/) | PDF-Werkzeugkasten direkt im Browser |
+| <img src="bitwarden/icon.svg" width="24" height="24" style="object-fit:contain"> | [bitwarden](bitwarden/) | Offizieller Bitwarden-Server zum Selbsthosten |
 | <img src="bookstack/icon.svg" width="24" height="24" style="object-fit:contain"> | [bookstack](bookstack/) | Wiki und Dokumentation in Regalen, Büchern und Seiten |
 | <img src="bugsink/icon.svg" width="24" height="24" style="object-fit:contain"> | [bugsink](bugsink/) | Sentry-kompatibles Error-Tracking |
 | <img src="changedetection/icon.svg" width="24" height="24" style="object-fit:contain"> | [changedetection](changedetection/) | Website-Änderungen automatisch erkennen |
