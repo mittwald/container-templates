@@ -382,6 +382,9 @@ function defaultUserValue(input) {
     value = "Local Password Pusher";
   } else if (name === "BRAND_TAGLINE") {
     value = "Local development";
+  } else if (name === "INSTALLATION_ID") {
+    // Bitwarden requires a UUID and rejects the nil UUID on startup.
+    value = "11111111-1111-4111-8111-111111111111";
   } else if (name.includes("TOKEN") || name.includes("SECRET")) {
     value = "DevToken1234567890";
   } else {

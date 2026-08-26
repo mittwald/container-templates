@@ -1,0 +1,5 @@
+services:
+  bitwarden:
+    environment:
+      globalSettings__mail__smtp__host: ct-mail
+      globalSettings__mail__smtp__port: "1025"
