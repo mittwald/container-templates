@@ -15,6 +15,7 @@ Dieses Repository enthält Container-Vorlagen (Templates) für die mStudio Conta
 - Abhängige Services warten über `depends_on` mit `condition: service_healthy`; Datenbanken/Caches (postgres, mariadb, redis/valkey, meilisearch …) definieren dazu einen `healthcheck`.
 - Services, die Backups unterstützen, verwenden das Label `backup.command` mit dem entsprechenden Backup-Befehl.
 - Ports werden nur für den Hauptservice exponiert, der über die Domain erreichbar sein soll.
+- `command` und `entrypoint` werden **immer als Liste** (Exec-Form) geschrieben, z. B. `command: ["server", "/data", "--console-address", ":9001"]`. Die Plattform zerlegt einen String nicht wie Compose in Argumente, sondern übergibt ihn als ein einzelnes Argument – der Container startet dann mit `No such file or directory`.
 - `docker-compose.dev.yml` ist ein optionaler lokaler Override, den `dev.mjs` nach der generierten Compose-Datei lädt; beim produktiven Template-Deployment wird die Datei nicht verwendet.
 
 Beispiel für einen lokalen Mailpit-Override:
