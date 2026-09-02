@@ -9,7 +9,7 @@ tagline:
   en: Profiling daemon for PHP applications
 description:
   de: |
-    **Tideways** ist ein Application Performance Monitoring für PHP-Anwendungen und eine Alternative zu Diensten wie New Relic, Datadog APM oder Blackfire. Der **Tideways Daemon** läuft dabei im eigenen Projekt neben der Anwendung: Die PHP-Erweiterung übergibt ihm Traces, Fehler und Metriken, die er gebündelt an das Tideways-Backend überträgt.
+    **Tideways** ist ein Application Performance Monitoring für PHP-Anwendungen und eine Alternative zu Diensten wie New Relic, Datadog APM oder Blackfire. Der **Tideways Daemon** läuft dabei in demselben Projekt neben der Anwendung: Die PHP-Erweiterung übergibt ihm Traces, Fehler und Metriken, die er gebündelt an das Tideways-Backend überträgt.
 
     Zentrale Funktionen:
 
@@ -18,11 +18,11 @@ description:
     - Registrierung unter einer Umgebung, etwa `production` oder `staging`
     - Frei wählbarer Hostname, unter dem der Server in Tideways erscheint
 
-    Der **Tideways Daemon** bildet das Monitoring-Backend hinter PHP-Anwendungen, die du im mStudio betreibst. Shopware-, TYPO3-, Symfony- oder Laravel-Projekte melden ihre Laufzeitdaten an den Daemon im selben Projekt; langsame Requests, N+1-Queries und Fehler werden dadurch nachvollziehbar. Die Anwendung wird dafür über wenige php.ini-Einstellungen auf den Daemon gezeigt.
+    Der **Tideways Daemon** bildet das Monitoring-Backend hinter PHP-Anwendungen, die du im mStudio betreibst. Shopware-, TYPO3-, Symfony- oder Laravel-Projekte melden ihre Laufzeitdaten an den Daemon im selben Projekt; langsame Requests, N+1-Queries und Fehler werden dadurch nachvollziehbar. Die Anwendung wird dafür über wenige php.ini-Einstellungen mit dem Daemon verknüpft.
 
     Bei mittwald läuft der **Tideways Daemon** als Container-Komponente in deutschen Rechenzentren. Die erhobenen Performance-Daten werden an das Backend der Tideways GmbH (Bonn) übertragen, die dafür einen AV-Vertrag nach DSGVO bereitstellt. Dieses Template enthält den Daemon mit konfigurierbarer Umgebung und Hostname; für den Betrieb ist ein kostenpflichtiges Tideways-Konto erforderlich.
   en: |
-    **Tideways** is application performance monitoring for PHP applications and an alternative to services such as New Relic, Datadog APM or Blackfire. The **Tideways Daemon** runs alongside the application in the operator's own project: the PHP extension hands it traces, errors and metrics, which it transmits to the Tideways backend in batches.
+    **Tideways** is application performance monitoring for PHP applications and an alternative to services such as New Relic, Datadog APM or Blackfire. The **Tideways Daemon** runs alongside the application in the same project: the PHP extension hands it traces, errors and metrics, which it transmits to the Tideways backend in batches.
 
     Key features:
 
