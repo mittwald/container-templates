@@ -1,0 +1,15 @@
+services:
+  tideways-daemon:
+    image: ghcr.io/tideways/daemon:latest
+    ports:
+      - "9135:9135"
+    command:
+      - --env=${ENVIRONMENT}
+      - --hostname=${DAEMON_HOSTNAME}
+    environment:
+      - TZ=Europe/Berlin
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/9135"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
