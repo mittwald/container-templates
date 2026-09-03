@@ -1,0 +1,105 @@
+manifestVersion: 1.0
+name:
+  de: Tideways Daemon
+  en: Tideways Daemon
+version: "latest"
+type: component
+tagline:
+  de: Profiling-Daemon für PHP-Anwendungen
+  en: Profiling daemon for PHP applications
+description:
+  de: |
+    **Tideways** ist ein Application Performance Monitoring für PHP-Anwendungen und eine Alternative zu Diensten wie New Relic, Datadog APM oder Blackfire. Der **Tideways Daemon** läuft dabei in demselben Projekt neben der Anwendung: Die PHP-Erweiterung übergibt ihm Traces, Fehler und Metriken, die er gebündelt an das Tideways-Backend überträgt.
+
+    Zentrale Funktionen:
+
+    - Sammelstelle für Traces, Fehler und Server-Metriken mehrerer PHP-Container
+    - Entkoppelt die Anwendung vom Versand, sodass im Request kein Wartezeit-Overhead entsteht
+    - Registrierung unter einer Umgebung, etwa `production` oder `staging`
+    - Frei wählbarer Hostname, unter dem der Server in Tideways erscheint
+
+    Der **Tideways Daemon** bildet das Monitoring-Backend hinter PHP-Anwendungen, die du im mStudio betreibst. Shopware-, TYPO3-, Symfony- oder Laravel-Projekte melden ihre Laufzeitdaten an den Daemon im selben Projekt; langsame Requests, N+1-Queries und Fehler werden dadurch nachvollziehbar. Die Anwendung wird dafür über wenige php.ini-Einstellungen mit dem Daemon verknüpft.
+
+    Bei mittwald läuft der **Tideways Daemon** als Container-Komponente in deutschen Rechenzentren. Die erhobenen Performance-Daten werden an das Backend der Tideways GmbH (Bonn) übertragen, die dafür einen AV-Vertrag nach DSGVO bereitstellt. Dieses Template enthält den Daemon mit konfigurierbarer Umgebung und Hostname; für den Betrieb ist ein kostenpflichtiges Tideways-Konto erforderlich.
+  en: |
+    **Tideways** is application performance monitoring for PHP applications and an alternative to services such as New Relic, Datadog APM or Blackfire. The **Tideways Daemon** runs alongside the application in the same project: the PHP extension hands it traces, errors and metrics, which it transmits to the Tideways backend in batches.
+
+    Key features:
+
+    - Collection point for traces, errors and server metrics from several PHP containers
+    - Decouples the application from transmission, adding no waiting time to the request
+    - Registration under an environment, such as `production` or `staging`
+    - Freely chosen hostname under which the server appears in Tideways
+
+    The **Tideways Daemon** provides the monitoring backend behind PHP applications that you run in the mStudio. Shopware, TYPO3, Symfony or Laravel projects report their runtime data to the daemon in the same project, making slow requests, N+1 queries and errors traceable. The application is pointed at the daemon with a few php.ini settings.
+
+    At mittwald, the **Tideways Daemon** runs as a container component in German data centres. The collected performance data is transmitted to the backend of Tideways GmbH (Bonn), which provides a GDPR data processing agreement for it. This template includes the daemon with configurable environment and hostname; a paid Tideways account is required.
+developer: Tideways GmbH
+website: https://tideways.com
+repository: https://github.com/tideways/container-images
+support: https://support.tideways.com
+license:
+  name: Proprietary
+  link: https://tideways.com/tos
+categories:
+  - monitoring
+  - development
+userInputs:
+  - name: "ENVIRONMENT"
+    label:
+      de: Umgebung
+      en: Environment
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "production"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9_-]+$" }'
+  - name: "DAEMON_HOSTNAME"
+    label:
+      de: Hostname in Tideways
+      en: Hostname in Tideways
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "tideways-daemon"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9._-]+$" }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${tideways-daemon.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 9135/TCP
+  - key:
+      de: Verbindung der PHP-Anwendung (`tideways.connection`)
+      en: Connection from the PHP application (`tideways.connection`)
+    value: tcp://${tideways-daemon.hostname}:9135
+  alerts:
+    - status: info
+      heading:
+        de: API-Key gehört in die PHP-Anwendung
+        en: The API key belongs in the PHP application
+      content:
+        de: Der Daemon selbst benötigt keinen API-Key. Setze in jeder PHP-App die ini-Einstellung `tideways.api_key` auf den Key aus deinem Tideways-Konto und `tideways.connection` auf die oben genannte Adresse. Ohne beide Werte werden keine Daten erfasst.
+        en: The daemon itself does not need an API key. In every PHP application running the Tideways extension, set `tideways.api_key` to the key from your Tideways account and `tideways.connection` to the address listed above. Without both values, no data is collected.
+      linkText:
+        de: Anleitung zur Einrichtung
+        en: Setup guide
+      link:
+        de: https://developer.mittwald.de/docs/v2/guides/operations/tideways-profiling/
+        en: https://developer.mittwald.de/docs/v2/guides/operations/tideways-profiling/
+    - status: warning
+      heading:
+        de: Daten werden an Tideways übertragen
+        en: Data is transmitted to Tideways
+      content:
+        de: Der Daemon ist kein eigenständiges Monitoring, sondern der Vermittler zum SaaS-Dienst von Tideways. Traces, Fehler und Server-Metriken verlassen die mittwald-Infrastruktur und werden an das Tideways-Backend übertragen; ein kostenpflichtiges Konto ist erforderlich. Für die Verarbeitung personenbezogener Daten ist ein AV-Vertrag mit der Tideways GmbH abzuschließen.
+        en: The daemon is not a standalone monitoring system but the relay to the Tideways SaaS service. Traces, errors and server metrics leave the mittwald infrastructure and are transmitted to the Tideways backend; a paid account is required. For the processing of personal data, a data processing agreement with Tideways GmbH must be concluded.
+      linkText:
+        de: Auftragsverarbeitungsvertrag
+        en: Data processing agreement
+      link:
+        de: https://tideways.com/data-processing-agreement
+        en: https://tideways.com/data-processing-agreement
