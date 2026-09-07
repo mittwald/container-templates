@@ -46,6 +46,9 @@ services:
       - MARIADB_USER=bookstack
       - MARIADB_PASSWORD=${DB_PASSWORD}
       - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      # The MariaDB entrypoint unsets MARIADB_*PASSWORD before starting the
+      # server, so the backup command needs its own copy of the password.
+      - BACKUP_PASSWORD=${MARIADB_ROOT_PASSWORD}
     volumes:
       - mariadb_data:/var/lib/mysql
     healthcheck:
@@ -57,7 +60,7 @@ services:
       backup.command: >-
         sh -lc 'set -e; d=/var/lib/mysql/backups; mkdir -p "$$d";
         f=$$d/backup_$$(date +%F_%H%M%S).sql;
-        { MYSQL_PWD="$$MARIADB_ROOT_PASSWORD" mariadb-dump -u root --all-databases --routines --events --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
+        { MYSQL_PWD="$$BACKUP_PASSWORD" mariadb-dump -u root --all-databases --routines --events --single-transaction --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
         gzip "$$f";
         find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
 volumes:
