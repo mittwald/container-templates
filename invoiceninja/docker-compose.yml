@@ -1,0 +1,206 @@
+services:
+  invoiceninja:
+    image: invoiceninja/invoiceninja-octane:5
+    # The Octane image picks its role from LARAVEL_ROLE; flags are appended to
+    # the resulting artisan command.
+    command: ["--port=8080", "--workers=2"]
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+      # Laravel's timezone comes from SERVER_TIMEZONE here, not APP_TIMEZONE.
+      - SERVER_TIMEZONE=Europe/Berlin
+      - LARAVEL_ROLE=app
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://${HOST}
+      - APP_KEY=${APP_KEY}
+      - IS_DOCKER=true
+      - REQUIRE_HTTPS=true
+      # TLS terminates at the ingress; trust its forwarded headers from private ranges.
+      - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      # Chrome renders the PDFs and creates its profile below XDG_CONFIG_HOME.
+      # The image inherits /config from FrankenPHP, which is owned by root, so
+      # the non-root user cannot create the profile there.
+      - XDG_CONFIG_HOME=/data/chrome
+      - PDF_GENERATOR=snappdf
+      - PHANTOMJS_PDF_GENERATION=false
+      - SCOUT_DRIVER=null
+      - FILESYSTEM_DISK=debian_docker
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=invoiceninja
+      - DB_USERNAME=invoiceninja
+      - DB_PASSWORD=${DB_PASSWORD}
+      - CACHE_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - SESSION_DRIVER=redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=null
+      # Required: the entrypoint aborts when either value is empty.
+      - IN_USER_EMAIL=${ADMIN_EMAIL}
+      - IN_PASSWORD=${ADMIN_PASSWORD}
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM_ADDRESS=${SMTP_FROM}
+      - MAIL_FROM_NAME=Invoice Ninja
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - invoiceninja_storage:/app/storage
+      - invoiceninja_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      # The first start applies all migrations and seeds the database.
+      start_period: 5m
+      start_interval: 5s
+  worker:
+    image: invoiceninja/invoiceninja-octane:5
+    command: ["--sleep=3", "--tries=3", "--max-time=3600"]
+    environment:
+      - TZ=Europe/Berlin
+      - SERVER_TIMEZONE=Europe/Berlin
+      - LARAVEL_ROLE=worker
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://${HOST}
+      - APP_KEY=${APP_KEY}
+      - IS_DOCKER=true
+      - REQUIRE_HTTPS=true
+      - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      # Queued jobs render PDFs too, so the worker needs the same Chrome profile path.
+      - XDG_CONFIG_HOME=/data/chrome
+      - PDF_GENERATOR=snappdf
+      - PHANTOMJS_PDF_GENERATION=false
+      - SCOUT_DRIVER=null
+      - FILESYSTEM_DISK=debian_docker
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=invoiceninja
+      - DB_USERNAME=invoiceninja
+      - DB_PASSWORD=${DB_PASSWORD}
+      - CACHE_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - SESSION_DRIVER=redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=null
+      - IN_USER_EMAIL=${ADMIN_EMAIL}
+      - IN_PASSWORD=${ADMIN_PASSWORD}
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM_ADDRESS=${SMTP_FROM}
+      - MAIL_FROM_NAME=Invoice Ninja
+    depends_on:
+      invoiceninja:
+        condition: service_healthy
+    volumes:
+      - invoiceninja_storage:/app/storage
+      - invoiceninja_data:/data
+  scheduler:
+    image: invoiceninja/invoiceninja-octane:5
+    environment:
+      - TZ=Europe/Berlin
+      - SERVER_TIMEZONE=Europe/Berlin
+      - LARAVEL_ROLE=scheduler
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - APP_URL=https://${HOST}
+      - APP_KEY=${APP_KEY}
+      - IS_DOCKER=true
+      - REQUIRE_HTTPS=true
+      - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      - XDG_CONFIG_HOME=/data/chrome
+      - PDF_GENERATOR=snappdf
+      - PHANTOMJS_PDF_GENERATION=false
+      - SCOUT_DRIVER=null
+      - FILESYSTEM_DISK=debian_docker
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=invoiceninja
+      - DB_USERNAME=invoiceninja
+      - DB_PASSWORD=${DB_PASSWORD}
+      - CACHE_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - SESSION_DRIVER=redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=null
+      - IN_USER_EMAIL=${ADMIN_EMAIL}
+      - IN_PASSWORD=${ADMIN_PASSWORD}
+      - MAIL_MAILER=smtp
+      - MAIL_HOST=mail.agenturserver.de
+      - MAIL_PORT=587
+      - MAIL_ENCRYPTION=tls
+      - MAIL_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - MAIL_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - MAIL_FROM_ADDRESS=${SMTP_FROM}
+      - MAIL_FROM_NAME=Invoice Ninja
+    depends_on:
+      invoiceninja:
+        condition: service_healthy
+    volumes:
+      - invoiceninja_storage:/app/storage
+      - invoiceninja_data:/data
+  mysql:
+    image: mysql:8
+    environment:
+      - TZ=Europe/Berlin
+      - MYSQL_DATABASE=invoiceninja
+      - MYSQL_USER=invoiceninja
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      # The MySQL entrypoint unsets MYSQL_*PASSWORD before starting the server,
+      # so health check and backup command need their own copy of the password.
+      - BACKUP_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p\"$$BACKUP_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 2m
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/mysql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { MYSQL_PWD="$$BACKUP_PASSWORD" mysqldump -u root --all-databases --routines --events --single-transaction --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+  redis:
+    image: redis:8
+    # Queued jobs live in Redis, so persist them across restarts.
+    command: ["--appendonly", "yes"]
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  invoiceninja_storage:
+  invoiceninja_data:
+  mysql_data:
+  redis_data:
