@@ -19,10 +19,15 @@ services:
       - REQUIRE_HTTPS=true
       # TLS terminates at the ingress; trust its forwarded headers from private ranges.
       - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-      # Chrome renders the PDFs and creates its profile below XDG_CONFIG_HOME.
-      # The image inherits /config from FrankenPHP, which is owned by root, so
-      # the non-root user cannot create the profile there.
-      - XDG_CONFIG_HOME=/data/chrome
+      # Chrome renders the PDFs and creates its profile below XDG_CONFIG_HOME,
+      # and psysh (artisan tinker) writes there as well. The image inherits
+      # /config from FrankenPHP, and both /config and /data are owned by root
+      # while the container runs as ninja (uid 999), so this has to point into
+      # the storage volume, which the image owns. Pointing it at an unwritable
+      # path breaks PDF rendering and makes the entrypoint's first-run probe
+      # return a psysh error instead of "1", silently skipping the seed and the
+      # creation of the admin account.
+      - XDG_CONFIG_HOME=/app/storage/chrome
       - PDF_GENERATOR=snappdf
       - PHANTOMJS_PDF_GENERATION=false
       - SCOUT_DRIVER=null
@@ -80,8 +85,8 @@ services:
       - IS_DOCKER=true
       - REQUIRE_HTTPS=true
       - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-      # Queued jobs render PDFs too, so the worker needs the same Chrome profile path.
-      - XDG_CONFIG_HOME=/data/chrome
+      # Queued jobs render PDFs too, so the worker needs the same writable path.
+      - XDG_CONFIG_HOME=/app/storage/chrome
       - PDF_GENERATOR=snappdf
       - PHANTOMJS_PDF_GENERATION=false
       - SCOUT_DRIVER=null
@@ -127,7 +132,7 @@ services:
       - IS_DOCKER=true
       - REQUIRE_HTTPS=true
       - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-      - XDG_CONFIG_HOME=/data/chrome
+      - XDG_CONFIG_HOME=/app/storage/chrome
       - PDF_GENERATOR=snappdf
       - PHANTOMJS_PDF_GENERATION=false
       - SCOUT_DRIVER=null
@@ -168,13 +173,14 @@ services:
       - MYSQL_USER=invoiceninja
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      # The MySQL entrypoint unsets MYSQL_*PASSWORD before starting the server,
-      # so health check and backup command need their own copy of the password.
-      - BACKUP_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p\"$$BACKUP_PASSWORD\" --silent"]
+      # -h 127.0.0.1 forces TCP. With "localhost" the client would use the unix
+      # socket and answer from the entrypoint's temporary init server, which runs
+      # with --skip-networking - the service would report healthy before it
+      # accepts connections on 3306.
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -183,7 +189,7 @@ services:
       backup.command: >-
         sh -lc 'set -e; d=/var/lib/mysql/backups; mkdir -p "$$d";
         f=$$d/backup_$$(date +%F_%H%M%S).sql;
-        { MYSQL_PWD="$$BACKUP_PASSWORD" mysqldump -u root --all-databases --routines --events --single-transaction --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
+        { MYSQL_PWD="$$MYSQL_ROOT_PASSWORD" mysqldump -u root --all-databases --routines --events --single-transaction --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
         gzip "$$f";
         find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
   redis:
@@ -195,7 +201,9 @@ services:
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      # redis-cli exits 0 even on an error reply, and answers -LOADING while
+      # replaying the AOF, so the reply itself has to be checked.
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -51,7 +51,7 @@ screenshots:
     screenshot: screenshot-rechnungsliste.png
     text:
       de: Alle Rechnungen auf einen Blick
-      en: Invoice overview with status, amount and due date
+      en: All invoices at a glance
   - bg: background.jpg
     screenshot: screenshot-rechnung-erstellen.png
     text:
@@ -60,7 +60,7 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-e-rechnung.png
     text:
-      de: E-Rechnungen nach EN16931 möglich
+      de: E-Rechnungen nach EN 16931 möglich
       en: E-invoices in accordance with EN 16931 are possible
 domains:
   main:
