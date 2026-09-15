@@ -41,12 +41,27 @@ description:
 developer: Invoice Ninja LLC
 website: https://www.invoiceninja.com
 repository: https://github.com/invoiceninja/invoiceninja
-support: https://invoiceninja.github.io/
 license:
   name: Elastic License 2.0
   link: https://github.com/invoiceninja/invoiceninja/blob/v5-stable/LICENSE
 categories:
   - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-rechnungsliste.png
+    text:
+      de: Alle Rechnungen auf einen Blick
+      en: Invoice overview with status, amount and due date
+  - bg: background.jpg
+    screenshot: screenshot-rechnung-erstellen.png
+    text:
+      de: Neue Rechnungen erstellen
+      en: Create new invoices
+  - bg: background.jpg
+    screenshot: screenshot-e-rechnung.png
+    text:
+      de: E-Rechnungen nach EN16931 möglich
+      en: E-invoices in accordance with EN 16931 are possible
 domains:
   main:
     userInput: HOST
@@ -172,13 +187,6 @@ help:
     content:
       de: Beim ersten Start legt Invoice Ninja das Datenbankschema an, befüllt Stammdaten und erstellt das Administratorkonto mit den oben angezeigten Zugangsdaten. Bis die Oberfläche antwortet, vergehen einige Minuten. Worker und Scheduler starten erst, wenn die Anwendung bereit ist.
       en: On first start Invoice Ninja creates the database schema, seeds reference data and creates the administrator account with the credentials shown above. It takes a few minutes until the interface responds. Worker and scheduler only start once the application is ready.
-  - status: info
-    heading:
-      de: E-Rechnung muss aktiviert werden
-      en: E-invoicing needs to be enabled
-    content:
-      de: Unter `Einstellungen > E-Rechnung` wird der Schalter `Aktiviere E-Rechnung` gesetzt und der Standard gewählt — für die deutsche XRechnung `XInvoice_3.0`. Damit die erzeugte Datei gültig ist, müssen unter `Einstellungen > Firmendaten` Anschrift und USt-IdNr. hinterlegt sein; die Leitweg-ID eines Behördenkunden trägt man am Kunden im Feld `Routing-ID` ein.
-      en: Under `Settings > E-Invoice`, enable `Enable E-Invoice` and pick the standard — `XInvoice_3.0` for the German XRechnung. For the generated file to be valid, address and VAT number must be set under `Settings > Company Details`; a public-sector client's Leitweg-ID goes into the `Routing ID` field on the client.
   - status: warning
     heading:
       de: Anmeldedaten nach dem ersten Login ändern
