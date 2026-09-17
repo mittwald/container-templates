@@ -17,8 +17,14 @@ services:
       - APP_KEY=${APP_KEY}
       - IS_DOCKER=true
       - REQUIRE_HTTPS=true
-      # TLS terminates at the ingress; trust its forwarded headers from private ranges.
-      - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      # TLS terminates at the ingress, which also replaces the Host header with
+      # the container's internal address. Laravel only reads X-Forwarded-Proto
+      # and X-Forwarded-Host from a trusted proxy, and the ingress address is
+      # not predictable, so every proxy is trusted - the container is reachable
+      # through the ingress only. With an untrusted proxy the request counts as
+      # plain HTTP and Invoice Ninja redirects "/" to the internal address,
+      # https://<container-short-id>:8080/.
+      - TRUSTED_PROXIES=*
       # Chrome renders the PDFs and creates its profile below XDG_CONFIG_HOME,
       # and psysh (artisan tinker) writes there as well. The image inherits
       # /config from FrankenPHP, and both /config and /data are owned by root
@@ -84,7 +90,7 @@ services:
       - APP_KEY=${APP_KEY}
       - IS_DOCKER=true
       - REQUIRE_HTTPS=true
-      - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      - TRUSTED_PROXIES=*
       # Queued jobs render PDFs too, so the worker needs the same writable path.
       - XDG_CONFIG_HOME=/app/storage/chrome
       - PDF_GENERATOR=snappdf
@@ -131,7 +137,7 @@ services:
       - APP_KEY=${APP_KEY}
       - IS_DOCKER=true
       - REQUIRE_HTTPS=true
-      - TRUSTED_PROXIES=127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      - TRUSTED_PROXIES=*
       - XDG_CONFIG_HOME=/app/storage/chrome
       - PDF_GENERATOR=snappdf
       - PHANTOMJS_PDF_GENERATION=false
