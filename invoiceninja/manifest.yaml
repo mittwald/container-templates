@@ -22,7 +22,7 @@ description:
 
     Für **Agenturen** deckt Invoice Ninja die eigene Abrechnung ab: Projektzeiten fließen direkt in die Rechnung, wiederkehrende Rechnungen bilden Retainer und Wartungsverträge ab, und E-Rechnungen für den deutschen B2B- und B2G-Bereich entstehen ohne zusätzliches Werkzeug. Ebenso lässt sich das Template im Projekt eines Kunden ausrollen, der seine Rechnungsstellung selbst betreiben möchte.
 
-    Bei mittwald läuft **Invoice Ninja** als self-hosted Container in deutschen Rechenzentren; Rechnungs- und Kundendaten bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Invoice Ninja mit MySQL und Redis, dazu einen Queue-Worker und den Scheduler, verdrahtet den Mailversand über eine Delivery-Box und legt Anhänge und Datenbank in persistenten Volumes ab. Die Anwendung steht unter der Elastic License 2.0 und ist für den Eigenbetrieb kostenfrei.
+    Bei mittwald läuft **Invoice Ninja** als self-hosted Container in deutschen Rechenzentren; Rechnungs- und Kundendaten bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Invoice Ninja mit MySQL und Redis, dazu einen Queue-Worker und den Scheduler, verdrahtet den Mailversand über einen Postausgang im mStudio und legt Anhänge und Datenbank in persistenten Volumes ab. Die Anwendung steht unter der Elastic License 2.0 und ist für den Eigenbetrieb kostenfrei.
   en: |
     **Invoice Ninja** is a self-hosted application for invoicing, quotes and time tracking. It covers the path from quote through invoice to incoming payment, making it a self-hosted alternative to Lexware Office, sevDesk or FreshBooks.
 
