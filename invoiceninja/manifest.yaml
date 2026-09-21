@@ -1,0 +1,196 @@
+manifestVersion: 1.0
+name:
+  de: Invoice Ninja
+  en: Invoice Ninja
+version: "5.x.x"
+type: standalone
+tagline:
+  de: Rechnungen, Angebote und Zeiterfassung inklusive E-Rechnung
+  en: Invoicing, quotes and time tracking including e-invoicing
+description:
+  de: |
+    **Invoice Ninja** ist eine selbstgehostete Anwendung für Rechnungsstellung, Angebote und Zeiterfassung. Sie begleitet den Weg vom Angebot über die Rechnung bis zum Zahlungseingang und ist damit eine self-hosted Alternative zu Lexware Office, sevDesk oder FreshBooks.
+
+    Zentrale Funktionen:
+
+    - Angebote, Rechnungen, Gutschriften und wiederkehrende Rechnungen mit eigenen Vorlagen
+    - E-Rechnung nach EN 16931: XRechnung und ZUGFeRD/Factur-X als XML und als Hybrid-PDF
+    - Zeiterfassung und Projektverwaltung mit direkter Abrechnung erfasster Stunden
+    - Kundenportal mit Online-Zahlung über mehr als 40 Zahlungsanbieter
+    - Mahnwesen, Teilzahlungen, Ausgaben- und Lieferantenverwaltung
+    - REST-API, Webhooks und mehrere Unternehmen in einer Installation
+
+    Für **Agenturen** deckt Invoice Ninja die eigene Abrechnung ab: Projektzeiten fließen direkt in die Rechnung, wiederkehrende Rechnungen bilden Retainer und Wartungsverträge ab, und E-Rechnungen für den deutschen B2B- und B2G-Bereich entstehen ohne zusätzliches Werkzeug. Ebenso lässt sich das Template im Projekt eines Kunden ausrollen, der seine Rechnungsstellung selbst betreiben möchte.
+
+    Bei mittwald läuft **Invoice Ninja** als self-hosted Container in deutschen Rechenzentren; Rechnungs- und Kundendaten bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Invoice Ninja mit MySQL und Redis, dazu einen Queue-Worker und den Scheduler, verdrahtet den Mailversand über einen Postausgang im mStudio und legt Anhänge und Datenbank in persistenten Volumes ab. Die Anwendung steht unter der Elastic License 2.0 und ist für den Eigenbetrieb kostenfrei.
+  en: |
+    **Invoice Ninja** is a self-hosted application for invoicing, quotes and time tracking. It covers the path from quote through invoice to incoming payment, making it a self-hosted alternative to Lexware Office, sevDesk or FreshBooks.
+
+    Key features:
+
+    - Quotes, invoices, credit notes and recurring invoices with custom templates
+    - E-invoicing to EN 16931: XRechnung and ZUGFeRD/Factur-X as XML and as hybrid PDF
+    - Time tracking and project management with direct billing of recorded hours
+    - Client portal with online payment through more than 40 payment providers
+    - Dunning, partial payments, expense and vendor management
+    - REST API, webhooks and multiple companies within one installation
+
+    For **agencies**, Invoice Ninja covers their own billing: project time flows straight into the invoice, recurring invoices map retainers and maintenance contracts, and e-invoices for the German B2B and B2G context are produced without an additional tool. The template can equally be deployed in a client's own project when the client wants to run their invoicing themselves.
+
+    At mittwald, **Invoice Ninja** runs as a self-hosted container in German data centres; invoice and client data stay within the operator's infrastructure, simplifying GDPR compliance. This template ships Invoice Ninja with MySQL and Redis plus a queue worker and the scheduler, wires outgoing mail to a delivery box and stores attachments and the database in persistent volumes. The application is licensed under the Elastic License 2.0 and is free of charge for self-operation.
+developer: Invoice Ninja LLC
+website: https://www.invoiceninja.com
+repository: https://github.com/invoiceninja/invoiceninja
+license:
+  name: Elastic License 2.0
+  link: https://github.com/invoiceninja/invoiceninja/blob/v5-stable/LICENSE
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-rechnungsliste.png
+    text:
+      de: Alle Rechnungen auf einen Blick
+      en: All invoices at a glance
+  - bg: background.jpg
+    screenshot: screenshot-rechnung-erstellen.png
+    text:
+      de: Neue Rechnungen erstellen
+      en: Create new invoices
+  - bg: background.jpg
+    screenshot: screenshot-e-rechnung.png
+    text:
+      de: E-Rechnungen nach EN 16931 möglich
+      en: E-invoices in accordance with EN 16931 are possible
+domains:
+  main:
+    userInput: HOST
+    service: invoiceninja
+    port: 8080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 2 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  # Laravel expects exactly 32 bytes when the key is not base64-prefixed.
+  - name: "APP_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+          max: 32
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "DB_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "MYSQL_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${invoiceninja.env.IN_USER_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${invoiceninja.env.IN_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: Erster Start dauert einige Minuten
+      en: First start takes a few minutes
+    content:
+      de: Beim ersten Start legt Invoice Ninja das Datenbankschema an, befüllt Stammdaten und erstellt das Administratorkonto mit den oben angezeigten Zugangsdaten. Bis die Oberfläche antwortet, vergehen einige Minuten. Worker und Scheduler starten erst, wenn die Anwendung bereit ist.
+      en: On first start Invoice Ninja creates the database schema, seeds reference data and creates the administrator account with the credentials shown above. It takes a few minutes until the interface responds. Worker and scheduler only start once the application is ready.
+  - status: warning
+    heading:
+      de: Anmeldedaten nach dem ersten Login ändern
+      en: Change the login credentials after the first login
+    content:
+      de: Das beim Deployment vergebene Administratorpasswort bleibt als Umgebungsvariable `IN_PASSWORD` im Container hinterlegt. Es sollte im Profil der Anwendung geändert werden; weitere Konten entstehen über `Einstellungen > Benutzerverwaltung`.
+      en: The administrator password set during deployment remains stored in the container as the `IN_PASSWORD` environment variable. It should be changed in the application profile; further accounts are created under `Settings > User Management`.
