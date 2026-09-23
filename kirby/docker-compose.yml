@@ -1,0 +1,77 @@
+services:
+  kirby:
+    image: mittwald/kirby:5
+    ports:
+      - "80:80"
+    # Kirby's panel installer is only offered on localhost unless
+    # `panel.install` is enabled, which would let anyone reaching /panel create
+    # the first admin. Instead, the admin account is created from
+    # ADMIN_EMAIL/ADMIN_PASSWORD as long as no account exists yet.
+    #
+    # Overriding the entrypoint drops the image CMD, so the FrankenPHP arguments
+    # are repeated at the end.
+    entrypoint:
+      - sh
+      - -c
+      - |
+        set -e
+
+        php <<'PHP'
+        <?php
+        require '/app/kirby/bootstrap.php';
+
+        $$kirby = new Kirby([
+            'roots' => [
+                'index'    => '/app/public',
+                'base'     => '/app',
+                'content'  => '/app/content',
+                'site'     => '/app/site',
+                'media'    => '/app/public/media',
+                'storage'  => '/app/storage',
+                'accounts' => '/app/storage/accounts',
+                'cache'    => '/app/storage/cache',
+                'sessions' => '/app/storage/sessions',
+                'logs'     => '/app/storage/logs',
+            ],
+        ]);
+
+        if ($$kirby->users()->count() === 0) {
+            $$kirby->impersonate('kirby', fn () => $$kirby->users()->create([
+                'email'    => getenv('ADMIN_EMAIL'),
+                'password' => getenv('ADMIN_PASSWORD'),
+                'role'     => 'admin',
+            ]));
+            fwrite(STDERR, 'created panel admin ' . getenv('ADMIN_EMAIL') . PHP_EOL);
+        }
+        PHP
+
+        exec kirby-entrypoint --config /etc/caddy/Caddyfile --adapter caddyfile
+    environment:
+      TZ: Europe/Berlin
+      PHP_TIMEZONE: Europe/Berlin
+      KIRBY_URL: https://${HOST}
+      KIRBY_AUTH_METHODS: password,password-reset
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      KIRBY_EMAIL_TRANSPORT: smtp
+      KIRBY_EMAIL_HOST: mail.agenturserver.de
+      KIRBY_EMAIL_PORT: "587"
+      KIRBY_EMAIL_SECURITY: tls
+      KIRBY_EMAIL_USER: ${MW_DELIVERYBOX_MAIN_USERNAME}
+      KIRBY_EMAIL_PASSWORD: ${MW_DELIVERYBOX_MAIN_PASSWORD}
+      # Sender of login and password reset codes; there is no dedicated
+      # variable for it.
+      KIRBY_OPTIONS_JSON: '{"auth": {"challenge": {"email": {"from": "${SMTP_FROM}"}}}}'
+    volumes:
+      # site holds templates, blueprints, plugins and the panel-registered
+      # license; without a volume, none of it could be customised or kept.
+      - kirby_site:/app/site
+      - kirby_content:/app/content
+      - kirby_storage:/app/storage
+      - kirby_media:/app/public/media
+
+volumes:
+  kirby_site:
+  kirby_content:
+  kirby_storage:
+  kirby_media:
