@@ -4,8 +4,9 @@ services:
     ports:
       - "80:80"
     environment:
-      TZ: Europe/Berlin
-      PHP_TIMEZONE: Europe/Berlin
+      TZ: ${TIMEZONE}
+      # PHP defaults to UTC in the image; TZ alone does not change it.
+      PHP_TIMEZONE: ${TIMEZONE}
       KIRBY_URL: https://${HOST}
       KIRBY_AUTH_METHODS: password,password-reset
       # Creates the first panel admin while no account exists yet; afterwards

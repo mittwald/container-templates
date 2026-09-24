@@ -6,7 +6,7 @@ version: "5.x"
 type: standalone
 tagline:
   de: Dateibasiertes CMS mit anpassbarem Panel für individuelle Websites
-  en: File-based CMS with a customisable panel for bespoke websites
+  en: File-based CMS with a customisable panel for individual websites
 description:
   de: |
     **Kirby** ist ein dateibasiertes Content-Management-System, das Inhalte als Textdateien in Ordnern statt in einer Datenbank speichert. Mit frei definierbaren Blueprints und PHP-Templates ist es eine self-hosted Alternative zu WordPress oder Headless-Diensten wie Contentful und Storyblok, ohne vorgegebenes Theme oder festes Datenmodell.
@@ -35,7 +35,7 @@ description:
     - Roles and permissions, image handling with thumbnails and focus point
     - Plugin system with a large range of community extensions
 
-    For agencies, Kirby suits bespoke client websites: the panel is tailored exactly to the client's content, so editors only see the fields they actually maintain. Because content is files, it can be versioned alongside the code and copied between environments.
+    For agencies, Kirby suits custom-built client websites: the panel is tailored exactly to the client's content, so editors only see the fields they actually maintain. Because content is files, it can be versioned alongside the code and copied between environments.
 
     This template ships Kirby 5 on FrankenPHP, creates the admin account during installation, wires outgoing mail to a delivery box and stores site, content, accounts and media in persistent volumes. Running a public website requires one Kirby licence per site.
 developer: Content Folder
@@ -87,11 +87,19 @@ userInputs:
     format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "TIMEZONE"
+    label:
+      de: Zeitzone
+      en: Timezone
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "Europe/Berlin"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$" }'
   - name: "KIRBY_LICENSE"
     label:
       de: Kirby-Lizenz (Inhalt der .license-Datei, optional)
       en: Kirby licence (contents of the .license file, optional)
-    positionMeta: { step: "common", index: 2 }
+    positionMeta: { step: "common", index: 3 }
     required: false
     validationSchema: '{ "type": "string", "pattern": "^\\s*(\\{[\\s\\S]*\\})?\\s*$" }'
 deliveryBoxes:
