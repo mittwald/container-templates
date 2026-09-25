@@ -97,8 +97,8 @@ userInputs:
     validationSchema: '{ "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$" }'
   - name: "KIRBY_LICENSE"
     label:
-      de: Kirby-Lizenz (Inhalt der .license-Datei, optional)
-      en: Kirby licence (contents of the .license file, optional)
+      de: Kirby-Lizenz (Inhalt der .license-Datei)
+      en: Kirby licence (contents of the .license file)
     positionMeta: { step: "common", index: 3 }
     required: false
     validationSchema: '{ "type": "string", "pattern": "^\\s*(\\{[\\s\\S]*\\})?\\s*$" }'
