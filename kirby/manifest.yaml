@@ -22,7 +22,7 @@ description:
 
     Für Agenturen eignet sich Kirby für maßgeschneiderte Kunden-Websites: Das Panel wird exakt auf die Inhalte des Kunden zugeschnitten, sodass Redakteure nur die Felder sehen, die sie tatsächlich pflegen. Da Inhalte Dateien sind, lassen sie sich zusammen mit dem Code versionieren und zwischen Umgebungen kopieren.
 
-    Dieses Template enthält Kirby 5 mit FrankenPHP, legt das Admin-Konto bei der Installation an, verdrahtet den Mailversand über eine Delivery-Box und speichert Site, Inhalte, Konten und Medien in persistenten Volumes. Für den öffentlichen Betrieb ist eine Kirby-Lizenz je Website erforderlich.
+    Dieses Template enthält Kirby 5 mit FrankenPHP, legt das Admin-Konto bei der Installation an, verdrahtet den Mailversand über einen Postausgang und speichert Site, Inhalte, Konten und Medien in persistenten Volumes. Für den öffentlichen Betrieb ist eine Kirby-Lizenz je Website erforderlich.
   en: |
     **Kirby** is a file-based content management system that stores content as text files in folders instead of a database. With freely definable blueprints and PHP templates, it is a self-hosted alternative to WordPress or headless services such as Contentful and Storyblok, without a predefined theme or fixed data model.
 
