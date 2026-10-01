@@ -1,0 +1,156 @@
+manifestVersion: 1.0
+name:
+  de: LimeSurvey
+  en: LimeSurvey
+version: "7.x.x"
+type: standalone
+tagline:
+  de: Umfrageplattform für Online-Befragungen und Formulare
+  en: Survey platform for online questionnaires and forms
+description:
+  de: |
+    **LimeSurvey** ist eine Umfrageplattform für Online-Befragungen und eine self-hosted Alternative zu SurveyMonkey, Typeform oder Google Forms. Fragebögen entstehen im Browser, von der einzelnen Feedback-Abfrage bis zur mehrsprachigen Studie mit Verzweigungslogik und Teilnehmerverwaltung.
+
+    Zentrale Funktionen:
+
+    - Über 25 Fragetypen, von Einfachauswahl über Matrix- und Ranking-Fragen bis zu Dateiuploads
+    - Bedingungen und Verzweigungen, die den Fragebogen an die bisherigen Antworten anpassen
+    - Teilnehmerlisten mit personalisierten Zugangscodes, Einladungen und Erinnerungen
+    - Mehrsprachige Umfragen, anpassbare Themes und Auswertung mit Export nach CSV, Excel, SPSS und R
+
+    Für **Agenturen** eignet sich LimeSurvey für Kundenbefragungen, Marktforschung, Veranstaltungs-Anmeldungen und interne Feedback-Prozesse. Da eine Instanz beliebig viele Umfragen trägt, lassen sich Projekte verschiedener Kunden getrennt verwalten und per Berechtigungen den zuständigen Teammitgliedern zuordnen.
+
+    Bei mittwald läuft **LimeSurvey** als self-hosted Container in deutschen Rechenzentren. Antworten – häufig personenbezogen – verbleiben vollständig unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält LimeSurvey zusammen mit einer PostgreSQL-Datenbank, ohne nutzungsabhängige Lizenz- oder Antwortkontingente.
+  en: |
+    **LimeSurvey** is a survey platform for online questionnaires and a self-hosted alternative to SurveyMonkey, Typeform or Google Forms. Questionnaires are built in the browser, from a single feedback request to a multilingual study with branching logic and participant management.
+
+    Key features:
+
+    - More than 25 question types, from single choice to matrix and ranking questions and file uploads
+    - Conditions and branching that adapt the questionnaire to previous answers
+    - Participant lists with personalised access codes, invitations and reminders
+    - Multilingual surveys, customisable themes and analysis with export to CSV, Excel, SPSS and R
+
+    For **agencies**, LimeSurvey suits client surveys, market research, event registration and internal feedback processes. As a single instance carries any number of surveys, projects for different clients can be kept separate and assigned to the responsible team members via permissions.
+
+    At mittwald, **LimeSurvey** runs as a self-hosted container in German data centres. Responses — often personal data — stay entirely under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes LimeSurvey together with a PostgreSQL database, with no usage-based licence or response quotas.
+developer: LimeSurvey GmbH
+website: https://www.limesurvey.org
+repository: https://github.com/LimeSurvey/LimeSurvey
+support: https://forums.limesurvey.org
+license:
+  name: GPL-2.0-or-later
+  link: https://spdx.org/licenses/GPL-2.0-or-later.html
+categories:
+  - productivity
+domains:
+  main:
+    userInput: HOST
+    service: limesurvey
+    port: 8080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.username}"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 2 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+    - key:
+        de: Administration
+        en: Administration
+      value: https://${domain.main}/index.php/admin
+    - key:
+        de: Admin Benutzername
+        en: Admin username
+      value: ${limesurvey.env.ADMIN_USER}
+    - key:
+        de: SMTP Server
+        en: SMTP server
+      value: ${limesurvey.env.SMTP_HOST}:${limesurvey.env.SMTP_PORT}
+    - key:
+        de: SMTP Benutzername
+        en: SMTP username
+      value: ${limesurvey.env.SMTP_USERNAME}
+    - key:
+        de: SMTP Passwort
+        en: SMTP password
+      value: ${limesurvey.env.SMTP_PASSWORD}
+  alerts:
+    - status: warning
+      heading:
+        de: Mailversand muss in der Anwendung eingerichtet werden
+        en: Email delivery must be set up inside the application
+      content:
+        de: LimeSurvey speichert seine Mail-Einstellungen in der Datenbank. Die oben genannten SMTP-Zugangsdaten sind unter `Konfiguration > Globale Einstellungen > E-Mail-Einstellungen` einzutragen, Verschlüsselung `STARTTLS`. Ohne diesen Schritt können keine Einladungen und Erinnerungen versendet werden.
+        en: LimeSurvey stores its mail settings in the database. Enter the SMTP credentials above under `Configuration > Global settings > Email settings`, encryption `STARTTLS`. Without this step no invitations or reminders can be sent.
+    - status: info
+      heading:
+        de: Admin-Zugangsdaten nur bei der Erstinstallation
+        en: Admin credentials apply to the initial installation only
+      content:
+        de: Benutzername, E-Mail-Adresse und Passwort des Administrators werden einmalig beim ersten Start gesetzt. Spätere Änderungen erfolgen in der Anwendung unter `Konfiguration > Benutzerverwaltung`.
+        en: The administrator's username, email address and password are set once during the first start. Later changes are made inside the application under `Configuration > User management`.

@@ -1,0 +1,84 @@
+services:
+  limesurvey:
+    image: martialblog/limesurvey:7-apache
+    # The upload volume starts out empty: the platform does not seed it from
+    # the image, and neither entrypoint nor application create the layout.
+    # Without these directories every upload fails with "Could not save file".
+    # The .htaccess denies direct web access to participant uploads (fu_*) and
+    # is only written when missing, so local edits survive a restart.
+    # ServerName is required because Apache does not know about the ingress in
+    # front of it and would otherwise build its own redirects as http://,
+    # which the browser blocks as mixed content.
+    command:
+      - "sh"
+      - "-c"
+      - >-
+        mkdir -p /var/www/html/upload/admintheme /var/www/html/upload/global
+        /var/www/html/upload/labels /var/www/html/upload/plugins
+        /var/www/html/upload/surveys /var/www/html/upload/themes/survey
+        /var/www/html/upload/twig;
+        [ -f /var/www/html/upload/surveys/.htaccess ] ||
+        printf '%s\n' '<FilesMatch "^fu_[a-z0-9_]*$$">' 'Require all denied'
+        '</FilesMatch>' > /var/www/html/upload/surveys/.htaccess;
+        printf 'ServerName https://%s\nUseCanonicalName On\n' '${HOST}'
+        > /etc/apache2/conf-enabled/servername.conf;
+        exec apache2-foreground
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+      - DB_TYPE=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=limesurvey
+      - DB_USERNAME=limesurvey
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      # Only evaluated during the initial installation.
+      - ADMIN_USER=${ADMIN_USER}
+      - ADMIN_NAME=${ADMIN_USER}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      # Required behind the ingress, which terminates TLS. Without these
+      # LimeSurvey builds links containing the container's internal port.
+      - PUBLIC_URL=https://${HOST}
+      - HOST_INFO=https://${HOST}
+      - LISTEN_PORT=8080
+      # LimeSurvey stores its mail settings in the database, not in the
+      # environment. These are not read by the application; they exist so the
+      # delivery box credentials can be shown in the post-install help, ready
+      # to be entered under Configuration > Global settings > Email settings.
+      - SMTP_HOST=mail.agenturserver.de
+      - SMTP_PORT=587
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      # Holds themes, plugins and participant uploads - must persist as a whole.
+      - limesurvey_upload:/var/www/html/upload
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=limesurvey
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=limesurvey
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  limesurvey_upload:
+  postgres_data:
