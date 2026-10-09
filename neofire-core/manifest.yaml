@@ -1,0 +1,253 @@
+manifestVersion: 1.0
+name:
+  de: neofire Core
+  en: neofire Core
+version: "1.x.x"
+type: standalone
+tagline:
+  de: Shopsystem mit Kasse, Terminbuchung und Layout-Editor
+  en: Shop system with checkout, appointment booking and layout editor
+description:
+  de: |
+    **neofire Core** ist ein selbstgehostetes Shopsystem aus Deutschland, das Onlineshop, Inhaltsseiten, Terminbuchung und Kundenkonten in einer Anwendung vereint. Es eignet sich als self-hosted Alternative zu gehosteten Shop-Baukästen wie Shopify oder Wix Stores.
+
+    Zentrale Funktionen:
+
+    - Produkte mit Varianten, Preislisten, Grundpreisen, Lagerbestand und Abonnements
+    - Kasse mit Gastbestellung, Kundenkonten und Zahlarten wie PayPal, Stripe, Mollie und Amazon Pay
+    - Terminkalender und Buchung von Leistungen direkt im Shop
+    - Visueller Layout-Editor für Startseite, Kategorien, Kopf- und Fußbereich ohne Code
+    - Mehrere Shops und Sprachen in einer Installation, SEO-Adressen und Produktsuche
+    - Erweiterungen über einen Plugin-Store, Updates des Kerns direkt im Admin
+
+    Für **Agenturen** eignet sich neofire Core für Kundenprojekte im Handel und bei Dienstleistern: Shop, Unternehmensseite und Terminbuchung entstehen in einem System, Layouts lassen sich je Kunde anpassen, und über Shop-Einbettungen erscheinen Produkte auch auf bestehenden Websites.
+
+    Bei mittwald läuft **neofire Core** als Container in deutschen Rechenzentren; Bestell- und Kundendaten bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält neofire Core mit MariaDB, richtet den Shop beim ersten Start automatisch ein und speichert Dateien und Datenbank in persistenten Volumes. Für den Betrieb gelten die Lizenzbedingungen von neofire.
+  en: |
+    **neofire Core** is a self-hosted shop system from Germany that combines an online shop, content pages, appointment booking and customer accounts in one application. It serves as a self-hosted alternative to hosted shop builders such as Shopify or Wix Stores.
+
+    Key features:
+
+    - Products with variants, price lists, unit prices, stock levels and subscriptions
+    - Checkout with guest orders, customer accounts and payment methods such as PayPal, Stripe, Mollie and Amazon Pay
+    - Appointment calendar and booking of services directly in the shop
+    - Visual layout editor for home page, categories, header and footer without code
+    - Multiple shops and languages in one installation, SEO URLs and product search
+    - Extensions via a plugin store, core updates directly in the admin
+
+    For **agencies**, neofire Core suits client projects in retail and services: shop, company website and appointment booking are built in one system, layouts can be adapted per client, and shop embeds show products on existing websites as well.
+
+    At mittwald, **neofire Core** runs as a container in German data centres; order and customer data stay within the operator's infrastructure, simplifying GDPR compliance. This template ships neofire Core with MariaDB, sets up the shop automatically on first start and stores files and the database in persistent volumes. The neofire licence terms apply.
+developer: neofire
+website: https://www.neofire.de
+repository: https://github.com/neofire-core-system/docker
+support: https://docs.neofire.de
+license:
+  name: Proprietary
+  link: https://www.neofire.de/agb
+categories:
+  - productivity
+screenshots:
+  - bg: background-white.jpg
+    screenshot: screenshot-logo.png
+    text:
+      de: neofire Core – Shopsystem aus Deutschland
+      en: neofire Core – shop system from Germany
+  - bg: background.jpg
+    screenshot: screenshot-sport-produkt.jpg
+    text:
+      de: Produktseite mit Varianten, Bildergalerie und Warenkorb
+      en: Product page with variants, image gallery and cart
+  - bg: background.jpg
+    screenshot: screenshot-sport-start.jpg
+    text:
+      de: Startseite eines Sport-Shops, gestaltet mit dem Layout-Editor
+      en: Home page of a sports shop, designed with the layout editor
+  - bg: background.jpg
+    screenshot: screenshot-shop.png
+    text:
+      de: Startseite eines frisch installierten Shops im Standard-Design
+      en: Home page of a freshly installed shop in the default design
+  - bg: background.jpg
+    screenshot: screenshot-dashboard.png
+    text:
+      de: Dashboard der Administration direkt nach der Installation
+      en: Administration dashboard right after installation
+  - bg: background.jpg
+    screenshot: screenshot-login.jpg
+    text:
+      de: Anmeldung zur Administration von neofire Core
+      en: Login to the neofire Core administration
+domains:
+  main:
+    userInput: HOST
+    service: neofire
+    port: 80
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.username}"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z0-9_.@-]{3,64}$" }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 2 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SHOP_NAME"
+    label:
+      de: Name des Shops
+      en: Shop name
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SHOP_EMAIL"
+    label:
+      de: E-Mail-Adresse des Shops
+      en: Shop email address
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "COMPANY"
+    label:
+      de: Firma
+      en: Company
+    positionMeta: { step: "common", index: 3 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "STREET"
+    label:
+      de: Straße und Hausnummer
+      en: Street and number
+    positionMeta: { step: "common", index: 4 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "POSTCODE"
+    label:
+      de: Postleitzahl
+      en: Postcode
+    positionMeta: { step: "common", index: 5 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "CITY"
+    label:
+      de: Ort
+      en: City
+    positionMeta: { step: "common", index: 6 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ACCEPT_TERMS"
+    label:
+      de: AGB und Datenschutzerklärung von neofire akzeptiert
+      en: neofire terms and privacy policy accepted
+    positionMeta: { step: "common", index: 7 }
+    dataType: "boolean"
+    required: true
+    validationSchema: '{ "type": "boolean", "const": true }'
+systemInputs:
+  - name: "DB_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "MARIADB_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+help:
+  technicalDetails:
+    - key:
+        de: Shop
+        en: Shop
+      value: https://${domain.main}
+    - key:
+        de: Admin-Bereich
+        en: Admin area
+      value: https://${domain.main}/admin
+    - key:
+        de: Admin Benutzername
+        en: Admin username
+      value: ${neofire.env.ADMIN_USER}
+  alerts:
+    - status: info
+      heading:
+        de: Einrichtung beim ersten Start
+        en: Setup on first start
+      content:
+        de: Beim ersten Start richtet der Container Datenbank, Shop und Admin-Zugang automatisch ein. Das dauert etwa eine Minute; danach ist der Admin-Bereich unter `/admin` erreichbar.
+        en: On first start the container sets up the database, the shop and the admin account automatically. This takes about a minute; afterwards the admin area is available at `/admin`.
+    - status: info
+      heading:
+        de: E-Mail-Versand einrichten
+        en: Configure outgoing mail
+      content:
+        de: Der Mailserver für Bestell- und Kontomails wird im Admin am jeweiligen Shop im Reiter `E-Mails` hinterlegt (SMTP).
+        en: The mail server for order and account emails is configured in the admin on the respective shop in the `E-Mails` tab (SMTP).
+      linkText:
+        de: Dokumentation
+        en: Documentation
+      link:
+        de: https://docs.neofire.de
+        en: https://docs.neofire.de
