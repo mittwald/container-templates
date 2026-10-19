@@ -22,6 +22,13 @@ services:
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASS=${ADMIN_PASSWORD}
       - ACCEPT_TERMS=${ACCEPT_TERMS}
+      # Outgoing mail (order and account emails) via the project's delivery box.
+      - SMTP_HOST=mail.agenturserver.de
+      - SMTP_PORT=587
+      - SMTP_ENCRYPTION=tls
+      - SMTP_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
     depends_on:
       mariadb:
         condition: service_healthy

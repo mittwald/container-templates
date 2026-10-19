@@ -48,21 +48,16 @@ license:
 categories:
   - productivity
 screenshots:
-  - bg: background-white.jpg
-    screenshot: screenshot-logo.png
+  - bg: background.jpg
+    screenshot: screenshot-login.jpg
     text:
-      de: neofire Core – Shopsystem aus Deutschland
-      en: neofire Core – shop system from Germany
+      de: Anmeldung zur Administration von neofire Core
+      en: Login to the neofire Core administration
   - bg: background.jpg
     screenshot: screenshot-sport-produkt.jpg
     text:
       de: Produktseite mit Varianten, Bildergalerie und Warenkorb
       en: Product page with variants, image gallery and cart
-  - bg: background.jpg
-    screenshot: screenshot-sport-start.jpg
-    text:
-      de: Startseite eines Sport-Shops, gestaltet mit dem Layout-Editor
-      en: Home page of a sports shop, designed with the layout editor
   - bg: background.jpg
     screenshot: screenshot-shop.png
     text:
@@ -73,11 +68,6 @@ screenshots:
     text:
       de: Dashboard der Administration direkt nach der Installation
       en: Administration dashboard right after installation
-  - bg: background.jpg
-    screenshot: screenshot-login.jpg
-    text:
-      de: Anmeldung zur Administration von neofire Core
-      en: Login to the neofire Core administration
 domains:
   main:
     userInput: HOST
@@ -133,39 +123,48 @@ userInputs:
     format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse für E-Mails
+      en: Sender address for emails
+    positionMeta: { step: "common", index: 3 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
   - name: "COMPANY"
     label:
       de: Firma
       en: Company
-    positionMeta: { step: "common", index: 3 }
+    positionMeta: { step: "common", index: 4 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "STREET"
     label:
       de: Straße und Hausnummer
       en: Street and number
-    positionMeta: { step: "common", index: 4 }
+    positionMeta: { step: "common", index: 5 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "POSTCODE"
     label:
       de: Postleitzahl
       en: Postcode
-    positionMeta: { step: "common", index: 5 }
+    positionMeta: { step: "common", index: 6 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "CITY"
     label:
       de: Ort
       en: City
-    positionMeta: { step: "common", index: 6 }
+    positionMeta: { step: "common", index: 7 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ACCEPT_TERMS"
     label:
       de: AGB und Datenschutzerklärung von neofire akzeptiert
       en: neofire terms and privacy policy accepted
-    positionMeta: { step: "common", index: 7 }
+    positionMeta: { step: "common", index: 8 }
     dataType: "boolean"
     required: true
     validationSchema: '{ "type": "boolean", "const": true }'
@@ -216,6 +215,8 @@ systemInputs:
             - special
             - nonAscii
           max: 0
+deliveryBoxes:
+  - purpose: main
 help:
   technicalDetails:
     - key:
@@ -240,14 +241,8 @@ help:
         en: On first start the container sets up the database, the shop and the admin account automatically. This takes about a minute; afterwards the admin area is available at `/admin`.
     - status: info
       heading:
-        de: E-Mail-Versand einrichten
-        en: Configure outgoing mail
+        de: E-Mail-Versand
+        en: Outgoing mail
       content:
-        de: Der Mailserver für Bestell- und Kontomails wird im Admin am jeweiligen Shop im Reiter `E-Mails` hinterlegt (SMTP).
-        en: The mail server for order and account emails is configured in the admin on the respective shop in the `E-Mails` tab (SMTP).
-      linkText:
-        de: Dokumentation
-        en: Documentation
-      link:
-        de: https://docs.neofire.de
-        en: https://docs.neofire.de
+        de: Bestell- und Kontomails werden automatisch über die Delivery-Box des Projekts versendet. Absender ist die beim Anlegen angegebene Absenderadresse.
+        en: Order and account emails are sent automatically through the project's delivery box. The sender is the sender address entered during setup.
