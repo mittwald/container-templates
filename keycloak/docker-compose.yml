@@ -1,0 +1,102 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    # Writes the realm import before every start. Keycloak skips realms that
+    # already exist, so the import only takes effect on the first start.
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        json() { local s=$${1//\\/\\\\}; printf '%s' "$${s//\"/\\\"}"; }
+        mkdir -p /opt/keycloak/data/import
+        cat > /opt/keycloak/data/import/realm.json <<EOF
+        {
+          "realm": "$$(json "$$REALM")",
+          "enabled": true,
+          "sslRequired": "external",
+          "registrationAllowed": false,
+          "loginWithEmailAllowed": true,
+          "duplicateEmailsAllowed": false,
+          "resetPasswordAllowed": true,
+          "rememberMe": true,
+          "bruteForceProtected": true,
+          "internationalizationEnabled": true,
+          "supportedLocales": ["en", "de"],
+          "defaultLocale": "en",
+          "smtpServer": {
+            "host": "mail.agenturserver.de",
+            "port": "587",
+            "starttls": "true",
+            "auth": "true",
+            "user": "$$(json "$$SMTP_USER")",
+            "password": "$$(json "$$SMTP_PASSWORD")",
+            "from": "$$(json "$$SMTP_FROM")"
+          },
+          "users": [
+            {
+              "username": "$$(json "$$KC_BOOTSTRAP_ADMIN_USERNAME")",
+              "email": "$$(json "$$ADMIN_EMAIL")",
+              "firstName": "$$(json "$$ADMIN_FIRST_NAME")",
+              "lastName": "$$(json "$$ADMIN_LAST_NAME")",
+              "emailVerified": true,
+              "enabled": true,
+              "credentials": [
+                {
+                  "type": "password",
+                  "value": "$$(json "$$KC_BOOTSTRAP_ADMIN_PASSWORD")",
+                  "temporary": false
+                }
+              ]
+            }
+          ]
+        }
+        EOF
+        exec /opt/keycloak/bin/kc.sh start --import-realm
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=${POSTGRES_PASSWORD}
+      - KC_HOSTNAME=https://${HOST}
+      - KC_HTTP_ENABLED=true
+      - KC_PROXY_HEADERS=xforwarded
+      - KC_HEALTH_ENABLED=true
+      - KC_BOOTSTRAP_ADMIN_USERNAME=${ADMIN_USER}
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - REALM=${REALM}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_FIRST_NAME=${ADMIN_FIRST_NAME}
+      - ADMIN_LAST_NAME=${ADMIN_LAST_NAME}
+      - SMTP_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=keycloak
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  postgres_data:

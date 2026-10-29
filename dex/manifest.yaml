@@ -1,0 +1,167 @@
+manifestVersion: 1.0
+name:
+  de: Dex
+  en: Dex
+version: "2.x.x"
+type: standalone
+tagline:
+  de: Schlanker OIDC-Provider mit Passwort-Login
+  en: Lightweight OIDC provider with password login
+description:
+  de: |
+    **Dex** ist ein schlanker, self-hosted OpenID-Connect-Provider der Cloud Native Computing Foundation. Er stellt Anwendungen eine standardkonforme Anmeldung bereit und ist eine minimale Alternative zu gehosteten Diensten wie Auth0 oder zu umfangreichen Identity-Plattformen wie Keycloak, wenn lediglich ein funktionierender Login benötigt wird.
+
+    Zentrale Funktionen:
+
+    - Anmeldeseite mit E-Mail-Adresse und Passwort
+    - OpenID Connect mit Discovery, ID-Tokens und Refresh-Tokens
+    - Konfiguration vollständig über Umgebungsvariablen, ohne Admin-Oberfläche
+    - Optionale Anbindung an LDAP, GitHub, Google oder andere OIDC-Provider
+    - Geringer Ressourcenbedarf durch eine einzelne Go-Anwendung mit SQLite
+
+    Für **Agenturen** eignet sich Dex, wenn eine Container-Anwendung sofort einen OIDC-Login benötigt, etwa für ein internes Werkzeug, eine Staging-Umgebung oder eine Demo. Das Template legt ein Konto und einen Client an; die Anwendung wird mit Issuer-URL, Client-ID und Secret verbunden. Für mehrere Benutzer, Rollen und Selbstverwaltung ist Keycloak die passendere Wahl.
+
+    Bei mittwald läuft **Dex** in deutschen Rechenzentren; Anmeldedaten bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Das Template betreibt Dex hinter dem Plattform-Proxy, erzeugt das Client-Secret und speichert Signaturschlüssel und Sitzungen in einem persistenten Volume. Lizenzkosten fallen nicht an.
+  en: |
+    **Dex** is a lightweight, self-hosted OpenID Connect provider from the Cloud Native Computing Foundation. It gives applications standards-compliant sign-in and is a minimal alternative to hosted services such as Auth0 or to comprehensive identity platforms such as Keycloak when all that is needed is a working login.
+
+    Key features:
+
+    - Sign-in page with email address and password
+    - OpenID Connect with discovery, ID tokens and refresh tokens
+    - Configuration entirely through environment variables, without an admin interface
+    - Optional integration with LDAP, GitHub, Google or other OIDC providers
+    - Low resource usage as a single Go application with SQLite
+
+    For **agencies**, Dex fits when a container application needs an OIDC login right away, for example for an internal tool, a staging environment or a demo. The template creates one account and one client; the application is connected using the issuer URL, client ID and secret. For multiple users, roles and self-service, Keycloak is the better choice.
+
+    At mittwald, **Dex** runs in German data centres; sign-in data remains within the operator's infrastructure, simplifying GDPR compliance. The template runs Dex behind the platform proxy, generates the client secret and stores signing keys and sessions in a persistent volume. No licence costs apply.
+developer: Cloud Native Computing Foundation
+website: https://dexidp.io
+repository: https://github.com/dexidp/dex
+support: https://github.com/dexidp/dex/discussions
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
+categories:
+  - security
+domains:
+  main:
+    userInput: HOST
+    service: dex
+    port: 5556
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: E-Mail-Adresse (Login)
+      en: Email address (login)
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_USER"
+    label:
+      de: Benutzername
+      en: Username
+    positionMeta: { step: "adminUser", index: 2 }
+    defaultValue: "${user.username}"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Passwort
+      en: Password
+    positionMeta: { step: "adminUser", index: 3 }
+    format: "password"
+    required: true
+    # bcrypt only considers the first 72 bytes.
+    validationSchema: '{ "type": "string", "minLength": 12, "maxLength": 72, "format": "password" }'
+  - name: "CLIENT_ID"
+    label:
+      de: Client-ID
+      en: Client ID
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "app"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z0-9._-]+$" }'
+  - name: "REDIRECT_URIS"
+    label:
+      de: Redirect-URIs der Anwendung (kommagetrennt, später änderbar)
+      en: Application redirect URIs (comma-separated, can be changed later)
+    positionMeta: { step: "common", index: 2 }
+    required: false
+    validationSchema: '{ "type": "string" }'
+systemInputs:
+  - name: "CLIENT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+help:
+  technicalDetails:
+    - key:
+        de: Issuer-URL
+        en: Issuer URL
+      value: https://${domain.main}
+    - key:
+        de: Discovery-URL
+        en: Discovery URL
+      value: https://${domain.main}/.well-known/openid-configuration
+    - key:
+        de: Client-ID
+        en: Client ID
+      value: ${dex.env.DEX_CLIENT_ID}
+    - key:
+        de: Client-Secret
+        en: Client secret
+      value: ${dex.env.DEX_CLIENT_SECRET}
+    - key:
+        de: Redirect-URIs
+        en: Redirect URIs
+      value: ${dex.env.DEX_REDIRECT_URIS}
+    - key:
+        de: Login
+        en: Login
+      value: ${dex.env.DEX_ADMIN_EMAIL}
+  alerts:
+    - status: info
+      heading:
+        de: Anwendung anbinden
+        en: Connecting an application
+      content:
+        de: In der Anwendung werden Issuer-URL, Client-ID und Client-Secret als OIDC-Provider hinterlegt. Dex leitet nach der Anmeldung nur auf freigegebene Adressen zurück. Die Callback-URLs der Anwendungen werden deshalb kommagetrennt in `DEX_REDIRECT_URIS` eingetragen; nach einem Neustart des Containers gelten sie. Mehrere Anwendungen können sich den Client teilen.
+        en: Configure the issuer URL, client ID and client secret as the OIDC provider in the application. After sign-in, Dex only redirects to approved addresses, so add the applications' callback URLs to `DEX_REDIRECT_URIS`, separated by commas; they apply after restarting the container. Several applications can share the client.
+    - status: warning
+      heading:
+        de: Ein Konto, keine Benutzerverwaltung
+        en: One account, no user management
+      content:
+        de: Dex hat keine Admin-Oberfläche. Das Template legt genau ein Konto an, dessen Zugangsdaten aus `DEX_ADMIN_EMAIL`, `DEX_ADMIN_USER` und `DEX_ADMIN_PASSWORD` stammen und bei jedem Neustart übernommen werden. Für mehrere Benutzer, Rollen oder Passwort-Reset eignet sich das Keycloak-Template.
+        en: Dex has no admin interface. The template creates exactly one account, whose credentials come from `DEX_ADMIN_EMAIL`, `DEX_ADMIN_USER` and `DEX_ADMIN_PASSWORD` and are applied on every restart. For multiple users, roles or password reset, use the Keycloak template.
