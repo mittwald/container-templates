@@ -415,6 +415,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="databasus/icon.svg" width="24" height="24" style="object-fit:contain"> | [databasus](databasus/) | Datenbank-Backups automatisieren |
 | <img src="directus/icon.svg" width="24" height="24" style="object-fit:contain"> | [directus](directus/) | Headless CMS und Datenplattform |
 | <img src="docmost/icon.svg" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
+| <img src="enclosed/icon.svg" width="24" height="24" style="object-fit:contain"> | [enclosed](enclosed/) | Notizen und Dateien Ende-zu-Ende-verschlüsselt teilen |
 | <img src="euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [euro-office](euro-office/) | Dokumente gemeinsam im Browser bearbeiten |
 | <img src="excalidraw/icon.svg" width="24" height="24" style="object-fit:contain"> | [excalidraw](excalidraw/) | Whiteboard für Skizzen und Diagramme |
 | <img src="fider/icon.svg" width="24" height="24" style="object-fit:contain"> | [fider](fider/) | Kundenfeedback sammeln und priorisieren |
@@ -426,6 +427,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="invoiceninja/icon.svg" width="24" height="24" style="object-fit:contain"> | [invoiceninja](invoiceninja/) | Rechnungen, Angebote und Zeiterfassung inklusive E-Rechnung |
 | <img src="kaneo/icon.svg" width="24" height="24" style="object-fit:contain"> | [kaneo](kaneo/) | Projektmanagement mit Board, Backlog und Zeiterfassung |
 | <img src="karakeep/icon.svg" width="24" height="24" style="object-fit:contain"> | [karakeep](karakeep/) | Lesezeichen und Notizen sammeln |
+| <img src="kirby/icon.svg" width="24" height="24" style="object-fit:contain"> | [kirby](kirby/) | Dateibasiertes CMS mit anpassbarem Panel für individuelle Websites |
 | <img src="kutt/icon.svg" width="24" height="24" style="object-fit:contain"> | [kutt](kutt/) | Kurzlinks unter eigener Domain verwalten |
 | <img src="librechat/icon.svg" width="24" height="24" style="object-fit:contain"> | [librechat](librechat/) | Selbstgehostete Chat-Oberfläche für KI-Modelle |
 | <img src="linkwarden/icon.svg" width="24" height="24" style="object-fit:contain"> | [linkwarden](linkwarden/) | Lesezeichen sammeln und archivieren |
@@ -447,6 +449,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="postgresql/icon.svg" width="24" height="24" style="object-fit:contain"> | [postgresql](postgresql/) | Leistungsstarke relationale Open-Source Datenbank |
 | <img src="qdrant/icon.svg" width="24" height="24" style="object-fit:contain"> | [qdrant](qdrant/) | Hochperformante Vektordatenbank für KI-Anwendungen |
 | <img src="rallly/icon.svg" width="24" height="24" style="object-fit:contain"> | [rallly](rallly/) | Terminabstimmung ohne Konto für Teilnehmende |
+| <img src="searxng/icon.svg" width="24" height="24" style="object-fit:contain"> | [searxng](searxng/) | Metasuchmaschine für die private Websuche |
 | <img src="silo/icon.svg" width="24" height="24" style="object-fit:contain"> | [silo](silo/) | S3-kompatibler Objektspeicher (MinIO-Fork) |
 | <img src="solr/icon.svg" width="24" height="24" style="object-fit:contain"> | [solr](solr/) | Enterprise-Suchplattform |
 | <img src="stirling-pdf/icon.svg" width="24" height="24" style="object-fit:contain"> | [stirling-pdf](stirling-pdf/) | Umfangreicher PDF-Werkzeugkasten |
