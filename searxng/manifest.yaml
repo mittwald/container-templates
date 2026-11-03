@@ -1,0 +1,65 @@
+manifestVersion: 1.0
+name:
+  de: SearXNG
+  en: SearXNG
+version: "latest"
+type: standalone
+tagline:
+  de: Metasuchmaschine für die private Websuche
+  en: Metasearch engine for private web searches
+description:
+  de: |
+    **SearXNG** ist eine freie, selbst betriebene Metasuchmaschine und eine Alternative zu zentralen Suchdiensten wie Google oder Bing. Sie fragt Ergebnisse bei zahlreichen öffentlichen Suchmaschinen und weiteren Diensten ab und bündelt sie in einer gemeinsamen Oberfläche. Dabei erhalten die angefragten Dienste nicht direkt die IP-Adresse und den Suchverlauf der suchenden Person. SearXNG speichert Suchanfragen standardmäßig nicht dauerhaft.
+
+    Zentrale Funktionen:
+
+    - Zusammenführen von Ergebnissen aus Web-, Bild-, Nachrichten- und weiteren Suchdiensten
+    - Kategorien, Filter, sichere Suche und konfigurierbare Suchmaschinen
+    - Datenschutzfunktionen wie ein optionaler Bild-Proxy
+    - Bot-Schutz über den integrierten Limiter mit Valkey
+
+    **Agenturen** können SearXNG als eigene Recherche-Oberfläche für Teams und Kundenprojekte betreiben. Die Instanz bündelt unterschiedliche Quellen, ohne dass Recherchen an einen zusätzlichen Suchanbieter gebunden sind. Suchmaschinen und Kategorien lassen sich an den jeweiligen Einsatz anpassen; die Installation eignet sich auch als internes Werkzeug für die Vorbereitung von Inhalten und Marktanalysen.
+
+    Bei mittwald wird **SearXNG** als Container in deutschen Rechenzentren betrieben. Suchanfragen und die Konfiguration verbleiben damit in der selbst verwalteten Umgebung; welche externen Suchdienste abgefragt werden, hängt weiterhin von den aktivierten SearXNG-Engines ab. Das Template richtet SearXNG mit Valkey für den Limiter, persistenten Konfigurations- und Cache-Volumes sowie einem zufällig erzeugten Schlüssel ein. Die freie Software verursacht keine Lizenzkosten.
+  en: |
+    **SearXNG** is a free, self-hosted metasearch engine and an alternative to centralised search services such as Google or Bing. It requests results from many public search engines and other services, then combines them in one interface. The queried services do not directly receive the searcher's IP address and search history. By default, SearXNG does not store search queries persistently.
+
+    Key features:
+
+    - Combines results from web, image, news and other search services
+    - Categories, filters, safe search and configurable search engines
+    - Privacy features such as an optional image proxy
+    - Bot protection through the built-in limiter with Valkey
+
+    **Agencies** can run SearXNG as a dedicated research interface for teams and client projects. The instance brings together different sources without tying research to an additional search provider. Search engines and categories can be adapted to each use case; the installation also works as an internal tool for preparing content and market analysis.
+
+    At mittwald, **SearXNG** runs as a container in German data centres. Search queries and configuration therefore remain in the self-managed environment; which external search services are queried still depends on the enabled SearXNG engines. The template configures SearXNG with Valkey for the limiter, persistent configuration and cache volumes, and a randomly generated secret key. The free software has no licence fees.
+developer: SearXNG Team
+website: https://searxng.org
+repository: https://github.com/searxng/searxng
+license:
+  name: AGPL-3.0-or-later
+  link: https://spdx.org/licenses/AGPL-3.0-or-later.html
+categories:
+  - productivity
+domains:
+  main:
+    userInput: HOST
+    service: searxng
+    port: 8080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "SEARXNG_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32

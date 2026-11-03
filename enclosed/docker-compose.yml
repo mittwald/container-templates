@@ -1,0 +1,14 @@
+services:
+  enclosed:
+    image: corentinth/enclosed:latest
+    ports:
+      - "8787:8787"
+    environment:
+      - TZ=Europe/Berlin
+      - PUBLIC_DEFAULT_NOTE_TTL_SECONDS=${DEFAULT_NOTE_TTL_SECONDS}
+      - PUBLIC_DEFAULT_DELETE_NOTE_AFTER_READING=${DEFAULT_DELETE_NOTE_AFTER_READING}
+      - PUBLIC_IS_SETTING_NO_EXPIRATION_ALLOWED=${ALLOW_NO_EXPIRATION}
+    volumes:
+      - enclosed_data:/app/.data
+volumes:
+  enclosed_data:

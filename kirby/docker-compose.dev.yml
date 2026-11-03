@@ -1,0 +1,9 @@
+services:
+  kirby:
+    # Locally deliver mail to the shared Mailpit instead of the delivery box.
+    environment:
+      KIRBY_EMAIL_HOST: ct-mail
+      KIRBY_EMAIL_PORT: "1025"
+      KIRBY_EMAIL_SECURITY: "false"
+      KIRBY_EMAIL_USER: ""
+      KIRBY_EMAIL_PASSWORD: ""

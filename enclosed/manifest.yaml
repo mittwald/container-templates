@@ -1,0 +1,109 @@
+manifestVersion: 1.0
+name:
+  de: Enclosed
+  en: Enclosed
+version: "latest"
+type: standalone
+tagline:
+  de: Notizen und Dateien Ende-zu-Ende-verschlüsselt teilen
+  en: Share notes and files with end-to-end encryption
+description:
+  de: |
+    **Enclosed** ist eine minimalistische Open-Source-Anwendung zum Teilen vertraulicher Notizen und Dateien und eine self-hosted Alternative zu Diensten wie Privnote oder One-Time Secret. Inhalte werden im Browser mit AES-GCM verschlüsselt; der Schlüssel steht nur im Fragment des Links (hinter dem `#`) und erreicht den Server nie.
+
+    Zentrale Funktionen:
+
+    - Ende-zu-Ende-Verschlüsselung im Browser nach dem Zero-Knowledge-Prinzip
+    - Verschlüsselte Dateianhänge zusätzlich zum Notiztext
+    - Optionaler Passwortschutz, Ablaufzeit und Selbstlöschung nach dem ersten Lesen
+    - Kommandozeilen-Tool zum Erstellen von Notizen aus Skripten
+
+    Für **Agenturen** eignet sich Enclosed zur Übergabe von Zugangsdaten, API-Schlüsseln, Zertifikaten oder Konfigurationsdateien an Kunden und Dienstleister. Anstatt sensible Daten per E-Mail oder Ticket zu versenden, entsteht ein kurzlebiger Link, der nach dem Abruf oder Ablauf der Frist gelöscht wird.
+
+    Bei mittwald läuft **Enclosed** als self-hosted Container in deutschen Rechenzentren; selbst die verschlüsselten Daten verlassen die eigene Infrastruktur nicht, was den Anforderungen der DSGVO entgegenkommt. Dieses Template enthält Enclosed mit persistentem Speicher und einstellbaren Vorgaben für Ablaufzeit und Selbstlöschung. Da keine Lizenzkosten anfallen, ist der Betrieb wirtschaftlich.
+  en: |
+    **Enclosed** is a minimalist open-source application for sharing confidential notes and files, and a self-hosted alternative to services such as Privnote or One-Time Secret. Content is encrypted in the browser with AES-GCM; the key only lives in the link fragment (after the `#`) and never reaches the server.
+
+    Key features:
+
+    - End-to-end encryption in the browser following the zero-knowledge principle
+    - Encrypted file attachments in addition to the note text
+    - Optional password protection, expiry time and self-destruction after the first read
+    - Command-line tool for creating notes from scripts
+
+    For **agencies**, Enclosed is suited to handing over credentials, API keys, certificates or configuration files to clients and service providers. Instead of sending sensitive data by e-mail or ticket, a short-lived link is created that is deleted after retrieval or expiry.
+
+    At mittwald, **Enclosed** runs as a self-hosted container in German data centres; even the encrypted data stays within the agency's own infrastructure, supporting GDPR requirements. This template includes Enclosed with persistent storage and configurable defaults for expiry and self-destruction. With no licence costs, operation remains economical.
+developer: Corentin Thomasset
+website: https://enclosed.cc
+repository: https://github.com/CorentinTh/enclosed
+support: https://github.com/CorentinTh/enclosed/issues
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
+categories:
+  - security
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-create-note.png
+    text:
+      de: Notiz mit Passwort, Ablaufzeit und Dateianhang erstellen
+      en: Create a note with password, expiry and file attachment
+  - bg: background.jpg
+    screenshot: screenshot-share-link.png
+    text:
+      de: Fertiger Link mit QR-Code, der Schlüssel steht nur im Link
+      en: Ready-made link with QR code, the key lives only in the link
+  - bg: background.jpg
+    screenshot: screenshot-read-note.png
+    text:
+      de: Empfänger entschlüsselt Notiz und Anhang, danach ist sie gelöscht
+      en: Recipients decrypt the note and attachment, then it is deleted
+domains:
+  main:
+    userInput: HOST
+    service: enclosed
+    port: 8787
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "DEFAULT_NOTE_TTL_SECONDS"
+    label:
+      de: Standard-Ablaufzeit neuer Notizen in Sekunden
+      en: Default expiry of new notes in seconds
+    dataType: "select"
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    defaultValue: "86400"
+    validationSchema: '{ "type": "string", "enum": ["3600", "86400", "604800", "2592000"] }'
+  - name: "DEFAULT_DELETE_NOTE_AFTER_READING"
+    label:
+      de: Notizen standardmäßig nach dem Lesen löschen
+      en: Delete notes after reading by default
+    dataType: "boolean"
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    defaultValue: "true"
+    validationSchema: '{ "type": "string", "enum": ["true", "false"] }'
+  - name: "ALLOW_NO_EXPIRATION"
+    label:
+      de: Notizen ohne Ablaufzeit erlauben
+      en: Allow notes without expiry
+    dataType: "boolean"
+    positionMeta: { step: "common", index: 3 }
+    required: true
+    defaultValue: "false"
+    validationSchema: '{ "type": "string", "enum": ["true", "false"] }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}

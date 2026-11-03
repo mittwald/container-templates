@@ -1,0 +1,135 @@
+manifestVersion: 1.0
+name:
+  de: Kirby
+  en: Kirby
+version: "5.x"
+type: standalone
+tagline:
+  de: Dateibasiertes CMS mit anpassbarem Panel für individuelle Websites
+  en: File-based CMS with a customisable panel for individual websites
+description:
+  de: |
+    **Kirby** ist ein dateibasiertes Content-Management-System, das Inhalte als Textdateien in Ordnern statt in einer Datenbank speichert. Mit frei definierbaren Blueprints und PHP-Templates ist es eine self-hosted Alternative zu WordPress oder Headless-Diensten wie Contentful und Storyblok, ohne vorgegebenes Theme oder festes Datenmodell.
+
+    Zentrale Funktionen:
+
+    - Panel als Redaktionsoberfläche, deren Formulare, Felder und Layouts per YAML-Blueprints festgelegt werden
+    - Block- und Layout-Editor, Entwürfe, Vorschau und Mehrsprachigkeit
+    - Templates, Snippets und Controller in PHP mit einer schlanken Query-API
+    - REST-API und KQL für den Einsatz als Headless-CMS
+    - Rollen und Berechtigungen, Bildbearbeitung mit Thumbnails und Fokuspunkt
+    - Plugin-System mit einem großen Angebot an Community-Erweiterungen
+
+    Für Agenturen eignet sich Kirby für maßgeschneiderte Kunden-Websites: Das Panel wird exakt auf die Inhalte des Kunden zugeschnitten, sodass Redakteure nur die Felder sehen, die sie tatsächlich pflegen. Da Inhalte Dateien sind, lassen sie sich zusammen mit dem Code versionieren und zwischen Umgebungen kopieren.
+
+    Dieses Template enthält Kirby 5 mit FrankenPHP, legt das Admin-Konto bei der Installation an, verdrahtet den Mailversand über einen Postausgang und speichert Site, Inhalte, Konten und Medien in persistenten Volumes. Für den öffentlichen Betrieb ist eine Kirby-Lizenz je Website erforderlich.
+  en: |
+    **Kirby** is a file-based content management system that stores content as text files in folders instead of a database. With freely definable blueprints and PHP templates, it is a self-hosted alternative to WordPress or headless services such as Contentful and Storyblok, without a predefined theme or fixed data model.
+
+    Key features:
+
+    - Panel as the editing interface, with forms, fields and layouts defined in YAML blueprints
+    - Block and layout editor, drafts, preview and multi-language support
+    - Templates, snippets and controllers in PHP with a lean query API
+    - REST API and KQL for use as a headless CMS
+    - Roles and permissions, image handling with thumbnails and focus point
+    - Plugin system with a large range of community extensions
+
+    For agencies, Kirby suits custom-built client websites: the panel is tailored exactly to the client's content, so editors only see the fields they actually maintain. Because content is files, it can be versioned alongside the code and copied between environments.
+
+    This template ships Kirby 5 on FrankenPHP, creates the admin account during installation, wires outgoing mail to a delivery box and stores site, content, accounts and media in persistent volumes. Running a public website requires one Kirby licence per site.
+developer: Content Folder
+website: https://getkirby.com
+repository: https://github.com/getkirby/kirby
+support: https://getkirby.com/docs
+license:
+  name: Proprietary
+  link: https://getkirby.com/license
+categories:
+  - development
+domains:
+  main:
+    userInput: HOST
+    service: kirby
+    port: 80
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse (nur für das erste Admin-Konto)
+      en: Admin email address (initial admin account only)
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort (nur für das erste Admin-Konto)
+      en: Admin password (initial admin account only)
+    positionMeta: { step: "adminUser", index: 2 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "maxLength": 1000, "format": "password" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "TIMEZONE"
+    label:
+      de: Zeitzone
+      en: Timezone
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "Europe/Berlin"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$" }'
+  - name: "KIRBY_LICENSE"
+    label:
+      de: Kirby-Lizenz (Inhalt der .license-Datei)
+      en: Kirby licence (contents of the .license file)
+    positionMeta: { step: "common", index: 3 }
+    required: false
+    validationSchema: '{ "type": "string", "pattern": "^\\s*(\\{[\\s\\S]*\\})?\\s*$" }'
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+    - key:
+        de: Website
+        en: Website
+      value: https://${domain.main}
+    - key:
+        de: Panel
+        en: Panel
+      value: https://${domain.main}/panel
+    - key:
+        de: Admin E-Mail
+        en: Admin email
+      value: ${kirby.env.KIRBY_ADMIN_EMAIL}
+  alerts:
+    - status: warning
+      heading:
+        de: Lizenz für den öffentlichen Betrieb
+        en: Licence required for public websites
+      content:
+        de: Kirby lässt sich ohne Lizenz testen, für eine öffentlich erreichbare Website ist jedoch eine [Kirby-Lizenz](https://getkirby.com/buy) je Website nötig. Die Lizenz wird entweder im Panel über `Registrieren` aktiviert und im Volume der Site gespeichert, oder der Inhalt der `.license`-Datei wird in `KIRBY_LICENSE` hinterlegt und bei jedem Start geschrieben. Ist `KIRBY_LICENSE` gesetzt, überschreibt es eine im Panel registrierte Lizenz.
+        en: Kirby can be tried without a licence, but a publicly reachable website needs one [Kirby licence](https://getkirby.com/buy) per site. Either activate it in the panel via `Register`, which stores it in the site volume, or put the contents of the `.license` file into `KIRBY_LICENSE`, which is written on every start. When `KIRBY_LICENSE` is set, it overrides a licence registered in the panel.
+    - status: info
+      heading:
+        de: Templates und Blueprints anpassen
+        en: Customising templates and blueprints
+      content:
+        de: Das Template startet mit dem minimalen Plainkit. Templates, Snippets, Blueprints und Plugins liegen im Volume unter `/app/site`, Inhalte unter `/app/content`. Änderungen am Admin-Konto über `KIRBY_ADMIN_EMAIL` und `KIRBY_ADMIN_PASSWORD` wirken nur bei der Erstinstallation; danach werden Konten im Panel verwaltet.
+        en: The template starts with the minimal Plainkit. Templates, snippets, blueprints and plugins live in the volume at `/app/site`, content at `/app/content`. Changing `KIRBY_ADMIN_EMAIL` and `KIRBY_ADMIN_PASSWORD` only takes effect on the first installation; afterwards, accounts are managed in the panel.

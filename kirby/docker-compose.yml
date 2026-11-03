@@ -1,0 +1,41 @@
+services:
+  kirby:
+    image: mittwald/kirby:5
+    ports:
+      - "80:80"
+    environment:
+      TZ: ${TIMEZONE}
+      # PHP defaults to UTC in the image; TZ alone does not change it.
+      PHP_TIMEZONE: ${TIMEZONE}
+      KIRBY_URL: https://${HOST}
+      KIRBY_AUTH_METHODS: password,password-reset
+      # Creates the first panel admin while no account exists yet; afterwards
+      # the variables have no effect. Kirby's own installer is only offered on
+      # localhost unless `panel.install` lets anyone reaching /panel create one.
+      KIRBY_ADMIN_EMAIL: ${ADMIN_EMAIL}
+      KIRBY_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      # Optional. When set, the image writes it to site/config/.license on
+      # every start; when empty, a licence registered in the panel is kept.
+      KIRBY_LICENSE: ${KIRBY_LICENSE}
+      KIRBY_EMAIL_TRANSPORT: smtp
+      KIRBY_EMAIL_HOST: mail.agenturserver.de
+      KIRBY_EMAIL_PORT: "587"
+      KIRBY_EMAIL_SECURITY: tls
+      KIRBY_EMAIL_USER: ${MW_DELIVERYBOX_MAIN_USERNAME}
+      KIRBY_EMAIL_PASSWORD: ${MW_DELIVERYBOX_MAIN_PASSWORD}
+      # Sender of login and password reset codes only; templates and plugins
+      # name their own sender.
+      KIRBY_AUTH_EMAIL_FROM: ${SMTP_FROM}
+    volumes:
+      # site holds templates, blueprints, plugins and the panel-registered
+      # license; without a volume, none of it could be customised or kept.
+      - kirby_site:/app/site
+      - kirby_content:/app/content
+      - kirby_storage:/app/storage
+      - kirby_media:/app/public/media
+
+volumes:
+  kirby_site:
+  kirby_content:
+  kirby_storage:
+  kirby_media:
