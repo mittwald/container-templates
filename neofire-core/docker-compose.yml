@@ -21,7 +21,7 @@ services:
       - ADMIN_USER=${ADMIN_USER}
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASS=${ADMIN_PASSWORD}
-      - ACCEPT_TERMS=${ACCEPT_TERMS}
+      - ACCEPT_TERMS=true
       # Outgoing mail (order and account emails) via the project's delivery box.
       - SMTP_HOST=mail.agenturserver.de
       - SMTP_PORT=587
