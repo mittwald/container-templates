@@ -160,14 +160,6 @@ userInputs:
     positionMeta: { step: "common", index: 7 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
-  - name: "ACCEPT_TERMS"
-    label:
-      de: AGB und Datenschutzerklärung von neofire akzeptiert
-      en: neofire terms and privacy policy accepted
-    positionMeta: { step: "common", index: 8 }
-    dataType: "boolean"
-    required: true
-    validationSchema: '{ "type": "boolean", "const": true }'
 systemInputs:
   - name: "DB_PASSWORD"
     schema:
