@@ -96,7 +96,6 @@ userInputs:
       en: Admin email address
     positionMeta: { step: "adminUser", index: 2 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "ADMIN_PASSWORD"
@@ -104,9 +103,8 @@ userInputs:
       de: Admin Passwort
       en: Admin password
     positionMeta: { step: "adminUser", index: 3 }
-    format: "password"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12 }'
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
   - name: "SHOP_NAME"
     label:
       de: Name des Shops
@@ -120,7 +118,6 @@ userInputs:
       en: Shop email address
     positionMeta: { step: "common", index: 2 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "SMTP_FROM"
@@ -129,7 +126,6 @@ userInputs:
       en: Sender address for emails
     positionMeta: { step: "common", index: 3 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "COMPANY"
@@ -160,6 +156,13 @@ userInputs:
     positionMeta: { step: "common", index: 7 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ACCEPT_TERMS"
+    label:
+      de: Ich akzeptiere die AGB und die Datenschutzerklärung von neofire
+      en: I accept the neofire terms and privacy policy
+    positionMeta: { step: "common", index: 8 }
+    required: true
+    validationSchema: '{ "type": "string", "enum": ["true"] }'
 systemInputs:
   - name: "DB_PASSWORD"
     schema:
