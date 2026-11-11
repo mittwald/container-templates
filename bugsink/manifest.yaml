@@ -79,7 +79,6 @@ userInputs:
       en: Admin email address
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
     validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
   - name: "ADMIN_PASSWORD"
@@ -87,7 +86,6 @@ userInputs:
       de: Admin Passwort
       en: Admin password
     positionMeta: { step: "adminUser", index: 2 }
-    format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
   - name: "SMTP_FROM"
@@ -96,7 +94,6 @@ userInputs:
       en: Sender address
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:

@@ -80,7 +80,6 @@ userInputs:
       en: Sender address
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "AI_API_KEY"
@@ -97,9 +96,8 @@ userInputs:
       en: AI endpoint
     positionMeta: { step: "ai", index: 2 }
     defaultValue: "${aiHosting.llmEndpoint}"
-    format: "url"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1 }'
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "url" }'
 systemInputs:
   - name: "AUTH_SECRET"
     schema:

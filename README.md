@@ -117,10 +117,8 @@ domains:
 |------|---------|--------------|
 | `name` | ja | Technischer Schlüssel; in der `docker-compose.yml` als `${name}` referenzierbar |
 | `label` | ja | Mehrsprachiger Anzeigename des Feldes (de/en) für die Oberfläche |
-| `dataType` | nein | Datentyp: `text`, `number`, `boolean` oder `select` (Standard: `text`) |
 | `required` | ja | Ob der Wert zwingend ausgefüllt werden muss |
-| `validationSchema` | ja | Validierung als JSON-Schema-String (siehe [json-schema.org](https://json-schema.org/)) |
-| `format` | nein | Eingabeformat/Maskierung: `email`, `password`, `url` oder `uri` |
+| `validationSchema` | ja | Validierung als JSON-Schema-String (siehe [json-schema.org](https://json-schema.org/)); bestimmt auch die Darstellung, siehe [Darstellung im Installations-Assistenten](#darstellung-im-installations-assistenten) |
 | `dataSource` | nein | Verknüpft den Input mit einer Systemquelle, z.B. `ingress.paths` (Domain) oder `aiHosting.apiKey` |
 | `positionMeta` | nein | Platzierung im Installations-Assistenten: `{ step, index }` (siehe unten) |
 | `defaultValue` | nein | Vorbelegter Standardwert; kann Platzhalter enthalten (siehe unten) |
@@ -131,7 +129,6 @@ userInputs:
     label:
       de: Domain
       en: Domain
-    dataType: "text"
     required: true
     dataSource: "ingress.paths"
     positionMeta: { step: "domain", index: 1 }
@@ -140,11 +137,44 @@ userInputs:
     label:
       de: Admin Passwort
       en: Admin Password
-    dataType: "text"
-    format: "password"
     required: true
     positionMeta: { step: "adminUser", index: 1 }
-    validationSchema: '{ "type": "string", "minLength": 12 }'
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+```
+
+#### Darstellung im Installations-Assistenten
+
+Welches Eingabeelement erscheint, ergibt sich **allein aus dem `validationSchema`**; Felder wie `dataType` oder `format` auf oberster Ebene gibt es nicht, die Container-Template-API würde sie verwerfen. Das Backend prüft die Eingaben gegen dasselbe Schema, und zwar immer als String – `"type"` ist daher stets `"string"`.
+
+| Eingabe | `validationSchema` | Darstellung |
+|---|---|---|
+| Passwort | `"format": "password"` | Passwortfeld mit Generator |
+| E-Mail, URL | `"format": "email"`, `"format": "url"` | Textfeld des jeweiligen Typs |
+| Boolean | `"enum": ["true", "false"]` | Checkbox; der Wert ist der String `true` oder `false` |
+| Zustimmung | `"enum": ["true"]` | Checkbox, die gesetzt sein muss (z. B. Lizenzbedingungen); der Wert ist immer `true` |
+| Auswahl | `"enum": [...]` mit `"x-enumLabels"` | Ab drei Werten Dropdown, sonst Radio-Buttons |
+
+Ein Boolean bleibt `"type": "string"`, weil alle Werte als String in die `docker-compose.yml` gelangen. Ohne `defaultValue` ist die Checkbox nicht gesetzt.
+
+Bei einer Auswahl beschriftet `x-enumLabels` jeden Wert zweisprachig. JSON-Schema-Validatoren ignorieren das Schlüsselwort. Ohne Beschriftung zeigt das mStudio den Rohwert an, `validate.mjs` verlangt deshalb für jeden Wert ein Label:
+
+```yaml
+  - name: "DEFAULT_NOTE_TTL_SECONDS"
+    label:
+      de: Standard-Ablaufzeit neuer Notizen
+      en: Default expiry of new notes
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    defaultValue: "86400"
+    validationSchema: '{ "type": "string", "enum": ["3600", "86400"], "x-enumLabels": { "3600": { "de": "1 Stunde", "en": "1 hour" }, "86400": { "de": "1 Tag", "en": "1 day" } } }'
+  - name: "ALLOW_NO_EXPIRATION"
+    label:
+      de: Notizen ohne Ablaufzeit erlauben
+      en: Allow notes without expiry
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    defaultValue: "false"
+    validationSchema: '{ "type": "string", "enum": ["true", "false"] }'
 ```
 
 #### Steps in `positionMeta`
@@ -181,7 +211,6 @@ userInputs:
       en: Admin email address
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
 ```

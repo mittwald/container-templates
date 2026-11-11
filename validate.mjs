@@ -110,6 +110,66 @@ function validateDefaultValues(errors, manifestPath, manifest) {
   }
 }
 
+// The container template API only passes the validationSchema through, so it
+// alone decides how mStudio renders an input. The backend always validates
+// string values against it.
+const BOOLEAN_ENUM = ["false", "true"];
+
+function isBooleanEnum(values) {
+  const sorted = [...values].sort();
+  const isConsent = sorted.length === 1 && sorted[0] === "true";
+  const isToggle =
+    sorted.length === 2 && sorted.every((value, index) => value === BOOLEAN_ENUM[index]);
+  return isConsent || isToggle;
+}
+
+function validateInputSchemas(errors, manifestPath, manifest) {
+  const userInputs = Array.isArray(manifest?.userInputs) ? manifest.userInputs : [];
+
+  for (const input of userInputs) {
+    if (typeof input?.validationSchema !== "string") {
+      continue;
+    }
+
+    const location = `${displayPath(manifestPath)}: userInputs -> ${input.name}: validationSchema`;
+    let validationSchema;
+
+    try {
+      validationSchema = JSON.parse(input.validationSchema);
+    } catch (error) {
+      errors.push(`${location} is not valid JSON: ${error.message}`);
+      continue;
+    }
+
+    if (validationSchema?.type !== undefined && validationSchema.type !== "string") {
+      errors.push(`${location} needs "type": "string", user input values are always strings`);
+    }
+
+    if (!Array.isArray(validationSchema?.enum)) {
+      continue;
+    }
+
+    const values = validationSchema.enum;
+    if (values.some((value) => typeof value !== "string")) {
+      errors.push(`${location} needs string values in "enum"`);
+      continue;
+    }
+
+    // Booleans render as a checkbox and need no option labels.
+    if (isBooleanEnum(values)) {
+      continue;
+    }
+
+    const labels = validationSchema["x-enumLabels"] ?? {};
+    for (const value of values) {
+      const label = labels[value];
+      if (typeof label?.de !== "string" || typeof label?.en !== "string") {
+        errors.push(`${location} lacks a de/en label for "${value}" in "x-enumLabels"`);
+      }
+    }
+  }
+}
+
 async function validateScreenshot(errors, manifestPath, location, field, filename) {
   const imagePath = join(dirname(manifestPath), filename);
   let metadata;
@@ -173,6 +233,7 @@ for (const manifestPath of manifestPaths) {
   }
 
   validateDefaultValues(errors, manifestPath, manifest);
+  validateInputSchemas(errors, manifestPath, manifest);
 
   if (!Array.isArray(manifest?.screenshots)) {
     continue;

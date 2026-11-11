@@ -100,7 +100,6 @@ userInputs:
       de: Admin Passwort (Secret Key)
       en: Admin password (secret key)
     positionMeta: { step: "adminUser", index: 2 }
-    format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
 systemInputs:

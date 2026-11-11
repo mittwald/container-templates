@@ -88,16 +88,14 @@ userInputs:
       en: AI endpoint
     positionMeta: { step: "ai", index: 2 }
     defaultValue: "${aiHosting.llmEndpoint}"
-    format: "url"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1 }'
+    validationSchema: '{ "type": "string", "minLength": 1, "format": "url" }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
       en: Sender address
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:

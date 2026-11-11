@@ -125,8 +125,6 @@
             "$ref": "#/$defs/i18n",
             "description": "Mehrsprachiger Anzeigename des Feldes (für die Oberfläche)."
           },
-          "dataType": { "enum": ["text", "number", "boolean", "select"] },
-          "format": { "enum": ["email", "password", "url", "uri"] },
           "required": { "type": "boolean" },
           "dataSource": { "type": "string" },
           "defaultValue": {

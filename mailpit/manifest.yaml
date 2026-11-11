@@ -84,7 +84,6 @@ userInputs:
       de: Passwort Web-Oberfläche
       en: Web interface password
     positionMeta: { step: "adminUser", index: 2 }
-    format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password" }'
   - name: "SMTP_PASSWORD"
@@ -92,7 +91,6 @@ userInputs:
       de: SMTP-Passwort
       en: SMTP password
     positionMeta: { step: "common", index: 1 }
-    format: "password"
     required: true
     validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password" }'
 
