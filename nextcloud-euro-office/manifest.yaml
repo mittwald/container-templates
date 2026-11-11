@@ -91,14 +91,14 @@ userInputs:
     positionMeta: { step: "common", index: 1 }
     defaultValue: "noreply"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[A-Za-z0-9._%+-]+$" }'
+    validationSchema: '{ "type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[A-Za-z0-9._%+-]+$", "x-errorMessage": { "de": "Nur der Teil vor dem @: Buchstaben, Ziffern sowie . _ % + -", "en": "Only the part before the @: letters, digits and . _ % + -" } }'
   - name: "MAIL_DOMAIN"
     label:
       de: Absender-Domain
       en: Sender domain
     positionMeta: { step: "common", index: 2 }
     required: true
-    validationSchema: '{ "type": "string", "minLength": 4, "maxLength": 253, "pattern": "^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)+$" }'
+    validationSchema: '{ "type": "string", "minLength": 4, "maxLength": 253, "pattern": "^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)+$", "x-errorMessage": { "de": "Erwartet wird eine Domain wie example.com", "en": "Expected a domain such as example.com" } }'
   - name: "ADMIN_USER"
     label:
       de: Admin Benutzername

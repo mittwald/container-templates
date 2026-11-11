@@ -91,14 +91,14 @@ userInputs:
     positionMeta: { step: "common", index: 2 }
     defaultValue: "Europe/Berlin"
     required: true
-    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$" }'
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "x-errorMessage": { "de": "Erwartet wird eine Zeitzone wie Europe/Berlin", "en": "Expected a time zone such as Europe/Berlin" } }'
   - name: "KIRBY_LICENSE"
     label:
-      de: Kirby-Lizenz (Inhalt der .license-Datei)
-      en: Kirby licence (contents of the .license file)
+      de: Kirby-Lizenz
+      en: Kirby licence
     positionMeta: { step: "common", index: 3 }
     required: false
-    validationSchema: '{ "type": "string", "pattern": "^\\s*(\\{[\\s\\S]*\\})?\\s*$" }'
+    validationSchema: '{ "type": "string", "pattern": "^\\s*(\\{[\\s\\S]*\\})?\\s*$", "x-description": { "de": "Inhalt der .license-Datei; leer lassen, um die Lizenz später im Panel zu registrieren", "en": "Contents of the .license file; leave empty to register the licence in the panel later" }, "x-errorMessage": { "de": "Erwartet wird der JSON-Inhalt der .license-Datei", "en": "Expected the JSON contents of the .license file" } }'
 deliveryBoxes:
   - purpose: main
 help:

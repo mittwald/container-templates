@@ -89,7 +89,7 @@ userInputs:
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.username}"
     required: true
-    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z0-9_.@-]{3,64}$" }'
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z0-9_.@-]{3,64}$", "x-errorMessage": { "de": "3 bis 64 Zeichen: Buchstaben, Ziffern sowie . _ @ -", "en": "3 to 64 characters: letters, digits and . _ @ -" } }'
   - name: "ADMIN_EMAIL"
     label:
       de: Admin E-Mail-Adresse

@@ -145,6 +145,21 @@ function validateInputSchemas(errors, manifestPath, manifest) {
       errors.push(`${location} needs "type": "string", user input values are always strings`);
     }
 
+    for (const key of ["x-description", "x-errorMessage"]) {
+      const text = validationSchema?.[key];
+      if (text !== undefined && (typeof text?.de !== "string" || typeof text?.en !== "string")) {
+        errors.push(`${location} needs de/en strings in "${key}"`);
+      }
+    }
+
+    // Without x-errorMessage mStudio shows the raw regex to the user.
+    if (validationSchema?.pattern !== undefined && validationSchema["x-errorMessage"] === undefined) {
+      errors.push(`${location} needs an "x-errorMessage" for its "pattern"`);
+    }
+    if (validationSchema?.pattern === undefined && validationSchema?.["x-errorMessage"] !== undefined) {
+      errors.push(`${location} has an "x-errorMessage" without a "pattern"`);
+    }
+
     if (!Array.isArray(validationSchema?.enum)) {
       continue;
     }

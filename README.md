@@ -156,6 +156,15 @@ Welches Eingabeelement erscheint, ergibt sich **allein aus dem `validationSchema
 
 Ein Boolean bleibt `"type": "string"`, weil alle Werte als String in die `docker-compose.yml` gelangen. Ohne `defaultValue` ist die Checkbox nicht gesetzt.
 
+Zwei weitere Schlüsselwörter mit Texten `{ "de": …, "en": … }` gelten für jede Eingabe:
+
+- `x-description` — Hinweis unter dem Feld, etwa woher ein Wert stammt. Erklärungen gehören hierhin statt in Klammern ins Label.
+- `x-errorMessage` — Meldung, wenn der Wert nicht zum `pattern` passt. Ohne sie zeigt das mStudio den regulären Ausdruck an; `validate.mjs` verlangt sie deshalb zu jedem `pattern`.
+
+```yaml
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$", "x-errorMessage": { "de": "Erwartet wird eine Zeitzone wie Europe/Berlin", "en": "Expected a time zone such as Europe/Berlin" } }'
+```
+
 Bei einer Auswahl beschriftet `x-enumLabels` jeden Wert zweisprachig. JSON-Schema-Validatoren ignorieren das Schlüsselwort. Ohne Beschriftung zeigt das mStudio den Rohwert an, `validate.mjs` verlangt deshalb für jeden Wert ein Label:
 
 ```yaml

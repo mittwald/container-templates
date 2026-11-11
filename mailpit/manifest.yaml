@@ -78,21 +78,21 @@ userInputs:
       en: Web interface username
     positionMeta: { step: "adminUser", index: 1 }
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[^\\s:]+$" }'
+    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[^\\s:]+$", "x-errorMessage": { "de": "Leerzeichen und Doppelpunkte sind nicht erlaubt", "en": "Spaces and colons are not allowed" } }'
   - name: "UI_PASSWORD"
     label:
       de: Passwort Web-Oberfläche
       en: Web interface password
     positionMeta: { step: "adminUser", index: 2 }
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password" }'
+    validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password", "x-errorMessage": { "de": "Leerzeichen sind nicht erlaubt", "en": "Spaces are not allowed" } }'
   - name: "SMTP_PASSWORD"
     label:
       de: SMTP-Passwort
       en: SMTP password
     positionMeta: { step: "common", index: 1 }
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password" }'
+    validationSchema: '{ "type": "string", "minLength": 12, "pattern": "^\\S+$", "format": "password", "x-errorMessage": { "de": "Leerzeichen sind nicht erlaubt", "en": "Spaces are not allowed" } }'
 
 help:
   technicalDetails:
