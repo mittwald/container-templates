@@ -138,7 +138,7 @@
             "required": ["step", "index"],
             "properties": {
               "step": {
-                "enum": ["domain", "adminUser", "ai", "common"],
+                "enum": ["domain", "adminUser", "ai", "license", "common"],
                 "description": "Schritt des Assistenten. Die Auswahl ist abschließend, weil das Frontend je Schritt eine Übersetzung pflegt."
               },
               "index": {

@@ -120,47 +120,39 @@ userInputs:
     defaultValue: "${user.email}"
     required: true
     validationSchema: '{ "type": "string", "format": "email" }'
-  - name: "SMTP_FROM"
-    label:
-      de: Absenderadresse für E-Mails
-      en: Sender address for emails
-    positionMeta: { step: "common", index: 3 }
-    defaultValue: "${user.email}"
-    required: true
-    validationSchema: '{ "type": "string", "format": "email" }'
   - name: "COMPANY"
     label:
       de: Firma
       en: Company
-    positionMeta: { step: "common", index: 4 }
+    positionMeta: { step: "common", index: 3 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "STREET"
     label:
       de: Straße und Hausnummer
       en: Street and number
-    positionMeta: { step: "common", index: 5 }
+    positionMeta: { step: "common", index: 4 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "POSTCODE"
     label:
       de: Postleitzahl
       en: Postcode
-    positionMeta: { step: "common", index: 6 }
+    positionMeta: { step: "common", index: 5 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "CITY"
     label:
       de: Ort
       en: City
-    positionMeta: { step: "common", index: 7 }
+    positionMeta: { step: "common", index: 6 }
     required: true
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ACCEPT_TERMS"
     label:
       de: Ich akzeptiere die AGB und die Datenschutzerklärung von neofire
       en: I accept the neofire terms and privacy policy
-    positionMeta: { step: "common", index: 8 }
+    positionMeta: { step: "license", index: 1 }
     required: true
     validationSchema: '{ "type": "string", "enum": ["true"] }'
 systemInputs:
@@ -239,5 +231,5 @@ help:
         de: E-Mail-Versand
         en: Outgoing mail
       content:
-        de: Bestell- und Kontomails werden automatisch über die Delivery-Box des Projekts versendet. Absender ist die beim Anlegen angegebene Absenderadresse.
-        en: Order and account emails are sent automatically through the project's delivery box. The sender is the sender address entered during setup.
+        de: Bestell- und Kontomails werden automatisch über die Delivery-Box des Projekts versendet. Absender ist die E-Mail-Adresse des Shops.
+        en: Order and account emails are sent automatically through the project's delivery box. The sender is the shop email address.

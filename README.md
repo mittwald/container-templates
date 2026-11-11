@@ -186,6 +186,7 @@ Bei einer Auswahl beschriftet `x-enumLabels` jeden Wert zweisprachig. JSON-Schem
 | `domain` | Domains des Stacks — alle Inputs mit `dataSource: "ingress.paths"` |
 | `adminUser` | Zugangsdaten des Administrators: Benutzername, E-Mail-Adresse, Passwort, Token |
 | `ai` | Anbindung an das mittwald AI Hosting: Endpunkt und API-Key |
+| `license` | Zustimmung zu Lizenzbedingungen, AGB oder Datenschutzerklärung des Herstellers; steht immer am Ende des Formulars |
 | `common` | Alles Übrige, also templatespezifische Einstellungen |
 
 `index` bestimmt die Reihenfolge **innerhalb** eines Steps und beginnt je Step bei 1.
