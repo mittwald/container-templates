@@ -80,6 +80,7 @@ userInputs:
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "INSTALLATION_ID"
     label:
@@ -87,7 +88,9 @@ userInputs:
       en: Installation ID
     positionMeta: { step: "common", index: 1 }
     required: true
-    validationSchema: '{ "type": "string", "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", "x-description": { "de": "Wird kostenlos unter bitwarden.com/host angefordert", "en": "Requested free of charge at bitwarden.com/host" }, "x-errorMessage": { "de": "Erwartet wird eine UUID wie 01234567-89ab-cdef-0123-456789abcdef", "en": "Expected a UUID such as 01234567-89ab-cdef-0123-456789abcdef" } }'
+    description: { de: "Wird kostenlos unter bitwarden.com/host angefordert", en: "Requested free of charge at bitwarden.com/host" }
+    errorMessage: { de: "Erwartet wird eine UUID wie 01234567-89ab-cdef-0123-456789abcdef", en: "Expected a UUID such as 01234567-89ab-cdef-0123-456789abcdef" }
+    validationSchema: '{ "type": "string", "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$" }'
   - name: "INSTALLATION_KEY"
     label:
       de: Installationsschlüssel (bitwarden.com/host)
@@ -102,6 +105,7 @@ userInputs:
     positionMeta: { step: "common", index: 3 }
     defaultValue: "${user.email}"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "POSTGRES_PASSWORD"

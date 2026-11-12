@@ -80,7 +80,13 @@ userInputs:
     positionMeta: { step: "common", index: 1 }
     required: true
     defaultValue: "86400"
-    validationSchema: '{ "type": "string", "enum": ["3600", "86400", "604800", "2592000"], "x-enumLabels": { "3600": { "de": "1 Stunde", "en": "1 hour" }, "86400": { "de": "1 Tag", "en": "1 day" }, "604800": { "de": "1 Woche", "en": "1 week" }, "2592000": { "de": "30 Tage", "en": "30 days" } } }'
+    dataType: select
+    options:
+      - { value: "3600", label: { de: "1 Stunde", en: "1 hour" } }
+      - { value: "86400", label: { de: "1 Tag", en: "1 day" } }
+      - { value: "604800", label: { de: "1 Woche", en: "1 week" } }
+      - { value: "2592000", label: { de: "30 Tage", en: "30 days" } }
+    validationSchema: '{ "type": "string", "enum": ["3600", "86400", "604800", "2592000"] }'
   - name: "DEFAULT_DELETE_NOTE_AFTER_READING"
     label:
       de: Notizen standardmäßig nach dem Lesen löschen
@@ -88,6 +94,7 @@ userInputs:
     positionMeta: { step: "common", index: 2 }
     required: true
     defaultValue: "true"
+    dataType: boolean
     validationSchema: '{ "type": "string", "enum": ["true", "false"] }'
   - name: "ALLOW_NO_EXPIRATION"
     label:
@@ -96,6 +103,7 @@ userInputs:
     positionMeta: { step: "common", index: 3 }
     required: true
     defaultValue: "false"
+    dataType: boolean
     validationSchema: '{ "type": "string", "enum": ["true", "false"] }'
 
 help:

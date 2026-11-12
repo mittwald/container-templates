@@ -87,7 +87,8 @@ userInputs:
     positionMeta: { step: "ai", index: 2 }
     defaultValue: "${aiHosting.llmEndpoint}"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1, "format": "url" }'
+    format: url
+    validationSchema: '{ "type": "string", "minLength": 1 }'
 systemInputs:
   - name: "JWT_SECRET"
     schema:

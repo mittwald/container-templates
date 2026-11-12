@@ -81,6 +81,7 @@ userInputs:
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "AI_API_KEY"
     label:
@@ -97,7 +98,8 @@ userInputs:
     positionMeta: { step: "ai", index: 2 }
     defaultValue: "${aiHosting.llmEndpoint}"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1, "format": "url" }'
+    format: url
+    validationSchema: '{ "type": "string", "minLength": 1 }'
 systemInputs:
   - name: "AUTH_SECRET"
     schema:

@@ -89,7 +89,8 @@ userInputs:
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.username}"
     required: true
-    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z0-9_.@-]{3,64}$", "x-errorMessage": { "de": "3 bis 64 Zeichen: Buchstaben, Ziffern sowie . _ @ -", "en": "3 to 64 characters: letters, digits and . _ @ -" } }'
+    errorMessage: { de: "3 bis 64 Zeichen: Buchstaben, Ziffern sowie . _ @ -", en: "3 to 64 characters: letters, digits and . _ @ -" }
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z0-9_.@-]{3,64}$" }'
   - name: "ADMIN_EMAIL"
     label:
       de: Admin E-Mail-Adresse
@@ -97,6 +98,7 @@ userInputs:
     positionMeta: { step: "adminUser", index: 2 }
     defaultValue: "${user.email}"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "ADMIN_PASSWORD"
     label:
@@ -104,7 +106,8 @@ userInputs:
       en: Admin password
     positionMeta: { step: "adminUser", index: 3 }
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
   - name: "SHOP_NAME"
     label:
       de: Name des Shops
@@ -119,6 +122,7 @@ userInputs:
     positionMeta: { step: "common", index: 2 }
     defaultValue: "${user.email}"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "COMPANY"
     label:
@@ -154,6 +158,7 @@ userInputs:
       en: I accept the neofire terms and privacy policy
     positionMeta: { step: "license", index: 1 }
     required: true
+    dataType: consent
     validationSchema: '{ "type": "string", "enum": ["true"] }'
 systemInputs:
   - name: "DB_PASSWORD"

@@ -370,9 +370,9 @@ function defaultUserValue(input) {
     return String(schema.enum[0]);
   }
 
-  if (schema.format === "email" || name.endsWith("_EMAIL")) {
+  if (input.format === "email" || name.endsWith("_EMAIL")) {
     value = "admin@example.test";
-  } else if (schema.format === "password" || name.includes("PASSWORD")) {
+  } else if (input.format === "password" || name.includes("PASSWORD")) {
     value = "DevPassword123!";
   } else if (name.endsWith("_USER") || name.endsWith("_USERNAME")) {
     value = "admin";

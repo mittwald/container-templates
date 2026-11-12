@@ -52,7 +52,8 @@ userInputs:
     positionMeta: { step: "common", index: 1 }
     defaultValue: "production"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9_-]+$", "x-errorMessage": { "de": "Nur Buchstaben, Ziffern sowie _ und -", "en": "Only letters, digits, _ and -" } }'
+    errorMessage: { de: "Nur Buchstaben, Ziffern sowie _ und -", en: "Only letters, digits, _ and -" }
+    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9_-]+$" }'
   - name: "DAEMON_HOSTNAME"
     label:
       de: Hostname in Tideways
@@ -60,7 +61,8 @@ userInputs:
     positionMeta: { step: "common", index: 2 }
     defaultValue: "tideways-daemon"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9._-]+$", "x-errorMessage": { "de": "Nur Buchstaben, Ziffern sowie . _ und -", "en": "Only letters, digits, . _ and -" } }'
+    errorMessage: { de: "Nur Buchstaben, Ziffern sowie . _ und -", en: "Only letters, digits, . _ and -" }
+    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9._-]+$" }'
 
 help:
   technicalDetails:

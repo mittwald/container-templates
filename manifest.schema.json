@@ -148,9 +148,39 @@
               }
             }
           },
+          "dataType": {
+            "enum": ["text", "boolean", "consent", "select"],
+            "description": "Darstellung im Installations-Assistenten, ohne Angabe ein Textfeld. boolean ist eine Checkbox (enum [\"true\", \"false\"] im validationSchema), consent eine Checkbox, die gesetzt sein muss (enum [\"true\"]), select eine Auswahl (enum mit den Werten aus options)."
+          },
+          "format": {
+            "enum": ["email", "password", "url", "textarea"],
+            "description": "Eingabeart eines Textfeldes: E-Mail, Passwort (maskiert), URL oder mehrzeiliger Text."
+          },
+          "description": {
+            "$ref": "#/$defs/i18n",
+            "description": "Hinweis unter dem Feld."
+          },
+          "errorMessage": {
+            "$ref": "#/$defs/i18n",
+            "description": "Fehlermeldung, wenn das pattern im validationSchema nicht passt; ersetzt die Anzeige der Regex."
+          },
+          "options": {
+            "type": "array",
+            "minItems": 1,
+            "description": "Auswahlmöglichkeiten bei dataType select. Die Werte entsprechen dem enum im validationSchema.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["value", "label"],
+              "properties": {
+                "value": { "type": "string", "minLength": 1 },
+                "label": { "$ref": "#/$defs/i18n" }
+              }
+            }
+          },
           "validationSchema": {
             "type": "string",
-            "description": "JSON-Schema als String (https://json-schema.org/)."
+            "description": "JSON-Schema als String (https://json-schema.org/), gegen das das Backend den Wert prüft. Werte sind immer Strings. Enthält nur Validierung, keine Darstellung."
           }
         }
       }

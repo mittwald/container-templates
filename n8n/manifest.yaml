@@ -72,7 +72,7 @@ userInputs:
     positionMeta: { step: "domain", index: 1 }
     required: true
     dataSource: "ingress.paths"
-    validationSchema: '{ "type": "string", "minLength": 1}'
+    validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
@@ -80,6 +80,7 @@ userInputs:
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "POSTGRES_PASSWORD"

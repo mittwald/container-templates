@@ -110,17 +110,22 @@ function validateDefaultValues(errors, manifestPath, manifest) {
   }
 }
 
-// The container template API only passes the validationSchema through, so it
-// alone decides how mStudio renders an input. The backend always validates
-// string values against it.
-const BOOLEAN_ENUM = ["false", "true"];
+// The presentation (dataType, format, description, errorMessage, options) is
+// part of the manifest; the validationSchema only validates. The container
+// service rejects a manifest whose enum does not fit its dataType, so these
+// checks mirror its rules.
+const ENUM_BY_DATA_TYPE = {
+  boolean: ["false", "true"],
+  consent: ["true"],
+};
+// JSON Schema formats the backend validates; presentation-only formats belong
+// in the format field.
+const SCHEMA_FORMATS = new Set(["email"]);
 
-function isBooleanEnum(values) {
-  const sorted = [...values].sort();
-  const isConsent = sorted.length === 1 && sorted[0] === "true";
-  const isToggle =
-    sorted.length === 2 && sorted.every((value, index) => value === BOOLEAN_ENUM[index]);
-  return isConsent || isToggle;
+function sameValues(a, b) {
+  const sortedA = [...a].sort();
+  const sortedB = [...b].sort();
+  return sortedA.length === sortedB.length && sortedA.every((value, index) => value === sortedB[index]);
 }
 
 function validateInputSchemas(errors, manifestPath, manifest) {
@@ -131,56 +136,78 @@ function validateInputSchemas(errors, manifestPath, manifest) {
       continue;
     }
 
-    const location = `${displayPath(manifestPath)}: userInputs -> ${input.name}: validationSchema`;
+    const location = `${displayPath(manifestPath)}: userInputs -> ${input.name}`;
     let validationSchema;
 
     try {
       validationSchema = JSON.parse(input.validationSchema);
     } catch (error) {
-      errors.push(`${location} is not valid JSON: ${error.message}`);
+      errors.push(`${location}: validationSchema is not valid JSON: ${error.message}`);
       continue;
     }
 
     if (validationSchema?.type !== undefined && validationSchema.type !== "string") {
-      errors.push(`${location} needs "type": "string", user input values are always strings`);
+      errors.push(`${location}: validationSchema needs "type": "string", user input values are always strings`);
     }
 
-    for (const key of ["x-description", "x-errorMessage"]) {
-      const text = validationSchema?.[key];
-      if (text !== undefined && (typeof text?.de !== "string" || typeof text?.en !== "string")) {
-        errors.push(`${location} needs de/en strings in "${key}"`);
+    for (const key of Object.keys(validationSchema ?? {}).filter((key) => key.startsWith("x-"))) {
+      errors.push(`${location}: validationSchema has "${key}", use the manifest fields for presentation`);
+    }
+
+    const schemaFormat = validationSchema?.format;
+    if (schemaFormat !== undefined && !SCHEMA_FORMATS.has(schemaFormat)) {
+      errors.push(`${location}: validationSchema has "format": "${schemaFormat}", use format: ${schemaFormat}`);
+    }
+    if (schemaFormat === "email" && input.format !== "email") {
+      errors.push(`${location}: validates an email address and needs format: email`);
+    }
+
+    // Without errorMessage mStudio shows the raw regex to the user.
+    if (validationSchema?.pattern !== undefined && input.errorMessage === undefined) {
+      errors.push(`${location}: needs an errorMessage for the "pattern" of its validationSchema`);
+    }
+    if (validationSchema?.pattern === undefined && input.errorMessage !== undefined) {
+      errors.push(`${location}: has an errorMessage without a "pattern" in its validationSchema`);
+    }
+
+    const values = validationSchema?.enum;
+    if (values !== undefined && (!Array.isArray(values) || values.some((value) => typeof value !== "string"))) {
+      errors.push(`${location}: validationSchema needs string values in "enum"`);
+      continue;
+    }
+
+    const dataType = input.dataType ?? "text";
+    if (input.options !== undefined && dataType !== "select") {
+      errors.push(`${location}: has options and needs dataType select`);
+    }
+    if (input.format !== undefined && dataType !== "text") {
+      errors.push(`${location}: has a format, which only text inputs support`);
+    }
+
+    if (dataType === "text") {
+      if (values !== undefined) {
+        errors.push(`${location}: has an "enum" in its validationSchema and needs dataType boolean, consent or select`);
       }
-    }
-
-    // Without x-errorMessage mStudio shows the raw regex to the user.
-    if (validationSchema?.pattern !== undefined && validationSchema["x-errorMessage"] === undefined) {
-      errors.push(`${location} needs an "x-errorMessage" for its "pattern"`);
-    }
-    if (validationSchema?.pattern === undefined && validationSchema?.["x-errorMessage"] !== undefined) {
-      errors.push(`${location} has an "x-errorMessage" without a "pattern"`);
-    }
-
-    if (!Array.isArray(validationSchema?.enum)) {
       continue;
     }
 
-    const values = validationSchema.enum;
-    if (values.some((value) => typeof value !== "string")) {
-      errors.push(`${location} needs string values in "enum"`);
-      continue;
-    }
-
-    // Booleans render as a checkbox and need no option labels.
-    if (isBooleanEnum(values)) {
-      continue;
-    }
-
-    const labels = validationSchema["x-enumLabels"] ?? {};
-    for (const value of values) {
-      const label = labels[value];
-      if (typeof label?.de !== "string" || typeof label?.en !== "string") {
-        errors.push(`${location} lacks a de/en label for "${value}" in "x-enumLabels"`);
+    if (dataType === "select") {
+      if (!Array.isArray(input.options)) {
+        errors.push(`${location}: dataType select needs options`);
       }
+      const optionValues = Array.isArray(input.options) ? input.options.map((option) => option?.value) : [];
+      if (new Set(optionValues).size !== optionValues.length) {
+        errors.push(`${location}: has duplicate option values`);
+      }
+      if (!sameValues(values ?? [], optionValues)) {
+        errors.push(`${location}: option values must match the "enum" of its validationSchema`);
+      }
+      continue;
+    }
+
+    const expected = ENUM_BY_DATA_TYPE[dataType];
+    if (expected && !sameValues(values ?? [], expected)) {
+      errors.push(`${location}: dataType ${dataType} needs "enum": ${JSON.stringify(expected)} in its validationSchema`);
     }
   }
 }
