@@ -1,0 +1,145 @@
+manifestVersion: 1.0
+name:
+  de: OpenClaw
+  en: OpenClaw
+version: "latest"
+type: standalone
+tagline:
+  de: Selbstgehosteter KI-Agent mit Automatisierungen und Messenger-Anbindung
+  en: Self-hosted AI agent with automations and messenger integration
+description:
+  de: |
+    **OpenClaw** ist ein Open-Source-KI-Agent, der als dauerhaft laufendes Gateway betrieben wird, und eine self-hosted Alternative zu verwalteten Assistenz-Diensten wie ChatGPT Agent oder Claude for Work. Der Agent führt Aufgaben mit Werkzeugen selbstständig aus, behält Wissen über Sitzungen hinweg und ist über die Weboberfläche oder Messenger erreichbar.
+
+    Zentrale Funktionen:
+
+    - Weboberfläche mit Chat, Sitzungen, Gedächtnis und Einstellungen
+    - Geplante Automatisierungen für wiederkehrende Agentenläufe
+    - Kanäle für Telegram, Slack, Discord, WhatsApp, Signal und weitere Messenger
+    - Erweiterbar über Skills, Plugins und MCP-Server
+    - Anbindung OpenAI-kompatibler Sprachmodelle, etwa des mittwald AI Hostings
+
+    Für **Agenturen** eignet sich OpenClaw als Assistent für wiederkehrende Aufgaben in Kundenprojekten: Wochenreports zusammenstellen, Websites und Rankings prüfen oder Newsletter-Entwürfe vorbereiten. Die Ergebnisse landen in den Kanälen, in denen das Team ohnehin arbeitet.
+
+    Bei mittwald läuft **OpenClaw** als self-hosted Container in deutschen Rechenzentren; Gedächtnis, Sitzungen und hinterlegte Zugangsdaten verbleiben unter der Kontrolle des Betreibers, und mit dem mittwald AI Hosting werden auch die Anfragen an das Sprachmodell in Deutschland verarbeitet – das vereinfacht die Einhaltung der DSGVO. Dieses Template enthält das per Token abgesicherte Gateway mit Weboberfläche und richtet das mittwald AI Hosting beim ersten Start als Modellanbieter ein. Lizenz- oder Seat-Kosten fallen nicht an.
+  en: |
+    **OpenClaw** is an open-source AI agent that runs as a permanent gateway and a self-hosted alternative to managed assistant services such as ChatGPT Agent or Claude for Work. The agent carries out tasks with tools on its own, retains knowledge across sessions and can be reached through the web interface or messengers.
+
+    Key features:
+
+    - Web interface with chat, sessions, memory and settings
+    - Scheduled automations for recurring agent runs
+    - Channels for Telegram, Slack, Discord, WhatsApp, Signal and other messengers
+    - Extensible through skills, plugins and MCP servers
+    - Connection to OpenAI-compatible language models such as mittwald AI hosting
+
+    For **agencies**, OpenClaw works as an assistant for recurring tasks in client projects: compiling weekly reports, checking websites and rankings or preparing newsletter drafts. The results end up in the channels the team already uses.
+
+    At mittwald, **OpenClaw** runs as a self-hosted container in German data centres; memory, sessions and stored credentials stay under the operator's control, and with mittwald AI hosting the language model requests are processed in Germany as well, which simplifies GDPR compliance. This template includes the token-protected gateway with its web interface and sets up mittwald AI hosting as the model provider on first start. No licence or seat costs apply.
+developer: OpenClaw
+website: https://openclaw.ai
+repository: https://github.com/openclaw/openclaw
+support: https://docs.openclaw.ai
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - ai
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-automations.png
+    text:
+      de: Geplante Automatisierungen für wiederkehrende Agentenläufe
+      en: Scheduled automations for recurring agent runs
+  - bg: background.jpg
+    screenshot: screenshot-models.png
+    text:
+      de: Das mittwald AI Hosting als Modellanbieter des Agenten
+      en: mittwald AI hosting as the agent's model provider
+  - bg: background.jpg
+    screenshot: screenshot-channels.png
+    text:
+      de: Messenger wie Telegram, Slack oder WhatsApp als Kanäle anbinden
+      en: Connecting messengers such as Telegram, Slack or WhatsApp as channels
+domains:
+  main:
+    userInput: HOST
+    service: openclaw
+    port: 18789
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
+    positionMeta: { step: "ai", index: 1 }
+    required: true
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_ENDPOINT"
+    label:
+      de: AI Endpunkt
+      en: AI endpoint
+    positionMeta: { step: "ai", index: 2 }
+    defaultValue: "${aiHosting.llmEndpoint}"
+    required: true
+    format: url
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+systemInputs:
+  - name: "GATEWAY_TOKEN" # openssl rand -hex 32
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+          max: 64
+        - identifier: hexOnly
+          ruleType: charPool
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Gateway-Token
+      en: Gateway token
+    value: ${openclaw.env.OPENCLAW_GATEWAY_TOKEN}
+  alerts:
+  - status: warning
+    heading:
+      de: Browser einmalig freigeben
+      en: Approve each browser once
+    content:
+      de: Öffne die Domain und gib das oben angezeigte Gateway-Token ein. Danach zeigt OpenClaw **Diesen Browser genehmigen** mit einem Befehl wie `openclaw devices approve <id>`. Führe ihn per SSH im Container `openclaw` aus (z. B. `mw container ssh`); die Seite verbindet sich anschließend von selbst. Jeder neue Browser bzw. jedes neue Browserprofil braucht diese Freigabe einmal, das Token allein genügt nicht. Unter **Einstellungen → Geräte** lassen sich freigegebene Browser wieder entfernen.
+      en: Open the domain and enter the gateway token shown above. OpenClaw then shows **Approve this browser** with a command such as `openclaw devices approve <id>`. Run it via SSH in the `openclaw` container (for example `mw container ssh`); the page then connects on its own. Every new browser or browser profile needs this approval once; the token alone is not enough. Approved browsers can be removed under **Settings → Devices**.
+  - status: info
+    heading:
+      de: Sprachmodell
+      en: Language model
+    content:
+      de: Beim ersten Start wird das mittwald AI Hosting mit dem Modell `gpt-oss-120b` als Standard eingerichtet. Weitere Modelle oder Anbieter fügst du unter **Einstellungen → Modelle** hinzu. Der API-Key wird aus der Umgebungsvariable `CUSTOM_API_KEY` gelesen und nicht in der Konfiguration gespeichert.
+      en: On first start, mittwald AI hosting is set up with the model `gpt-oss-120b` as the default. Add further models or providers under **Settings → Models**. The API key is read from the environment variable `CUSTOM_API_KEY` and not stored in the configuration.
+  - status: warning
+    heading:
+      de: Agent mit Vollzugriff auf den Container
+      en: Agent with full access to the container
+    content:
+      de: Der Agent darf Befehle ausführen und Dateien im Container bearbeiten, und die Oberfläche bietet ein Terminal für Administratoren. Gib das Gateway-Token und freigegebene Browser nur an Personen, die den Agenten administrieren, und hinterlege in Kanälen und Skills nur Zugangsdaten, die der Agent tatsächlich benötigt.
+      en: The agent may run commands and edit files in the container, and the interface offers a terminal for administrators. Share the gateway token and approved browsers only with people who administer the agent, and store only the credentials the agent actually needs in channels and skills.

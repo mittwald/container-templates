@@ -1,0 +1,167 @@
+services:
+  mautic:
+    image: mautic/mautic:7-apache
+    ports:
+      - "80:80"
+    # The platform runs no separate init container: until the installation has
+    # completed, each start writes a fresh local.php (database, mail server,
+    # proxy and time zone settings) and runs the unattended installer with the
+    # admin account from the installer inputs. The marker file is only written
+    # after the installer succeeded, so an aborted installation is repeated on
+    # the next start instead of leaving Mautic without a usable admin account.
+    # The image's entrypoint then fixes ownership of its own volumes (the
+    # translations volume is not among them, hence the chown), runs pending
+    # migrations and starts Apache. The script uses plain $VAR references only:
+    # braced references would be substituted at deployment, and positional
+    # parameters are read through a for loop for the same reason. Each list entry
+    # must stay below 800 characters.
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        cd /var/www/html
+        chown www-data:www-data docroot/translations
+        if [ ! -f config/.installed ]; then
+          /startup/check_database_connection.sh
+          for code; do :; done
+          php -r "$code" > config/local.php
+          chown -R www-data:www-data config var docroot/media/files docroot/media/images
+          su -s /bin/bash -c 'php bin/console mautic:install -n --force --admin_username="$ADMIN_USER" --admin_email="$ADMIN_EMAIL" --admin_password="$ADMIN_PASSWORD" "$SITE_URL"' www-data
+          touch config/.installed
+        fi
+        exec /entrypoint.sh
+      - mautic-setup
+      - |
+        $p = ['db_driver' => 'pdo_mysql', 'db_host' => 'mariadb', 'db_port' => '3306', 'db_name' => 'mautic', 'db_user' => 'mautic', 'db_password' => getenv('MAUTIC_DB_PASSWORD'), 'db_table_prefix' => null, 'db_backup_tables' => true, 'db_backup_prefix' => 'bak_',
+          'mailer_dsn' => 'smtp://' . rawurlencode(getenv('SMTP_USER')) . ':' . rawurlencode(getenv('SMTP_PASSWORD')) . '@mail.agenturserver.de:587', 'mailer_from_email' => getenv('SMTP_FROM'), 'mailer_from_name' => 'Mautic',
+          'messenger_dsn_email' => 'doctrine://default', 'messenger_dsn_hit' => 'doctrine://default', 'default_timezone' => 'Europe/Berlin', 'trusted_proxies' => ['0.0.0.0/0']];
+        echo '<?php $parameters = ', var_export($p, true), ';', PHP_EOL;
+    environment:
+      - TZ=Europe/Berlin
+      - PHP_INI_VALUE_DATE_TIMEZONE=Europe/Berlin
+      - DOCKER_MAUTIC_ROLE=mautic_web
+      - MAUTIC_DB_HOST=mariadb
+      - MAUTIC_DB_PORT=3306
+      - MAUTIC_DB_DATABASE=mautic
+      - MAUTIC_DB_USER=mautic
+      - MAUTIC_DB_PASSWORD=${MARIADB_PASSWORD}
+      - MAUTIC_MESSENGER_DSN_EMAIL=doctrine://default
+      - MAUTIC_MESSENGER_DSN_HIT=doctrine://default
+      - SITE_URL=https://${HOST}
+      - ADMIN_USER=${ADMIN_USER}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - mautic_config:/var/www/html/config
+      - mautic_logs:/var/www/html/var/logs
+      - mautic_files:/var/www/html/docroot/media/files
+      - mautic_images:/var/www/html/docroot/media/images
+      - mautic_translations:/var/www/html/docroot/translations
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost/s/login"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      # The first start creates the schema and loads the fixtures.
+      start_period: 5m
+      start_interval: 5s
+  cron:
+    image: mautic/mautic:7-apache
+    # Extends the image's crontab with the jobs that send segment emails and
+    # process background imports.
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        mkdir -p /opt/mautic/cron
+        { cat /templates/mautic_cron; for job; do echo "$job"; done; } > /opt/mautic/cron/mautic
+        exec /entrypoint.sh
+      - mautic-cron
+      - "*/5 * * * * php /var/www/html/bin/console mautic:broadcasts:send 2>&1 | tee /tmp/stdout"
+      - "*/5 * * * * php /var/www/html/bin/console mautic:import 2>&1 | tee /tmp/stdout"
+    environment:
+      - TZ=Europe/Berlin
+      - PHP_INI_VALUE_DATE_TIMEZONE=Europe/Berlin
+      - DOCKER_MAUTIC_ROLE=mautic_cron
+      - MAUTIC_DB_HOST=mariadb
+      - MAUTIC_DB_PORT=3306
+      - MAUTIC_DB_DATABASE=mautic
+      - MAUTIC_DB_USER=mautic
+      - MAUTIC_DB_PASSWORD=${MARIADB_PASSWORD}
+      - MAUTIC_MESSENGER_DSN_EMAIL=doctrine://default
+      - MAUTIC_MESSENGER_DSN_HIT=doctrine://default
+    depends_on:
+      mautic:
+        condition: service_healthy
+    volumes:
+      - mautic_config:/var/www/html/config
+      - mautic_logs:/var/www/html/var/logs
+      - mautic_files:/var/www/html/docroot/media/files
+      - mautic_images:/var/www/html/docroot/media/images
+      - mautic_translations:/var/www/html/docroot/translations
+  worker:
+    image: mautic/mautic:7-apache
+    environment:
+      - TZ=Europe/Berlin
+      - PHP_INI_VALUE_DATE_TIMEZONE=Europe/Berlin
+      - DOCKER_MAUTIC_ROLE=mautic_worker
+      - DOCKER_MAUTIC_WORKERS_CONSUME_EMAIL=1
+      - DOCKER_MAUTIC_WORKERS_CONSUME_HIT=1
+      - DOCKER_MAUTIC_WORKERS_CONSUME_FAILED=1
+      - MAUTIC_DB_HOST=mariadb
+      - MAUTIC_DB_PORT=3306
+      - MAUTIC_DB_DATABASE=mautic
+      - MAUTIC_DB_USER=mautic
+      - MAUTIC_DB_PASSWORD=${MARIADB_PASSWORD}
+      - MAUTIC_MESSENGER_DSN_EMAIL=doctrine://default
+      - MAUTIC_MESSENGER_DSN_HIT=doctrine://default
+    depends_on:
+      mautic:
+        condition: service_healthy
+    volumes:
+      - mautic_config:/var/www/html/config
+      - mautic_logs:/var/www/html/var/logs
+      - mautic_files:/var/www/html/docroot/media/files
+      - mautic_images:/var/www/html/docroot/media/images
+      - mautic_translations:/var/www/html/docroot/translations
+  mariadb:
+    image: mariadb:lts
+    environment:
+      - TZ=Europe/Berlin
+      - MARIADB_DATABASE=mautic
+      - MARIADB_USER=mautic
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      # The MariaDB entrypoint unsets MARIADB_*PASSWORD before starting the
+      # server, so the backup command needs its own copy of the password.
+      - BACKUP_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_AUTO_UPGRADE=mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/mysql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { MYSQL_PWD="$$BACKUP_PASSWORD" mariadb-dump -u root --all-databases --routines --events --single-transaction --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  mautic_config:
+  mautic_logs:
+  mautic_files:
+  mautic_images:
+  # Language packs downloaded under Settings → Configuration.
+  mautic_translations:
+  mariadb_data:

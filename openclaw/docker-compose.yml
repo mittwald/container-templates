@@ -1,0 +1,43 @@
+services:
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    ports:
+      - "18789:18789"
+    # The platform runs no separate init container: as long as no config file
+    # exists, the start command runs the non-interactive onboarding. It sets up
+    # token auth and the mittwald AI hosting provider, both as references to
+    # environment variables, so neither the gateway token nor the API key end
+    # up in the config file. Every start then applies the deployment-specific
+    # gateway settings and hands over to the image's entrypoint, which runs
+    # the doctor repair pass before starting the gateway.
+    # The ingress reaches the container from 100.64.0.0/10 with forwarded
+    # headers; without trusting that range the gateway rejects every request
+    # with proxy_attribution_required. publicOrigin also sets the allowed
+    # browser origin of the Control UI.
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        if [ ! -f /home/node/.openclaw/openclaw.json ]; then
+          node openclaw.mjs onboard --non-interactive --accept-risk --skip-health --mode local --auth-choice custom-api-key --custom-base-url "$AI_ENDPOINT" --custom-model-id "$AI_MODEL" --custom-compatibility openai --secret-input-mode ref --gateway-auth token --gateway-token-ref-env OPENCLAW_GATEWAY_TOKEN --skip-channels --no-install-daemon
+        fi
+        for settings; do :; done
+        node openclaw.mjs config set --batch-json "$settings"
+        exec node /app/docker-entrypoint.mjs node openclaw.mjs gateway --port 18789
+      - openclaw-setup
+      - '[{"path":"gateway.bind","value":"lan"},{"path":"gateway.trustedProxies","value":["100.64.0.0/10"]},{"path":"gateway.publicOrigin","value":"https://${HOST}"}]'
+    environment:
+      - TZ=Europe/Berlin
+      - OPENCLAW_GATEWAY_TOKEN=${GATEWAY_TOKEN}
+      - AI_ENDPOINT=${AI_ENDPOINT}
+      - AI_MODEL=gpt-oss-120b
+      - CUSTOM_API_KEY=${AI_API_KEY}
+    volumes:
+      # Config, SQLite state, sessions, memory and the agent workspace.
+      - openclaw_data:/home/node/.openclaw
+      # Key material for legacy encrypted auth profiles.
+      - openclaw_secrets:/home/node/.config/openclaw
+volumes:
+  openclaw_data:
+  openclaw_secrets:
