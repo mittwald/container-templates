@@ -492,6 +492,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="meilisearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [meilisearch](meilisearch/) | Schnelle Volltextsuche für Anwendungen |
 | <img src="memos/icon.svg" width="24" height="24" style="object-fit:contain"> | [memos](memos/) | Notizen und Gedanken schnell festhalten |
 | <img src="n8n/icon.svg" width="24" height="24" style="object-fit:contain"> | [n8n](n8n/) | Automatisierung für deine Geschäftsprozesse |
+| <img src="neofire-core/icon.svg" width="24" height="24" style="object-fit:contain"> | [neofire-core](neofire-core/) | Shopsystem mit Kasse, Terminbuchung und Layout-Editor |
 | <img src="nextcloud-euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [nextcloud-euro-office](nextcloud-euro-office/) | Cloud-Speicher und Zusammenarbeit mit Online-Office |
 | <img src="opensearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
 | <img src="openwebui/icon.svg" width="24" height="24" style="object-fit:contain"> | [openwebui](openwebui/) | Selbstgehostete Oberfläche für KI-Modelle |
