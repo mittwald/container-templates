@@ -526,7 +526,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 ## Neues Template anlegen
 
 1. Ordner mit dem Template-Namen erstellen
-2. `docker-compose.yml` mit den benötigten Services anlegen
+2. `docker-compose.yml` mit den benötigten Services anlegen — am besten zuerst als Stack auf der mittwald-Plattform aufbauen, bis die Anwendung dort läuft (siehe [Auf der mittwald-Plattform aufbauen und testen](#auf-der-mittwald-plattform-aufbauen-und-testen))
 3. `manifest.yaml` erstellen — Felder und Beispiele in den Abschnitten oben, die verbindliche Struktur in [`manifest.schema.json`](manifest.schema.json)
 4. `icon.svg` hinzufügen (Quelle: [dashboard-icons](https://github.com/homarr-labs/dashboard-icons), Apache-2.0)
 5. Variablen in der `docker-compose.yml` über `userInputs` und `systemInputs` im Manifest definieren
@@ -541,3 +541,62 @@ Voraussetzung sind Node.js 24 und die in `package.json` festgelegte pnpm-Version
 pnpm install
 pnpm test
 ```
+
+### Auf der mittwald-Plattform aufbauen und testen
+
+**Empfohlener Weg:** Den Stack zuerst auf der mittwald-Plattform aufbauen und erst daraus das Template machen. Eine Compose-Datei, die im mStudio bzw. per `mw` bereits läuft und benutzbar ist, wird anschließend nur noch um Manifest, Icon und Screenshots ergänzt. So landen Plattform-Eigenheiten gar nicht erst im Template, statt erst nach dem Merge aufzufallen. Für NocoDB, Outline und Odoo hat dieser Weg in einem Durchgang zu installierbaren Templates geführt.
+
+`pnpm app` zeigt, ob ein Template unter Docker Compose läuft. Die Plattform verhält sich aber in einigen Punkten anders: Init-Container, `$$` in `command`, Argumentlängen und Schreibrechte auf Volumes fallen erst dort auf (siehe [`AGENTS.md`](AGENTS.md)). Gearbeitet wird deshalb in einem eigenen Testprojekt: Compose-Datei deployen, Logs lesen, anpassen, erneut deployen, bis die Anwendung läuft. Das geht mit der [mittwald CLI](https://github.com/mittwald/cli) (`mw`), ohne dass das Template schon im Katalog sein muss:
+
+```bash
+# Einmalig: Testprojekt anlegen, Short-ID und Domain notieren
+mw project create -s <server-id> -d "Container-Template Tests" -w
+
+# Je Template: Stack anlegen und die Compose-Datei mit Testwerten deployen
+mw stack create -p <project> -d nocodb -q          # gibt die Stack-ID aus
+mw stack deploy -s <stack-id> -c nocodb/docker-compose.yml --env-file nocodb.env -f
+
+# Container-ID des Hauptservice ermitteln und eine Subdomain darauf zeigen lassen
+mw stack ps -s <stack-id> -o json | jq -r '.[] | "\(.id) \(.serviceName)"'
+mw domain virtualhost create -p <project> \
+  --hostname nocodb.<project>.project.space \
+  --path-to-container /:<container-id>:8080/tcp
+```
+
+Die `.env`-Datei enthält einen Wert für jeden `userInput` und jedes `systemInput` des Manifests, also auch `HOST` mit der Subdomain. Für Templates mit `deliveryBoxes` legt man im Testprojekt eine Delivery-Box an (`mw mail deliverybox create`) und trägt deren Zugangsdaten als `MW_DELIVERYBOX_MAIN_USERNAME` und `MW_DELIVERYBOX_MAIN_PASSWORD` ein. Bis die Subdomain erreichbar ist und ein Zertifikat hat, können einige Minuten vergehen.
+
+Zur Fehlersuche:
+
+```bash
+mw container logs <container-id> -p <project>
+mw container exec <container-id> -p <project> -q 'id; ls -ld /pfad/zum/volume'
+```
+
+Getestet wird nicht nur, ob der Container startet, sondern ob die Anwendung benutzbar ist: Login mit den Werten aus dem Assistenten, ein paar Datensätze anlegen, Seite neu laden, Container neu starten (`mw container restart`) und prüfen, ob die Daten noch da sind. Für Uploads zusätzlich prüfen, ob das Datenverzeichnis beschreibbar ist.
+
+### Screenshots aufnehmen
+
+Screenshots zeigen die echte Oberfläche mit realistischen Beispieldaten (z. B. Kundenprojekte einer Agentur), keine leeren Startseiten. Die Daten lassen sich meist schneller über die API der Anwendung anlegen als von Hand.
+
+Aufgenommen wird mit einem Headless-Browser bei normaler Fensterbreite und doppelter Pixeldichte, statt das Fenster zu verkleinern oder zu vergrößern. Mit Playwright:
+
+```js
+const page = await browser.newPage({
+  viewport: { width: 1440, height: 900 },
+  deviceScaleFactor: 2, // ergibt 2880 px Breite, Mindestbreite sind 1500 px
+  colorScheme: "light",
+  locale: "de-DE",
+});
+await page.mouse.move(1430, 890); // Tooltips und Hover-Effekte vermeiden
+await page.screenshot({ path: "nocodb/screenshot-grid.png" });
+```
+
+Vor dem Übernehmen jeden Screenshot ansehen: keine Tooltips, Onboarding-Hinweise oder Änderungsprotokolle aus dem Anlegen der Testdaten. Drei Screenshots je Template zeigen unterschiedliche Funktionen, etwa Liste, Board und Detailansicht. Danach den Hintergrund aus dem ersten Screenshot erzeugen:
+
+```bash
+pnpm gen:background nocodb            # --force, wenn sich der erste Screenshot geändert hat
+```
+
+### Im mStudio testen
+
+Nach dem Merge nach `dev` stellt das mStudio-Dev-System die Vorlagen nach wenigen Minuten bereit. Dort wird jedes neue Template einmal über **Container → Vorlagen** installiert, so wie Nutzende es tun: Formular ausfüllen, Passwort generieren, Subdomain anlegen. Danach die Zugangsdaten aus den **Stack Informationen** (`help`) übernehmen, einloggen und die Anwendung kurz benutzen. Dabei fallen auch Fehler in Bezeichnungen, Beschreibungen, `help`-Platzhaltern und der Reihenfolge der Steps auf. Erst danach geht `dev` per Pull Request nach `main`.
