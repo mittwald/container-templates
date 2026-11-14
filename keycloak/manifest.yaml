@@ -1,0 +1,182 @@
+manifestVersion: 1.0
+name:
+  de: Keycloak
+  en: Keycloak
+version: "26.x.x"
+type: standalone
+tagline:
+  de: Identity- und Access-Management mit OIDC und SAML
+  en: Identity and access management with OIDC and SAML
+description:
+  de: |
+    **Keycloak** ist eine self-hosted Plattform für Identity- und Access-Management, die Anwendungen über OpenID Connect, OAuth 2.0 und SAML eine zentrale Anmeldung bereitstellt. Sie ist eine Alternative zu gehosteten Identity-Diensten wie Auth0, Okta oder Microsoft Entra ID und wird als Open-Source-Projekt der Cloud Native Computing Foundation entwickelt.
+
+    Zentrale Funktionen:
+
+    - Anmeldeseite mit Benutzername oder E-Mail-Adresse und Passwort, Passwort-Reset per E-Mail
+    - Single Sign-on über OpenID Connect, OAuth 2.0 und SAML 2.0
+    - Benutzer, Gruppen, Rollen und Clients je Realm in einer Admin-Konsole
+    - Zwei-Faktor-Authentifizierung, Passkeys und Schutz vor Brute-Force-Angriffen
+    - Anbindung externer Identitätsquellen wie LDAP, Active Directory, Google oder GitHub
+
+    Für **Agenturen** dient Keycloak als gemeinsamer Login für interne Werkzeuge und Kundenanwendungen. Andere Container-Anwendungen mit OIDC-Unterstützung werden als Client registriert und übernehmen Benutzer und Rollen aus Keycloak, statt eigene Konten zu pflegen. Getrennte Realms halten Benutzer verschiedener Kunden sauber auseinander.
+
+    Bei mittwald läuft **Keycloak** in deutschen Rechenzentren; Identitäts- und Anmeldedaten bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Das Template betreibt Keycloak hinter dem Plattform-Proxy mit einer PostgreSQL-Datenbank, legt einen Realm samt erstem Benutzer an und richtet den Mailversand über eine Delivery-Box ein. Lizenz- oder Benutzerkosten fallen nicht an.
+  en: |
+    **Keycloak** is a self-hosted identity and access management platform that provides applications with central sign-in via OpenID Connect, OAuth 2.0 and SAML. It is an alternative to hosted identity services such as Auth0, Okta or Microsoft Entra ID and is developed as an open source project of the Cloud Native Computing Foundation.
+
+    Key features:
+
+    - Sign-in page with username or email address and password, password reset by email
+    - Single sign-on via OpenID Connect, OAuth 2.0 and SAML 2.0
+    - Users, groups, roles and clients per realm in an admin console
+    - Two-factor authentication, passkeys and brute-force protection
+    - Integration of external identity sources such as LDAP, Active Directory, Google or GitHub
+
+    For **agencies**, Keycloak serves as a shared login for internal tools and client applications. Other container applications with OIDC support are registered as clients and take users and roles from Keycloak instead of maintaining their own accounts. Separate realms keep the users of different clients cleanly apart.
+
+    At mittwald, **Keycloak** runs in German data centres; identity and sign-in data remains within the operator's infrastructure, simplifying GDPR compliance. The template runs Keycloak behind the platform proxy with a PostgreSQL database, creates a realm with a first user and sets up mail delivery through a delivery box. No licence or per-user costs apply.
+developer: Cloud Native Computing Foundation
+website: https://www.keycloak.org
+repository: https://github.com/keycloak/keycloak
+support: https://github.com/keycloak/keycloak/discussions
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
+categories:
+  - security
+domains:
+  main:
+    userInput: HOST
+    service: keycloak
+    port: 8080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.username}"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9._@-]+$" }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 2 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 3 }
+    format: "password"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+  - name: "ADMIN_FIRST_NAME"
+    label:
+      de: Vorname
+      en: First name
+    positionMeta: { step: "adminUser", index: 4 }
+    defaultValue: "${user.firstName}"
+    required: false
+    validationSchema: '{ "type": "string" }'
+  - name: "ADMIN_LAST_NAME"
+    label:
+      de: Nachname
+      en: Last name
+    positionMeta: { step: "adminUser", index: 5 }
+    defaultValue: "${user.lastName}"
+    required: false
+    validationSchema: '{ "type": "string" }'
+  - name: "REALM"
+    label:
+      de: Name des Realms für Anwendungen
+      en: Name of the realm for applications
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "apps"
+    required: true
+    validationSchema: '{ "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "${user.email}"
+    format: "email"
+    required: true
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+    - key:
+        de: Admin-Konsole
+        en: Admin console
+      value: https://${domain.main}/admin/
+    - key:
+        de: Issuer-URL
+        en: Issuer URL
+      value: https://${domain.main}/realms/${keycloak.env.REALM}
+    - key:
+        de: Discovery-URL
+        en: Discovery URL
+      value: https://${domain.main}/realms/${keycloak.env.REALM}/.well-known/openid-configuration
+    - key:
+        de: Konto-Seite für Benutzer
+        en: Account page for users
+      value: https://${domain.main}/realms/${keycloak.env.REALM}/account
+    - key:
+        de: Admin Benutzername
+        en: Admin username
+      value: ${keycloak.env.KC_BOOTSTRAP_ADMIN_USERNAME}
+  alerts:
+    - status: info
+      heading:
+        de: Anwendungen als Client anbinden
+        en: Connecting applications as clients
+      content:
+        de: Das Template legt einen eigenen Realm für Anwendungen an (siehe Issuer-URL), in dem sich der Admin-Benutzer mit denselben Zugangsdaten anmelden kann. Für jede Anwendung wird in der Admin-Konsole unter `Clients` → `Create client` ein OpenID-Connect-Client mit `Client authentication` angelegt und die Callback-URL der Anwendung unter `Valid redirect URIs` eingetragen. Client-ID und das Secret aus dem Reiter `Credentials` werden zusammen mit der Issuer-URL in der Anwendung hinterlegt. Weitere Benutzer entstehen unter `Users`.
+        en: The template creates a dedicated realm for applications (see issuer URL), in which the admin user can sign in with the same credentials. For each application, create an OpenID Connect client with `Client authentication` in the admin console under `Clients` → `Create client`, and enter the application's callback URL under `Valid redirect URIs`. Configure the client ID and the secret from the `Credentials` tab together with the issuer URL in the application. Add further users under `Users`.
+    - status: warning
+      heading:
+        de: Temporären Admin ersetzen
+        en: Replace the temporary admin
+      content:
+        de: Keycloak legt den Admin der Admin-Konsole im Realm `master` als temporären Benutzer an und weist darauf in der Konsole hin. Für den Dauerbetrieb im Realm `master` einen eigenen Admin-Benutzer mit der Rolle `admin` anlegen und den temporären löschen. Änderungen an den Eingabewerten nach der Installation wirken sich nicht auf bestehende Benutzer und Realms aus.
+        en: Keycloak creates the admin console's admin in the `master` realm as a temporary user and points this out in the console. For permanent operation, create a dedicated admin user with the `admin` role in the `master` realm and delete the temporary one. Changing the input values after installation does not affect existing users and realms.
