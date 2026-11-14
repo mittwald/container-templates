@@ -1,0 +1,147 @@
+manifestVersion: 1.0
+name:
+  de: Odoo
+  en: Odoo
+version: "20.0"
+type: standalone
+tagline:
+  de: Modulare Unternehmenssoftware für CRM, Verkauf, Projekte und mehr
+  en: Modular business software for CRM, sales, projects and more
+description:
+  de: |
+    **Odoo** ist eine modulare Unternehmenssoftware (ERP) und eine self-hosted Alternative zu Lösungen wie Salesforce, HubSpot oder Microsoft Dynamics. Die Community Edition deckt mit einzeln aktivierbaren Apps zentrale Geschäftsprozesse ab – von der Kundengewinnung über Angebote und Rechnungen bis zur Projektabwicklung, alles auf einer gemeinsamen Datenbasis.
+
+    Zentrale Funktionen:
+
+    - CRM mit Pipeline, Verkaufschancen und Aktivitäten
+    - Verkauf, Rechnungsstellung und Einkauf mit Angebots- und Rechnungsvorlagen
+    - Projekte, Aufgaben und Zeiterfassung
+    - Website-Baukasten, E-Mail-Marketing, Lager und viele weitere Apps
+
+    Für **Agenturen** bildet Odoo den Weg vom Lead bis zur Rechnung in einem System ab: Anfragen landen in der CRM-Pipeline, aus Verkaufschancen werden Angebote, Projekte und abrechenbare Leistungen. Zusätzliche Apps lassen sich bei Bedarf aktivieren, sodass das System mit den Anforderungen der Agentur oder eines Kundenprojekts mitwächst.
+
+    Bei mittwald läuft **Odoo** als self-hosted Container in deutschen Rechenzentren; alle Geschäftsdaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält die Odoo Community Edition mit einer PostgreSQL-Datenbank, richtet Datenbank, Admin-Zugang und Mailversand über eine Delivery-Box beim ersten Start automatisch ein und verursacht keine Lizenzkosten pro Nutzer.
+  en: |
+    **Odoo** is modular business software (ERP) and a self-hosted alternative to solutions such as Salesforce, HubSpot or Microsoft Dynamics. With individually activatable apps, the Community Edition covers core business processes — from lead generation through quotes and invoices to project delivery, all on a shared data foundation.
+
+    Key features:
+
+    - CRM with pipeline, opportunities and activities
+    - Sales, invoicing and purchasing with quote and invoice templates
+    - Projects, tasks and timesheets
+    - Website builder, email marketing, inventory and many more apps
+
+    For **agencies**, Odoo covers the path from lead to invoice in a single system: enquiries land in the CRM pipeline, and opportunities turn into quotes, projects and billable services. Additional apps can be activated when needed, so the system grows with the requirements of the agency or a client project.
+
+    At mittwald, **Odoo** runs as a self-hosted container in German data centres; all business data stays under the agency's control and is not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Odoo Community Edition with a PostgreSQL database, sets up the database, admin account and email delivery through a delivery box automatically on first start, and has no per-user licence costs.
+developer: Odoo S.A.
+website: https://www.odoo.com
+repository: https://github.com/odoo/odoo
+license:
+  name: LGPL-3.0
+  link: https://spdx.org/licenses/LGPL-3.0-only.html
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-pipeline.png
+    text:
+      de: Verkaufschancen mit Umsatz und Priorität in der CRM-Pipeline
+      en: Opportunities with revenue and priority in the CRM pipeline
+  - bg: background.jpg
+    screenshot: screenshot-apps.png
+    text:
+      de: Weitere Apps wie Verkauf, Projekte oder Website aktivieren
+      en: Activating further apps such as sales, projects or website
+domains:
+  main:
+    userInput: HOST
+    service: odoo
+    port: 8069
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    description:
+      de: Dient zugleich als Benutzername für die Anmeldung
+      en: Also serves as the username for signing in
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminUser", index: 2 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${odoo.env.ADMIN_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${odoo.env.ADMIN_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: Einrichtung beim ersten Start
+      en: Setup on first start
+    content:
+      de: Beim ersten Start legt Odoo die Datenbank an und lädt die deutsche Sprache; das dauert etwa eine Minute. Admin-Zugang, Absenderadresse und Mailserver werden nur dabei übernommen. Spätere Änderungen nimmst du in Odoo unter **Einstellungen** vor, nicht über die Umgebungsvariablen.
+      en: On first start, Odoo creates the database and loads the German language, which takes about a minute. The admin account, sender address and mail server are only applied at this point. Make later changes in Odoo under **Settings**, not via the environment variables.
