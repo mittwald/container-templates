@@ -49,6 +49,11 @@ screenshots:
       de: Eine Onboarding-Checkliste mit Aufgaben und Tabelle im Editor
       en: An onboarding checklist with tasks and a table in the editor
   - bg: background.jpg
+    screenshot: screenshot-recent.png
+    text:
+      de: Startseite mit den zuletzt aktualisierten Dokumenten
+      en: Home page with the most recently updated documents
+  - bg: background.jpg
     screenshot: screenshot-search.png
     text:
       de: Volltextsuche über alle Sammlungen mit hervorgehobenen Treffern
