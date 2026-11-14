@@ -1,0 +1,157 @@
+manifestVersion: 1.0
+name:
+  de: Outline
+  en: Outline
+version: "latest"
+type: standalone
+tagline:
+  de: Wissensdatenbank für Teams mit Echtzeit-Editor und Volltextsuche
+  en: Team knowledge base with real-time editor and full-text search
+description:
+  de: |
+    **Outline** ist eine kollaborative Wissensdatenbank für Teams und eine self-hosted Alternative zu Notion oder Confluence. Dokumente entstehen in einem schnellen Markdown-Editor, werden in Sammlungen geordnet und sind über eine Volltextsuche sofort auffindbar – mit Echtzeit-Bearbeitung, Kommentaren und Versionsverlauf.
+
+    Zentrale Funktionen:
+
+    - Echtzeit-Editor mit Markdown, Tabellen, Checklisten und Einbettungen
+    - Sammlungen mit verschachtelten Dokumenten und eigenen Berechtigungen
+    - Volltextsuche, Kommentare, Versionsverlauf und Vorlagen
+    - Öffentliche Freigaben einzelner Dokumente, API und MCP-Server
+
+    Für **Agenturen** bündelt Outline internes Wissen und Kundendokumentation an einem Ort: Prozessbeschreibungen, Onboarding-Checklisten, Styleguides und technische Projektdokumentation liegen in getrennten Sammlungen. Einzelne Dokumente lassen sich per Link mit Kunden teilen, ohne ihnen Zugang zum gesamten Arbeitsbereich zu geben. Über den integrierten MCP-Server können KI-Assistenten auf die Inhalte zugreifen.
+
+    Bei mittwald läuft **Outline** als self-hosted Container in deutschen Rechenzentren; alle Inhalte verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Outline mit einer PostgreSQL-Datenbank, Redis und lokalem Dateispeicher. Die Anmeldung erfolgt per E-Mail-Link über eine Delivery-Box, ohne externen Login-Anbieter.
+  en: |
+    **Outline** is a collaborative knowledge base for teams and a self-hosted alternative to Notion or Confluence. Documents are written in a fast Markdown editor, organised in collections and instantly findable through full-text search — with real-time editing, comments and version history.
+
+    Key features:
+
+    - Real-time editor with Markdown, tables, checklists and embeds
+    - Collections with nested documents and individual permissions
+    - Full-text search, comments, version history and templates
+    - Public sharing of individual documents, API and MCP server
+
+    For **agencies**, Outline brings internal knowledge and client documentation together in one place: process descriptions, onboarding checklists, style guides and technical project documentation live in separate collections. Individual documents can be shared with clients via link without granting access to the whole workspace. The built-in MCP server lets AI assistants access the content.
+
+    At mittwald, **Outline** runs as a self-hosted container in German data centres; all content stays under the agency's control and is not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Outline with a PostgreSQL database, Redis and local file storage. Sign-in works via email link through a delivery box, without an external login provider.
+developer: General Outline, Inc.
+website: https://www.getoutline.com
+repository: https://github.com/outline/outline
+license:
+  name: Business Source License 1.1
+  link: https://github.com/outline/outline/blob/main/LICENSE
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-document.png
+    text:
+      de: Eine Onboarding-Checkliste mit Aufgaben und Tabelle im Editor
+      en: An onboarding checklist with tasks and a table in the editor
+  - bg: background.jpg
+    screenshot: screenshot-search.png
+    text:
+      de: Volltextsuche über alle Sammlungen mit hervorgehobenen Treffern
+      en: Full-text search across all collections with highlighted matches
+domains:
+  main:
+    userInput: HOST
+    service: outline
+    port: 3000
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    description:
+      de: Von dieser Adresse kommen die Anmelde-Links und Einladungen
+      en: Sign-in links and invitations are sent from this address
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "SECRET_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+          max: 64
+        - identifier: hexOnly
+          ruleType: charPool
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
+  - name: "UTILS_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Absenderadresse
+      en: Sender address
+    value: ${outline.env.SMTP_FROM_EMAIL}
+  alerts:
+  - status: warning
+    heading:
+      de: Arbeitsbereich direkt nach der Installation anlegen
+      en: Create the workspace right after installation
+    content:
+      de: Beim ersten Aufruf zeigt Outline die Einrichtung des Arbeitsbereichs. Wer die Seite zuerst öffnet, legt den Arbeitsbereich an und wird Admin. Rufe die Domain deshalb direkt nach der Installation auf.
+      en: On first access, Outline shows the workspace setup. Whoever opens the page first creates the workspace and becomes admin, so open the domain right after installation.
+  - status: info
+    heading:
+      de: Anmeldung per E-Mail-Link
+      en: Sign-in via email link
+    content:
+      de: Outline arbeitet ohne Passwörter. Nach der Einrichtung meldest du dich über einen Link an, den Outline an deine E-Mail-Adresse schickt. Weitere Nutzende lädst du über **Personen einladen** ein.
+      en: Outline works without passwords. After setup, you sign in via a link that Outline sends to your email address. Invite further users via **Invite people**.

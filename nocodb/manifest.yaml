@@ -1,0 +1,150 @@
+manifestVersion: 1.0
+name:
+  de: NocoDB
+  en: NocoDB
+version: "latest"
+type: standalone
+tagline:
+  de: No-Code-Datenbank mit Tabellen-, Kanban- und Formularansichten
+  en: No-code database with grid, kanban and form views
+description:
+  de: |
+    **NocoDB** ist eine No-Code-Plattform, die Datenbanken in der Oberfläche einer Tabellenkalkulation bedienbar macht, und eine self-hosted Alternative zu Airtable. Teams legen Tabellen, Beziehungen und Ansichten an, ohne SQL zu schreiben, und arbeiten gleichzeitig an denselben Daten – mit Rollen und Berechtigungen je Projekt.
+
+    Zentrale Funktionen:
+
+    - Ansichten als Tabelle, Kanban, Galerie, Kalender und Formular auf denselben Daten
+    - Feldtypen für Auswahl, Währung, Datum, Anhänge, Verknüpfungen und Formeln
+    - REST-API und Webhooks für jede Tabelle
+    - Rollen und Freigaben je Projekt, öffentliche Formulare und Ansichten
+
+    Für **Agenturen** eignet sich NocoDB als flexible Datenbasis für interne Abläufe und Kundenprojekte: Projektlisten, Redaktionspläne, Lead-Erfassung oder Inventare entstehen in wenigen Minuten. Öffentliche Formulare sammeln Anfragen direkt in einer Tabelle, über die REST-API dient NocoDB als einfaches Backend für Websites, Automatisierungen oder interne Tools – ohne eigene Datenbankentwicklung.
+
+    Bei mittwald läuft **NocoDB** als self-hosted Container in deutschen Rechenzentren; alle Daten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält NocoDB mit einer PostgreSQL-Datenbank und versendet E-Mails über eine Delivery-Box – ohne nutzungsabhängige Seat-Kosten.
+  en: |
+    **NocoDB** is a no-code platform that makes databases usable through a spreadsheet interface and a self-hosted alternative to Airtable. Teams create tables, relations and views without writing SQL and work on the same data at the same time — with roles and permissions per project.
+
+    Key features:
+
+    - Grid, kanban, gallery, calendar and form views on the same data
+    - Field types for selections, currency, dates, attachments, links and formulas
+    - REST API and webhooks for every table
+    - Roles and sharing per project, public forms and views
+
+    For **agencies**, NocoDB is a flexible data foundation for internal processes and client projects: project lists, editorial calendars, lead capture or inventories take only minutes to set up. Public forms collect requests directly into a table, and the REST API turns NocoDB into a simple backend for websites, automations or internal tools — without custom database development.
+
+    At mittwald, **NocoDB** runs as a self-hosted container in German data centres; all data stays under the agency's control and is not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes NocoDB with a PostgreSQL database and sends email through a delivery box — with no usage-based seat costs.
+developer: NocoDB
+website: https://nocodb.com
+repository: https://github.com/nocodb/nocodb
+license:
+  name: Sustainable Use License
+  link: https://github.com/nocodb/nocodb/blob/develop/LICENSE.md
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-grid.png
+    text:
+      de: Kundenprojekte mit Status, Budget und Deadline in der Tabellenansicht
+      en: Client projects with status, budget and deadline in the grid view
+  - bg: background.jpg
+    screenshot: screenshot-kanban.png
+    text:
+      de: Dieselben Projekte als Kanban-Board nach Status gruppiert
+      en: The same projects as a kanban board grouped by status
+domains:
+  main:
+    userInput: HOST
+    service: nocodb
+    port: 8080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminUser", index: 2 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "JWT_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 12
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${nocodb.env.NC_ADMIN_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${nocodb.env.NC_ADMIN_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: Registrierung nur auf Einladung
+      en: Sign-up by invitation only
+    content:
+      de: Der Admin-Account wird beim ersten Start angelegt. Weitere Nutzende lädst du über **Members & teams** ein; eine offene Registrierung ist über `NC_INVITE_ONLY_SIGNUP` abgeschaltet.
+      en: The admin account is created on first start. Invite further users via **Members & teams**; open sign-up is disabled via `NC_INVITE_ONLY_SIGNUP`.

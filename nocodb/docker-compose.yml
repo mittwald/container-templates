@@ -1,0 +1,49 @@
+services:
+  nocodb:
+    image: nocodb/nocodb:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=Europe/Berlin
+      - NC_DB=pg://postgres:5432?u=nocodb&p=${POSTGRES_PASSWORD}&d=nocodb
+      - NC_AUTH_JWT_SECRET=${JWT_SECRET}
+      - NC_PUBLIC_URL=https://${HOST}
+      - NC_ADMIN_EMAIL=${ADMIN_EMAIL}
+      - NC_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - NC_INVITE_ONLY_SIGNUP=true
+      - NC_DISABLE_TELE=true
+      - NC_SMTP_FROM=${SMTP_FROM}
+      - NC_SMTP_HOST=mail.agenturserver.de
+      - NC_SMTP_PORT=587
+      - NC_SMTP_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - NC_SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - NC_SMTP_SECURE=false
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - nocodb_data:/usr/app/data
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=nocodb
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=nocodb
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  nocodb_data:
+  postgres_data:
