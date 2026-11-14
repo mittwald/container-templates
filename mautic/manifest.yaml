@@ -1,0 +1,199 @@
+manifestVersion: 1.0
+name:
+  de: Mautic
+  en: Mautic
+version: "7.x"
+type: standalone
+tagline:
+  de: Marketing-Automatisierung mit Kampagnen, Segmenten und E-Mails
+  en: Marketing automation with campaigns, segments and emails
+description:
+  de: |
+    **Mautic** ist eine Open-Source-Plattform für Marketing-Automatisierung und eine self-hosted Alternative zu HubSpot Marketing Hub, ActiveCampaign oder Brevo. Kontakte, Segmente, E-Mails und Kampagnen liegen in einem System, sodass sich Interessenten vom ersten Kontakt bis zum Abschluss automatisiert begleiten lassen.
+
+    Zentrale Funktionen:
+
+    - Kontakt- und Unternehmensverwaltung mit Punkten, Tags und Phasen
+    - Dynamische Segmente auf Basis von Feldern, Verhalten und Tags
+    - E-Mail-Builder für Newsletter und Vorlagen mit Personalisierung
+    - Visueller Kampagnen-Builder mit Aktionen, Entscheidungen und Wartezeiten
+    - Formulare, Landingpages, Tracking-Skript und Berichte
+
+    Für **Agenturen** eignet sich Mautic, um Lead-Nurturing, Newsletter und Event-Einladungen für Kundenprojekte aufzusetzen und zu betreuen. Kampagnen reagieren auf Öffnungen, Formulareingaben oder Website-Besuche, und Berichte zeigen, welche Maßnahmen wirken – ohne dass Kontaktdaten an einen externen Marketing-Dienst übergeben werden.
+
+    Bei mittwald läuft **Mautic** als self-hosted Container in deutschen Rechenzentren; Kontaktdaten und Tracking-Informationen verbleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Mautic mit Weboberfläche, Cron- und Worker-Container sowie einer MariaDB-Datenbank, installiert Mautic beim ersten Start mit dem angegebenen Admin-Zugang und versendet E-Mails über eine Delivery-Box. Kosten pro Kontakt oder versendeter E-Mail fallen nicht an.
+  en: |
+    **Mautic** is an open-source marketing automation platform and a self-hosted alternative to HubSpot Marketing Hub, ActiveCampaign or Brevo. Contacts, segments, emails and campaigns live in one system, so prospects can be guided automatically from first contact to closing.
+
+    Key features:
+
+    - Contact and company management with points, tags and stages
+    - Dynamic segments based on fields, behaviour and tags
+    - Email builder for newsletters and templates with personalisation
+    - Visual campaign builder with actions, decisions and delays
+    - Forms, landing pages, tracking script and reports
+
+    For **agencies**, Mautic is suited to setting up and running lead nurturing, newsletters and event invitations for client projects. Campaigns react to opens, form submissions or website visits, and reports show which measures work – without handing contact data over to an external marketing service.
+
+    At mittwald, **Mautic** runs as a self-hosted container in German data centres; contact data and tracking information stay under the agency's control, which simplifies GDPR compliance. This template includes Mautic with its web interface, cron and worker containers and a MariaDB database, installs Mautic on first start with the given admin account and sends emails through a delivery box. There are no costs per contact or per email sent.
+developer: Mautic Community
+website: https://mautic.org
+repository: https://github.com/mautic/mautic
+support: https://forum.mautic.org
+license:
+  name: GPL-3.0
+  link: https://spdx.org/licenses/GPL-3.0-or-later.html
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-campaign.png
+    text:
+      de: Kampagne mit Willkommens-E-Mail, Öffnungsprüfung und Folgeaktionen
+      en: A campaign with welcome email, open check and follow-up actions
+  - bg: background.jpg
+    screenshot: screenshot-contacts.png
+    text:
+      de: Kontakte mit Standort und Punkten aus der Lead-Bewertung
+      en: Contacts with location and points from lead scoring
+  - bg: background.jpg
+    screenshot: screenshot-segments.png
+    text:
+      de: Segmente für Newsletter, Veranstaltungen und Bestandskunden
+      en: Segments for newsletters, events and existing clients
+domains:
+  main:
+    userInput: HOST
+    service: mautic
+    port: 80
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.username}"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 2 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminUser", index: 3 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    description:
+      de: Standard-Absender für Marketing-E-Mails; lässt sich je E-Mail überschreiben
+      en: Default sender for marketing emails; can be overridden per email
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "MARIADB_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "MARIADB_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${mautic.env.ADMIN_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${mautic.env.ADMIN_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: Einrichtung beim ersten Start
+      en: Setup on first start
+    content:
+      de: Beim ersten Start legt Mautic die Datenbank an und richtet den Admin-Zugang, die Absenderadresse und den Mailversand über die Delivery-Box ein; das dauert etwa eine Minute. Diese Werte werden nur dabei übernommen. Spätere Änderungen nimmst du in Mautic unter **Einstellungen → Konfiguration** bzw. im eigenen Profil vor, nicht über die Umgebungsvariablen. Anmelden kannst du dich mit dem Benutzernamen oder der E-Mail-Adresse.
+      en: On first start, Mautic creates the database and sets up the admin account, the sender address and email delivery through the delivery box, which takes about a minute. These values are only applied at this point. Make later changes in Mautic under **Settings → Configuration** or in your own profile, not via the environment variables. You can sign in with either the username or the email address.
+  - status: info
+    heading:
+      de: Oberfläche auf Deutsch umstellen
+      en: Switch the interface to German
+    content:
+      de: Mautic startet auf Englisch. Unter **Settings → Configuration → System Settings** lässt sich als **Default language** Deutsch wählen; das Sprachpaket wird dabei heruntergeladen und bleibt in einem eigenen Volume erhalten.
+      en: Mautic starts in English. Under **Settings → Configuration → System Settings**, German can be selected as **Default language**; the language pack is downloaded and kept in a dedicated volume.
+  - status: info
+    heading:
+      de: Hintergrundaufgaben
+      en: Background tasks
+    content:
+      de: Der Container `cron` aktualisiert alle 15 Minuten Segmente und Kampagnen und versendet alle fünf Minuten Segment-E-Mails; der Container `worker` arbeitet die E-Mail-Warteschlange ab. Neue Segmentmitglieder und Kampagnenschritte erscheinen deshalb mit einigen Minuten Verzögerung.
+      en: The `cron` container updates segments and campaigns every 15 minutes and sends segment emails every five minutes; the `worker` container processes the email queue. New segment members and campaign steps therefore appear with a delay of a few minutes.
