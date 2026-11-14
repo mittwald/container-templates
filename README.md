@@ -494,8 +494,11 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="n8n/icon.svg" width="24" height="24" style="object-fit:contain"> | [n8n](n8n/) | Automatisierung für deine Geschäftsprozesse |
 | <img src="neofire-core/icon.svg" width="24" height="24" style="object-fit:contain"> | [neofire-core](neofire-core/) | Shopsystem mit Kasse, Terminbuchung und Layout-Editor |
 | <img src="nextcloud-euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [nextcloud-euro-office](nextcloud-euro-office/) | Cloud-Speicher und Zusammenarbeit mit Online-Office |
+| <img src="nocodb/icon.svg" width="24" height="24" style="object-fit:contain"> | [nocodb](nocodb/) | No-Code-Datenbank mit Tabellen-, Kanban- und Formularansichten |
+| <img src="odoo/icon.svg" width="24" height="24" style="object-fit:contain"> | [odoo](odoo/) | Modulare Unternehmenssoftware für CRM, Verkauf, Projekte und mehr |
 | <img src="opensearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
 | <img src="openwebui/icon.svg" width="24" height="24" style="object-fit:contain"> | [openwebui](openwebui/) | Selbstgehostete Oberfläche für KI-Modelle |
+| <img src="outline/icon.svg" width="24" height="24" style="object-fit:contain"> | [outline](outline/) | Wissensdatenbank für Teams mit Echtzeit-Editor und Volltextsuche |
 | <img src="paperclip/icon.svg" width="24" height="24" style="object-fit:contain"> | [paperclip](paperclip/) | Steuerzentrale für Teams aus KI-Agenten |
 | <img src="paperless/icon.svg" width="24" height="24" style="object-fit:contain"> | [paperless](paperless/) | Dokumentenmanagement mit OCR |
 | <img src="papra/icon.svg" width="24" height="24" style="object-fit:contain"> | [papra](papra/) | Dokumente archivieren und verwalten |
