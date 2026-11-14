@@ -3,6 +3,21 @@ services:
     image: mittwald/kirby:5
     ports:
       - "80:80"
+    # The image ships templates and blueprints but no content, so a fresh
+    # install answered every request with a JSON error until someone created
+    # a home page in the panel. The image's entrypoint still runs first and
+    # hands over to this command, which seeds a home and an error page into
+    # an empty content volume and then starts the server as the image does.
+    command:
+      - sh
+      - -c
+      - >-
+        find /app/content -mindepth 1 -maxdepth 1 | grep -q .
+        || { mkdir -p /app/content/home /app/content/error
+        && printf 'Title: Kirby\n' > /app/content/site.txt
+        && printf 'Title: Willkommen\n\n----\n\nText: Diese Seite bearbeitest du im Panel unter /panel.\n' > /app/content/home/default.txt
+        && printf 'Title: Seite nicht gefunden\n' > /app/content/error/default.txt; };
+        exec frankenphp run --config /etc/caddy/Caddyfile --adapter caddyfile
     environment:
       TZ: ${TIMEZONE}
       # PHP defaults to UTC in the image; TZ alone does not change it.

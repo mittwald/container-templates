@@ -47,6 +47,22 @@ license:
   link: https://getkirby.com/license
 categories:
   - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-site.png
+    text:
+      de: Seitenstruktur einer Agentur-Website im Kirby-Panel
+      en: Page structure of an agency website in the Kirby panel
+  - bg: background.jpg
+    screenshot: screenshot-page.png
+    text:
+      de: Text der Startseite direkt im Panel bearbeiten
+      en: Editing the home page text directly in the panel
+  - bg: background.jpg
+    screenshot: screenshot-references.png
+    text:
+      de: Referenzseite mit Unterseiten für einzelne Kundenprojekte
+      en: References page with subpages for individual client projects
 domains:
   main:
     userInput: HOST
@@ -63,20 +79,22 @@ userInputs:
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_EMAIL"
     label:
-      de: Admin E-Mail-Adresse (nur für das erste Admin-Konto)
-      en: Admin email address (initial admin account only)
+      de: Admin E-Mail-Adresse
+      en: Admin email address
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
     required: true
     format: email
+    description: { de: "Wird nur für das erste Admin-Konto verwendet", en: "Only used for the initial admin account" }
     validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
   - name: "ADMIN_PASSWORD"
     label:
-      de: Admin Passwort (nur für das erste Admin-Konto)
-      en: Admin password (initial admin account only)
+      de: Admin Passwort
+      en: Admin password
     positionMeta: { step: "adminUser", index: 2 }
     required: true
     format: password
+    description: { de: "Wird nur für das erste Admin-Konto verwendet", en: "Only used for the initial admin account" }
     validationSchema: '{ "type": "string", "minLength": 12, "maxLength": 1000 }'
   - name: "SMTP_FROM"
     label:
@@ -121,6 +139,10 @@ help:
         de: Admin E-Mail
         en: Admin email
       value: ${kirby.env.KIRBY_ADMIN_EMAIL}
+    - key:
+        de: Admin Passwort
+        en: Admin password
+      value: ${kirby.env.KIRBY_ADMIN_PASSWORD}
   alerts:
     - status: warning
       heading:
@@ -134,5 +156,5 @@ help:
         de: Templates und Blueprints anpassen
         en: Customising templates and blueprints
       content:
-        de: Das Template startet mit dem minimalen Plainkit. Templates, Snippets, Blueprints und Plugins liegen im Volume unter `/app/site`, Inhalte unter `/app/content`. Änderungen am Admin-Konto über `KIRBY_ADMIN_EMAIL` und `KIRBY_ADMIN_PASSWORD` wirken nur bei der Erstinstallation; danach werden Konten im Panel verwaltet.
-        en: The template starts with the minimal Plainkit. Templates, snippets, blueprints and plugins live in the volume at `/app/site`, content at `/app/content`. Changing `KIRBY_ADMIN_EMAIL` and `KIRBY_ADMIN_PASSWORD` only takes effect on the first installation; afterwards, accounts are managed in the panel.
+        de: Das Template startet mit dem minimalen Plainkit sowie einer Start- und einer Fehlerseite, die du im Panel bearbeitest. Templates, Snippets, Blueprints und Plugins liegen im Volume unter `/app/site`, Inhalte unter `/app/content`. Änderungen am Admin-Konto über `KIRBY_ADMIN_EMAIL` und `KIRBY_ADMIN_PASSWORD` wirken nur bei der Erstinstallation; danach werden Konten im Panel verwaltet.
+        en: The template starts with the minimal Plainkit plus a home and an error page, which you edit in the panel. Templates, snippets, blueprints and plugins live in the volume at `/app/site`, content at `/app/content`. Changing `KIRBY_ADMIN_EMAIL` and `KIRBY_ADMIN_PASSWORD` only takes effect on the first installation; afterwards, accounts are managed in the panel.
