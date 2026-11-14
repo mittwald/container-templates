@@ -80,8 +80,8 @@ userInputs:
       en: Admin email address
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
   - name: "SMTP_FROM"
     label:
@@ -89,8 +89,8 @@ userInputs:
       en: Sender address
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "SECRET_PASSWORD"

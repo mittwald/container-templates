@@ -81,8 +81,8 @@ userInputs:
       en: AI endpoint
     positionMeta: { step: "ai", index: 2 }
     defaultValue: "${aiHosting.llmEndpoint}"
-    format: "url"
     required: true
+    format: url
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "ADMIN_EMAIL"
     label:
@@ -90,17 +90,17 @@ userInputs:
       en: Admin email address
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
   - name: "ADMIN_PASSWORD"
     label:
       de: Admin Passwort
       en: Admin Password
     positionMeta: { step: "adminUser", index: 2 }
-    format: "password"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
 
 help:
   technicalDetails:

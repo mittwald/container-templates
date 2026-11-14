@@ -87,8 +87,8 @@ userInputs:
       en: Sender address
     positionMeta: { step: "common", index: 2 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "JWT_SECRET"

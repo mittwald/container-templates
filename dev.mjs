@@ -365,9 +365,14 @@ function defaultUserValue(input) {
   const name = input.name.toUpperCase();
   let value;
 
-  if (input.format === "email" || schema.format === "email" || name.endsWith("_EMAIL")) {
+  // Enum inputs (selects, checkboxes, consents) only accept listed values.
+  if (Array.isArray(schema.enum) && schema.enum.length > 0) {
+    return String(schema.enum[0]);
+  }
+
+  if (input.format === "email" || name.endsWith("_EMAIL")) {
     value = "admin@example.test";
-  } else if (input.format === "password" || schema.format === "password" || name.includes("PASSWORD")) {
+  } else if (input.format === "password" || name.includes("PASSWORD")) {
     value = "DevPassword123!";
   } else if (name.endsWith("_USER") || name.endsWith("_USERNAME")) {
     value = "admin";
@@ -612,9 +617,6 @@ function validateUserValue(input, value) {
     throw new Error(`${input.name} is required`);
   }
   const schema = parseValidationSchema(input);
-  if (input.format && !schema.format) {
-    schema.format = input.format;
-  }
   const validate = ajv.compile(schema);
   if (!validate(value)) {
     const details = ajv.errorsText(validate.errors, { separator: "; " });

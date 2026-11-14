@@ -88,8 +88,8 @@ userInputs:
       en: AI endpoint
     positionMeta: { step: "ai", index: 2 }
     defaultValue: "${aiHosting.llmEndpoint}"
-    format: "url"
     required: true
+    format: url
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "SMTP_FROM"
     label:
@@ -97,8 +97,8 @@ userInputs:
       en: Sender address
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "NEXTAUTH_SECRET"

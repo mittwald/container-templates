@@ -67,25 +67,25 @@ userInputs:
       en: Admin email address (initial admin account only)
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "minLength": 1, "format": "email" }'
   - name: "ADMIN_PASSWORD"
     label:
       de: Admin Passwort (nur für das erste Admin-Konto)
       en: Admin password (initial admin account only)
     positionMeta: { step: "adminUser", index: 2 }
-    format: "password"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12, "maxLength": 1000, "format": "password" }'
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12, "maxLength": 1000 }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
       en: Sender address
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "TIMEZONE"
     label:
@@ -94,13 +94,16 @@ userInputs:
     positionMeta: { step: "common", index: 2 }
     defaultValue: "Europe/Berlin"
     required: true
+    errorMessage: { de: "Erwartet wird eine Zeitzone wie Europe/Berlin", en: "Expected a time zone such as Europe/Berlin" }
     validationSchema: '{ "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$" }'
   - name: "KIRBY_LICENSE"
     label:
-      de: Kirby-Lizenz (Inhalt der .license-Datei)
-      en: Kirby licence (contents of the .license file)
+      de: Kirby-Lizenz
+      en: Kirby licence
     positionMeta: { step: "common", index: 3 }
     required: false
+    description: { de: "Inhalt der .license-Datei; leer lassen, um die Lizenz später im Panel zu registrieren", en: "Contents of the .license file; leave empty to register the licence in the panel later" }
+    errorMessage: { de: "Erwartet wird der JSON-Inhalt der .license-Datei", en: "Expected the JSON contents of the .license file" }
     validationSchema: '{ "type": "string", "pattern": "^\\s*(\\{[\\s\\S]*\\})?\\s*$" }'
 deliveryBoxes:
   - purpose: main

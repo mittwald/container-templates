@@ -100,9 +100,9 @@ userInputs:
       de: Root-Passwort (Secret Key)
       en: Root password (secret key)
     positionMeta: { step: "adminUser", index: 2 }
-    format: "password"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
 
 help:
   technicalDetails:

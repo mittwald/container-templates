@@ -82,25 +82,25 @@ userInputs:
       en: Admin email address
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "ADMIN_PASSWORD"
     label:
       de: Admin Passwort
       en: Admin password
     positionMeta: { step: "adminUser", index: 2 }
-    format: "password"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
   - name: "SMTP_FROM"
     label:
       de: Absenderadresse
       en: Sender address
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   # Laravel expects exactly 32 bytes when the key is not base64-prefixed.

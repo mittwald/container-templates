@@ -117,10 +117,13 @@ domains:
 |------|---------|--------------|
 | `name` | ja | Technischer Schlüssel; in der `docker-compose.yml` als `${name}` referenzierbar |
 | `label` | ja | Mehrsprachiger Anzeigename des Feldes (de/en) für die Oberfläche |
-| `dataType` | nein | Datentyp: `text`, `number`, `boolean` oder `select` (Standard: `text`) |
 | `required` | ja | Ob der Wert zwingend ausgefüllt werden muss |
-| `validationSchema` | ja | Validierung als JSON-Schema-String (siehe [json-schema.org](https://json-schema.org/)) |
-| `format` | nein | Eingabeformat/Maskierung: `email`, `password`, `url` oder `uri` |
+| `validationSchema` | ja | Validierung als JSON-Schema-String (siehe [json-schema.org](https://json-schema.org/)); enthält nur Validierung, keine Darstellung |
+| `dataType` | nein | Art des Eingabeelements: `text` (Standard), `boolean`, `consent`, `select`; siehe [Darstellung im Installations-Assistenten](#darstellung-im-installations-assistenten) |
+| `format` | nein | Eingabeart eines Textfeldes: `email`, `password`, `url`, `textarea` |
+| `description` | nein | Mehrsprachiger Hinweis unter dem Feld (de/en) |
+| `errorMessage` | nein | Mehrsprachige Meldung, wenn das `pattern` nicht passt (de/en); Pflicht zu jedem `pattern` |
+| `options` | nein | Auswahlmöglichkeiten bei `dataType: select`, je `{ value, label }` |
 | `dataSource` | nein | Verknüpft den Input mit einer Systemquelle, z.B. `ingress.paths` (Domain) oder `aiHosting.apiKey` |
 | `positionMeta` | nein | Platzierung im Installations-Assistenten: `{ step, index }` (siehe unten) |
 | `defaultValue` | nein | Vorbelegter Standardwert; kann Platzhalter enthalten (siehe unten) |
@@ -131,7 +134,6 @@ userInputs:
     label:
       de: Domain
       en: Domain
-    dataType: "text"
     required: true
     dataSource: "ingress.paths"
     positionMeta: { step: "domain", index: 1 }
@@ -140,11 +142,63 @@ userInputs:
     label:
       de: Admin Passwort
       en: Admin Password
-    dataType: "text"
-    format: "password"
     required: true
     positionMeta: { step: "adminUser", index: 1 }
+    format: password
     validationSchema: '{ "type": "string", "minLength": 12 }'
+```
+
+#### Darstellung im Installations-Assistenten
+
+Welches Eingabeelement erscheint, legen die Felder `dataType` und `format` fest; `description`, `errorMessage` und `options` liefern die Texte. Das `validationSchema` enthält nur die Validierung: Das Backend prüft die Eingaben dagegen, und zwar immer als String – `"type"` ist daher stets `"string"`. Eigene Schlüsselwörter wie `x-…` gehören nicht hinein.
+
+| Eingabe | Manifest | `validationSchema` | Darstellung |
+|---|---|---|---|
+| Text | – | beliebig | Textfeld |
+| Passwort | `format: password` | z. B. `"minLength": 12` | Passwortfeld mit Generator |
+| E-Mail | `format: email` | `"format": "email"` | E-Mail-Feld; das Backend prüft die Adresse |
+| URL | `format: url` | beliebig | URL-Feld |
+| Mehrzeiliger Text | `format: textarea` | beliebig | Textbereich |
+| Boolean | `dataType: boolean` | `"enum": ["true", "false"]` | Checkbox; der Wert ist der String `true` oder `false` |
+| Zustimmung | `dataType: consent` | `"enum": ["true"]` | Checkbox, die gesetzt sein muss (z. B. Lizenzbedingungen); der Wert ist immer `true` |
+| Auswahl | `dataType: select` mit `options` | `"enum"` mit denselben Werten | Ab drei Werten Dropdown, sonst Radio-Buttons |
+
+`format` gibt es nur bei Textfeldern. Ein Boolean bleibt `"type": "string"`, weil alle Werte als String in die `docker-compose.yml` gelangen. Ohne `defaultValue` ist die Checkbox nicht gesetzt. Das `enum` bleibt bei Boolean, Zustimmung und Auswahl im Schema, damit das Backend nur die erlaubten Werte annimmt; der Container-Service lehnt ein Manifest ab, dessen `enum` nicht zum `dataType` bzw. zu den `options` passt.
+
+Für jede Eingabe gibt es zwei Texte `{ de: …, en: … }`:
+
+- `description` — Hinweis unter dem Feld, etwa woher ein Wert stammt. Erklärungen gehören hierhin statt in Klammern ins Label.
+- `errorMessage` — Meldung, wenn der Wert nicht zum `pattern` passt. Ohne sie zeigt das mStudio den regulären Ausdruck an; `validate.mjs` verlangt sie deshalb zu jedem `pattern`.
+
+```yaml
+    errorMessage: { de: "Erwartet wird eine Zeitzone wie Europe/Berlin", en: "Expected a time zone such as Europe/Berlin" }
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z_]+(/[A-Za-z0-9_+-]+)*$" }'
+```
+
+Bei einer Auswahl beschriftet `options` jeden Wert zweisprachig:
+
+```yaml
+  - name: "DEFAULT_NOTE_TTL_SECONDS"
+    label:
+      de: Standard-Ablaufzeit neuer Notizen
+      en: Default expiry of new notes
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    defaultValue: "86400"
+    dataType: select
+    options:
+      - { value: "3600", label: { de: "1 Stunde", en: "1 hour" } }
+      - { value: "86400", label: { de: "1 Tag", en: "1 day" } }
+    validationSchema: '{ "type": "string", "enum": ["3600", "86400"] }'
+  - name: "ALLOW_NO_EXPIRATION"
+    label:
+      de: Notizen ohne Ablaufzeit erlauben
+      en: Allow notes without expiry
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    defaultValue: "false"
+    dataType: boolean
+    validationSchema: '{ "type": "string", "enum": ["true", "false"] }'
 ```
 
 #### Steps in `positionMeta`
@@ -156,6 +210,7 @@ userInputs:
 | `domain` | Domains des Stacks — alle Inputs mit `dataSource: "ingress.paths"` |
 | `adminUser` | Zugangsdaten des Administrators: Benutzername, E-Mail-Adresse, Passwort, Token |
 | `ai` | Anbindung an das mittwald AI Hosting: Endpunkt und API-Key |
+| `license` | Zustimmung zu Lizenzbedingungen, AGB oder Datenschutzerklärung des Herstellers; steht immer am Ende des Formulars |
 | `common` | Alles Übrige, also templatespezifische Einstellungen |
 
 `index` bestimmt die Reihenfolge **innerhalb** eines Steps und beginnt je Step bei 1.
@@ -181,8 +236,8 @@ userInputs:
       en: Admin email address
     positionMeta: { step: "adminUser", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
 ```
 

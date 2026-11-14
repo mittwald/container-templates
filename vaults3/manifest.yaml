@@ -100,9 +100,9 @@ userInputs:
       de: Admin Passwort (Secret Key)
       en: Admin password (secret key)
     positionMeta: { step: "adminUser", index: 2 }
-    format: "password"
     required: true
-    validationSchema: '{ "type": "string", "minLength": 12, "format": "password" }'
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
 systemInputs:
   - name: "ENCRYPTION_KEY" # openssl rand -hex 32
     schema:

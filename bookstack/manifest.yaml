@@ -83,8 +83,8 @@ userInputs:
       en: Sender address
     positionMeta: { step: "common", index: 1 }
     defaultValue: "${user.email}"
-    format: "email"
     required: true
+    format: email
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   # Laravel expects exactly 32 bytes when the key is not base64-prefixed.
