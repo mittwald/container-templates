@@ -53,6 +53,11 @@ screenshots:
     text:
       de: Dieselben Projekte als Kanban-Board nach Status gruppiert
       en: The same projects as a kanban board grouped by status
+  - bg: background.jpg
+    screenshot: screenshot-form.png
+    text:
+      de: Ein Formular für Projektanfragen, das direkt in die Tabelle schreibt
+      en: A project request form that writes straight into the table
 domains:
   main:
     userInput: HOST

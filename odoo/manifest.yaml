@@ -49,6 +49,11 @@ screenshots:
       de: Verkaufschancen mit Umsatz und Priorität in der CRM-Pipeline
       en: Opportunities with revenue and priority in the CRM pipeline
   - bg: background.jpg
+    screenshot: screenshot-opportunity.png
+    text:
+      de: Verkaufschance mit Kontakt, Abschlussdatum und Notiz im Verlauf
+      en: An opportunity with contact, closing date and a note in the chatter
+  - bg: background.jpg
     screenshot: screenshot-apps.png
     text:
       de: Weitere Apps wie Verkauf, Projekte oder Website aktivieren
