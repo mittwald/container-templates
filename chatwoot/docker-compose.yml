@@ -1,0 +1,128 @@
+services:
+  rails:
+    image: chatwoot/chatwoot:latest
+    ports:
+      - "3000:3000"
+    # The platform runs no separate init container: the image entrypoint
+    # waits for PostgreSQL, then each start prepares the database (creates
+    # and seeds it on first start, migrates it afterwards) and starts Rails.
+    entrypoint: ["docker/entrypoints/rails.sh"]
+    command:
+      - sh
+      - -c
+      - "bundle exec rails db:chatwoot_prepare && exec bundle exec rails s -p 3000 -b 0.0.0.0"
+    environment:
+      - TZ=Europe/Berlin
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - RAILS_LOG_TO_STDOUT=true
+      - LOG_LEVEL=info
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=https://${HOST}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=chatwoot
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - ENABLE_ACCOUNT_SIGNUP=false
+      - ACTIVE_STORAGE_SERVICE=local
+      - SMTP_ADDRESS=mail.agenturserver.de
+      - SMTP_PORT=587
+      - SMTP_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - SMTP_AUTHENTICATION=login
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+      - MAILER_SENDER_EMAIL=${SMTP_FROM}
+    volumes:
+      - storage_data:/app/storage
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/api"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 180s
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  sidekiq:
+    image: chatwoot/chatwoot:latest
+    # The platform starts all services at once; waiting for Rails keeps
+    # Sidekiq from booting against a database that is not prepared yet.
+    command:
+      - sh
+      - -c
+      - "until wget -q -O /dev/null http://rails:3000/api; do sleep 5; done; exec bundle exec sidekiq -C config/sidekiq.yml"
+    environment:
+      - TZ=Europe/Berlin
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - RAILS_LOG_TO_STDOUT=true
+      - LOG_LEVEL=info
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=https://${HOST}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=chatwoot
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - ACTIVE_STORAGE_SERVICE=local
+      - SMTP_ADDRESS=mail.agenturserver.de
+      - SMTP_PORT=587
+      - SMTP_USERNAME=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - SMTP_AUTHENTICATION=login
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+      - MAILER_SENDER_EMAIL=${SMTP_FROM}
+    volumes:
+      - storage_data:/app/storage
+    depends_on:
+      rails:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  postgres:
+    image: pgvector/pgvector:pg18
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+  redis:
+    image: redis:8-alpine
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    environment:
+      - TZ=Europe/Berlin
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$REDIS_PASSWORD\" ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  storage_data:
+  postgres_data:
+  redis_data:
