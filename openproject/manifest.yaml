@@ -171,3 +171,10 @@ help:
     content:
       de: Beim ersten Start legt OpenProject Datenbank, Grunddaten, ein Demo-Projekt und den Admin-Zugang an; bis die Anmeldemaske erscheint, können einige Minuten vergehen. Die Anmeldung erfolgt mit dem Benutzernamen `admin` und dem Passwort aus dem Installations-Assistenten. E-Mail-Adresse und Passwort des Admins werden nur dabei übernommen; spätere Änderungen nimmst du in OpenProject vor.
       en: On first start, OpenProject creates the database, base data, a demo project and the admin account; it can take a few minutes until the sign-in page appears. Sign in with the username `admin` and the password from the installation wizard. The admin's email address and password are only applied at this point; make later changes in OpenProject itself.
+  - status: info
+    heading:
+      de: Kein Empfang von E-Mails
+      en: No incoming email
+    content:
+      de: OpenProject versendet Benachrichtigungen über die Delivery-Box, empfängt aber keine E-Mails. Antworten auf Benachrichtigungen erscheinen deshalb nicht als Kommentar, und Arbeitspakete lassen sich nicht per E-Mail anlegen. Wird das gebraucht, lässt sich ein zusätzlicher Container mit dem Befehl `./docker/prod/cron` und den IMAP-Zugangsdaten eines eigenen Postfachs (`IMAP_HOST`, `IMAP_USERNAME`, `IMAP_PASSWORD`) im Stack ergänzen.
+      en: OpenProject sends notifications through the delivery box but does not receive email. Replies to notifications are therefore not added as comments, and work packages cannot be created by email. If needed, add another container to the stack with the command `./docker/prod/cron` and the IMAP credentials of a dedicated mailbox (`IMAP_HOST`, `IMAP_USERNAME`, `IMAP_PASSWORD`).
