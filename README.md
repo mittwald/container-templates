@@ -464,12 +464,14 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="bookstack/icon.svg" width="24" height="24" style="object-fit:contain"> | [bookstack](bookstack/) | Wiki und Dokumentation in Regalen, Büchern und Seiten |
 | <img src="bugsink/icon.svg" width="24" height="24" style="object-fit:contain"> | [bugsink](bugsink/) | Sentry-kompatibles Error-Tracking |
 | <img src="changedetection/icon.svg" width="24" height="24" style="object-fit:contain"> | [changedetection](changedetection/) | Website-Änderungen automatisch erkennen |
+| <img src="chatwoot/icon.svg" width="24" height="24" style="object-fit:contain"> | [chatwoot](chatwoot/) | Kundensupport und Live-Chat |
 | <img src="checkmk/icon.svg" width="24" height="24" style="object-fit:contain"> | [checkmk](checkmk/) | IT-Monitoring für Server, Dienste und Anwendungen |
 | <img src="chroma/icon.svg" width="24" height="24" style="object-fit:contain"> | [chroma](chroma/) | Open-Source Vektordatenbank für KI-Anwendungen |
 | <img src="collabora/icon.svg" width="24" height="24" style="object-fit:contain"> | [collabora](collabora/) | Online-Office-Suite für kollaboratives Arbeiten |
 | <img src="databasus/icon.svg" width="24" height="24" style="object-fit:contain"> | [databasus](databasus/) | Datenbank-Backups automatisieren |
 | <img src="directus/icon.svg" width="24" height="24" style="object-fit:contain"> | [directus](directus/) | Headless CMS und Datenplattform |
 | <img src="docmost/icon.svg" width="24" height="24" style="object-fit:contain"> | [docmost](docmost/) | Kollaborative Wiki- und Dokumentationsplattform |
+| <img src="easyappointments/icon.svg" width="24" height="24" style="object-fit:contain"> | [easyappointments](easyappointments/) | Termine online koordinieren |
 | <img src="enclosed/icon.svg" width="24" height="24" style="object-fit:contain"> | [enclosed](enclosed/) | Notizen und Dateien Ende-zu-Ende-verschlüsselt teilen |
 | <img src="euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [euro-office](euro-office/) | Dokumente gemeinsam im Browser bearbeiten |
 | <img src="excalidraw/icon.svg" width="24" height="24" style="object-fit:contain"> | [excalidraw](excalidraw/) | Whiteboard für Skizzen und Diagramme |
@@ -482,6 +484,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="invoiceninja/icon.svg" width="24" height="24" style="object-fit:contain"> | [invoiceninja](invoiceninja/) | Rechnungen, Angebote und Zeiterfassung inklusive E-Rechnung |
 | <img src="kaneo/icon.svg" width="24" height="24" style="object-fit:contain"> | [kaneo](kaneo/) | Projektmanagement mit Board, Backlog und Zeiterfassung |
 | <img src="karakeep/icon.svg" width="24" height="24" style="object-fit:contain"> | [karakeep](karakeep/) | Lesezeichen und Notizen sammeln |
+| <img src="kimai/icon.svg" width="24" height="24" style="object-fit:contain"> | [kimai](kimai/) | Zeiterfassung und Projektcontrolling |
 | <img src="kirby/icon.svg" width="24" height="24" style="object-fit:contain"> | [kirby](kirby/) | Dateibasiertes CMS mit anpassbarem Panel für individuelle Websites |
 | <img src="kutt/icon.svg" width="24" height="24" style="object-fit:contain"> | [kutt](kutt/) | Kurzlinks unter eigener Domain verwalten |
 | <img src="librechat/icon.svg" width="24" height="24" style="object-fit:contain"> | [librechat](librechat/) | Selbstgehostete Chat-Oberfläche für KI-Modelle |
@@ -489,6 +492,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="listmonk/icon.svg" width="24" height="24" style="object-fit:contain"> | [listmonk](listmonk/) | Newsletter und Mailinglisten verwalten |
 | <img src="mailpit/icon.svg" width="24" height="24" style="object-fit:contain"> | [mailpit](mailpit/) | E-Mail-Testserver für Entwicklung und Staging |
 | <img src="mariadb/icon.svg" width="24" height="24" style="object-fit:contain"> | [mariadb](mariadb/) | Relationale Open-Source Datenbank |
+| <img src="mautic/icon.svg" width="24" height="24" style="object-fit:contain"> | [mautic](mautic/) | Marketing-Automatisierung mit Kampagnen, Segmenten und E-Mails |
 | <img src="meilisearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [meilisearch](meilisearch/) | Schnelle Volltextsuche für Anwendungen |
 | <img src="memos/icon.svg" width="24" height="24" style="object-fit:contain"> | [memos](memos/) | Notizen und Gedanken schnell festhalten |
 | <img src="n8n/icon.svg" width="24" height="24" style="object-fit:contain"> | [n8n](n8n/) | Automatisierung für deine Geschäftsprozesse |
@@ -496,6 +500,8 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="nextcloud-euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [nextcloud-euro-office](nextcloud-euro-office/) | Cloud-Speicher und Zusammenarbeit mit Online-Office |
 | <img src="nocodb/icon.svg" width="24" height="24" style="object-fit:contain"> | [nocodb](nocodb/) | No-Code-Datenbank mit Tabellen-, Kanban- und Formularansichten |
 | <img src="odoo/icon.svg" width="24" height="24" style="object-fit:contain"> | [odoo](odoo/) | Modulare Unternehmenssoftware für CRM, Verkauf, Projekte und mehr |
+| <img src="openclaw/icon.svg" width="24" height="24" style="object-fit:contain"> | [openclaw](openclaw/) | Selbstgehosteter KI-Agent mit Automatisierungen und Messenger-Anbindung |
+| <img src="openproject/icon.svg" width="24" height="24" style="object-fit:contain"> | [openproject](openproject/) | Projektmanagement und Teamarbeit |
 | <img src="opensearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
 | <img src="openwebui/icon.svg" width="24" height="24" style="object-fit:contain"> | [openwebui](openwebui/) | Selbstgehostete Oberfläche für KI-Modelle |
 | <img src="outline/icon.svg" width="24" height="24" style="object-fit:contain"> | [outline](outline/) | Wissensdatenbank für Teams mit Echtzeit-Editor und Volltextsuche |
@@ -510,6 +516,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="rallly/icon.svg" width="24" height="24" style="object-fit:contain"> | [rallly](rallly/) | Terminabstimmung ohne Konto für Teilnehmende |
 | <img src="searxng/icon.svg" width="24" height="24" style="object-fit:contain"> | [searxng](searxng/) | Metasuchmaschine für die private Websuche |
 | <img src="silo/icon.svg" width="24" height="24" style="object-fit:contain"> | [silo](silo/) | S3-kompatibler Objektspeicher (MinIO-Fork) |
+| <img src="solidtime/icon.svg" width="24" height="24" style="object-fit:contain"> | [solidtime](solidtime/) | Moderne Zeiterfassung für Teams |
 | <img src="solr/icon.svg" width="24" height="24" style="object-fit:contain"> | [solr](solr/) | Enterprise-Suchplattform |
 | <img src="stirling-pdf/icon.svg" width="24" height="24" style="object-fit:contain"> | [stirling-pdf](stirling-pdf/) | Umfangreicher PDF-Werkzeugkasten |
 | <img src="tideways/icon.svg" width="24" height="24" style="object-fit:contain"> | [tideways](tideways/) | Profiling-Daemon für PHP-Anwendungen |
