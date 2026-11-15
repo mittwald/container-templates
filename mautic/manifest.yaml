@@ -21,7 +21,7 @@ description:
 
     Für **Agenturen** eignet sich Mautic, um Lead-Nurturing, Newsletter und Event-Einladungen für Kundenprojekte aufzusetzen und zu betreuen. Kampagnen reagieren auf Öffnungen, Formulareingaben oder Website-Besuche, und Berichte zeigen, welche Maßnahmen wirken – ohne dass Kontaktdaten an einen externen Marketing-Dienst übergeben werden.
 
-    Bei mittwald läuft **Mautic** als self-hosted Container in deutschen Rechenzentren; Kontaktdaten und Tracking-Informationen verbleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Mautic mit Weboberfläche, Cron- und Worker-Container sowie einer MariaDB-Datenbank, installiert Mautic beim ersten Start mit dem angegebenen Admin-Zugang und versendet E-Mails über eine Delivery-Box. Kosten pro Kontakt oder versendeter E-Mail fallen nicht an.
+    Bei mittwald läuft **Mautic** als self-hosted Container in deutschen Rechenzentren; Kontaktdaten und Tracking-Informationen verbleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Mautic mit Weboberfläche, Cron- und Worker-Container sowie einer MariaDB-Datenbank, installiert Mautic beim ersten Start mit dem angegebenen Admin-Zugang und versendet E-Mails über einen Postausgang. Kosten pro Kontakt oder versendeter E-Mail fallen nicht an.
   en: |
     **Mautic** is an open-source marketing automation platform and a self-hosted alternative to HubSpot Marketing Hub, ActiveCampaign or Brevo. Contacts, segments, emails and campaigns live in one system, so prospects can be guided automatically from first contact to closing.
 
@@ -181,7 +181,7 @@ help:
       de: Einrichtung beim ersten Start
       en: Setup on first start
     content:
-      de: Beim ersten Start legt Mautic die Datenbank an und richtet den Admin-Zugang, die Absenderadresse und den Mailversand über die Delivery-Box ein; das dauert etwa eine Minute. Diese Werte werden nur dabei übernommen. Spätere Änderungen nimmst du in Mautic unter **Einstellungen → Konfiguration** bzw. im eigenen Profil vor, nicht über die Umgebungsvariablen. Anmelden kannst du dich mit dem Benutzernamen oder der E-Mail-Adresse.
+      de: Beim ersten Start legt Mautic die Datenbank an und richtet den Admin-Zugang, die Absenderadresse und den Mailversand über den Postausgang ein; das dauert etwa eine Minute. Diese Werte werden nur dabei übernommen. Spätere Änderungen nimmst du in Mautic unter **Einstellungen → Konfiguration** bzw. im eigenen Profil vor, nicht über die Umgebungsvariablen. Anmelden kannst du dich mit dem Benutzernamen oder der E-Mail-Adresse.
       en: On first start, Mautic creates the database and sets up the admin account, the sender address and email delivery through the delivery box, which takes about a minute. These values are only applied at this point. Make later changes in Mautic under **Settings → Configuration** or in your own profile, not via the environment variables. You can sign in with either the username or the email address.
   - status: info
     heading:

@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** bündelt Grafana die Überwachung vieler Kundenprojekte an einem Ort: Antwortzeiten, Fehlerquoten, Serverauslastung oder Shop-Kennzahlen aus den Datenbanken der Kundenanwendungen landen in eigenen Dashboards je Kunde. Warnregeln melden Probleme, bevor Kunden sie bemerken, und Kunden erhalten bei Bedarf einen Lesezugang zu ihren eigenen Dashboards.
 
-    Bei mittwald läuft **Grafana** als self-hosted Container in deutschen Rechenzentren; Dashboards, Zugangsdaten zu den Datenquellen und Auswertungen bleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Grafana mit eingebetteter SQLite-Datenbank, vorbelegtem Admin-Konto und Mailversand über eine Delivery-Box. Lizenzkosten je Nutzer oder Host fallen nicht an.
+    Bei mittwald läuft **Grafana** als self-hosted Container in deutschen Rechenzentren; Dashboards, Zugangsdaten zu den Datenquellen und Auswertungen bleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Grafana mit eingebetteter SQLite-Datenbank, vorbelegtem Admin-Konto und Mailversand über einen Postausgang. Lizenzkosten je Nutzer oder Host fallen nicht an.
   en: |
     **Grafana** is a platform for dashboards and alerting and a self-hosted alternative to services such as Datadog or New Relic. Grafana does not store metrics itself; it visualises data from connected sources such as Prometheus, Loki, InfluxDB, MySQL, PostgreSQL or Elasticsearch in interactive dashboards.
 

@@ -22,7 +22,7 @@ description:
 
     Für **Agenturen** eignet sich BookStack als zentrale Wissensbasis: Projektdokumentation, Onboarding-Handbücher und interne Prozesse liegen in eigenen Regalen, Kunden-Handbücher in getrennten Büchern. Über die Berechtigungen erhalten Kunden bei Bedarf Lesezugriff auf genau ihr Buch, ohne andere Inhalte zu sehen.
 
-    Bei mittwald läuft **BookStack** als self-hosted Container in deutschen Rechenzentren; alle Inhalte bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält BookStack mit MariaDB, verdrahtet den Mailversand über eine Delivery-Box und speichert Uploads und Datenbank in persistenten Volumes. Lizenzkosten fallen nicht an (MIT).
+    Bei mittwald läuft **BookStack** als self-hosted Container in deutschen Rechenzentren; alle Inhalte bleiben in der eigenen Infrastruktur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält BookStack mit MariaDB, verdrahtet den Mailversand über einen Postausgang und speichert Uploads und Datenbank in persistenten Volumes. Lizenzkosten fallen nicht an (MIT).
   en: |
     **BookStack** is a self-hosted wiki and documentation platform that organises content in a fixed structure of shelves, books, chapters and pages. Its simple hierarchy makes BookStack a self-hosted alternative to Confluence, Notion or GitBook.
 

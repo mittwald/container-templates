@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** bildet Odoo den Weg vom Lead bis zur Rechnung in einem System ab: Anfragen landen in der CRM-Pipeline, aus Verkaufschancen werden Angebote, Projekte und abrechenbare Leistungen. Zusätzliche Apps lassen sich bei Bedarf aktivieren, sodass das System mit den Anforderungen der Agentur oder eines Kundenprojekts mitwächst.
 
-    Bei mittwald läuft **Odoo** als self-hosted Container in deutschen Rechenzentren; alle Geschäftsdaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält die Odoo Community Edition mit einer PostgreSQL-Datenbank, richtet Datenbank, Admin-Zugang und Mailversand über eine Delivery-Box beim ersten Start automatisch ein und verursacht keine Lizenzkosten pro Nutzer.
+    Bei mittwald läuft **Odoo** als self-hosted Container in deutschen Rechenzentren; alle Geschäftsdaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält die Odoo Community Edition mit einer PostgreSQL-Datenbank, richtet Datenbank, Admin-Zugang und Mailversand über einen Postausgang beim ersten Start automatisch ein und verursacht keine Lizenzkosten pro Nutzer.
   en: |
     **Odoo** is modular business software (ERP) and a self-hosted alternative to solutions such as Salesforce, HubSpot or Microsoft Dynamics. With individually activatable apps, the Community Edition covers core business processes — from lead generation through quotes and invoices to project delivery, all on a shared data foundation.
 

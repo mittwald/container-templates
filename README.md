@@ -41,7 +41,7 @@ Beschreibt das Template mit folgenden Feldern. Die maschinenlesbare, per CI vali
 | `domains`         | Domain-Zuordnung zu Services und Ports; Map mit dem `purpose` als Schlüssel und Referenz (z.B. in `help`)        |
 | `userInputs`      | Vom Benutzer konfigurierte Werte                                                                                 |
 | `systemInputs`    | Automatisch vom System generierte Werte (Passwörter, Tokens)                                                     |
-| `deliveryBoxes`   | Delivery-Boxen für den Mailversand; die Zugangsdaten legt das System an                                          |
+| `deliveryBoxes`   | Postausgänge für den Mailversand; die Zugangsdaten legt das System an                                            |
 | `type`            | Gibt an, ob das Template als eigenständige Anwendung in einem neuen Stack (`standalone`) oder als Baustein in einen bestehenden Stack (`component`) deployt wird |
 | `help`            | Optionale Kontext-Hilfe nach dem Deployment: technische Details (`technicalDetails`) und Hinweise (`alerts`)     |
 
@@ -337,7 +337,7 @@ systemInputs:
 
 ### deliveryBoxes
 
-Versendet ein Template Mails, deklariert es dafür eine Delivery-Box statt SMTP-Zugangsdaten abzufragen. Das System legt die Box beim Deployment an und stellt die Zugangsdaten als Umgebungsvariablen bereit:
+Versendet ein Template Mails, deklariert es dafür einen Postausgang statt SMTP-Zugangsdaten abzufragen. Das System legt den Postausgang beim Deployment an und stellt die Zugangsdaten als Umgebungsvariablen bereit:
 
 ```yaml
 deliveryBoxes:
@@ -577,7 +577,7 @@ mw domain virtualhost create -p <project> \
   --path-to-container /:<container-id>:8080/tcp
 ```
 
-Die `.env`-Datei enthält einen Wert für jeden `userInput` und jedes `systemInput` des Manifests, also auch `HOST` mit der Subdomain. Für Templates mit `deliveryBoxes` legt man im Testprojekt eine Delivery-Box an (`mw mail deliverybox create`) und trägt deren Zugangsdaten als `MW_DELIVERYBOX_MAIN_USERNAME` und `MW_DELIVERYBOX_MAIN_PASSWORD` ein. Bis die Subdomain erreichbar ist und ein Zertifikat hat, können einige Minuten vergehen.
+Die `.env`-Datei enthält einen Wert für jeden `userInput` und jedes `systemInput` des Manifests, also auch `HOST` mit der Subdomain. Für Templates mit `deliveryBoxes` legt man im Testprojekt einen Postausgang an (`mw mail deliverybox create`) und trägt dessen Zugangsdaten als `MW_DELIVERYBOX_MAIN_USERNAME` und `MW_DELIVERYBOX_MAIN_PASSWORD` ein. Bis die Subdomain erreichbar ist und ein Zertifikat hat, können einige Minuten vergehen.
 
 Zur Fehlersuche:
 

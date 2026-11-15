@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** eignet sich Ghost für Corporate Blogs, Fachmagazine und Newsletter-Projekte von Kunden, die ein schnelles und pflegeleichtes System ohne Plugin-Wartung suchen. Themes lassen sich mit Handlebars an das Corporate Design anpassen, und über die Content-API dient Ghost auch als Headless-CMS hinter individuellen Frontends.
 
-    Bei mittwald läuft **Ghost** als self-hosted Container in deutschen Rechenzentren; Beiträge und Mitgliederdaten bleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Ghost mit einer MySQL-Datenbank, vorbelegtem Owner-Konto und Mailversand über eine Delivery-Box. Verbindungen zu ActivityPub und Ghost Explore sind abgeschaltet. Lizenzkosten fallen nicht an.
+    Bei mittwald läuft **Ghost** als self-hosted Container in deutschen Rechenzentren; Beiträge und Mitgliederdaten bleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Ghost mit einer MySQL-Datenbank, vorbelegtem Owner-Konto und Mailversand über einen Postausgang. Verbindungen zu ActivityPub und Ghost Explore sind abgeschaltet. Lizenzkosten fallen nicht an.
   en: |
     **Ghost** is an open-source platform for blogs, online magazines and newsletters and a self-hosted alternative to Substack, Medium or a classic WordPress blog. Content is written in a clean editor and published in a fast, search-engine-friendly theme; readers can sign up as members and subscribe to posts.
 
@@ -229,5 +229,5 @@ help:
       de: Newsletter-Versand erfordert Mailgun
       en: Newsletter delivery requires Mailgun
     content:
-      de: Anmelde-Links, Einladungen und Benachrichtigungen verschickt Ghost über die Delivery-Box. Für den Massenversand von Beiträgen als Newsletter unterstützt Ghost ausschließlich Mailgun, das unter **Settings → Newsletters** hinterlegt wird. Der Adminbereich von Ghost ist nur auf Englisch verfügbar; die Website selbst ist auf Deutsch eingestellt.
+      de: Anmelde-Links, Einladungen und Benachrichtigungen verschickt Ghost über den Postausgang. Für den Massenversand von Beiträgen als Newsletter unterstützt Ghost ausschließlich Mailgun, das unter **Settings → Newsletters** hinterlegt wird. Der Adminbereich von Ghost ist nur auf Englisch verfügbar; die Website selbst ist auf Deutsch eingestellt.
       en: Ghost sends sign-in links, invitations and notifications through the delivery box. For bulk delivery of posts as newsletters, Ghost only supports Mailgun, configured under **Settings → Newsletters**. The Ghost admin area is only available in English; the website itself is set to German.

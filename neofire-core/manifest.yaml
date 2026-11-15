@@ -236,5 +236,5 @@ help:
         de: E-Mail-Versand
         en: Outgoing mail
       content:
-        de: Bestell- und Kontomails werden automatisch über die Delivery-Box des Projekts versendet. Absender ist die E-Mail-Adresse des Shops.
+        de: Bestell- und Kontomails werden automatisch über den Postausgang des Projekts versendet. Absender ist die E-Mail-Adresse des Shops.
         en: Order and account emails are sent automatically through the project's delivery box. The sender is the shop email address.

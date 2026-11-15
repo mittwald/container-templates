@@ -21,7 +21,7 @@ description:
 
     Für **Agenturen** eignet sich Wiki.js als zentrale Wissensbasis: Agentur-Handbuch, Onboarding-Checklisten, Code-Richtlinien und Projektdokumentation je Kunde liegen an einer Stelle. Über Seitenregeln lassen sich Bereiche für Kundinnen und Kunden freigeben, etwa Redaktionsanleitungen oder Betriebsdokumentation. Die Git-Synchronisation hält Dokumentation zusätzlich neben dem Quellcode verfügbar.
 
-    Bei mittwald läuft **Wiki.js** als self-hosted Container in deutschen Rechenzentren; Inhalte und Zugänge bleiben unter eigener Kontrolle, was den DSGVO-konformen Betrieb vereinfacht. Das Template enthält Wiki.js mit PostgreSQL, legt den Administrator an, stellt Oberfläche und Zeitzone auf Deutsch ein und versendet E-Mails über eine Delivery-Box – ohne Kosten pro Nutzer.
+    Bei mittwald läuft **Wiki.js** als self-hosted Container in deutschen Rechenzentren; Inhalte und Zugänge bleiben unter eigener Kontrolle, was den DSGVO-konformen Betrieb vereinfacht. Das Template enthält Wiki.js mit PostgreSQL, legt den Administrator an, stellt Oberfläche und Zeitzone auf Deutsch ein und versendet E-Mails über einen Postausgang – ohne Kosten pro Nutzer.
   en: |
     **Wiki.js** is a modern wiki built on Node.js and a self-hosted alternative to Confluence or Notion. Teams maintain documentation, guides and project knowledge in a clear page structure with navigation, full-text search and version history.
 

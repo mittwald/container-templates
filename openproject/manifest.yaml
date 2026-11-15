@@ -176,5 +176,5 @@ help:
       de: Kein Empfang von E-Mails
       en: No incoming email
     content:
-      de: OpenProject versendet Benachrichtigungen über die Delivery-Box, empfängt aber keine E-Mails. Antworten auf Benachrichtigungen erscheinen deshalb nicht als Kommentar, und Arbeitspakete lassen sich nicht per E-Mail anlegen. Wird das gebraucht, lässt sich ein zusätzlicher Container mit dem Befehl `./docker/prod/cron` und den IMAP-Zugangsdaten eines eigenen Postfachs (`IMAP_HOST`, `IMAP_USERNAME`, `IMAP_PASSWORD`) im Stack ergänzen.
+      de: OpenProject versendet Benachrichtigungen über den Postausgang, empfängt aber keine E-Mails. Antworten auf Benachrichtigungen erscheinen deshalb nicht als Kommentar, und Arbeitspakete lassen sich nicht per E-Mail anlegen. Wird das gebraucht, lässt sich ein zusätzlicher Container mit dem Befehl `./docker/prod/cron` und den IMAP-Zugangsdaten eines eigenen Postfachs (`IMAP_HOST`, `IMAP_USERNAME`, `IMAP_PASSWORD`) im Stack ergänzen.
       en: OpenProject sends notifications through the delivery box but does not receive email. Replies to notifications are therefore not added as comments, and work packages cannot be created by email. If needed, add another container to the stack with the command `./docker/prod/cron` and the IMAP credentials of a dedicated mailbox (`IMAP_HOST`, `IMAP_USERNAME`, `IMAP_PASSWORD`).

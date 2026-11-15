@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** bündelt Outline internes Wissen und Kundendokumentation an einem Ort: Prozessbeschreibungen, Onboarding-Checklisten, Styleguides und technische Projektdokumentation liegen in getrennten Sammlungen. Einzelne Dokumente lassen sich per Link mit Kunden teilen, ohne ihnen Zugang zum gesamten Arbeitsbereich zu geben. Über den integrierten MCP-Server können KI-Assistenten auf die Inhalte zugreifen.
 
-    Bei mittwald läuft **Outline** als self-hosted Container in deutschen Rechenzentren; alle Inhalte verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Outline mit einer PostgreSQL-Datenbank, Redis und lokalem Dateispeicher. Die Anmeldung erfolgt per E-Mail-Link über eine Delivery-Box, ohne externen Login-Anbieter.
+    Bei mittwald läuft **Outline** als self-hosted Container in deutschen Rechenzentren; alle Inhalte verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Outline mit einer PostgreSQL-Datenbank, Redis und lokalem Dateispeicher. Die Anmeldung erfolgt per E-Mail-Link über einen Postausgang, ohne externen Login-Anbieter.
   en: |
     **Outline** is a collaborative knowledge base for teams and a self-hosted alternative to Notion or Confluence. Documents are written in a fast Markdown editor, organised in collections and instantly findable through full-text search — with real-time editing, comments and version history.
 

@@ -155,5 +155,5 @@ help:
       de: Anmeldung per Code aus der E-Mail
       en: Sign-in with a code from your email
     content:
-      de: Da dieses Template eine Delivery Box hinterlegt, meldet Kaneo dich standardmäßig mit einem Einmal-Code per E-Mail an, statt mit einem Passwort. Wenn du lieber ein Passwort vergibst, setze `DISABLE_EMAIL_OTP_SIGN_IN` im Service `kaneo` auf `true` — Einladungen laufen weiterhin per E-Mail.
+      de: Da dieses Template einen Postausgang hinterlegt, meldet Kaneo dich standardmäßig mit einem Einmal-Code per E-Mail an, statt mit einem Passwort. Wenn du lieber ein Passwort vergibst, setze `DISABLE_EMAIL_OTP_SIGN_IN` im Service `kaneo` auf `true` — Einladungen laufen weiterhin per E-Mail.
       en: Because this template configures a delivery box, Kaneo signs you in with a one-time code by email rather than a password. If you prefer a password, set `DISABLE_EMAIL_OTP_SIGN_IN` to `true` on the `kaneo` service — invitations still go out by email.

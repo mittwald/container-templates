@@ -21,7 +21,7 @@ description:
 
     Für **Agenturen** bündelt GlitchTip Fehler und Ausfälle aus Kundenwebsites, Shops und APIs an einer Stelle. Je Kunde entsteht ein eigenes Projekt, Teams sehen Regressionen nach einem Release sofort, und Heartbeats melden, wenn ein nächtlicher Import oder ein Backup ausbleibt. Bestehende Sentry-Integrationen lassen sich meist durch Austausch der DSN weiterverwenden.
 
-    Bei mittwald läuft **GlitchTip** als self-hosted Container in deutschen Rechenzentren; Fehler- und Nutzerdaten verlassen die eigene Infrastruktur nicht, was den DSGVO-konformen Betrieb unterstützt. Das Template enthält GlitchTip mit PostgreSQL und Valkey, legt den Administrator an und versendet E-Mails über eine Delivery-Box – ohne ereignisabhängige Kosten.
+    Bei mittwald läuft **GlitchTip** als self-hosted Container in deutschen Rechenzentren; Fehler- und Nutzerdaten verlassen die eigene Infrastruktur nicht, was den DSGVO-konformen Betrieb unterstützt. Das Template enthält GlitchTip mit PostgreSQL und Valkey, legt den Administrator an und versendet E-Mails über einen Postausgang – ohne ereignisabhängige Kosten.
   en: |
     **GlitchTip** is an open-source error-tracking platform and a self-hosted alternative to Sentry. Applications report errors through the widely used Sentry SDKs to the operator's own instance, where they are grouped into issues and presented with stack traces, breadcrumbs and context data. In addition, GlitchTip monitors availability and cron jobs.
 

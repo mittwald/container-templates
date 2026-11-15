@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** eignet sich NocoDB als flexible Datenbasis für interne Abläufe und Kundenprojekte: Projektlisten, Redaktionspläne, Lead-Erfassung oder Inventare entstehen in wenigen Minuten. Öffentliche Formulare sammeln Anfragen direkt in einer Tabelle, über die REST-API dient NocoDB als einfaches Backend für Websites, Automatisierungen oder interne Tools – ohne eigene Datenbankentwicklung.
 
-    Bei mittwald läuft **NocoDB** als self-hosted Container in deutschen Rechenzentren; alle Daten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält NocoDB mit einer PostgreSQL-Datenbank und versendet E-Mails über eine Delivery-Box – ohne nutzungsabhängige Seat-Kosten.
+    Bei mittwald läuft **NocoDB** als self-hosted Container in deutschen Rechenzentren; alle Daten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält NocoDB mit einer PostgreSQL-Datenbank und versendet E-Mails über einen Postausgang – ohne nutzungsabhängige Seat-Kosten.
   en: |
     **NocoDB** is a no-code platform that makes databases usable through a spreadsheet interface and a self-hosted alternative to Airtable. Teams create tables, relations and views without writing SQL and work on the same data at the same time — with roles and permissions per project.
 
