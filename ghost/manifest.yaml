@@ -93,8 +93,8 @@ userInputs:
     required: true
     format: email
     description:
-      de: Dient als Login für den Adminbereich unter `/ghost`
-      en: Used to sign in to the admin area at `/ghost`
+      de: Dient als Login für den Adminbereich unter /ghost
+      en: Used to sign in to the admin area at /ghost
     validationSchema: '{ "type": "string", "format": "email" }'
   - name: "ADMIN_PASSWORD"
     label:
