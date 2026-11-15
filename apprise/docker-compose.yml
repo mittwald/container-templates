@@ -1,11 +1,14 @@
 services:
   apprise:
-    image: caronc/apprise:latest
+    image: caronc/apprise:2
     environment:
       - TZ=Europe/Berlin
       - APPRISE_STATEFUL_MODE=simple
       - APPRISE_WORKER_COUNT=1
       - APPRISE_ADMIN=yes
+      - APPRISE_AUTH_REQUIRED=yes
+      - APPRISE_USER=${ADMIN_USER}
+      - APPRISE_PASSWORD=${ADMIN_PASSWORD}
     volumes:
       - apprise_config:/config
 volumes:
