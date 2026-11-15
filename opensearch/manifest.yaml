@@ -51,6 +51,9 @@ userInputs:
     positionMeta: { step: "adminUser", index: 1 }
     required: true
     format: password
+    description:
+      de: Mindestens 12 Zeichen mit Groß- und Kleinbuchstaben sowie Ziffern. OpenSearch lehnt beim ersten Start außerdem leicht zu erratende Passwörter ab und startet dann nicht, ein generiertes Passwort ist deshalb die sichere Wahl.
+      en: At least 12 characters with upper- and lowercase letters and digits. On first start OpenSearch also rejects easily guessable passwords and then does not start, so a generated password is the safe choice.
     validationSchema: '{ "type": "string", "minLength": 12 }'
 
 help:
@@ -70,8 +73,8 @@ help:
   alerts:
   - status: info
     heading:
-      de: TLS-Check deaktiviert
-      en: TLS check disabled
+      de: REST-API ohne TLS
+      en: REST API without TLS
     content:
-      de: Verbindungen zu OpenSearch werden hergestellt, ohne das Serverzertifikat zu überprüfen. Dies kann in Entwicklungs- oder Testumgebungen sinnvoll sein, wird für produktive Systeme jedoch nicht empfohlen.
-      en: Connections to OpenSearch are established without verifying the server certificate. This may be useful in development or test environments, but is not recommended for production systems.
+      de: Die REST-API auf Port 9200 spricht unverschlüsseltes HTTP (`plugins.security.ssl.http.enabled=false`), Anwendungen verbinden sich also über `http://` statt `https://`. Die Anmeldung per Benutzer `admin` und Passwort bleibt aktiv. OpenSearch ist nur innerhalb des Projekts erreichbar, Zugangsdaten und Daten werden dort jedoch unverschlüsselt übertragen.
+      en: The REST API on port 9200 speaks plain HTTP (`plugins.security.ssl.http.enabled=false`), so applications connect via `http://` instead of `https://`. Sign-in with the user `admin` and password stays active. OpenSearch is only reachable within the project, but credentials and data are transmitted unencrypted there.
