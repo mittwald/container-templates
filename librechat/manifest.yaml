@@ -38,7 +38,7 @@ description:
     At mittwald, **LibreChat** runs as a self-hosted container in German data centres; conversations, files and embeddings stay under the operator's control, which simplifies GDPR compliance. This template includes LibreChat with MongoDB, Meilisearch, the RAG API and a pgvector database, connected to mittwald AI Hosting. No usage-based licence or seat costs apply.
 developer: LibreChat
 website: https://www.librechat.ai
-repository: https://github.com/danny-avila/LibreChat
+repository: https://github.com/LibreChat-AI/LibreChat
 license:
   name: MIT
   link: https://spdx.org/licenses/MIT.html
