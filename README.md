@@ -467,6 +467,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="chatwoot/icon.svg" width="24" height="24" style="object-fit:contain"> | [chatwoot](chatwoot/) | Kundensupport und Live-Chat |
 | <img src="checkmk/icon.svg" width="24" height="24" style="object-fit:contain"> | [checkmk](checkmk/) | IT-Monitoring für Server, Dienste und Anwendungen |
 | <img src="chroma/icon.svg" width="24" height="24" style="object-fit:contain"> | [chroma](chroma/) | Open-Source Vektordatenbank für KI-Anwendungen |
+| <img src="clickhouse/icon.svg" width="24" height="24" style="object-fit:contain"> | [clickhouse](clickhouse/) | Spaltenorientierte Datenbank für schnelle Analysen großer Datenmengen |
 | <img src="collabora/icon.svg" width="24" height="24" style="object-fit:contain"> | [collabora](collabora/) | Online-Office-Suite für kollaboratives Arbeiten |
 | <img src="databasus/icon.svg" width="24" height="24" style="object-fit:contain"> | [databasus](databasus/) | Datenbank-Backups automatisieren |
 | <img src="directus/icon.svg" width="24" height="24" style="object-fit:contain"> | [directus](directus/) | Headless CMS und Datenplattform |
@@ -476,7 +477,10 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="euro-office/icon.svg" width="24" height="24" style="object-fit:contain"> | [euro-office](euro-office/) | Dokumente gemeinsam im Browser bearbeiten |
 | <img src="excalidraw/icon.svg" width="24" height="24" style="object-fit:contain"> | [excalidraw](excalidraw/) | Whiteboard für Skizzen und Diagramme |
 | <img src="fider/icon.svg" width="24" height="24" style="object-fit:contain"> | [fider](fider/) | Kundenfeedback sammeln und priorisieren |
+| <img src="ghost/icon.svg" width="24" height="24" style="object-fit:contain"> | [ghost](ghost/) | Publishing-Plattform für Blogs, Magazine und Newsletter |
+| <img src="glitchtip/icon.svg" width="24" height="24" style="object-fit:contain"> | [glitchtip](glitchtip/) | Sentry-kompatibles Error-Tracking mit Uptime-Monitoring |
 | <img src="gotenberg/icon.svg" width="24" height="24" style="object-fit:contain"> | [gotenberg](gotenberg/) | Dokumente per API in PDF umwandeln |
+| <img src="grafana/icon.svg" width="24" height="24" style="object-fit:contain"> | [grafana](grafana/) | Dashboards und Alerting für Metriken, Logs und Datenbanken |
 | <img src="healthchecks/icon.svg" width="24" height="24" style="object-fit:contain"> | [healthchecks](healthchecks/) | Cronjobs und geplante Aufgaben überwachen |
 | <img src="hermes-agent/icon.svg" width="24" height="24" style="object-fit:contain"> | [hermes-agent](hermes-agent/) | Selbstgehosteter KI-Agent mit dauerhaftem Gedächtnis |
 | <img src="immich/icon.svg" width="24" height="24" style="object-fit:contain"> | [immich](immich/) | Foto- und Videoverwaltung |
@@ -523,10 +527,13 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="typemill/icon.svg" width="24" height="24" style="object-fit:contain"> | [typemill](typemill/) | Flat-File-CMS für Manuals, Nutzerhandbücher und Dokumentationen. |
 | <img src="umami/icon.svg" width="24" height="24" style="object-fit:contain"> | [umami](umami/) | Datenschutzfreundliche Web-Analytics |
 | <img src="uptime-kuma/icon.svg" width="24" height="24" style="object-fit:contain"> | [uptime-kuma](uptime-kuma/) | Monitoring und Statusseiten |
+| <img src="valkey/icon.svg" width="24" height="24" style="object-fit:contain"> | [valkey](valkey/) | Redis-kompatibler In-Memory-Datenspeicher für Caches, Queues und Sessions |
 | <img src="vaults3/icon.svg" width="24" height="24" style="object-fit:contain"> | [vaults3](vaults3/) | Leichtgewichtiger S3-Objektspeicher mit Dashboard |
 | <img src="vaultwarden/icon.svg" width="24" height="24" style="object-fit:contain"> | [vaultwarden](vaultwarden/) | Selbst gehosteter Passwort-Manager |
 | <img src="vikunja/icon.svg" width="24" height="24" style="object-fit:contain"> | [vikunja](vikunja/) | Aufgaben und Projekte selbst verwalten |
+| <img src="weaviate/icon.svg" width="24" height="24" style="object-fit:contain"> | [weaviate](weaviate/) | Vektordatenbank mit hybrider Suche für KI-Anwendungen |
 | <img src="weblate/icon.svg" width="24" height="24" style="object-fit:contain"> | [weblate](weblate/) | Software gemeinsam übersetzen |
+| <img src="wikijs/icon.svg" width="24" height="24" style="object-fit:contain"> | [wikijs](wikijs/) | Wiki mit Markdown-Editor, Rechteverwaltung und Git-Synchronisation |
 | <img src="yopass/icon.svg" width="24" height="24" style="object-fit:contain"> | [yopass](yopass/) | Geheimnisse sicher und verschlüsselt teilen |
 <!-- templates:end -->
 
