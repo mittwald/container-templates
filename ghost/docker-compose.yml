@@ -1,0 +1,84 @@
+services:
+  ghost:
+    image: ghost:6-alpine
+    ports:
+      - "2368:2368"
+    # The platform runs no separate init container: until the owner account is
+    # set up, each start runs Ghost on localhost only, sets up the owner and
+    # site title through the setup API, stops it, applies German locale and
+    # time zone, turns off the ActivityPub and Explore integrations and then
+    # starts Ghost normally in the same process. The image entrypoint fixes volume
+    # permissions and switches to the node user because the command contains
+    # current/index.js. Each list entry must stay below 800 characters.
+    command:
+      - node
+      - -e
+      - |
+        const R=require("module").createRequire("/var/lib/ghost/current/"),e=process.env,w=t=>new Promise(r=>setTimeout(r,t)),d="database__connection__";
+        (async()=>{let c,o;for(;;){try{c=await R("mysql2/promise").createConnection({host:e[d+"host"],user:e[d+"user"],password:e[d+"password"],database:e[d+"database"]});break}catch{console.log("waiting for database");await w(3000)}}
+        try{[[o]]=await c.query("SELECT u.status FROM users u JOIN roles_users x ON x.user_id=u.id JOIN roles r ON r.id=x.role_id WHERE r.name='Owner'")}catch{}
+        if(!o||o.status=="inactive"){await eval("(async()=>{"+process.argv[1]+"})()");await c.query(process.argv[2])}
+        await c.end();require("/var/lib/ghost/current/index.js")})()
+      - |
+        const p=require("child_process").spawn("node",["current/index.js"],{stdio:"inherit",env:{...e,server__host:"127.0.0.1",server__port:"2369"}}),x=()=>process.exit(1),u="http://127.0.0.1:2369/ghost/api/admin/authentication/setup/",h={"Content-Type":"application/json",Origin:e.url,"X-Forwarded-Proto":"https"};let s;p.on("exit",x);
+        for(;;){await w(3000);try{s=await(await fetch(u,{headers:h})).json();break}catch{}}
+        if(!s.setup[0].status){const q=await fetch(u,{method:"POST",headers:h,body:JSON.stringify({setup:[{name:e.ADMIN_NAME,email:e.ADMIN_EMAIL,password:e.ADMIN_PASSWORD,blogTitle:e.SITE_TITLE}]})});if(!q.ok)throw Error("owner setup failed: "+await q.text())}
+        p.off("exit",x);p.kill();await new Promise(r=>p.on("exit",r))
+      - >-
+        UPDATE settings SET value = IF(`key` = 'locale', 'de', IF(`key` = 'timezone', 'Europe/Berlin', 'false'))
+        WHERE `key` IN ('locale', 'timezone', 'social_web', 'web_analytics', 'explore_ping')
+    environment:
+      - TZ=Europe/Berlin
+      - url=https://${HOST}
+      - database__client=mysql
+      - database__connection__host=mysql
+      - database__connection__user=ghost
+      - database__connection__password=${MYSQL_PASSWORD}
+      - database__connection__database=ghost
+      - mail__transport=SMTP
+      - mail__from=${SMTP_FROM}
+      - mail__options__host=mail.agenturserver.de
+      - mail__options__port=587
+      - mail__options__secure=false
+      - mail__options__requireTLS=true
+      - mail__options__auth__user=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - mail__options__auth__pass=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - security__staffDeviceVerification=${STAFF_DEVICE_VERIFICATION}
+      - privacy__useUpdateCheck=false
+      - privacy__useGravatar=false
+      - privacy__useRpcPing=false
+      - explore__update_url=
+      - ADMIN_NAME=${ADMIN_NAME}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - SITE_TITLE=${SITE_TITLE}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ghost_content:/var/lib/ghost/content
+  mysql:
+    image: mysql:8
+    environment:
+      - TZ=Europe/Berlin
+      - MYSQL_DATABASE=ghost
+      - MYSQL_USER=ghost
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$$MYSQL_ROOT_PASSWORD\" mysqladmin ping -h 127.0.0.1 -u root --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/mysql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { MYSQL_PWD="$$MYSQL_ROOT_PASSWORD" mysqldump -u root --all-databases --single-transaction --routines --events --result-file="$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  ghost_content:
+  mysql_data:
