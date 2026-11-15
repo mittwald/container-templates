@@ -1,0 +1,198 @@
+manifestVersion: 1.0
+name:
+  de: GlitchTip
+  en: GlitchTip
+version: "7.x.x"
+type: standalone
+tagline:
+  de: Sentry-kompatibles Error-Tracking mit Uptime-Monitoring
+  en: Sentry-compatible error tracking with uptime monitoring
+description:
+  de: |
+    **GlitchTip** ist eine Open-Source-Plattform für Error-Tracking und eine self-hosted Alternative zu Sentry. Anwendungen melden Fehler über die verbreiteten Sentry-SDKs an die eigene Instanz, wo sie zu Issues gruppiert und mit Stacktrace, Breadcrumbs und Kontextdaten aufbereitet werden. Ergänzend überwacht GlitchTip Erreichbarkeit und Cronjobs.
+
+    Zentrale Funktionen:
+
+    - Kompatibilität mit den Sentry-SDKs für JavaScript, PHP, Python und viele weitere Sprachen
+    - Gruppierung wiederkehrender Fehler mit Stacktrace, Tags, Releases und Umgebungen
+    - Uptime-Monitore für Websites, Ports und SSL sowie Heartbeats für Cronjobs
+    - Performance-Monitoring, Logs und Benachrichtigungen per E-Mail oder Webhook
+    - Organisationen, Teams und Projekte mit Rollen
+
+    Für **Agenturen** bündelt GlitchTip Fehler und Ausfälle aus Kundenwebsites, Shops und APIs an einer Stelle. Je Kunde entsteht ein eigenes Projekt, Teams sehen Regressionen nach einem Release sofort, und Heartbeats melden, wenn ein nächtlicher Import oder ein Backup ausbleibt. Bestehende Sentry-Integrationen lassen sich meist durch Austausch der DSN weiterverwenden.
+
+    Bei mittwald läuft **GlitchTip** als self-hosted Container in deutschen Rechenzentren; Fehler- und Nutzerdaten verlassen die eigene Infrastruktur nicht, was den DSGVO-konformen Betrieb unterstützt. Das Template enthält GlitchTip mit PostgreSQL und Valkey, legt den Administrator an und versendet E-Mails über eine Delivery-Box – ohne ereignisabhängige Kosten.
+  en: |
+    **GlitchTip** is an open-source error-tracking platform and a self-hosted alternative to Sentry. Applications report errors through the widely used Sentry SDKs to the operator's own instance, where they are grouped into issues and presented with stack traces, breadcrumbs and context data. In addition, GlitchTip monitors availability and cron jobs.
+
+    Key features:
+
+    - Compatibility with the Sentry SDKs for JavaScript, PHP, Python and many more languages
+    - Grouping of recurring errors with stack traces, tags, releases and environments
+    - Uptime monitors for websites, ports and SSL as well as heartbeats for cron jobs
+    - Performance monitoring, logs and notifications by email or webhook
+    - Organisations, teams and projects with roles
+
+    For **agencies**, GlitchTip consolidates errors and outages from client websites, shops and APIs in one place. Each client gets a project of its own, teams spot regressions right after a release, and heartbeats report when a nightly import or backup does not run. Existing Sentry integrations can usually be reused by replacing the DSN.
+
+    At mittwald, **GlitchTip** runs as a self-hosted container in German data centres; error and user data never leave the operator's infrastructure, supporting GDPR-compliant operation. The template includes GlitchTip with PostgreSQL and Valkey, creates the administrator and sends email through a delivery box — with no event-based costs.
+developer: Burke Software and Consulting
+website: https://glitchtip.com
+repository: https://gitlab.com/glitchtip/glitchtip-backend
+support: https://gitlab.com/glitchtip/glitchtip-backend/-/issues
+license:
+  name: MIT
+  link: https://gitlab.com/glitchtip/glitchtip-backend/-/blob/master/LICENSE
+categories:
+  - monitoring
+  - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-issues.jpg
+    text:
+      de: Offene Fehler aus mehreren Kundenprojekten nach Häufigkeit sortiert
+      en: Open errors from several client projects sorted by frequency
+  - bg: background.jpg
+    screenshot: screenshot-issue.jpg
+    text:
+      de: Stacktrace eines JavaScript-Fehlers mit Quelltext und Breadcrumbs
+      en: Stack trace of a JavaScript error with source excerpt and breadcrumbs
+  - bg: background.jpg
+    screenshot: screenshot-uptime.jpg
+    text:
+      de: Heartbeat-Monitore für Cronjobs der Kundenprojekte
+      en: Heartbeat monitors for the cron jobs of client projects
+domains:
+  main:
+    userInput: HOST
+    service: glitchtip
+    port: 8000
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 2 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ENABLE_USER_REGISTRATION"
+    label:
+      de: Offene Registrierung erlauben
+      en: Allow open sign-up
+    description:
+      de: Ohne Haken können sich neue Nutzende nur über eine Einladung registrieren.
+      en: When unchecked, new users can only sign up through an invitation.
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    defaultValue: "false"
+    dataType: boolean
+    validationSchema: '{ "type": "string", "enum": ["true", "false"] }'
+systemInputs:
+  - name: "SECRET_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${glitchtip.env.ADMIN_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${glitchtip.env.ADMIN_PASSWORD}
+  - key:
+      de: Absenderadresse
+      en: Sender address
+    value: ${glitchtip.env.DEFAULT_FROM_EMAIL}
+  alerts:
+  - status: info
+    heading:
+      de: Organisation beim ersten Login anlegen
+      en: Create an organisation on first login
+    content:
+      de: Nach dem ersten Login legst du eine Organisation an, danach Teams und je Kundenanwendung ein Projekt. Die DSN für das Sentry-SDK findest du in den Projekteinstellungen unter **DSN**. Weitere Organisationen kann nur der Administrator anlegen (`ENABLE_ORGANIZATION_CREATION`).
+      en: After the first login, create an organisation, then teams and one project per client application. The DSN for the Sentry SDK is in the project settings under **DSN**. Only the administrator can create further organisations (`ENABLE_ORGANIZATION_CREATION`).
+  - status: info
+    heading:
+      de: Administrator nur beim ersten Start
+      en: Administrator on first start only
+    content:
+      de: Der Administrator wird nur angelegt, solange noch kein Konto existiert. Spätere Änderungen an E-Mail-Adresse oder Passwort nimmst du in GlitchTip unter **Profile** vor, nicht über die Umgebungsvariablen.
+      en: The administrator is only created while no account exists yet. Make later changes to the email address or password in GlitchTip under **Profile**, not via the environment variables.
