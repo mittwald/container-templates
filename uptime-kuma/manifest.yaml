@@ -9,7 +9,7 @@ tagline:
   en: Monitoring and status pages
 description:
   de: |
-    **Uptime Kuma** ist ein benutzerfreundliches, self-hosted Monitoring-Werkzeug und eine Alternative zu Diensten wie UptimeRobot oder Better Uptime. Websites, APIs und weitere Netzwerkdienste werden regelmäßig geprüft; Ausfälle und langsame Antworten werden in einem reaktiven Dashboard sichtbar und können über zahlreiche Kanäle gemeldet werden.
+    **Uptime Kuma** ist ein benutzerfreundliches, self-hosted Monitoring-Werkzeug und eine Alternative zu Diensten wie UptimeRobot oder Better Stack. Websites, APIs und weitere Netzwerkdienste werden regelmäßig geprüft; Ausfälle und langsame Antworten werden in einem reaktiven Dashboard sichtbar und können über zahlreiche Kanäle gemeldet werden.
 
     Zentrale Funktionen:
 
@@ -20,9 +20,9 @@ description:
 
     Für **Agenturen** bietet Uptime Kuma eine zentrale Übersicht über die Erreichbarkeit betreuter Websites, Shops und APIs. Monitore lassen sich nach Kunden gruppieren, interne Teams werden bei Störungen automatisch informiert und öffentliche Statusseiten schaffen Transparenz während eines Ausfalls. Dadurch können Probleme erkannt werden, bevor sie über Kundensupport oder Endnutzer gemeldet werden.
 
-    Bei mittwald läuft **Uptime Kuma** als self-hosted Container in deutschen Rechenzentren; Monitoring-Verläufe, Endpunkte und Benachrichtigungskonfigurationen bleiben in der eigenen Infrastruktur. Das Template stellt Uptime Kuma 2 mit persistentem Datenspeicher bereit. Beim ersten Aufruf wird die Administration manuell eingerichtet und SQLite als Datenbank gewählt. Für die Open-Source-Anwendung fallen keine monitor- oder kontaktabhängigen Lizenzkosten an.
+    Bei mittwald läuft **Uptime Kuma** als self-hosted Container in deutschen Rechenzentren; Monitoring-Verläufe, Endpunkte und Benachrichtigungskonfigurationen bleiben in der eigenen Infrastruktur. Das Template stellt Uptime Kuma 2 mit persistentem Datenspeicher bereit. Die Datenbank ist mit SQLite vorkonfiguriert; beim ersten Aufruf wird lediglich das Administrationskonto angelegt. Für die Open-Source-Anwendung fallen keine monitor- oder kontaktabhängigen Lizenzkosten an.
   en: |
-    **Uptime Kuma** is a user-friendly, self-hosted monitoring tool and an alternative to services such as UptimeRobot or Better Uptime. Websites, APIs and other network services are checked regularly; outages and slow responses appear in a reactive dashboard and can trigger notifications through numerous channels.
+    **Uptime Kuma** is a user-friendly, self-hosted monitoring tool and an alternative to services such as UptimeRobot or Better Stack. Websites, APIs and other network services are checked regularly; outages and slow responses appear in a reactive dashboard and can trigger notifications through numerous channels.
 
     Key features:
 
@@ -33,7 +33,7 @@ description:
 
     For **agencies**, Uptime Kuma provides a central view of websites, shops and APIs under management. Monitors can be grouped by client, internal teams are notified automatically when incidents occur, and public status pages provide transparency during outages. Problems can therefore be identified before they are reported through client support or end users.
 
-    At mittwald, **Uptime Kuma** runs as a self-hosted container in German data centres; monitoring history, endpoints and notification configuration remain within the operator's infrastructure. The template deploys Uptime Kuma 2 with persistent data storage. Administration is configured manually on first access, with SQLite selected as the database. The open-source application has no licence fees based on monitors or contacts.
+    At mittwald, **Uptime Kuma** runs as a self-hosted container in German data centres; monitoring history, endpoints and notification configuration remain within the operator's infrastructure. The template deploys Uptime Kuma 2 with persistent data storage. The database is preconfigured with SQLite; on first access only the administrator account needs to be created. The open-source application has no licence fees based on monitors or contacts.
 developer: Louis Lam
 website: https://uptime.kuma.pet
 repository: https://github.com/louislam/uptime-kuma
@@ -82,8 +82,8 @@ help:
   alerts:
   - status: info
     heading:
-      de: Manuelle Einrichtung erforderlich
-      en: Manual setup required
+      de: Administrationskonto anlegen
+      en: Create the administrator account
     content:
-      de: Nach dem ersten Aufruf musst du Uptime Kuma manuell einrichten. Wähle dabei als Datenbanktyp SQLite aus.
-      en: After the first launch, set up Uptime Kuma manually and select SQLite as the database type.
+      de: Beim ersten Aufruf legst du das Administrationskonto an. Die Datenbank (SQLite) ist bereits vorkonfiguriert, eine Auswahl ist nicht nötig.
+      en: On first access, create the administrator account. The database (SQLite) is already preconfigured, so no selection is needed.
