@@ -1,0 +1,233 @@
+manifestVersion: 1.0
+name:
+  de: Ghost
+  en: Ghost
+version: "6.x.x"
+type: standalone
+tagline:
+  de: Publishing-Plattform für Blogs, Magazine und Newsletter
+  en: Publishing platform for blogs, magazines and newsletters
+description:
+  de: |
+    **Ghost** ist eine Open-Source-Plattform für Blogs, Online-Magazine und Newsletter und eine self-hosted Alternative zu Substack, Medium oder einem klassischen WordPress-Blog. Inhalte entstehen in einem aufgeräumten Editor und erscheinen in einem schnellen, suchmaschinenfreundlichen Theme; Leserinnen und Leser können sich als Mitglieder registrieren und Beiträge abonnieren.
+
+    Zentrale Funktionen:
+
+    - Editor mit Bildern, Galerien, Einbettungen, Buttons und wiederverwendbaren Snippets
+    - Mitgliederbereich mit kostenlosen und kostenpflichtigen Abos über Stripe
+    - Tags, Autorenseiten, Planung von Beiträgen und eigene Seiten
+    - SEO-Einstellungen, strukturierte Daten, Sitemaps und eine Content-API für Headless-Setups
+
+    Für **Agenturen** eignet sich Ghost für Corporate Blogs, Fachmagazine und Newsletter-Projekte von Kunden, die ein schnelles und pflegeleichtes System ohne Plugin-Wartung suchen. Themes lassen sich mit Handlebars an das Corporate Design anpassen, und über die Content-API dient Ghost auch als Headless-CMS hinter individuellen Frontends.
+
+    Bei mittwald läuft **Ghost** als self-hosted Container in deutschen Rechenzentren; Beiträge und Mitgliederdaten bleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Ghost mit einer MySQL-Datenbank, vorbelegtem Owner-Konto und Mailversand über eine Delivery-Box. Verbindungen zu ActivityPub und Ghost Explore sind abgeschaltet. Lizenzkosten fallen nicht an.
+  en: |
+    **Ghost** is an open-source platform for blogs, online magazines and newsletters and a self-hosted alternative to Substack, Medium or a classic WordPress blog. Content is written in a clean editor and published in a fast, search-engine-friendly theme; readers can sign up as members and subscribe to posts.
+
+    Key features:
+
+    - Editor with images, galleries, embeds, buttons and reusable snippets
+    - Members area with free and paid subscriptions via Stripe
+    - Tags, author pages, scheduled posts and custom pages
+    - SEO settings, structured data, sitemaps and a Content API for headless setups
+
+    For **agencies**, Ghost suits corporate blogs, trade magazines and newsletter projects for clients who want a fast, low-maintenance system without plugin upkeep. Themes can be adapted to the corporate design with Handlebars, and through the Content API Ghost also works as a headless CMS behind custom frontends.
+
+    At mittwald, **Ghost** runs as a self-hosted container in German data centres; posts and member data stay under the agency's control, which simplifies GDPR compliance. This template includes Ghost with a MySQL database, a pre-configured owner account and email delivery through a delivery box. Connections to ActivityPub and Ghost Explore are turned off. There are no licence costs.
+developer: Ghost Foundation
+website: https://ghost.org
+repository: https://github.com/TryGhost/Ghost
+support: https://forum.ghost.org
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - development
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-home.png
+    text:
+      de: Startseite eines Agentur-Blogs mit Newsletter-Anmeldung
+      en: Home page of an agency blog with newsletter sign-up
+  - bg: background.jpg
+    screenshot: screenshot-editor.png
+    text:
+      de: Ein Fachbeitrag mit Titelbild im Editor
+      en: An article with a feature image in the editor
+  - bg: background.jpg
+    screenshot: screenshot-admin-posts.png
+    text:
+      de: Beitragsübersicht mit Entwürfen und veröffentlichten Beiträgen
+      en: Post list with drafts and published posts
+domains:
+  main:
+    userInput: HOST
+    service: ghost
+    port: 2368
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_NAME"
+    label:
+      de: Name des Owners
+      en: Owner name
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.fullName}"
+    required: true
+    description:
+      de: Erscheint als Autor der Beiträge
+      en: Shown as the author of posts
+    validationSchema: '{ "type": "string", "minLength": 1, "maxLength": 191 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 2 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    description:
+      de: Dient als Login für den Adminbereich unter /ghost
+      en: Used to sign in to the admin area at /ghost
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 3 }
+    required: true
+    format: password
+    description:
+      de: Ghost lehnt häufig verwendete Passwörter und solche ab, die die E-Mail-Adresse oder den Seitentitel enthalten
+      en: Ghost rejects common passwords and passwords containing the email address or site title
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SITE_TITLE"
+    label:
+      de: Titel der Website
+      en: Site title
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1, "maxLength": 150 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 2 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    description:
+      de: Von dieser Adresse kommen Anmelde-Links, Bestätigungscodes und Einladungen. Die Domain muss den Versand über mittwald erlauben (SPF).
+      en: Sign-in links, verification codes and invitations are sent from this address. Its domain must allow sending via mittwald (SPF).
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "STAFF_DEVICE_VERIFICATION"
+    label:
+      de: Anmeldung auf neuen Geräten per E-Mail-Code bestätigen
+      en: Confirm sign-ins on new devices with an email code
+    positionMeta: { step: "common", index: 3 }
+    defaultValue: "true"
+    required: true
+    dataType: boolean
+    description:
+      de: Setzt funktionierenden Mailversand von der Absenderadresse voraus, sonst ist keine Anmeldung möglich
+      en: Requires working email delivery from the sender address, otherwise sign-in is not possible
+    validationSchema: '{ "type": "string", "enum": ["true", "false"] }'
+systemInputs:
+  - name: "MYSQL_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "MYSQL_ROOT_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Website
+      en: Website
+    value: https://${domain.main}
+  - key:
+      de: Adminbereich
+      en: Admin area
+    value: https://${domain.main}/ghost
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${ghost.env.ADMIN_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${ghost.env.ADMIN_PASSWORD}
+  - key:
+      de: Absenderadresse
+      en: Sender address
+    value: ${ghost.env.mail__from}
+  alerts:
+  - status: info
+    heading:
+      de: Owner-Konto ist bereits eingerichtet
+      en: Owner account is already set up
+    content:
+      de: Ghost legt beim ersten Start das Owner-Konto mit den Angaben aus dem Assistenten an, ein Einrichtungsbildschirm erscheint nicht. Die Anmeldung erfolgt unter `/ghost`. Ändert der Owner später E-Mail-Adresse oder Passwort in Ghost, zeigen diese Stack-Informationen weiterhin die ursprünglichen Werte.
+      en: On first start, Ghost creates the owner account with the details from the wizard; no setup screen appears. Sign in at `/ghost`. If the owner later changes the email address or password in Ghost, these stack details still show the original values.
+  - status: warning
+    heading:
+      de: Bestätigungscode bei neuen Geräten
+      en: Verification code on new devices
+    content:
+      de: Ist die Bestätigung per E-Mail-Code aktiv, schickt Ghost bei der Anmeldung auf einem neuen Gerät einen Code an die Admin-Adresse. Das funktioniert nur, wenn die Domain der Absenderadresse den Versand über mittwald erlaubt (SPF-Eintrag). Schlägt der Versand fehl, lässt sich die Prüfung über die Umgebungsvariable `security__staffDeviceVerification=false` des Containers `ghost` abschalten.
+      en: If email code verification is active, Ghost sends a code to the admin address when signing in on a new device. This only works if the domain of the sender address allows sending via mittwald (SPF record). If delivery fails, the check can be turned off with the environment variable `security__staffDeviceVerification=false` of the `ghost` container.
+  - status: info
+    heading:
+      de: Newsletter-Versand erfordert Mailgun
+      en: Newsletter delivery requires Mailgun
+    content:
+      de: Anmelde-Links, Einladungen und Benachrichtigungen verschickt Ghost über die Delivery-Box. Für den Massenversand von Beiträgen als Newsletter unterstützt Ghost ausschließlich Mailgun, das unter **Settings → Newsletters** hinterlegt wird. Der Adminbereich von Ghost ist nur auf Englisch verfügbar; die Website selbst ist auf Deutsch eingestellt.
+      en: Ghost sends sign-in links, invitations and notifications through the delivery box. For bulk delivery of posts as newsletters, Ghost only supports Mailgun, configured under **Settings → Newsletters**. The Ghost admin area is only available in English; the website itself is set to German.

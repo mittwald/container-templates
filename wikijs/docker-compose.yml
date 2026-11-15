@@ -1,0 +1,89 @@
+services:
+  wikijs:
+    image: requarks/wiki:3
+    ports:
+      - "3000:3000"
+    # The platform runs no separate init container. The script after `-e`
+    # joins the following entries into one async function (each entry must
+    # stay below 800 characters): wait for PostgreSQL, start the wiki, which
+    # creates the administrator from ADMIN_EMAIL/ADMIN_PASS on first start,
+    # then sign in through the API and apply language, time zone, proxy and
+    # mail settings. Mail comes last and marks the setup as done, so an
+    # interrupted setup is completed on the next start.
+    command:
+      - node
+      - -e
+      - |
+        new Function("return (async () => {\n" + process.argv.slice(1).join("\n") + "\n})()")().catch((err) => console.error("Setup: " + err.message));
+      - |
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        const dbUp = () => new Promise((ok) => require("node:net").connect(5432, "postgres", function () { this.end(); ok(true); }).on("error", () => ok(false)));
+        while (!(await dbUp())) await wait(2000);
+        const wiki = require("node:child_process").spawn("node", ["--no-experimental-webstorage", "backend"], { stdio: "inherit" });
+        for (const s of ["SIGTERM", "SIGINT"]) process.on(s, () => wiki.kill(s));
+        wiki.on("exit", (code) => process.exit(code ?? 1));
+      - |
+        let cookie = "", site;
+        const call = async (method, path, body) => {
+          const r = await fetch("http://127.0.0.1:3000/_api" + path, { method, headers: { "content-type": "application/json", cookie }, body: body && JSON.stringify(body) });
+          cookie = r.headers.getSetCookie().find((c) => c.startsWith("wikiSession="))?.split(";")[0] ?? cookie;
+          if (!r.ok) throw new Error(method + " " + path + ": HTTP " + r.status);
+          return r.json();
+        };
+        while (!site) site = await call("GET", "/bootstrap").then((b) => b.site, () => wait(3000));
+        const e = process.env;
+        await call("PUT", "/sites/" + site.id + "/auth/login", { strategyId: site.authStrategies[0].id, username: e.ADMIN_EMAIL, password: e.ADMIN_PASS });
+        if ((await call("GET", "/mail/config")).host) return;
+      - |
+        const de = { timezone: "Europe/Berlin", dateFormat: "DD.MM.YYYY", timeFormat: "24h" };
+        await call("POST", "/locales/fetch", {});
+        await call("POST", "/locales/de-DE/install", {});
+        await call("PUT", "/sites/" + site.id, { title: "Wiki", locales: { primary: "de-DE", active: ["de-DE"] } });
+        await call("PUT", "/users/defaults", de);
+        await call("PUT", "/users/profile", { locale: "de-DE", ...de });
+        await call("PUT", "/system/security", { trustProxy: true });
+        await call("PUT", "/mail/config", { senderName: "Wiki", senderEmail: e.SMTP_FROM, defaultBaseURL: e.SITE_URL, host: "mail.agenturserver.de", port: 587, secure: false, user: e.SMTP_USER, pass: e.SMTP_PASSWORD });
+        console.log("Setup: language, time zone, proxy and mail configured");
+    environment:
+      - TZ=Europe/Berlin
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=wikijs
+      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_NAME=wikijs
+      - DB_SSL=false
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASS=${ADMIN_PASSWORD}
+      - SITE_URL=https://${HOST}
+      - SMTP_FROM=${SMTP_FROM}
+      - SMTP_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+    volumes:
+      - wikijs_data:/wiki/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=wikijs
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=wikijs
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+volumes:
+  wikijs_data:
+  postgres_data:

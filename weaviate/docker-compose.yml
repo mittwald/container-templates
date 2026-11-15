@@ -1,0 +1,46 @@
+services:
+  weaviate:
+    # Same image as cr.weaviate.io/semitechnologies/weaviate; the platform
+    # pulls it reliably from Docker Hub only.
+    image: semitechnologies/weaviate:latest
+    command: ["--host", "0.0.0.0", "--port", "8080", "--scheme", "http"]
+    environment:
+      - TZ=Europe/Berlin
+      - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+      # A fixed node name keeps the Raft cluster state valid across restarts.
+      - CLUSTER_HOSTNAME=node1
+      - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=false
+      - AUTHENTICATION_APIKEY_ENABLED=true
+      - AUTHENTICATION_APIKEY_ALLOWED_KEYS=${WEAVIATE_API_KEY}
+      - AUTHENTICATION_APIKEY_USERS=admin
+      - AUTHORIZATION_ADMINLIST_ENABLED=true
+      - AUTHORIZATION_ADMINLIST_USERS=admin
+      - DEFAULT_VECTORIZER_MODULE=none
+      - ENABLE_MODULES=backup-filesystem
+      - BACKUP_FILESYSTEM_PATH=/var/lib/weaviate/backups
+      - QUERY_DEFAULTS_LIMIT=25
+      - DISABLE_TELEMETRY=true
+      - LOG_LEVEL=info
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/v1/.well-known/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/weaviate/backups;
+        id=backup-$$(date +%Y%m%d-%H%M%S); u=http://localhost:8080/v1/backups/filesystem;
+        a="Authorization: Bearer $$AUTHENTICATION_APIKEY_ALLOWED_KEYS";
+        wget -q -O /dev/null --header "$$a" --header "Content-Type: application/json"
+        --post-data "{\"id\":\"$$id\"}" "$$u";
+        for i in $$(seq 1 900); do
+        s=$$(wget -q -O - --header "$$a" "$$u/$$id");
+        case "$$s" in *\"SUCCESS\"*) break;; *\"FAILED\"*) exit 1;; esac;
+        sleep 2; done;
+        case "$$s" in *\"SUCCESS\"*) ;; *) exit 1;; esac;
+        find "$$d" -mindepth 1 -maxdepth 1 -name "backup-*" -type d -mtime +7 -exec rm -rf {} +'
+volumes:
+  weaviate_data:

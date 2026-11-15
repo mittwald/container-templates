@@ -1,0 +1,39 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    # Server config overrides: the image logs at trace level into the
+    # container filesystem by default, and the system log tables grow without
+    # limit. Warnings go to the container log, system logs expire after 30 days.
+    command:
+      - "--"
+      - "--logger.level=warning"
+      - "--logger.console=1"
+      - "--text_log.level=warning"
+      - "--text_log.ttl=event_date + INTERVAL 30 DAY DELETE"
+      - "--query_log.ttl=event_date + INTERVAL 30 DAY DELETE"
+      - "--trace_log.ttl=event_date + INTERVAL 30 DAY DELETE"
+      - "--metric_log.ttl=event_date + INTERVAL 30 DAY DELETE"
+      - "--asynchronous_metric_log.ttl=event_date + INTERVAL 30 DAY DELETE"
+    environment:
+      - TZ=Europe/Berlin
+      - CLICKHOUSE_DB=${DATABASE_NAME}
+      - CLICKHOUSE_USER=${ADMIN_USER}
+      - CLICKHOUSE_PASSWORD=${ADMIN_PASSWORD}
+      - CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/clickhouse/backups;
+        n=backup_$$(date +%F_%H%M%S).zip;
+        clickhouse-client --user "$$CLICKHOUSE_USER" --password "$$CLICKHOUSE_PASSWORD"
+        --query "BACKUP ALL EXCEPT DATABASES system, information_schema, INFORMATION_SCHEMA TO File('\''$$n'\'')";
+        find "$$d" -name "backup_*.zip" -type f -mtime +7 -delete'
+volumes:
+  clickhouse_data:
