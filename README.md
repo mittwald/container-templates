@@ -613,4 +613,48 @@ pnpm gen:background nocodb            # --force, wenn sich der erste Screenshot 
 
 ### Im mStudio testen
 
-Nach dem Merge nach `dev` stellt das mStudio-Dev-System die Vorlagen nach wenigen Minuten bereit. Dort wird jedes neue Template einmal über **Container → Vorlagen** installiert, so wie Nutzende es tun: Formular ausfüllen, Passwort generieren, Subdomain anlegen. Danach die Zugangsdaten aus den **Stack Informationen** (`help`) übernehmen, einloggen und die Anwendung kurz benutzen. Dabei fallen auch Fehler in Bezeichnungen, Beschreibungen, `help`-Platzhaltern und der Reihenfolge der Steps auf. Erst danach geht `dev` per Pull Request nach `main`.
+Nach dem Merge nach `dev` stehen die Vorlagen nach wenigen Minuten zum Testen bereit. Dann wird jedes neue Template einmal über **Container → Vorlagen** installiert, so wie Nutzende es tun: Formular ausfüllen, Passwort generieren, Subdomain anlegen. Danach die Zugangsdaten aus den **Stack Informationen** (`help`) übernehmen, einloggen und die Anwendung kurz benutzen. Dabei fallen auch Fehler in Bezeichnungen, Beschreibungen, `help`-Platzhaltern und der Reihenfolge der Steps auf. Erst danach geht `dev` per Pull Request nach `main`.
+
+Hinweise für den Test:
+
+- Im Assistenten wird die Subdomain mit dem vollständigen Domainnamen angelegt, also Subdomain samt Projekt-Domain.
+- Generierte Passwörter lassen sich in den **Stack Informationen** über die Schaltfläche „Kopieren“ übernehmen; so werden auch Passwörter mit Sonderzeichen sicher getestet.
+- `component`-Templates haben keine Domain und fragen im Assistenten nach einem Stack.
+- Für Templates mit AI-Hosting genügt zum Starttest ein Platzhalter-Key. Die KI-Funktionen selbst sind damit nicht getestet.
+- Wie viele Container gleichzeitig laufen können, hängt von den Ressourcen des Servers ab. Werden Container wegen Ressourcenmangel beendet, liegt das am Server und nicht am Template. Deshalb nicht alle Stacks auf einmal laufen lassen, sondern in Gruppen testen und jeden Stack nach dem Test stoppen oder löschen.
+
+## Templates aktuell halten
+
+Die Templates werden regelmäßig gegen ihre Upstream-Projekte geprüft. Bei einer solchen Prüfung geht es um mehr als neue Image-Tags: Umgebungsvariablen werden umbenannt oder entfernt, Projekte ziehen in andere Registries um, Funktionen kommen hinzu oder fallen weg, und Texte oder Screenshots veralten.
+
+### Vorgehen
+
+1. **Je Template recherchieren**, was sich seit der letzten Prüfung geändert hat: Release Notes bzw. Changelog, verfügbare Image-Tags in der Registry und die Installationsdoku des Projekts (meist die Beispiel-`docker-compose.yml` des Upstreams). Die Checkliste unten zeigt, worauf zu achten ist.
+2. **Änderungen umsetzen**, ein Commit je Template. Konventionen in [`AGENTS.md`](AGENTS.md) beachten, insbesondere die Regeln und Ausnahmen bei Image-Tags.
+3. **Lokal prüfen** mit `pnpm test` und `pnpm app <template> up`. Bei Versionssprüngen zusätzlich mit Daten der alten Version starten (`pnpm app <template> up` auf dem alten Stand, Daten anlegen, dann auf den neuen Stand wechseln), damit Migrationen auffallen.
+4. **Nach `dev` pushen und im mStudio testen** (siehe [Im mStudio testen](#im-mstudio-testen)): alle Templates mit Änderungen an `docker-compose.yml` oder an den `userInputs` installieren und benutzen. Reine Textänderungen brauchen keinen Plattform-Test.
+5. **Pull Request `dev` → `main`**. GitHub löscht den Branch `dev` nach dem Merge automatisch; für die nächste Runde wird er neu von `main` abgezweigt.
+
+### Checkliste
+
+- **Image:** Gibt es eine neue Major-Version, und läuft der gepinnte Tag noch? Ist das Image in eine andere Registry oder einen anderen Namespace umgezogen? Wird `latest` pro Release oder bei jedem Commit gebaut? Hat das Projekt ein offizielles Image für eine bisher fremde Komponente (z. B. Browser-Container)?
+- **Konfiguration:** Sind Variablen umbenannt, veraltet oder entfernt? Gibt es neue Pflichtvariablen (z. B. Secrets für neue Funktionen)? Hat sich ein Port, Pfad, Volume oder Healthcheck-Endpunkt geändert?
+- **Sicherheit:** Gibt es neue Optionen für Authentifizierung oder Zugriffsbeschränkung, die als sicherer Default eingeschaltet werden sollten? Ein Login, der neu verpflichtend wird, ist eine Verhaltensänderung für bestehende Clients und gehört in den Pull Request.
+- **Funktionen:** Gibt es neue Funktionen, die zusätzliche Services oder Domains brauchen (z. B. einen Collaboration-Server)? Sind Funktionen weggefallen oder kostenpflichtig geworden, und stehen sie noch in `description` oder `help`?
+- **Upgrades:** Braucht der Sprung von der alten Version eine Migration oder einen Zwischenschritt? Dann gehört ein Hinweis in `help` bzw. die Migration in den Start (z. B. `MARIADB_AUTO_UPGRADE`, `MEILI_UPGRADE_DB`).
+- **Texte:** Stimmen Versionsangaben, Funktionslisten und die genannten Alternativen noch? Werden eingestellte Dienste erwähnt (z. B. Import aus Pocket)? Stimmen Links (z. B. Repository-Umzug zu Codeberg)?
+- **Bilder:** Hat das Projekt ein neues Logo? Zeigen die Screenshots noch die aktuelle Oberfläche? Nach neuen Screenshots `pnpm gen:background <template> --force` ausführen.
+
+### Von Hand gepflegte Versionen
+
+Diese Versionen aktualisieren sich nicht über einen floatenden Tag und werden bei jeder Prüfung einzeln angesehen:
+
+| Template | Image | Grund |
+|---|---|---|
+| `vaults3` | volle Release-Version | `latest` wird bei jedem Commit gebaut |
+| `yopass` | volle Release-Version | `latest` wird bei jedem Commit gebaut |
+| `meilisearch`, `karakeep`, `linkwarden` | Meilisearch auf den Minor | Datenmigration bei jedem Minor |
+| `librechat` | Meilisearch `v1.35` | vom Upstream vorgegeben |
+| `paperless` | `apache/tika:3.x.x.x` | Paperless unterstützt Tika 4 nicht |
+| `paperless`, `solidtime` | `gotenberg/gotenberg:8` | Clients nutzen die v8-API |
+| `immich` | vorbereitetes PostgreSQL-Image | fest verdrahtete Extension-Versionen |
