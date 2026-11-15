@@ -17,7 +17,7 @@ description:
     - Antwortmöglichkeiten „Ja", „Nein" und „Wenn nötig" samt Notiz je Person
     - Übersicht, welcher Vorschlag die meisten Zusagen hat, mit anschließender Fixierung
     - Benachrichtigungen per E-Mail bei neuen Antworten
-    - Anmeldung der Organisierenden per Magic-Link, ohne Passwort
+    - Anmeldung der Organisierenden per Einmal-Code aus der E-Mail, optional mit Passwort
 
     Für **Agenturen** löst Rallly die alltägliche Terminfindung mit Kundinnen und Kunden, die keinen Zugang zum eigenen Kalender haben: Workshops, Abnahmetermine oder Redaktionsrunden lassen sich per Link abstimmen, ohne dass die Gegenseite ein Konto anlegt. Die Abstimmung läuft dabei unter der eigenen Domain statt auf einer fremden Plattform.
 
@@ -31,7 +31,7 @@ description:
     - Answer options "yes", "no" and "if need be", plus a note per person
     - Overview of which option has the most votes, followed by booking the final date
     - Email notifications when new responses arrive
-    - Passwordless magic-link sign-in for organisers
+    - Organiser sign-in with a one-time code sent by email, optionally with a password
 
     For **agencies**, Rallly solves everyday scheduling with clients who have no access to the internal calendar: workshops, review meetings or editorial rounds can be agreed by link without the other side creating an account. The poll runs on the agency's own domain rather than on a third-party platform.
 
@@ -158,11 +158,11 @@ help:
   alerts:
   - status: info
     heading:
-      de: Anmeldung ohne Passwort
-      en: Passwordless sign-in
+      de: Anmeldung per Einmal-Code
+      en: Sign-in with a one-time code
     content:
-      de: Rallly verschickt zum Anmelden einen Einmal-Link per E-Mail; es gibt kein Passwort. Melde dich mit der oben angezeigten Admin-Adresse an und rufe anschließend `/control-panel` auf, um die Administratorrolle zu übernehmen.
-      en: Rallly sends a one-time sign-in link by email; there is no password. Sign in with the admin address shown above, then open `/control-panel` to claim the administrator role.
+      de: Rallly verschickt zum Anmelden einen sechsstelligen Code per E-Mail; ein Passwort lässt sich anschließend optional in den Sicherheitseinstellungen festlegen. Melde dich mit der oben angezeigten Admin-Adresse an und rufe anschließend `/control-panel` auf, um die Administratorrolle zu übernehmen.
+      en: Rallly sends a six-digit sign-in code by email; a password can optionally be set afterwards in the security settings. Sign in with the admin address shown above, then open `/control-panel` to claim the administrator role.
   - status: info
     heading:
       de: Lizenz ab mehreren Konten
