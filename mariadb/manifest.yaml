@@ -2,18 +2,18 @@ manifestVersion: 1.0
 name:
   de: MariaDB
   en: MariaDB
-version: "lts"
+version: "12.x.x"
 type: component
 tagline:
   de: Relationale Open-Source Datenbank
   en: Open-source relational database
 description:
   de: |
-    **MariaDB** ist ein relationales Open-Source-Datenbanksystem und direkt austauschbare Alternative zu proprietären Managed-MySQL-Diensten wie AWS RDS oder PlanetScale. Es bietet volle MySQL-Ökosystem-Kompatibilität bei vollständiger Kontrolle über Daten und Konfiguration.
+    **MariaDB** ist ein relationales Open-Source-Datenbanksystem und eine self-hosted Alternative zu proprietären Managed-MySQL-Diensten wie AWS RDS oder PlanetScale. Es ist weitgehend MySQL-kompatibel und lässt die volle Kontrolle über Daten und Konfiguration beim Betreiber.
 
     Zentrale Funktionen:
 
-    - MySQL-kompatibles SQL-Interface — bestehende Anwendungen, ORM-Frameworks und Datenbank-Tools laufen ohne Anpassungen
+    - Weitgehend MySQL-kompatibles SQL-Interface und Protokoll — gängige Anwendungen, ORM-Frameworks und Datenbank-Tools lassen sich in der Regel direkt anbinden
     - ACID-konforme Transaktionen und InnoDB-Engine für zuverlässige Datenkonsistenz
     - Replikation (Primary-Replica) für Hochverfügbarkeit und horizontale Lese-Skalierung
     - Breite Framework-Unterstützung für PHP, Python, Node.js und Java sowie gängige CMS-Plattformen
@@ -22,11 +22,11 @@ description:
 
     Bei mittwald läuft **MariaDB** als self-hosted Container in deutschen Rechenzentren; alle Daten bleiben innerhalb der EU und unterliegen dem Schutz der DSGVO. Dieses Template enthält MariaDB mit vorkonfigurierten Zugangsdaten und ist sofort betriebsbereit; Datensicherung erfolgt plattformseitig über das mittwald Backup-Label (`backup.command`). Da keine nutzungsabhängigen Lizenzkosten anfallen, bleibt die Lösung auch beim parallelen Betrieb vieler Kundenprojekte wirtschaftlich.
   en: |
-    **MariaDB** is an open-source relational database and a drop-in replacement for proprietary managed MySQL services such as AWS RDS or PlanetScale. It offers full MySQL ecosystem compatibility while keeping data and configuration fully under the operator's control.
+    **MariaDB** is an open-source relational database and a self-hosted alternative to proprietary managed MySQL services such as AWS RDS or PlanetScale. It is largely MySQL-compatible and keeps data and configuration fully under the operator's control.
 
     Key features:
 
-    - MySQL-compatible SQL interface — existing applications, ORM frameworks and tools run without modification
+    - Largely MySQL-compatible SQL interface and protocol — common applications, ORM frameworks and tools can usually connect directly
     - ACID-compliant transactions and InnoDB engine for reliable data consistency
     - Replication (primary-replica) for high availability and horizontal read scaling
     - Broad framework support for PHP, Python, Node.js and Java, as well as popular CMS platforms

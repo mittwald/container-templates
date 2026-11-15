@@ -52,7 +52,7 @@ services:
       mariadb:
         condition: service_healthy
   mariadb:
-    image: mariadb:lts
+    image: mariadb:12
     environment:
       - TZ=Europe/Berlin
       - MARIADB_AUTO_UPGRADE=1
