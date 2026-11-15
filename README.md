@@ -617,11 +617,11 @@ Nach dem Merge nach `dev` stellt das mStudio-Dev-System die Vorlagen nach wenige
 
 Hinweise für den Test:
 
-- Im Assistenten wird die Subdomain mit dem vollständigen Namen angelegt, also `<name>.<projekt>.project-dev.space`.
+- Im Assistenten wird die Subdomain mit dem vollständigen Domainnamen angelegt, also Subdomain samt Projekt-Domain.
 - Generierte Passwörter lassen sich in den **Stack Informationen** über die Schaltfläche „Kopieren“ übernehmen; so werden auch Passwörter mit Sonderzeichen sicher getestet.
 - `component`-Templates haben keine Domain und fragen im Assistenten nach einem Stack.
 - Für Templates mit AI-Hosting genügt zum Starttest ein Platzhalter-Key. Die KI-Funktionen selbst sind damit nicht getestet.
-- Das Dev-System verkraftet nur eine begrenzte Zahl gleichzeitig laufender Container. Ab etwa 30 Containern werden Pods verdrängt (`the pod was evicted from its node`), was wie ein Template-Fehler aussieht, aber keiner ist. Deshalb in Gruppen von fünf bis acht Stacks testen und jeden Stack nach dem Test stoppen oder löschen.
+- Die Testumgebung verkraftet nur eine begrenzte Zahl gleichzeitig laufender Container. Ab etwa 30 Containern werden einzelne Container wegen Ressourcenmangel beendet, was wie ein Template-Fehler aussieht, aber keiner ist. Deshalb in Gruppen von fünf bis acht Stacks testen und jeden Stack nach dem Test stoppen oder löschen.
 
 ## Templates aktuell halten
 
