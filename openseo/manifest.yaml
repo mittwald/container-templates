@@ -1,0 +1,251 @@
+manifestVersion: 1.0
+name:
+  de: OpenSEO
+  en: OpenSEO
+version: "0.x.x"
+type: standalone
+tagline:
+  de: SEO-Analysen mit eigenem DataForSEO-Zugang
+  en: SEO analysis with your own DataForSEO account
+description:
+  de: |
+    **OpenSEO** ist ein schlankes Werkzeug für Suchmaschinenoptimierung und eine self-hosted Alternative zu Semrush oder Ahrefs. Statt eines Abonnements nutzt es einen eigenen Zugang zu DataForSEO, der nach tatsächlich abgerufenen Daten abgerechnet wird. Die Oberfläche bündelt die typischen SEO-Arbeitsabläufe in übersichtlichen Ansichten.
+
+    Zentrale Funktionen:
+
+    - Keyword-Recherche mit Suchvolumen, Schwierigkeit und verwandten Begriffen
+    - Rank-Tracking mit Verlauf für Domains und Keywords
+    - Wettbewerbs- und Backlink-Analysen
+    - Site-Audits, die eine Website auf technische SEO-Probleme prüfen
+    - AI Visibility: Sichtbarkeit einer Marke in Antworten von KI-Assistenten
+    - SEO-Assistent SAM und ein MCP-Server für KI-Agenten wie Claude Code
+
+    Für **Agenturen** eignet sich OpenSEO, um SEO-Analysen für Kundenprojekte ohne teure Lizenzen pro Platz durchzuführen: Projekte bündeln Keywords, Rankings und Audits je Kunde, Teammitglieder werden per Einladung hinzugefügt, und Berichte lassen sich mit Kunden teilen. Über den MCP-Server lassen sich wiederkehrende Auswertungen an KI-Agenten übergeben.
+
+    Bei **mittwald** läuft OpenSEO in deutschen Rechenzentren; Projekte, Keywords und Auswertungen bleiben in der eigenen Umgebung, was die Einhaltung der DSGVO vereinfacht. Das Template enthält die Anwendung samt Laufzeitumgebung, Objektspeicher und Crawl-Gateway und bindet den SEO-Assistenten an das mittwald AI Hosting an. Kosten entstehen nur für die tatsächlich bei DataForSEO abgerufenen Daten.
+  en: |
+    **OpenSEO** is a lean search engine optimisation tool and a self-hosted alternative to Semrush or Ahrefs. Instead of a subscription, it uses your own DataForSEO account, which is billed per data actually retrieved. The interface bundles the typical SEO workflows in clear views.
+
+    Key features:
+
+    - Keyword research with search volume, difficulty and related terms
+    - Rank tracking with history for domains and keywords
+    - Competitor and backlink analysis
+    - Site audits that check a website for technical SEO issues
+    - AI Visibility: how a brand appears in answers from AI assistants
+    - SEO assistant SAM and an MCP server for AI agents such as Claude Code
+
+    For **agencies**, OpenSEO is suited to running SEO analyses for client projects without expensive per-seat licences: projects bundle keywords, rankings and audits per client, team members join by invitation, and reports can be shared with clients. Via the MCP server, recurring analyses can be handed to AI agents.
+
+    At **mittwald**, OpenSEO runs in German data centres; projects, keywords and analyses stay in your own environment, simplifying GDPR compliance. The template includes the application with its runtime, object storage and crawl gateway and connects the SEO assistant to mittwald AI Hosting. Costs arise only for the data actually retrieved from DataForSEO.
+developer: Every App
+website: https://openseo.so
+repository: https://github.com/every-app/open-seo
+support: https://github.com/every-app/open-seo/issues
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - monitoring
+domains:
+  main:
+    userInput: HOST
+    service: web
+    port: 8080
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_NAME"
+    label:
+      de: Admin Name
+      en: Admin name
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.fullName}"
+    required: true
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 2 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 3 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12, "maxLength": 128 }'
+  - name: "AI_API_KEY"
+    label:
+      de: AI API-Key
+      en: AI API Key
+    positionMeta: { step: "ai", index: 1 }
+    required: true
+    dataSource: "aiHosting.apiKey"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "AI_ENDPOINT"
+    label:
+      de: AI Endpunkt
+      en: AI endpoint
+    positionMeta: { step: "ai", index: 2 }
+    defaultValue: "${aiHosting.llmEndpoint}"
+    required: true
+    format: url
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "DATAFORSEO_API_KEY"
+    label:
+      de: DataForSEO API-Key
+      en: DataForSEO API key
+    description:
+      de: Der als Base64 bezeichnete Zugang auf der Seite API Access im DataForSEO-Konto
+      en: The credential labelled Base64 on the API Access page of your DataForSEO account
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "GOOGLE_CLIENT_ID"
+    label:
+      de: Google OAuth Client-ID
+      en: Google OAuth client ID
+    description:
+      de: Optional, für die Anbindung von Google Search Console und Google Analytics über eine eigene OAuth-App
+      en: Optional, to connect Google Search Console and Google Analytics through your own OAuth app
+    positionMeta: { step: "common", index: 2 }
+    required: false
+    validationSchema: '{ "type": "string" }'
+  - name: "GOOGLE_CLIENT_SECRET"
+    label:
+      de: Google OAuth Client-Secret
+      en: Google OAuth client secret
+    positionMeta: { step: "common", index: 3 }
+    required: false
+    format: password
+    validationSchema: '{ "type": "string" }'
+systemInputs:
+  - name: "STORAGE_SECRET_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "BETTER_AUTH_SECRET" # openssl rand -hex 32
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+          max: 64
+        - identifier: hexOnly
+          ruleType: charPool
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
+  - name: "OPENSEO_OPERATOR_SECRET" # openssl rand -hex 32
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+          max: 64
+        - identifier: hexOnly
+          ruleType: charPool
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
+  - name: "CRAWL_GATEWAY_SECRET" # openssl rand -hex 32
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+          max: 64
+        - identifier: hexOnly
+          ruleType: charPool
+          charPools:
+            - uppercase
+            - special
+            - nonAscii
+          max: 0
+        - identifier: hexOnlyLetters
+          ruleType: char
+          chars: "ghijklmnopqrstuvwxyz"
+          max: 0
+help:
+  technicalDetails:
+    - key:
+        de: Domain
+        en: Domain
+      value: https://${domain.main}
+    - key:
+        de: Admin E-Mail-Adresse
+        en: Admin email address
+      value: ${runtime.env.ADMIN_EMAIL}
+    - key:
+        de: Admin Passwort
+        en: Admin password
+      value: ${runtime.env.ADMIN_PASSWORD}
+    - key:
+        de: MCP-Endpunkt
+        en: MCP endpoint
+      value: https://${domain.main}/mcp
+  alerts:
+    - status: info
+      heading:
+        de: Teammitglieder einladen
+        en: Invite team members
+      content:
+        de: Eine offene Registrierung gibt es nicht. Weitere Personen lädst du in den Team-Einstellungen ein; OpenSEO erzeugt einen Einladungslink, den du selbst weitergibst, da keine E-Mails versendet werden.
+        en: There is no open registration. Invite further people in the team settings; OpenSEO creates an invitation link that you pass on yourself, as no emails are sent.
+    - status: info
+      heading:
+        de: Weitere Funktionen freischalten
+        en: Enable further features
+      content:
+        de: Optionale Zugänge werden als Umgebungsvariable am Service `runtime` gesetzt und beim nächsten Start übernommen, z. B. `GOOGLE_MAPS_API_KEY` für die Karte im Local SEO oder `CONTEXT_API_KEY` für Site-Audits mit JavaScript-Rendering. Für Google Search Console und Analytics trägst du in deiner OAuth-App die Weiterleitungs-URLs `/api/gsc/oauth/callback` und `/api/ga4/oauth/callback` unter deiner Domain ein.
+        en: Optional credentials are set as environment variables on the `runtime` service and applied on the next start, e.g. `GOOGLE_MAPS_API_KEY` for the Local SEO map or `CONTEXT_API_KEY` for site audits with JavaScript rendering. For Google Search Console and Analytics, add the redirect URLs `/api/gsc/oauth/callback` and `/api/ga4/oauth/callback` under your domain to your OAuth app.
+      linkText:
+        de: Dokumentation
+        en: Documentation
+      link:
+        de: https://github.com/every-app/open-seo/blob/main/docs/SELF_HOSTING_DOCKER.md
+        en: https://github.com/every-app/open-seo/blob/main/docs/SELF_HOSTING_DOCKER.md
