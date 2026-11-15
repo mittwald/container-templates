@@ -613,7 +613,7 @@ pnpm gen:background nocodb            # --force, wenn sich der erste Screenshot 
 
 ### Im mStudio testen
 
-Nach dem Merge nach `dev` stellt das mStudio-Dev-System die Vorlagen nach wenigen Minuten bereit. Dort wird jedes neue Template einmal über **Container → Vorlagen** installiert, so wie Nutzende es tun: Formular ausfüllen, Passwort generieren, Subdomain anlegen. Danach die Zugangsdaten aus den **Stack Informationen** (`help`) übernehmen, einloggen und die Anwendung kurz benutzen. Dabei fallen auch Fehler in Bezeichnungen, Beschreibungen, `help`-Platzhaltern und der Reihenfolge der Steps auf. Erst danach geht `dev` per Pull Request nach `main`.
+Nach dem Merge nach `dev` stehen die Vorlagen nach wenigen Minuten zum Testen bereit. Dann wird jedes neue Template einmal über **Container → Vorlagen** installiert, so wie Nutzende es tun: Formular ausfüllen, Passwort generieren, Subdomain anlegen. Danach die Zugangsdaten aus den **Stack Informationen** (`help`) übernehmen, einloggen und die Anwendung kurz benutzen. Dabei fallen auch Fehler in Bezeichnungen, Beschreibungen, `help`-Platzhaltern und der Reihenfolge der Steps auf. Erst danach geht `dev` per Pull Request nach `main`.
 
 Hinweise für den Test:
 
@@ -621,7 +621,7 @@ Hinweise für den Test:
 - Generierte Passwörter lassen sich in den **Stack Informationen** über die Schaltfläche „Kopieren“ übernehmen; so werden auch Passwörter mit Sonderzeichen sicher getestet.
 - `component`-Templates haben keine Domain und fragen im Assistenten nach einem Stack.
 - Für Templates mit AI-Hosting genügt zum Starttest ein Platzhalter-Key. Die KI-Funktionen selbst sind damit nicht getestet.
-- Die Testumgebung verkraftet nur eine begrenzte Zahl gleichzeitig laufender Container. Ab etwa 30 Containern werden einzelne Container wegen Ressourcenmangel beendet, was wie ein Template-Fehler aussieht, aber keiner ist. Deshalb in Gruppen von fünf bis acht Stacks testen und jeden Stack nach dem Test stoppen oder löschen.
+- Wie viele Container gleichzeitig laufen können, hängt von den Ressourcen des Servers ab. Werden Container wegen Ressourcenmangel beendet, liegt das am Server und nicht am Template. Deshalb nicht alle Stacks auf einmal laufen lassen, sondern in Gruppen testen und jeden Stack nach dem Test stoppen oder löschen.
 
 ## Templates aktuell halten
 
