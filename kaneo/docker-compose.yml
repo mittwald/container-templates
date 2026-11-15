@@ -1,12 +1,15 @@
 services:
   kaneo:
-    image: ghcr.io/usekaneo/kaneo:latest
+    image: ghcr.io/usekaneo/kaneo:2
     ports:
       - "5173:5173"
     environment:
       - TZ=Europe/Berlin
       - KANEO_CLIENT_URL=https://${HOST}
       - AUTH_SECRET=${AUTH_SECRET}
+      # Verschluesselt Tokens und Signatur-Secrets von Benachrichtigungskanaelen
+      # (ntfy, Gotify, Webhooks); ohne Schluessel schlaegt das Speichern fehl.
+      - NOTIFICATION_SECRET_ENCRYPTION_KEY=${NOTIFICATION_SECRET_ENCRYPTION_KEY}
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_DB=kaneo
