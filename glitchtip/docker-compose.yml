@@ -1,0 +1,87 @@
+services:
+  glitchtip:
+    image: glitchtip/glitchtip:7
+    ports:
+      - "8000:8000"
+    # The platform runs no separate init container: each start waits for
+    # PostgreSQL, migrates the database, creates the administrator while no
+    # account exists yet, then starts the server, which also runs the
+    # background tasks.
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        until python -c 'import socket; socket.create_connection(("postgres", 5432), 2)' 2>/dev/null; do sleep 2; done
+        python manage.py init_database
+        python manage.py shell -c 'import os; from apps.users.models import User; e = os.environ; User.objects.exists() or User.objects.create_superuser(e["ADMIN_EMAIL"], e["ADMIN_PASSWORD"])'
+        exec ./bin/start.sh
+    environment:
+      - TZ=Europe/Berlin
+      - SECRET_KEY=${SECRET_KEY}
+      - GLITCHTIP_DOMAIN=https://${HOST}
+      - ALLOWED_HOSTS=${HOST},localhost,127.0.0.1
+      - LOG_LEVEL=WARNING
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=glitchtip
+      - DATABASE_USER=glitchtip
+      - DATABASE_PASSWORD=${POSTGRES_PASSWORD}
+      - VALKEY_HOST=valkey
+      - SKIP_INIT=true
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ENABLE_USER_REGISTRATION=${ENABLE_USER_REGISTRATION}
+      - ENABLE_ORGANIZATION_CREATION=false
+      - EMAIL_HOST=mail.agenturserver.de
+      - EMAIL_PORT=587
+      - EMAIL_HOST_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - EMAIL_HOST_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - EMAIL_USE_TLS=true
+      - DEFAULT_FROM_EMAIL=${SMTP_FROM}
+    volumes:
+      - uploads:/code/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:18-alpine
+    # GlitchTip partitions its event tables; queries that span partitions
+    # need more locks than the default of 64 per transaction.
+    command: ["postgres", "-c", "max_locks_per_transaction=512"]
+    environment:
+      - TZ=Europe/Berlin
+      - POSTGRES_USER=glitchtip
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=glitchtip
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/var/lib/postgresql/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).sql;
+        { pg_dumpall -h localhost -U "$$POSTGRES_USER" -f "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.sql.gz" -type f -mtime +7 -delete'
+  valkey:
+    image: valkey/valkey:9-alpine
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - valkey_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  uploads:
+  postgres_data:
+  valkey_data:
