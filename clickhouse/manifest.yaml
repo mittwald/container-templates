@@ -1,0 +1,113 @@
+manifestVersion: 1.0
+name:
+  de: ClickHouse
+  en: ClickHouse
+version: "26.x.x"
+type: component
+tagline:
+  de: Spaltenorientierte Datenbank für schnelle Analysen großer Datenmengen
+  en: Column-oriented database for fast analytics on large data sets
+description:
+  de: |
+    **ClickHouse** ist ein spaltenorientiertes Open-Source-Datenbanksystem für analytische Abfragen und eine self-hosted Alternative zu verwalteten Analyse-Diensten wie ClickHouse Cloud, Google BigQuery oder Snowflake. Durch spaltenweise Speicherung, Kompression und vektorisierte Ausführung wertet ClickHouse Milliarden von Zeilen in Sekunden aus und eignet sich damit für Logs, Events, Metriken und Zeitreihen.
+
+    Zentrale Funktionen:
+
+    - SQL-Dialekt mit Aggregations-, Fenster- und Array-Funktionen
+    - MergeTree-Tabellen mit Partitionierung, TTL und Materialized Views
+    - HTTP-Schnittstelle sowie natives TCP-Protokoll mit Clients für alle gängigen Sprachen
+    - Import und Export in Formaten wie CSV, JSON, Parquet und Avro
+
+    Für **Agenturen** bildet ClickHouse das analytische Backend hinter Kundenanwendungen: für Tracking- und Event-Daten aus Webprojekten, Auswertungen in Dashboards mit Grafana oder Metabase, Log-Analysen und Reporting-Funktionen in individuellen Plattformen. Auch Open-Source-Tools wie Umami, Plausible oder Langfuse setzen ClickHouse als Datenspeicher ein.
+
+    Bei mittwald läuft **ClickHouse** als self-hosted Container-Komponente in deutschen Rechenzentren; Analyse- und Nutzungsdaten bleiben in der eigenen Infrastruktur, was die DSGVO-Konformität vereinfacht. Dieses Template enthält ClickHouse mit vorkonfiguriertem Benutzer und Datenbank; Sicherungen erfolgen über das mittwald Backup-Label (`backup.command`) mit dem eingebauten `BACKUP`-Befehl. Lizenzkosten fallen nicht an.
+  en: |
+    **ClickHouse** is an open-source, column-oriented database system for analytical queries and a self-hosted alternative to managed analytics services such as ClickHouse Cloud, Google BigQuery or Snowflake. Columnar storage, compression and vectorised execution let ClickHouse scan billions of rows in seconds, making it a good fit for logs, events, metrics and time series.
+
+    Key features:
+
+    - SQL dialect with aggregate, window and array functions
+    - MergeTree tables with partitioning, TTL and materialized views
+    - HTTP interface and native TCP protocol with clients for all common languages
+    - Import and export in formats such as CSV, JSON, Parquet and Avro
+
+    For **agencies**, ClickHouse is the analytical backend behind client applications: tracking and event data from web projects, dashboards in Grafana or Metabase, log analysis and reporting features in custom platforms. Open-source tools such as Umami, Plausible or Langfuse also use ClickHouse as their data store.
+
+    At mittwald, **ClickHouse** runs as a self-hosted container component in German data centres; analytics and usage data stay within the agency's own infrastructure, which simplifies GDPR compliance. This template includes ClickHouse with a preconfigured user and database; backups run via the mittwald backup label (`backup.command`) using the built-in `BACKUP` command. No licence costs apply.
+developer: ClickHouse, Inc.
+website: https://clickhouse.com
+repository: https://github.com/ClickHouse/ClickHouse
+license:
+  name: Apache-2.0
+  link: https://spdx.org/licenses/Apache-2.0.html
+categories:
+  - development
+  - database
+userInputs:
+  - name: "DATABASE_NAME"
+    label:
+      de: Datenbank-Name
+      en: Database Name
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    errorMessage:
+      de: Nur Buchstaben, Ziffern und Unterstriche, beginnend mit einem Buchstaben
+      en: Letters, digits and underscores only, starting with a letter
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$" }'
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "adminUser", index: 1 }
+    required: true
+    errorMessage:
+      de: Nur Buchstaben, Ziffern und Unterstriche, beginnend mit einem Buchstaben
+      en: Letters, digits and underscores only, starting with a letter
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminUser", index: 2 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${clickhouse.hostname}
+  - key:
+      de: HTTP-Port
+      en: HTTP port
+    value: 8123/TCP
+  - key:
+      de: Nativer Port
+      en: Native port
+    value: 9000/TCP
+  - key:
+      de: Datenbank-Name
+      en: Database Name
+    value: ${clickhouse.env.CLICKHOUSE_DB}
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${clickhouse.env.CLICKHOUSE_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${clickhouse.env.CLICKHOUSE_PASSWORD}
+  - key:
+      de: Verbindungsstring
+      en: Connection string
+    value: clickhouse://${clickhouse.env.CLICKHOUSE_USER}:${clickhouse.env.CLICKHOUSE_PASSWORD}@${clickhouse.hostname}:9000/${clickhouse.env.CLICKHOUSE_DB}
+  alerts:
+  - status: info
+    heading:
+      de: Weitere Benutzer per SQL anlegen
+      en: Create further users via SQL
+    content:
+      de: Der Admin-Benutzer darf Benutzer und Rechte verwalten. Für einzelne Anwendungen lassen sich so eigene Zugänge mit eingeschränkten Rechten anlegen, z. B. mit `CREATE USER` und `GRANT SELECT ON <datenbank>.* TO <benutzer>`.
+      en: The admin user may manage users and privileges. This allows separate accounts with restricted privileges for individual applications, e.g. with `CREATE USER` and `GRANT SELECT ON <database>.* TO <user>`.
