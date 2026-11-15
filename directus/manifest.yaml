@@ -40,7 +40,7 @@ repository: https://github.com/directus/directus
 support: https://directus.io/support/
 license:
   name: MSCL-1.0-GPL
-  link: https://github.com/directus/directus/blob/v12.1.1/license
+  link: https://github.com/directus/directus/blob/main/license
 categories:
   - development
 screenshots:
