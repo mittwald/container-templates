@@ -1,0 +1,98 @@
+manifestVersion: 1.0
+name:
+  de: Weaviate
+  en: Weaviate
+version: "1.x.x"
+type: component
+tagline:
+  de: Vektordatenbank mit hybrider Suche für KI-Anwendungen
+  en: Vector database with hybrid search for AI applications
+description:
+  de: |
+    **Weaviate** ist eine quelloffene Vektordatenbank und eine self-hosted Alternative zu verwalteten Diensten wie Weaviate Cloud oder Pinecone. Weaviate speichert Objekte zusammen mit ihren Einbettungsvektoren und verbindet Vektorsuche mit klassischer Stichwortsuche. Damit eignet sich die in Go geschriebene Datenbank für semantische Suche, Retrieval Augmented Generation (RAG) und Empfehlungssysteme.
+
+    Zentrale Funktionen:
+
+    - Hybride Suche aus Vektorähnlichkeit und BM25-Stichwortsuche
+    - Filter auf Objekteigenschaften, kombinierbar mit jeder Suchart
+    - Mandantenfähigkeit, um Daten mehrerer Kunden in einer Collection zu trennen
+    - REST-, GraphQL- und gRPC-API mit Clients für Python, TypeScript, Go und Java
+
+    Für **Agenturen** dient Weaviate als Vektor-Backend hinter KI-Funktionen in Kundenprojekten: RAG-Chatbots über Kundendokumente, semantische Produkt- und Inhaltssuchen in Shops und Portalen oder Ähnlichkeitsempfehlungen in Content-Plattformen. Die Einbettungen erzeugt die Anwendung selbst, etwa über das mittwald AI Hosting oder einen anderen Embedding-Endpunkt, und übergibt sie zusammen mit den Objekten an Weaviate.
+
+    Bei mittwald läuft **Weaviate** als self-hosted Container-Komponente in deutschen Rechenzentren; Dokumente und Vektoren bleiben in der eigenen Infrastruktur, was die DSGVO-Konformität vereinfacht. Dieses Template enthält Weaviate mit API-Key-Authentifizierung ohne anonymen Zugriff; Sicherungen erfolgen über das mittwald Backup-Label (`backup.command`) mit dem Backup-Modul von Weaviate. Lizenzkosten fallen nicht an.
+  en: |
+    **Weaviate** is an open-source vector database and a self-hosted alternative to managed services such as Weaviate Cloud or Pinecone. Weaviate stores objects together with their embedding vectors and combines vector search with classic keyword search. Written in Go, it is well suited to semantic search, Retrieval Augmented Generation (RAG) and recommendation systems.
+
+    Key features:
+
+    - Hybrid search combining vector similarity and BM25 keyword search
+    - Filters on object properties, combinable with every search type
+    - Multi-tenancy to keep data of several clients apart within one collection
+    - REST, GraphQL and gRPC APIs with clients for Python, TypeScript, Go and Java
+
+    For **agencies**, Weaviate is the vector backend behind AI features in client projects: RAG chatbots over client documents, semantic product and content search in shops and portals, or similarity recommendations in content platforms. The application creates the embeddings itself, for example via mittwald AI Hosting or another embedding endpoint, and passes them to Weaviate along with the objects.
+
+    At mittwald, **Weaviate** runs as a self-hosted container component in German data centres; documents and vectors stay within the agency's own infrastructure, which simplifies GDPR compliance. This template includes Weaviate with API key authentication and no anonymous access; backups run via the mittwald backup label (`backup.command`) using Weaviate's backup module. No licence costs apply.
+developer: Weaviate B.V.
+website: https://weaviate.io
+repository: https://github.com/weaviate/weaviate
+license:
+  name: BSD-3-Clause
+  link: https://spdx.org/licenses/BSD-3-Clause.html
+categories:
+  - ai
+  - database
+systemInputs:
+  - name: "WEAVIATE_API_KEY"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 32
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${weaviate.hostname}
+  - key:
+      de: HTTP-Port
+      en: HTTP port
+    value: 8080/TCP
+  - key:
+      de: gRPC-Port
+      en: gRPC port
+    value: 50051/TCP
+  - key:
+      de: API-Key
+      en: API Key
+    value: ${weaviate.env.AUTHENTICATION_APIKEY_ALLOWED_KEYS}
+  alerts:
+  - status: info
+    heading:
+      de: Vektoren mitliefern
+      en: Provide your own vectors
+    content:
+      de: >-
+        Das Template aktiviert keine Vectorizer-Module (`DEFAULT_VECTORIZER_MODULE=none`). Die Anwendung erzeugt die Einbettungen selbst und übergibt sie beim Import. Der API-Key wird als `Authorization: Bearer <API-Key>` gesendet; die offiziellen Clients benötigen HTTP- und gRPC-Port.
+      en: >-
+        The template does not enable any vectorizer modules (`DEFAULT_VECTORIZER_MODULE=none`). The application creates the embeddings itself and passes them on import. The API key is sent as `Authorization: Bearer <API key>`; the official clients need both the HTTP and the gRPC port.
