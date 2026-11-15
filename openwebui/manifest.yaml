@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Open WebUI
   en: Open WebUI
-version: "main"
+version: "latest"
 type: standalone
 tagline:
   de: Selbstgehostete Oberfläche für KI-Modelle
