@@ -2,33 +2,31 @@ manifestVersion: 1.0
 name:
   de: Password Pusher
   en: Password Pusher
-version: "latest"
+version: "2.x.x"
 type: standalone
 tagline:
   de: Passwörter und Geheimnisse sicher teilen
   en: Securely share passwords and secrets
 description:
   de: |
-    **Password Pusher** ist eine self-hosted Webanwendung zum sicheren Teilen von Passwörtern und Geheimnissen und eine Alternative zu kommerziellen Secret-Sharing-Diensten wie 1Password Send. Die Anwendung erzeugt ablaufende, selbstzerstörende Links, über die sensible Zugangsdaten einmalig übermittelt werden können, ohne sie per E-Mail im Klartext zu versenden.
+    **Password Pusher** ist eine self-hosted Webanwendung zum sicheren Teilen von Passwörtern und Geheimnissen und eine Alternative zu kommerziellen Secret-Sharing-Diensten wie Bitwarden Send. Die Anwendung erzeugt ablaufende, selbstzerstörende Links, über die sensible Zugangsdaten einmalig übermittelt werden können, ohne sie per E-Mail im Klartext zu versenden.
 
     Zentrale Funktionen:
 
     - Selbstzerstörende Links mit konfigurierbarem Ablauf nach Zeit oder Abrufanzahl
     - Optionaler Zugangscode zum Schutz freigegebener Inhalte
-    - Audit-Log zur Nachverfolgung von Link-Aufrufen
     - Anpassbares Branding mit eigenem Titel und eigener Tagline
 
     Für **Agenturen** ist Password Pusher besonders beim Austausch von Zugangsdaten mit Kunden oder externen Dienstleistern relevant. Anstatt Passwörter für Hosting-Zugänge, CMS-Logins oder API-Schlüssel per E-Mail zu übermitteln, generiert die Agentur einen ablaufenden Link, der nach Abruf oder Zeitablauf automatisch ungültig wird. Das anpassbare Branding ermöglicht eine professionelle Darstellung im eigenen Erscheinungsbild.
 
     Bei mittwald läuft **Password Pusher** als self-hosted Container in deutschen Rechenzentren; geteilte Geheimnisse werden ausschließlich auf der eigenen Infrastruktur gespeichert — ein wesentlicher Vorteil im Hinblick auf die DSGVO. Dieses Template enthält Password Pusher als eigenständige Anwendung. Da keine Lizenzkosten anfallen und keine Seat-Beschränkungen gelten, ist die Lösung für beliebig viele Teammitglieder kostenneutral nutzbar.
   en: |
-    **Password Pusher** is a self-hosted web application for securely sharing passwords and secrets — an alternative to commercial services such as 1Password Send. It generates expiring, self-destructing links for one-time transmission of sensitive credentials, without sending them in plain text via email.
+    **Password Pusher** is a self-hosted web application for securely sharing passwords and secrets — an alternative to commercial services such as Bitwarden Send. It generates expiring, self-destructing links for one-time transmission of sensitive credentials, without sending them in plain text via email.
 
     Key features:
 
     - Self-destructing links with configurable expiry by time or number of views
     - Optional passphrase protection for shared content
-    - Audit log for tracking link access
     - Customisable branding with a custom title and tagline
 
     For **agencies**, Password Pusher is particularly relevant when sharing credentials with clients or external service providers. Instead of sending passwords for hosting accounts, CMS logins or API keys via email, the agency generates an expiring link that becomes invalid after retrieval or a set time. Customisable branding allows the interface to match the agency's own identity.
