@@ -1,0 +1,162 @@
+manifestVersion: 1.0
+name:
+  de: Wiki.js
+  en: Wiki.js
+version: "3.x.x"
+type: standalone
+tagline:
+  de: Wiki mit Markdown-Editor, Rechteverwaltung und Git-Synchronisation
+  en: Wiki with Markdown editor, permissions and Git sync
+description:
+  de: |
+    **Wiki.js** ist eine moderne Wiki-Software auf Basis von Node.js und eine self-hosted Alternative zu Confluence oder Notion. Teams pflegen Dokumentation, Anleitungen und Projektwissen in einer übersichtlichen Seitenstruktur mit Navigation, Volltextsuche und Versionsverlauf.
+
+    Zentrale Funktionen:
+
+    - Markdown-Editor mit Live-Vorschau sowie visueller Editor
+    - Gruppen, Seitenregeln und Berechtigungen bis auf einzelne Pfade
+    - Volltextsuche, Inhaltsverzeichnisse, Kommentare und Benachrichtigungen
+    - Synchronisation der Inhalte mit einem Git-Repository
+    - Anmeldung über lokale Konten oder externe Anbieter wie OpenID Connect und LDAP
+
+    Für **Agenturen** eignet sich Wiki.js als zentrale Wissensbasis: Agentur-Handbuch, Onboarding-Checklisten, Code-Richtlinien und Projektdokumentation je Kunde liegen an einer Stelle. Über Seitenregeln lassen sich Bereiche für Kundinnen und Kunden freigeben, etwa Redaktionsanleitungen oder Betriebsdokumentation. Die Git-Synchronisation hält Dokumentation zusätzlich neben dem Quellcode verfügbar.
+
+    Bei mittwald läuft **Wiki.js** als self-hosted Container in deutschen Rechenzentren; Inhalte und Zugänge bleiben unter eigener Kontrolle, was den DSGVO-konformen Betrieb vereinfacht. Das Template enthält Wiki.js mit PostgreSQL, legt den Administrator an, stellt Oberfläche und Zeitzone auf Deutsch ein und versendet E-Mails über eine Delivery-Box – ohne Kosten pro Nutzer.
+  en: |
+    **Wiki.js** is a modern wiki built on Node.js and a self-hosted alternative to Confluence or Notion. Teams maintain documentation, guides and project knowledge in a clear page structure with navigation, full-text search and version history.
+
+    Key features:
+
+    - Markdown editor with live preview as well as a visual editor
+    - Groups, page rules and permissions down to individual paths
+    - Full-text search, tables of contents, comments and notifications
+    - Synchronisation of content with a Git repository
+    - Sign-in with local accounts or external providers such as OpenID Connect and LDAP
+
+    For **agencies**, Wiki.js works as a central knowledge base: the agency handbook, onboarding checklists, coding guidelines and project documentation per client live in one place. Page rules make it possible to share sections with clients, such as editorial guides or operations documentation. Git synchronisation additionally keeps documentation available next to the source code.
+
+    At mittwald, **Wiki.js** runs as a self-hosted container in German data centres; content and accounts stay under the agency's control, simplifying GDPR-compliant operation. The template includes Wiki.js with PostgreSQL, creates the administrator, sets the interface and time zone to German defaults and sends email through a delivery box — with no per-user costs.
+developer: Requarks
+website: https://js.wiki
+repository: https://github.com/requarks/wiki
+support: https://github.com/requarks/wiki/discussions
+license:
+  name: AGPL-3.0
+  link: https://github.com/requarks/wiki/blob/main/LICENSE
+categories:
+  - productivity
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-home.jpg
+    text:
+      de: Startseite des Agentur-Wikis mit Navigation und Inhaltsverzeichnis
+      en: Start page of the agency wiki with navigation and table of contents
+  - bg: background.jpg
+    screenshot: screenshot-page.jpg
+    text:
+      de: Eine Checkliste für das Onboarding neuer Kunden
+      en: A checklist for onboarding new clients
+  - bg: background.jpg
+    screenshot: screenshot-editor.jpg
+    text:
+      de: Markdown-Editor mit Live-Vorschau beim Bearbeiten einer Seite
+      en: Markdown editor with live preview while editing a page
+domains:
+  main:
+    userInput: HOST
+    service: wikijs
+    port: 3000
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 2 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+  - name: "SMTP_FROM"
+    label:
+      de: Absenderadresse
+      en: Sender address
+    positionMeta: { step: "common", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    validationSchema: '{ "type": "string", "format": "email" }'
+systemInputs:
+  - name: "POSTGRES_PASSWORD"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 24
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+deliveryBoxes:
+  - purpose: main
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${wikijs.env.ADMIN_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${wikijs.env.ADMIN_PASS}
+  - key:
+      de: Absenderadresse
+      en: Sender address
+    value: ${wikijs.env.SMTP_FROM}
+  alerts:
+  - status: info
+    heading:
+      de: Einrichtung beim ersten Start
+      en: Setup on first start
+    content:
+      de: Beim ersten Start legt Wiki.js den Administrator an, lädt die deutsche Sprache und hinterlegt Zeitzone, Proxy-Einstellung und Mailserver. Diese Werte werden nur dabei übernommen; spätere Änderungen, etwa am Passwort oder an der Absenderadresse, nimmst du in Wiki.js unter **Profil** bzw. **Administration** vor, nicht über die Umgebungsvariablen.
+      en: On first start, Wiki.js creates the administrator, loads the German language and stores time zone, proxy setting and mail server. These values are only applied at this point; make later changes, such as to the password or sender address, in Wiki.js under **Profile** or **Administration**, not via the environment variables.
+  - status: info
+    heading:
+      de: Weitere Nutzende
+      en: Further users
+    content:
+      de: Eine Selbstregistrierung ist nicht aktiviert. Weitere Konten legst du unter **Administration** → **Benutzer** an oder bindest unter **Authentifizierung** einen externen Anbieter an.
+      en: Self-registration is not enabled. Create further accounts under **Administration** → **Users** or connect an external provider under **Authentication**.
