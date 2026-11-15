@@ -20,7 +20,7 @@ description:
 
     Für **Agenturen** eignet sich BentoPDF als zentraler Werkzeugkasten für Projektteams und Kunden. Angebote, Präsentationen, Druckfreigaben oder gescannte Unterlagen können bearbeitet werden, ohne vertrauliche Kundendokumente bei einem zusätzlichen SaaS-Anbieter hochzuladen. Die browserbasierte Verarbeitung entlastet zugleich den Container und ermöglicht eine gemeinsame, einfach erreichbare Arbeitsoberfläche.
 
-    Bei mittwald läuft **BentoPDF** als self-hosted Container in deutschen Rechenzentren. Das Template stellt die für interne Teams vorgesehene Simple-Variante bereit; die eigentliche Dokumentverarbeitung erfolgt auf dem Endgerät. Dadurch unterstützt die Lösung datensparsame und DSGVO-gerechte Arbeitsabläufe. Für die Open-Source-Version fallen keine nutzungsabhängigen Gebühren an.
+    Bei mittwald läuft **BentoPDF** als self-hosted Container in deutschen Rechenzentren. Das Template stellt die für interne Teams vorgesehene Simple-Variante bereit; die eigentliche Dokumentverarbeitung erfolgt auf dem Endgerät, Dokumente verlassen den Browser nicht. Einzelne Verarbeitungsmodule (etwa für OCR und Komprimierung) lädt der Browser dabei standardmäßig vom CDN jsDelivr nach. Das unterstützt datensparsame Arbeitsabläufe; für die DSGVO-Bewertung ist der Abruf der Module zu berücksichtigen. Für die Open-Source-Version fallen keine nutzungsabhängigen Gebühren an.
   en: |
     **BentoPDF** is a privacy-focused, self-hosted PDF toolkit and an alternative to online services such as Smallpdf or iLovePDF. It processes documents directly in the browser, so PDF files do not need to be uploaded to an external server for editing. A single interface provides tools for both everyday and more advanced document tasks.
 
@@ -33,7 +33,7 @@ description:
 
     For **agencies**, BentoPDF provides a shared toolkit for project teams and clients. Proposals, presentations, print approvals and scanned documents can be processed without sending confidential client files to an additional SaaS provider. Browser-side processing also reduces work on the container while providing one accessible interface for the whole team.
 
-    At mittwald, **BentoPDF** runs as a self-hosted container in German data centres. The template deploys the Simple edition intended for internal teams, while document processing takes place on the user's device. This supports data-minimising, GDPR-conscious workflows. The open-source edition has no usage-based fees.
+    At mittwald, **BentoPDF** runs as a self-hosted container in German data centres. The template deploys the Simple edition intended for internal teams, while document processing takes place on the user's device and documents never leave the browser. Some processing modules (for example for OCR and compression) are loaded by the browser from the jsDelivr CDN by default. This supports data-minimising workflows; the module downloads should be considered in a GDPR assessment. The open-source edition has no usage-based fees.
 developer: BentoPDF
 website: https://bentopdf.com
 repository: https://github.com/alam00000/bentopdf
@@ -74,6 +74,14 @@ userInputs:
     validationSchema: '{ "type": "string", "minLength": 1 }'
 
 help:
+  alerts:
+  - status: info
+    heading:
+      de: Module vom CDN
+      en: Modules from CDN
+    content:
+      de: Dokumente werden im Browser verarbeitet und nicht hochgeladen. Für einige Werkzeuge (z. B. OCR, Komprimierung, Konvertierung) lädt der Browser jedoch WebAssembly-Module vom CDN jsDelivr nach. Ein Betrieb ohne diese externen Abrufe erfordert einen eigenen Build mit den `VITE_WASM_*`-Variablen.
+      en: Documents are processed in the browser and are not uploaded. For some tools (e.g. OCR, compression, conversion) the browser does however load WebAssembly modules from the jsDelivr CDN. Running without these external requests requires a custom build with the `VITE_WASM_*` variables.
   technicalDetails:
   - key:
       de: Domain
