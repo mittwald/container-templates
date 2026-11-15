@@ -15,8 +15,9 @@ description:
 
     - Visuelle und textbasierte Diffs zum genauen Vergleich von Seitenversionen
     - Gezielte Überwachung einzelner Elemente per CSS- und XPath-Selektoren
-    - Benachrichtigungen per E-Mail, Webhook, Slack, Telegram und weitere Kanäle
+    - Benachrichtigungen per E-Mail, Webhook, Slack, Telegram und weitere Kanäle, eingerichtet über einen geführten Dialog
     - Vollständiges Browser-Rendering für JavaScript-basierte und dynamische Websites
+    - Integrierter MCP-Server, über den KI-Assistenten Änderungen abfragen können
 
     Für **Agenturen** ist changedetection.io ein nützliches Werkzeug zur systematischen Überwachung von Kunden- und Wettbewerber-Websites. Content-Änderungen auf Kundenwebsites werden automatisch erkannt, Preisänderungen bei Wettbewerbern und SEO-relevante Seitenaktualisierungen lassen sich gezielt verfolgen. Agenturen erhalten so einen strukturierten Überblick über relevante Änderungen, ohne Seiten manuell prüfen zu müssen.
 
@@ -28,8 +29,9 @@ description:
 
     - Visual and text-based diffs for precise page comparison
     - Element-level monitoring using CSS and XPath selectors
-    - Notifications via email, webhook, Slack, Telegram and more
+    - Notifications via email, webhook, Slack, Telegram and more, set up through a guided dialog
     - Full browser rendering for JavaScript-based and dynamic websites
+    - Built-in MCP server that lets AI assistants query changes
 
     For **agencies**, changedetection.io is a practical tool for systematically monitoring client and competitor websites. Content changes are detected automatically; competitor price changes and SEO-relevant updates can be tracked selectively. Agencies gain a structured overview of relevant changes without checking pages manually.
 
@@ -57,8 +59,8 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-llm.png
     text:
-      de: Optional bewertet ein LLM Änderungen und fasst sie in Klartext
-      en: Optionally an LLM judges changes and summarises them in plain text
+      de: KI-Anbindung zur Bewertung von Änderungen und als MCP-Server
+      en: AI integration for judging changes and as an MCP server
 domains:
   main:
     userInput: HOST
@@ -88,3 +90,15 @@ help:
       de: Domain
       en: Domain
     value: https://${domain.main}
+  - key:
+      de: Passwort
+      en: Password
+    value: ${changedetection.env.ADMIN_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: Passwort aus der Installation
+      en: Password from the installation
+    content:
+      de: Die Oberfläche ist mit dem bei der Installation festgelegten Passwort geschützt. Es wird bei jedem Start aus `ADMIN_PASSWORD` übernommen; ein in den Einstellungen gesetztes oder entferntes Passwort hat daher keine Wirkung.
+      en: The interface is protected by the password set during installation. It is applied from `ADMIN_PASSWORD` on every start, so setting or removing a password in the settings has no effect.

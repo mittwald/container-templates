@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: VaultS3
   en: VaultS3
-version: "latest"
+version: "5.0.16"
 type: component
 tagline:
   de: Leichtgewichtiger S3-Objektspeicher mit Dashboard
@@ -151,8 +151,8 @@ help:
       de: Zugangsdaten sind Startwerte
       en: Credentials are initial values
     content:
-      de: Access Key und Secret Key aus der Installation gelten nur, bis sie im Dashboard geändert werden. Danach zeigt diese Übersicht weiterhin die alten Werte, und eine Änderung der Umgebungsvariablen hat keine Wirkung mehr.
-      en: The access key and secret key from the installation apply only until they are changed in the dashboard. After that this overview still shows the old values, and changing the environment variables has no effect any more.
+      de: Access Key und Secret Key aus der Installation gelten nur, bis sie im Dashboard geändert werden. Danach zeigt diese Übersicht weiterhin die alten Werte, denn gespeicherte Zugangsdaten haben Vorrang vor den Umgebungsvariablen. Um sie wieder aus der Umgebung zu übernehmen, `VAULTS3_ADMIN_CREDENTIALS_OVERRIDE=true` für genau einen Start setzen und danach wieder entfernen.
+      en: The access key and secret key from the installation apply only until they are changed in the dashboard. After that this overview still shows the old values, because stored credentials take precedence over the environment variables. To take them from the environment again, set `VAULTS3_ADMIN_CREDENTIALS_OVERRIDE=true` for exactly one start and remove it afterwards.
   - status: warning
     heading:
       de: Verschlüsselungsschlüssel sichern
@@ -179,5 +179,5 @@ help:
       de: Metriken und Login-Sperre hinter dem Proxy
       en: Metrics and login lockout behind the proxy
     content:
-      de: "`/metrics` (Prometheus) ist auf dem S3-Endpunkt ohne Authentifizierung abrufbar. Nach mehreren fehlgeschlagenen Dashboard-Logins sperrt VaultS3 die Absender-IP zeitweise; hinter dem Proxy trifft das alle Nutzer gleichzeitig. Beides lässt sich per Umgebungsvariable nicht ändern."
-      en: "`/metrics` (Prometheus) can be fetched from the S3 endpoint without authentication. After several failed dashboard logins VaultS3 temporarily locks the sender IP; behind the proxy this affects all users at once. Neither can be changed via environment variables."
+      de: "`/metrics` (Prometheus) ist auf dem S3-Endpunkt ohne Authentifizierung abrufbar. Nach mehreren fehlgeschlagenen Dashboard-Logins sperrt VaultS3 die Absender-IP zeitweise; hinter dem Proxy trifft das alle Nutzer gleichzeitig. Beides lässt sich per Umgebungsvariable nicht ändern. Auch IP-Bedingungen in Bucket-Richtlinien sehen die Adresse des Proxys, solange er nicht in `VAULTS3_TRUSTED_PROXIES` eingetragen ist."
+      en: "`/metrics` (Prometheus) can be fetched from the S3 endpoint without authentication. After several failed dashboard logins VaultS3 temporarily locks the sender IP; behind the proxy this affects all users at once. Neither can be changed via environment variables. IP conditions in bucket policies also see the proxy address unless it is listed in `VAULTS3_TRUSTED_PROXIES`."

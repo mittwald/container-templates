@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Vikunja
   en: Vikunja
-version: "latest"
+version: "2.x.x"
 type: standalone
 tagline:
   de: Aufgaben und Projekte selbst verwalten

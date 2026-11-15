@@ -62,7 +62,13 @@ userInputs:
       en: Application domain
     positionMeta: { step: "common", index: 1 }
     required: true
-    validationSchema: '{ "type": "string", "minLength": 1 }'
+    description:
+      de: Domain der Anwendung, die Collabora einbindet, etwa Nextcloud
+      en: Domain of the application that embeds Collabora, such as Nextcloud
+    errorMessage:
+      de: Nur den Domainnamen ohne https:// und ohne Pfad angeben, z. B. cloud.example.com
+      en: Enter only the domain name without https:// or a path, e.g. cloud.example.com
+    validationSchema: '{ "type": "string", "pattern": "^[A-Za-z0-9.-]+$" }'
 
 help:
   technicalDetails:
@@ -80,8 +86,8 @@ help:
       de: Nur die eingetragene Anwendung darf zugreifen
       en: Only the configured application may connect
     content:
-      de: Collabora akzeptiert Dokumente ausschließlich von der oben angegebenen Domain der Anwendung (`storage.wopi.host`). Kommt eine weitere Anwendung hinzu, ergänze deren Domain über die Umgebungsvariable `WOPI_HOST`.
-      en: Collabora only accepts documents from the application domain configured above (`storage.wopi.host`). If another application is added, extend its domain via the `WOPI_HOST` environment variable.
+      de: Collabora öffnet ausschließlich Dokumente der Anwendung, deren Domain bei der Installation angegeben wurde (`aliasgroup1` im Service `collabora`). Soll eine weitere Anwendung Collabora nutzen, ergänze deren Adresse als zusätzliche Umgebungsvariable `aliasgroup2`, etwa `https://zweite-anwendung.example.com:443`.
+      en: Collabora only opens documents from the application whose domain was entered during installation (`aliasgroup1` on the `collabora` service). To let another application use Collabora, add its address as an additional `aliasgroup2` environment variable, such as `https://second-app.example.com:443`.
   - status: info
     heading:
       de: Konfiguration in Nextcloud notwendig

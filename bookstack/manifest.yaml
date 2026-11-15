@@ -40,11 +40,11 @@ description:
     At mittwald, **BookStack** runs as a self-hosted container in German data centres; all content stays within the operator's infrastructure, simplifying GDPR compliance. This template ships BookStack with MariaDB, wires outgoing mail to a delivery box and stores uploads and the database in persistent volumes. No licence costs apply (MIT).
 developer: Dan Brown
 website: https://www.bookstackapp.com
-repository: https://github.com/BookStackApp/BookStack
+repository: https://codeberg.org/bookstack/bookstack
 support: https://www.bookstackapp.com/docs/
 license:
   name: MIT
-  link: https://github.com/BookStackApp/BookStack/blob/development/LICENSE
+  link: https://codeberg.org/bookstack/bookstack/src/branch/development/LICENSE
 categories:
   - productivity
 screenshots:

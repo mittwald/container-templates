@@ -1,6 +1,7 @@
 services:
   vaults3:
-    image: eniz1806/vaults3:latest
+    # `latest` is built from every commit to main, so pin the current release.
+    image: eniz1806/vaults3:5.0.16
     ports:
       - "9000:9000"
       - "9001:9001"

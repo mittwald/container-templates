@@ -1,6 +1,6 @@
 services:
   librechat:
-    image: ghcr.io/danny-avila/librechat:latest
+    image: ghcr.io/librechat-ai/librechat:latest
     ports:
       - "3080:3080"
     environment:
@@ -93,7 +93,7 @@ services:
       retries: 5
       start_period: 10s
   rag-api:
-    image: ghcr.io/danny-avila/librechat-rag-api-dev-lite:latest
+    image: ghcr.io/librechat-ai/librechat-rag-api-dev-lite:latest
     environment:
       - TZ=Europe/Berlin
       - RAG_PORT=8000

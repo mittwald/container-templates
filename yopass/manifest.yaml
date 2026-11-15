@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Yopass
   en: Yopass
-version: "latest"
+version: "16.1.0"
 type: standalone
 tagline:
   de: Geheimnisse sicher und verschlüsselt teilen

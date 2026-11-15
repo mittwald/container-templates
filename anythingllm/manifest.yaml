@@ -56,8 +56,8 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-branding.png
     text:
-      de: Eigenes Branding mit Name, Logo und Tab-Titel der Instanz
-      en: Custom branding with the instance name, logo and tab title
+      de: Eigenes Branding mit Name, Logo und Farbpaletten der Instanz
+      en: Custom branding with the instance name, logo and colour palettes
 domains:
   main:
     userInput: HOST

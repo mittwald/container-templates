@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Fider
   en: Fider
-version: "0.36.x"
+version: "0.39.x"
 type: standalone
 tagline:
   de: Kundenfeedback sammeln und priorisieren
@@ -16,7 +16,7 @@ description:
     - Feedback-Portale mit Vorschlägen, Kommentaren und Abstimmungen
     - Status, Tags und Moderationswerkzeuge zur strukturierten Priorisierung
     - Benutzeranmeldung per E-Mail und Benachrichtigungen über Änderungen
-    - Mehrere Mandanten, individuelle Domains und anpassbares Erscheinungsbild
+    - Anpassbares Erscheinungsbild mit eigenem Logo und eigenem CSS
 
     Für **Agenturen** schafft Fider einen nachvollziehbaren Kanal für Anforderungen aus Kundenprojekten. Stakeholder sammeln Wünsche an einer Stelle, erkennen Überschneidungen und priorisieren gemeinsam, statt Feedback über E-Mails, Tickets und Meetings zu verteilen. Öffentliche Roadmaps machen Entscheidungen transparenter und eignen sich für Websites, Kundenportale oder digitale Produkte.
 
@@ -29,7 +29,7 @@ description:
     - Feedback portals with suggestions, comments and voting
     - Statuses, tags and moderation tools for structured prioritisation
     - Email-based authentication and notifications about changes
-    - Multiple tenants, custom domains and adaptable branding
+    - Adaptable branding with a custom logo and custom CSS
 
     For **agencies**, Fider provides a traceable channel for requirements across client projects. Stakeholders collect requests in one place, identify overlaps and prioritise together instead of scattering feedback across email, tickets and meetings. Public roadmaps make decisions more transparent and suit websites, client portals or digital products.
 
@@ -128,3 +128,10 @@ help:
     content:
       de: Registriere beim ersten Aufruf die E-Mail-Adresse des Administrators. Fider sendet den Anmeldelink über den konfigurierten SMTP-Dienst.
       en: Register the administrator's email address on first access. Fider sends the sign-in link through the configured SMTP service.
+  - status: info
+    heading:
+      de: Board auf Einladungen beschränken
+      en: Restrict the board to invitations
+    content:
+      de: Standardmäßig kann sich jede Person mit E-Mail-Adresse anmelden. Unter `Site Settings` → `Privacy` lassen sich neue Registrierungen deaktivieren; Zugang erhalten dann nur noch eingeladene Personen.
+      en: By default anyone with an email address can sign up. New sign-ups can be disabled under `Site Settings` → `Privacy`; only invited people can then access the board.

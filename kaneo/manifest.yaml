@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Kaneo
   en: Kaneo
-version: "latest"
+version: "2.x.x"
 type: standalone
 tagline:
   de: Projektmanagement mit Board, Backlog und Zeiterfassung
@@ -17,7 +17,7 @@ description:
     - Getrennte Arbeitsbereiche je Kunde oder Team, mit Einladungen per E-Mail
     - Kommentare, Teilaufgaben und Aktivitätsverlauf an jeder Aufgabe
     - Zeiterfassung je Aufgabe und eine Gantt-Zeitachse über das Projekt
-    - Anbindung an GitHub, Gitea, Slack, Discord und Telegram
+    - Anbindung an GitHub, Gitea, Slack, Discord und Telegram; Import aus Jira, Linear und Trello
 
     Für **Agenturen** eignet sich Kaneo als gemeinsames Projektboard über mehrere Kundenmandate hinweg: Jeder Arbeitsbereich bündelt die Projekte eines Kunden, Aufgaben lassen sich über Labels und Prioritäten steuern, und die erfasste Zeit liefert die Grundlage für die Abrechnung.
 
@@ -31,7 +31,7 @@ description:
     - Separate workspaces per client or team, with invitations by email
     - Comments, subtasks and an activity history on every task
     - Time tracking per task and a Gantt timeline across the project
-    - Integrations with GitHub, Gitea, Slack, Discord and Telegram
+    - Integrations with GitHub, Gitea, Slack, Discord and Telegram; import from Jira, Linear and Trello
 
     For **agencies**, Kaneo works as a shared project board across several client engagements: each workspace bundles one client's projects, tasks are steered through labels and priorities, and the tracked time provides the basis for invoicing.
 
@@ -85,6 +85,29 @@ userInputs:
     validationSchema: '{ "type": "string", "format": "email" }'
 systemInputs:
   - name: "AUTH_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
+  - name: "NOTIFICATION_SECRET_ENCRYPTION_KEY"
     schema:
       kind: 1
       schema:

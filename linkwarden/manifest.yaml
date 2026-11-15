@@ -9,7 +9,7 @@ tagline:
   en: Collect and archive bookmarks
 description:
   de: |
-    **Linkwarden** ist ein Lesezeichen- und Wissensmanager und eine self-hosted Alternative zu Raindrop.io oder Pocket. Die Anwendung sammelt Links strukturiert in Sammlungen, versieht sie mit Tags und archiviert den Seiteninhalt dauerhaft – als Screenshot, PDF und lesbaren Text – damit Quellen auch nach dem Offline-Gehen erhalten bleiben.
+    **Linkwarden** ist ein Lesezeichen- und Wissensmanager und eine self-hosted Alternative zu Raindrop.io oder Pinboard. Die Anwendung sammelt Links strukturiert in Sammlungen, versieht sie mit Tags und archiviert den Seiteninhalt dauerhaft – als Screenshot, PDF und lesbaren Text – damit Quellen auch nach dem Offline-Gehen erhalten bleiben.
 
     Zentrale Funktionen:
 
@@ -23,7 +23,7 @@ description:
 
     Bei mittwald läuft **Linkwarden** als self-hosted Container in deutschen Rechenzentren; Links, Notizen und archivierte Inhalte verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Linkwarden zusammen mit einer PostgreSQL-Datenbank und Meilisearch für die Volltextsuche – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
   en: |
-    **Linkwarden** is a bookmark and knowledge manager and a self-hosted alternative to Raindrop.io or Pocket. It collects links in structured collections, organises them with tags and permanently archives the page content — as a screenshot, PDF and readable text — so that sources remain available even after they go offline.
+    **Linkwarden** is a bookmark and knowledge manager and a self-hosted alternative to Raindrop.io or Pinboard. It collects links in structured collections, organises them with tags and permanently archives the page content — as a screenshot, PDF and readable text — so that sources remain available even after they go offline.
 
     Key features:
 
@@ -58,8 +58,8 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-search.png
     text:
-      de: Volltextsuche über Titel, Adresse, Schlagwort und Datum
-      en: Full-text search across title, address, tag and date
+      de: Volltextsuche über Titel, Schlagwörter und archivierte Inhalte
+      en: Full-text search across titles, tags and archived content
 domains:
   main:
     userInput: HOST

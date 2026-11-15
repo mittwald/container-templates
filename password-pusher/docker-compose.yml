@@ -12,7 +12,6 @@ services:
       - PWP__ALLOW_ANONYMOUS=true
       - PWP__DISABLE_LOGINS=true
       - PWP__DISABLE_SIGNUPS=true
-      - PWP__FILES__STORAGE=local
       - PWP__BRAND__TITLE=${BRAND_TITLE}
       - PWP__BRAND__TAGLINE=${BRAND_TAGLINE}
       - PWP__BRAND__SHOW_FOOTER_MENU=false

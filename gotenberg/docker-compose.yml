@@ -1,6 +1,6 @@
 services:
   gotenberg:
-    image: gotenberg/gotenberg:8
+    image: gotenberg/gotenberg:9
     environment:
       - TZ=Europe/Berlin
     healthcheck:

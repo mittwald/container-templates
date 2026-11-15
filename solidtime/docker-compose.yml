@@ -35,7 +35,7 @@ services:
       - DB_CONNECTION=pgsql
       - DB_HOST=database
       - DB_PORT=5432
-      - DB_SSLMODE=disable
+      - DB_SSL_MODE=disable
       - DB_DATABASE=solidtime
       - DB_USERNAME=solidtime
       - DB_PASSWORD=${POSTGRES_PASSWORD}
@@ -84,7 +84,7 @@ services:
       - DB_CONNECTION=pgsql
       - DB_HOST=database
       - DB_PORT=5432
-      - DB_SSLMODE=disable
+      - DB_SSL_MODE=disable
       - DB_DATABASE=solidtime
       - DB_USERNAME=solidtime
       - DB_PASSWORD=${POSTGRES_PASSWORD}
@@ -133,7 +133,7 @@ services:
       - DB_CONNECTION=pgsql
       - DB_HOST=database
       - DB_PORT=5432
-      - DB_SSLMODE=disable
+      - DB_SSL_MODE=disable
       - DB_DATABASE=solidtime
       - DB_USERNAME=solidtime
       - DB_PASSWORD=${POSTGRES_PASSWORD}

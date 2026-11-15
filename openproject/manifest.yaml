@@ -15,12 +15,12 @@ description:
 
     - Arbeitspakete mit Status, Priorität, Zuständigen und Abhängigkeiten
     - Gantt-Terminplanung sowie agile Boards für Scrum und Kanban
-    - Zeiterfassung, Budgets, Meilensteine, Wikis und Dokumentenablage
+    - Zeiterfassung, Budgets, Meilensteine, Wikis und Dokumente mit gemeinsamer Echtzeit-Bearbeitung
     - Rollen- und rechtebasierte Projekte, Benachrichtigungen und REST-API
 
     Für **Agenturen** eignet sich OpenProject als zentrale Steuerungsplattform über Kundenprojekte hinweg: Pro Kunde oder Auftrag lässt sich ein eigenes Projekt mit passenden Rollen anlegen, Aufgaben werden zugewiesen und über Boards oder Gantt-Diagramme nachverfolgt. Budgets und Zeiterfassung schaffen die Grundlage für Auswertung und Abrechnung, während Wikis und Dateien projektbezogenes Wissen bündeln.
 
-    Bei mittwald läuft **OpenProject** als self-hosted Container in deutschen Rechenzentren; Projekt-, Aufgaben- und Kundendaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält OpenProject mit PostgreSQL, Hintergrund-Worker und Memcached, legt den Admin-Zugang beim ersten Start an und bindet einen SMTP-Dienst an – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
+    Bei mittwald läuft **OpenProject** als self-hosted Container in deutschen Rechenzentren; Projekt-, Aufgaben- und Kundendaten verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält OpenProject mit PostgreSQL, Hintergrund-Worker, Memcached und dem Server für gemeinsames Bearbeiten, legt den Admin-Zugang beim ersten Start an und bindet einen SMTP-Dienst an – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
   en: |
     **OpenProject** is a comprehensive project management and collaboration platform and a self-hosted alternative to Jira, Asana or MS Project. Teams plan work in classic, agile or hybrid styles, manage tasks and work packages and keep schedules, responsibilities and progress in one place.
 
@@ -28,12 +28,12 @@ description:
 
     - Work packages with status, priority, assignees and dependencies
     - Gantt scheduling plus agile boards for Scrum and Kanban
-    - Time and cost tracking, budgets, milestones, wikis and document storage
+    - Time and cost tracking, budgets, milestones, wikis and documents with real-time co-editing
     - Role- and permission-based projects, notifications and a REST API
 
     For **agencies**, OpenProject works as a central control platform across client projects: a dedicated project with matching roles can be created per client or engagement, tasks are assigned and tracked via boards or Gantt charts. Budgets and time tracking form the basis for evaluation and billing, while wikis and files bundle project-related knowledge.
 
-    At mittwald, **OpenProject** runs as a self-hosted container in German data centres; project, task and client data stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes OpenProject with PostgreSQL, a background worker and Memcached, creates the admin account on first start and connects an SMTP service — with no usage-based licence or seat costs.
+    At mittwald, **OpenProject** runs as a self-hosted container in German data centres; project, task and client data stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes OpenProject with PostgreSQL, a background worker, Memcached and the collaboration server, creates the admin account on first start and connects an SMTP service — with no usage-based licence or seat costs.
 developer: OpenProject GmbH
 website: https://www.openproject.org
 repository: https://github.com/opf/openproject
@@ -63,12 +63,27 @@ domains:
     userInput: HOST
     service: web
     port: 8080
+  collab:
+    userInput: COLLAB_HOST
+    service: hocuspocus
+    port: 1234
 userInputs:
   - name: "HOST"
     label:
       de: Domain
       en: Domain
     positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "COLLAB_HOST"
+    label:
+      de: Domain für gemeinsames Bearbeiten
+      en: Collaboration domain
+    positionMeta: { step: "domain", index: 2 }
+    description:
+      de: Eigene Domain für den Server, über den mehrere Personen gleichzeitig an Dokumenten arbeiten
+      en: Separate domain for the server that lets several people edit documents at the same time
     required: true
     dataSource: "ingress.paths"
     validationSchema: '{ "type": "string", "minLength": 1 }'
@@ -87,8 +102,8 @@ userInputs:
       en: Admin password
     positionMeta: { step: "adminUser", index: 2 }
     description:
-      de: Die Anmeldung erfolgt mit dem Benutzernamen `admin` und diesem Passwort
-      en: Sign-in uses the username `admin` and this password
+      de: Die Anmeldung erfolgt mit dem Benutzernamen „admin“ und diesem Passwort
+      en: Sign-in uses the username "admin" and this password
     format: password
     required: true
     validationSchema: '{ "type": "string", "minLength": 12 }'
@@ -143,6 +158,29 @@ systemInputs:
             - special
             - nonAscii
           max: 0
+  - name: "HOCUSPOCUS_SECRET"
+    schema:
+      kind: 1
+      schema:
+        - ruleType: length
+          min: 64
+        - identifier: numbers
+          ruleType: charPool
+          charPools:
+            - numbers
+          min: 1
+        - ruleType: regex
+          pattern: "[A-Z]"
+          min: 1
+        - ruleType: regex
+          pattern: "[a-z]"
+          min: 1
+        - identifier: noSpecial
+          ruleType: charPool
+          charPools:
+            - special
+            - nonAscii
+          max: 0
 deliveryBoxes:
   - purpose: main
 help:
@@ -151,6 +189,10 @@ help:
       de: Domain
       en: Domain
     value: https://${domain.main}
+  - key:
+      de: Domain für gemeinsames Bearbeiten
+      en: Collaboration domain
+    value: https://${domain.collab}
   - key:
       de: Admin Benutzername
       en: Admin username

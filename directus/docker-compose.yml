@@ -22,6 +22,8 @@ services:
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - PUBLIC_URL=https://${HOST}
       - IP_TRUST_PROXY=true
+      # Realtime subscriptions over WebSocket (/websocket); off by default.
+      - WEBSOCKETS_ENABLED=true
       - EMAIL_TRANSPORT=smtp
       - EMAIL_FROM=${SMTP_FROM}
       - EMAIL_SMTP_HOST=mail.agenturserver.de

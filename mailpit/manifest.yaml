@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Mailpit
   en: Mailpit
-version: "latest"
+version: "1.x.x"
 type: component
 tagline:
   de: E-Mail-Testserver für Entwicklung und Staging
@@ -16,7 +16,7 @@ description:
     - Web-Oberfläche mit Echtzeit-Anzeige eingehender Nachrichten
     - Darstellung als HTML, Text und Quelltext inklusive Anhängen
     - REST-API zum automatisierten Prüfen von E-Mails in Tests
-    - Spam-Bewertung (SpamAssassin) und HTML-Kompatibilitätsprüfung für Mail-Clients
+    - HTML-Kompatibilitätsprüfung für Mail-Clients und Link-Prüfung
 
     Als Komponente bildet **Mailpit** das Mail-Backend hinter Anwendungen, die **Agenturen** entwickeln oder betreiben. Registrierungs-, Bestell- und Newsletter-Mails eines Kundenprojekts landen in der Staging-Umgebung zuverlässig in Mailpit statt im Postfach echter Empfänger; Layout, Inhalte und Zustellbarkeit lassen sich dort vor dem Livegang prüfen. Die sendende Anwendung wird dafür lediglich auf den SMTP-Zugang von Mailpit umgestellt.
 
@@ -29,7 +29,7 @@ description:
     - Web interface with real-time display of incoming messages
     - HTML, plain text and source views, including attachments
     - REST API for verifying emails in automated tests
-    - Spam scoring (SpamAssassin) and HTML compatibility checks for mail clients
+    - HTML compatibility checks for mail clients and link checking
 
     As a component, **Mailpit** provides the mail backend behind applications that **agencies** develop or operate. Sign-up, order and newsletter emails from a client project reliably land in Mailpit on staging rather than in a real recipient's inbox; layout, content and deliverability can be checked there before go-live. The sending application only needs to be pointed at Mailpit's SMTP endpoint.
 

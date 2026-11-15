@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Apprise
   en: Apprise
-version: "latest"
+version: "2.x"
 type: component
 tagline:
   de: Benachrichtigungen über eine API verteilen
@@ -16,7 +16,8 @@ description:
     - Einheitliche REST-API für über 100 Benachrichtigungsdienste
     - Gespeicherte Konfigurationen mit Schlüsseln (persistenter Modus)
     - Anhänge, Formatierung (Text, Markdown, HTML) und Tag-basierter Versand
-    - Schlanker, zustandsarmer Dienst ohne externe Datenbank
+    - Anmeldung per Basic Auth, auf Wunsch mit eigenen Zugangsdaten je Konfiguration
+    - Weboberfläche mit Zustellprotokoll, auch auf Deutsch
 
     Für **Agenturen** dient Apprise als zentraler Benachrichtigungs-Baustein hinter eigenen Anwendungen und Automatisierungen: Monitoring, Cronjobs, Deployment-Skripte oder Kundenanwendungen melden Ereignisse an Apprise, das die Zustellung an die jeweils passenden Kanäle übernimmt. So bleibt die Benachrichtigungslogik an einer Stelle gebündelt und muss nicht in jeder Anwendung erneut umgesetzt werden.
 
@@ -29,7 +30,8 @@ description:
     - Unified REST API for more than 100 notification services
     - Stored configurations addressed by key (persistent mode)
     - Attachments, formatting (text, Markdown, HTML) and tag-based delivery
-    - Lightweight, near-stateless service without an external database
+    - Basic Auth sign-in, optionally with separate credentials per configuration
+    - Web interface with delivery log, available in German
 
     For **agencies**, Apprise serves as a central notification building block behind their own applications and automations: monitoring, cron jobs, deployment scripts or client applications report events to Apprise, which handles delivery to the appropriate channels. This keeps notification logic in one place instead of reimplementing it in every application.
 
@@ -44,38 +46,66 @@ categories:
   - communication
 screenshots:
   - bg: background.jpg
-    screenshot: screenshot-api-overview.png
+    screenshot: screenshot-review.png
     text:
-      de: Endpunkte für Benachrichtigungen und Konfigurationen
-      en: Endpoints for notifications and configurations
+      de: Gespeicherte Ziele mit Tags prüfen und einzeln testen
+      en: Review stored targets with tags and test them individually
   - bg: background.jpg
     screenshot: screenshot-config.png
     text:
-      de: Gespeicherte Konfiguration mit eigener ID und Abrufadresse
-      en: A stored configuration with its own ID and retrieval address
+      de: Konfiguration mit mehreren Diensten und Tags im YAML-Format
+      en: Configuration with several services and tags in YAML format
   - bg: background.jpg
     screenshot: screenshot-url-builder.png
     text:
       de: Dienst-URLs im Builder der Apprise-Dokumentation bauen
       en: Building service URLs in the Apprise documentation
+userInputs:
+  - name: "ADMIN_USER"
+    label:
+      de: Admin Benutzername
+      en: Admin username
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.username}"
+    required: true
+    errorMessage:
+      de: Der Benutzername darf keinen Doppelpunkt enthalten
+      en: The username must not contain a colon
+    validationSchema: '{ "type": "string", "pattern": "^[^:]+$" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin Password
+    positionMeta: { step: "adminUser", index: 2 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
 help:
   technicalDetails:
   - key:
       de: Interne API-URL
       en: Internal API URL
     value: http://${apprise.hostname}:8000
+  - key:
+      de: Admin Benutzername
+      en: Admin username
+    value: ${apprise.env.APPRISE_USER}
+  - key:
+      de: Admin Passwort
+      en: Admin Password
+    value: ${apprise.env.APPRISE_PASSWORD}
   alerts:
-  - status: warning
+  - status: info
     heading:
-      de: Keine eingebaute Authentifizierung
-      en: No built-in authentication
+      de: Anmeldung per Basic Auth
+      en: Basic Auth sign-in
     content:
-      de: Apprise bringt keine eigene Anmeldung mit. Der Dienst wird deshalb nicht über eine Domain veröffentlicht und ist nur innerhalb des Stacks über den Hostnamen erreichbar. Sprich ihn ausschließlich aus Anwendungen desselben Stacks an und behandle die Konfigurationsschlüssel wie Geheimnisse.
-      en: Apprise has no built-in sign-in. The service is therefore not published via a domain and is only reachable inside the stack via its hostname. Address it exclusively from applications in the same stack and treat the configuration keys as secrets.
+      de: Die Authentifizierung ist mit `APPRISE_AUTH_REQUIRED` aktiviert. Jeder API-Aufruf braucht deshalb die Admin-Zugangsdaten als Basic Auth, z. B. `curl -u benutzer:passwort`, oder die Zugangsdaten einer Konfiguration, die du in der Oberfläche über **Authentication** vergibst. Der Dienst wird nicht über eine Domain veröffentlicht und ist nur innerhalb des Stacks über den Hostnamen erreichbar.
+      en: Authentication is enabled via `APPRISE_AUTH_REQUIRED`. Every API call therefore needs the admin credentials as Basic Auth, e.g. `curl -u user:password`, or the credentials of a configuration that you assign under **Authentication** in the interface. The service is not published via a domain and is only reachable inside the stack via its hostname.
   - status: info
     heading:
       de: Admin-Modus ist aktiv
       en: Admin mode is enabled
     content:
-      de: Mit `APPRISE_ADMIN` ist der Admin-Modus aktiviert (Upstream-Empfehlung). Die Oberfläche listet damit alle gespeicherten Konfigurationsschlüssel auf, statt die Kenntnis des jeweiligen Schlüssels vorauszusetzen. Das ist vertretbar, solange der Dienst nur im Stack erreichbar ist; wird er später doch veröffentlicht, setze die Variable auf `no`.
-      en: "`APPRISE_ADMIN` enables admin mode (the upstream recommendation). The interface then lists all stored configuration keys instead of requiring knowledge of each key. This is acceptable as long as the service is only reachable inside the stack; if it is later published, set the variable to `no`."
+      de: Mit `APPRISE_ADMIN` ist der Admin-Modus aktiviert (Upstream-Standard). Die Oberfläche listet damit alle gespeicherten Konfigurationsschlüssel auf, statt die Kenntnis des jeweiligen Schlüssels vorauszusetzen. Welche Konfigurationen jemand sehen und nutzen darf, entscheiden weiterhin die Zugangsdaten; soll die Liste ganz verborgen bleiben, setze die Variable auf `no`.
+      en: "`APPRISE_ADMIN` enables admin mode (the upstream default). The interface then lists all stored configuration keys instead of requiring knowledge of each key. The credentials still decide who may see and use which configuration; to hide the list entirely, set the variable to `no`."
