@@ -1,0 +1,26 @@
+services:
+  valkey:
+    image: valkey/valkey:9
+    # The entrypoint drops root privileges before starting valkey-server. The
+    # password is passed as a single argument, so no shell parses it.
+    command: ["valkey-server", "--requirepass", "${ADMIN_PASSWORD}", "--appendonly", "yes"]
+    environment:
+      - TZ=Europe/Berlin
+      # Used by the healthcheck and the backup command.
+      - VALKEY_PASSWORD=${ADMIN_PASSWORD}
+    volumes:
+      - valkey_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "VALKEYCLI_AUTH=\"$$VALKEY_PASSWORD\" valkey-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    labels:
+      backup.command: >-
+        sh -lc 'set -e; d=/data/backups; mkdir -p "$$d";
+        f=$$d/backup_$$(date +%F_%H%M%S).rdb;
+        { VALKEYCLI_AUTH="$$VALKEY_PASSWORD" valkey-cli --rdb "$$f"; } || { rm -f "$$f"; exit 1; };
+        gzip "$$f";
+        find "$$d" -name "backup_*.rdb.gz" -type f -mtime +7 -delete'
+volumes:
+  valkey_data:

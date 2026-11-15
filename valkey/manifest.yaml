@@ -1,0 +1,84 @@
+manifestVersion: 1.0
+name:
+  de: Valkey
+  en: Valkey
+version: "9.x.x"
+type: component
+tagline:
+  de: Redis-kompatibler In-Memory-Datenspeicher für Caches, Queues und Sessions
+  en: Redis-compatible in-memory data store for caches, queues and sessions
+description:
+  de: |
+    **Valkey** ist ein quelloffener In-Memory-Key-Value-Store und eine self-hosted Alternative zu verwalteten Diensten wie Redis Cloud, Amazon ElastiCache oder Upstash. Das Projekt entstand 2024 als Fork von Redis, nachdem dessen Lizenz geändert wurde, und wird unter dem Dach der Linux Foundation unter der BSD-Lizenz weiterentwickelt. Valkey ist zum Redis-Protokoll kompatibel, sodass bestehende Clients und Bibliotheken ohne Anpassung weiterarbeiten.
+
+    Zentrale Funktionen:
+
+    - Datenstrukturen wie Strings, Hashes, Listen, Sets, Sorted Sets und Streams
+    - Ablaufzeiten je Schlüssel für Caches und Sessions
+    - Pub/Sub und Streams für Nachrichten und Job-Queues
+    - Persistenz über Append-Only-File und RDB-Snapshots
+
+    Für **Agenturen** dient Valkey als schneller Baustein hinter Kundenanwendungen: als Objekt- und Seiten-Cache für WordPress, Shopware oder TYPO3, als Session-Speicher für Laravel- oder Symfony-Anwendungen und als Queue-Backend für Hintergrundjobs mit Sidekiq, BullMQ oder Laravel Horizon. Wo bisher Redis eingesetzt wurde, genügt meist der Austausch des Hostnamens.
+
+    Bei mittwald läuft **Valkey** als self-hosted Container-Komponente in deutschen Rechenzentren; zwischengespeicherte Daten und Sessions verlassen die eigene Infrastruktur nicht, was die DSGVO-Konformität vereinfacht. Dieses Template enthält Valkey mit Passwortschutz und aktivierter Persistenz; Sicherungen erfolgen über das mittwald Backup-Label (`backup.command`). Lizenzkosten fallen nicht an.
+  en: |
+    **Valkey** is an open-source in-memory key-value store and a self-hosted alternative to managed services such as Redis Cloud, Amazon ElastiCache or Upstash. The project was forked from Redis in 2024 after Redis changed its licence and is developed under the Linux Foundation with a BSD licence. Valkey speaks the Redis protocol, so existing clients and libraries keep working without changes.
+
+    Key features:
+
+    - Data structures such as strings, hashes, lists, sets, sorted sets and streams
+    - Per-key expiry for caches and sessions
+    - Pub/Sub and streams for messaging and job queues
+    - Persistence via append-only file and RDB snapshots
+
+    For **agencies**, Valkey is a fast building block behind client applications: an object and page cache for WordPress, Shopware or TYPO3, a session store for Laravel or Symfony applications, and a queue backend for background jobs with Sidekiq, BullMQ or Laravel Horizon. Where Redis was used before, changing the hostname is usually all it takes.
+
+    At mittwald, **Valkey** runs as a self-hosted container component in German data centres; cached data and sessions never leave the agency's own infrastructure, which simplifies GDPR compliance. This template includes Valkey with password protection and persistence enabled; backups run via the mittwald backup label (`backup.command`). No licence costs apply.
+developer: Valkey contributors (Linux Foundation)
+website: https://valkey.io
+repository: https://github.com/valkey-io/valkey
+license:
+  name: BSD-3-Clause
+  link: https://spdx.org/licenses/BSD-3-Clause.html
+categories:
+  - development
+  - database
+userInputs:
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Passwort
+      en: Password
+    description:
+      de: Wird von allen Clients für die Anmeldung benötigt
+      en: Required by all clients to authenticate
+    positionMeta: { step: "adminUser", index: 1 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Hostname
+      en: Hostname
+    value: ${valkey.hostname}
+  - key:
+      de: Port
+      en: Port
+    value: 6379/TCP
+  - key:
+      de: Passwort
+      en: Password
+    value: ${valkey.env.VALKEY_PASSWORD}
+  - key:
+      de: Verbindungsstring
+      en: Connection string
+    value: redis://:${valkey.env.VALKEY_PASSWORD}@${valkey.hostname}:6379
+  alerts:
+  - status: info
+    heading:
+      de: Sonderzeichen im Verbindungsstring
+      en: Special characters in the connection string
+    content:
+      de: Enthält das Passwort Zeichen wie `@`, `:`, `/` oder `#`, müssen sie im Verbindungsstring URL-kodiert werden (z. B. `@` als `%40`). Alternativ Hostname, Port und Passwort einzeln in der Anwendung hinterlegen.
+      en: If the password contains characters such as `@`, `:`, `/` or `#`, they must be URL-encoded in the connection string (e.g. `@` as `%40`). Alternatively, configure hostname, port and password separately in the application.
