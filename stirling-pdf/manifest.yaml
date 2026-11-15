@@ -16,11 +16,12 @@ description:
     - PDF-Dateien zusammenführen, teilen, drehen, sortieren und komprimieren
     - Dokumente konvertieren, per OCR erkennen und mit Wasserzeichen versehen
     - Inhalte schwärzen, signieren, schützen und Metadaten bearbeiten
-    - Wiederkehrende Verarbeitungsschritte als Pipelines automatisieren
+    - Dateibibliothek auf dem Server, Text- und Formular-Editor
+    - Stapelverarbeitung über den PDF Processor, frei bis 1.000 PDFs pro Monat
 
     Für **Agenturen** deckt Stirling-PDF viele Arbeitsschritte rund um Angebote, Verträge, Präsentationen und Druckunterlagen über eine gemeinsame Oberfläche ab. Teams können Dokumente für Kunden zusammenstellen, sensible Inhalte schwärzen oder Scans durchsuchbar machen, ohne für jede Aufgabe einen separaten Dienst zu verwenden. Der aktivierte Login schützt die Oberfläche vor unberechtigtem Zugriff.
 
-    Bei mittwald läuft **Stirling-PDF** als self-hosted Container in deutschen Rechenzentren; verarbeitete Kundendokumente müssen die eigene Infrastruktur nicht verlassen. Das Template aktiviert die integrierte Anmeldung mit individuell vergebenen Zugangsdaten, setzt Deutsch als Standardsprache und deaktiviert Suchmaschinen-Sichtbarkeit sowie Umfragen. OCR-Daten, Konfiguration, Protokolle, Anpassungen und Pipelines werden in persistenten Volumes gespeichert. Die Community-Bestandteile sind ohne nutzungsabhängige Gebühren einsetzbar.
+    Bei mittwald läuft **Stirling-PDF** als self-hosted Container in deutschen Rechenzentren; verarbeitete Kundendokumente müssen die eigene Infrastruktur nicht verlassen. Das Template aktiviert die integrierte Anmeldung mit individuell vergebenen Zugangsdaten, setzt Deutsch als Standardsprache und deaktiviert Suchmaschinen-Sichtbarkeit sowie Umfragen. OCR-Daten, Konfiguration, Protokolle, Anpassungen, Pipelines und die Dateibibliothek werden in persistenten Volumes gespeichert. Die Bearbeitung im PDF Editor ist kostenlos und unbegrenzt; der Free-Plan umfasst bis zu 5 Benutzerkonten, automatisierte Verarbeitung über Processor, API und KI zählt gegen ein monatliches Kontingent von 1.000 PDFs.
   en: |
     **Stirling-PDF** is a comprehensive, self-hosted platform for editing and automating PDF documents. It is an alternative to desktop and cloud products such as Adobe Acrobat or Smallpdf, processing uploaded files within the operator's own infrastructure rather than through an external document service.
 
@@ -29,11 +30,12 @@ description:
     - Merge, split, rotate, reorder and compress PDF files
     - Convert documents, perform OCR and add watermarks
     - Redact, sign and protect content, and edit metadata
-    - Automate recurring processing steps through pipelines
+    - Server-side file library, text and form editor
+    - Batch processing via the PDF Processor, free for up to 1,000 PDFs per month
 
     For **agencies**, Stirling-PDF covers many tasks involving proposals, contracts, presentations and print documents in a single interface. Teams assemble client documents, redact confidential content and make scans searchable without using a separate service for every operation. Enabled authentication protects the interface from unauthorised access.
 
-    At mittwald, **Stirling-PDF** runs as a self-hosted container in German data centres; processed client documents do not need to leave the operator's infrastructure. The template enables built-in authentication with custom credentials, sets German as the default language and disables search-engine visibility and surveys. OCR data, configuration, logs, customisations and pipelines are stored in persistent volumes. Community features can be used without usage-based fees.
+    At mittwald, **Stirling-PDF** runs as a self-hosted container in German data centres; processed client documents do not need to leave the operator's infrastructure. The template enables built-in authentication with custom credentials, sets German as the default language and disables search-engine visibility and surveys. OCR data, configuration, logs, customisations, pipelines and the file library are stored in persistent volumes. Editing in the PDF Editor is free and unlimited; the free plan covers up to 5 user accounts, and automated processing through Processor, API and AI counts against a monthly allowance of 1,000 PDFs.
 developer: Stirling PDF Inc.
 website: https://stirling.com
 repository: https://github.com/Stirling-Tools/Stirling-PDF
@@ -110,3 +112,11 @@ help:
       de: Admin Passwort
       en: Admin password
     value: ${stirling-pdf.env.SECURITY_INITIALLOGIN_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: Kostenloser Plan
+      en: Free plan
+    content:
+      de: Ohne Lizenzschlüssel gilt der Free-Plan von Stirling-PDF. Er erlaubt bis zu 5 Benutzerkonten. Die Bearbeitung im PDF Editor ist unbegrenzt, automatisierte Verarbeitung über PDF Processor, API mit API-Key und KI-Funktionen ist auf 1.000 PDFs pro Monat begrenzt. Mehr Nutzer oder ein höheres Kontingent erfordern einen Lizenzschlüssel von Stirling PDF.
+      en: Without a licence key, the Stirling-PDF free plan applies. It allows up to 5 user accounts. Editing in the PDF Editor is unlimited, while automated processing through PDF Processor, API with an API key and AI features is limited to 1,000 PDFs per month. More users or a higher allowance require a licence key from Stirling PDF.

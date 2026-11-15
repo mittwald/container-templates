@@ -28,9 +28,17 @@ services:
       - stirling_logs:/logs
       - stirling_customfiles:/customFiles
       - stirling_pipeline:/pipeline
+      - stirling_storage:/storage
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:8080/api/v1/info/status | grep -q UP"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
 volumes:
   stirling_tessdata:
   stirling_configs:
   stirling_logs:
   stirling_customfiles:
   stirling_pipeline:
+  stirling_storage:
