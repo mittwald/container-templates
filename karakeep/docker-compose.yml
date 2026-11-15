@@ -8,6 +8,7 @@ services:
       - DATA_DIR=/data
       - NEXTAUTH_URL=https://${HOST}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - AUTH_TRUSTED_ORIGINS=https://${HOST}
       - MEILI_ADDR=http://meilisearch:7700
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
       - BROWSER_WEB_URL=http://chrome:9222
@@ -22,20 +23,20 @@ services:
       chrome:
         condition: service_started
   chrome:
-    image: gcr.io/zenika-hub/alpine-chrome:124
+    # Upstream-Image mit echtem Google Chrome (patchright-Crawler seit 0.34).
+    # Der Entrypoint setzt Headless-Modus und --no-sandbox und leitet den
+    # DevTools-Port 9222 weiter; hier stehen nur zusaetzliche Chrome-Flags.
+    image: ghcr.io/karakeep-app/karakeep-chrome:release
     environment:
       - TZ=Europe/Berlin
     command:
-      - --no-sandbox
       - --disable-gpu
       - --disable-dev-shm-usage
-      - --remote-debugging-address=0.0.0.0
-      - --remote-debugging-port=9222
       - --hide-scrollbars
       - --disable-blink-features=AutomationControlled
       - --window-size=1440,900
   meilisearch:
-    image: getmeili/meilisearch:v1.51
+    image: getmeili/meilisearch:v1.56
     environment:
       - TZ=Europe/Berlin
       - MEILI_NO_ANALYTICS=true
