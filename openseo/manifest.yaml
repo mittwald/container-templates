@@ -112,7 +112,6 @@ userInputs:
       en: The credential labelled Base64 on the API Access page of your DataForSEO account
     positionMeta: { step: "common", index: 1 }
     required: true
-    format: password
     validationSchema: '{ "type": "string", "minLength": 1 }'
   - name: "GOOGLE_CLIENT_ID"
     label:
@@ -130,7 +129,6 @@ userInputs:
       en: Google OAuth client secret
     positionMeta: { step: "common", index: 3 }
     required: false
-    format: password
     validationSchema: '{ "type": "string" }'
 systemInputs:
   - name: "STORAGE_SECRET_KEY"
