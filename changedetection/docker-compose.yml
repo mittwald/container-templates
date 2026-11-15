@@ -9,6 +9,21 @@ services:
       - PLAYWRIGHT_DRIVER_URL=ws://browser:3000
       - BASE_URL=https://${HOST}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    # changedetection.io only reads a derived hash from SALTED_PASS
+    # (base64 of 32-byte salt + PBKDF2-SHA256, 100000 iterations). The start
+    # command derives it from ADMIN_PASSWORD on every start and then runs the
+    # image's default command.
+    command:
+      - python
+      - -c
+      - |
+        import os, base64, hashlib
+        p = os.environ.pop("ADMIN_PASSWORD", "")
+        if p:
+            s = os.urandom(32)
+            k = hashlib.pbkdf2_hmac("sha256", p.encode("utf-8"), s, 100000)
+            os.environ["SALTED_PASS"] = base64.b64encode(s + k).decode()
+        os.execvp("python", ["python", "./changedetection.py", "-d", "/datastore"])
     depends_on:
       - browser
     volumes:
