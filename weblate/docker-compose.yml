@@ -27,7 +27,6 @@ services:
       - WEBLATE_EMAIL_USE_TLS=1
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
-      - POSTGRES_DATABASE=weblate
       - POSTGRES_DB=weblate
       - POSTGRES_USER=weblate
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
