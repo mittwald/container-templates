@@ -8,6 +8,7 @@ services:
       - PAPERLESS_TIME_ZONE=Europe/Berlin
       - PAPERLESS_SECRET_KEY=${PAPERLESS_SECRET_KEY}
       - PAPERLESS_REDIS=redis://redis:6379
+      - PAPERLESS_DBENGINE=postgresql
       - PAPERLESS_DBHOST=postgres
       - PAPERLESS_DBNAME=paperless
       - PAPERLESS_DBUSER=paperless
@@ -38,7 +39,7 @@ services:
     volumes:
       - paperless_media:/usr/src/paperless/media
       - paperless_data:/usr/src/paperless/data
-      - paperless_export:/usr/src/paperless/media/export
+      - paperless_export:/usr/src/paperless/export
       - paperless_consume:/usr/src/paperless/consume
   postgres:
     image: pgautoupgrade/pgautoupgrade:18-alpine
@@ -77,10 +78,11 @@ services:
     command:
       - "gotenberg"
       - "--chromium-disable-javascript=true"
-      - "--chromium-allow-list=file:///tmp/.*"
+      - "--chromium-allow-list=^file:///tmp/.*"
       - "--chromium-disable-routes=true"
   tika:
-    image: apache/tika:latest
+    # Paperless-ngx does not support Tika 4 yet, so Tika stays on the 3.x line.
+    image: apache/tika:3.3.3.0
     environment:
       - TZ=Europe/Berlin
 volumes:
