@@ -1,0 +1,37 @@
+services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - TZ=Europe/Berlin
+      - GF_SERVER_DOMAIN=${HOST}
+      - GF_SERVER_ROOT_URL=https://${HOST}/
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - GF_SECURITY_ADMIN_EMAIL=${ADMIN_EMAIL}
+      - GF_SECURITY_SECRET_KEY=${SECRET_KEY}
+      - GF_SECURITY_COOKIE_SECURE=true
+      - GF_SECURITY_DISABLE_GRAVATAR=true
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_USERS_ALLOW_ORG_CREATE=false
+      - GF_USERS_DEFAULT_LANGUAGE=de-DE
+      - GF_DATE_FORMATS_DEFAULT_TIMEZONE=Europe/Berlin
+      - GF_DATE_FORMATS_DEFAULT_WEEK_START=monday
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_ANALYTICS_CHECK_FOR_UPDATES=false
+      - GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES=false
+      - GF_ANALYTICS_FEEDBACK_LINKS_ENABLED=false
+      - GF_NEWS_NEWS_FEED_ENABLED=false
+      - GF_SNAPSHOTS_EXTERNAL_ENABLED=false
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST=mail.agenturserver.de:587
+      - GF_SMTP_USER=${MW_DELIVERYBOX_MAIN_USERNAME}
+      - GF_SMTP_PASSWORD=${MW_DELIVERYBOX_MAIN_PASSWORD}
+      - GF_SMTP_STARTTLS_POLICY=MandatoryStartTLS
+      - GF_SMTP_FROM_ADDRESS=${SMTP_FROM}
+      - GF_SMTP_FROM_NAME=Grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+volumes:
+  grafana_data:
