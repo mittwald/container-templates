@@ -9,16 +9,17 @@ tagline:
   en: Quickly capture notes and thoughts
 description:
   de: |
-    **Memos** ist eine leichtgewichtige, privatsphärenorientierte Anwendung für Notizen und Kurznotizen und eine self-hosted Alternative zu Google Keep oder Flomo. Gedanken, Aufgaben und Snippets werden in Sekunden als Markdown festgehalten und chronologisch in einem durchsuchbaren Verlauf gesammelt – ohne Ordnerzwang, dafür mit Tags und Verlinkungen.
+    **Memos** ist eine leichtgewichtige, privatsphärenorientierte Anwendung für Notizen und Kurznotizen und eine self-hosted Alternative zu Google Keep oder Flomo. Gedanken, Aufgaben und Snippets werden in Sekunden in Markdown festgehalten und chronologisch in einem durchsuchbaren Verlauf gesammelt – ohne Ordnerzwang, dafür mit Tags und Verlinkungen.
 
     Zentrale Funktionen:
 
-    - Schnelles Erfassen von Notizen in Markdown mit Vorschau
+    - Schnelles Erfassen von Notizen in einem Editor, der Markdown direkt formatiert darstellt
     - Organisation über Tags, Filter und Volltextsuche statt starrer Ordner
-    - Sichtbarkeit je Notiz: privat, geschützt oder öffentlich teilbar
+    - Spaces für gemeinsame Notizen im Team, dazu Kalender- und Kartenansicht
+    - Sichtbarkeit je Notiz: privat, geschützt, nur für einen Space oder öffentlich
     - REST-API und Einbettungen zur Anbindung eigener Tools und Automationen
 
-    Für **Agenturen** eignet sich Memos als gemeinsames Notiz- und Wissens-Log: Meeting-Notizen, Ideen und wiederkehrende Textbausteine werden zentral gesammelt und über Tags pro Kunde oder Projekt geordnet. Öffentlich freigegebene Notizen lassen sich als schlanke Änderungs- oder Statusmeldungen nutzen, während die REST-API die Anbindung an bestehende Workflows ermöglicht.
+    Für **Agenturen** eignet sich Memos als gemeinsames Notiz- und Wissens-Log: Meeting-Notizen, Ideen und wiederkehrende Textbausteine werden zentral gesammelt und über Tags oder eigene Spaces pro Kunde oder Projekt geordnet. Öffentlich freigegebene Notizen lassen sich als schlanke Änderungs- oder Statusmeldungen nutzen, während die REST-API die Anbindung an bestehende Workflows ermöglicht.
 
     Bei mittwald läuft **Memos** als self-hosted Container in deutschen Rechenzentren; Notizen und Inhalte verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält Memos zusammen mit einer PostgreSQL-Datenbank – ohne nutzungsabhängige Lizenz- oder Seat-Kosten.
   en: |
@@ -26,12 +27,13 @@ description:
 
     Key features:
 
-    - Fast note capture in Markdown with preview
+    - Fast note capture in an editor that renders Markdown as you type
     - Organisation via tags, filters and full-text search instead of rigid folders
-    - Per-note visibility: private, protected or publicly shareable
+    - Spaces for shared team notes, plus calendar and map views
+    - Per-note visibility: private, protected, Space-only or public
     - REST API and embeds to connect your own tools and automations
 
-    For **agencies**, Memos works as a shared note and knowledge log: meeting notes, ideas and recurring text snippets are collected centrally and organised per client or project via tags. Publicly shared notes can serve as lean changelog or status updates, while the REST API enables integration with existing workflows.
+    For **agencies**, Memos works as a shared note and knowledge log: meeting notes, ideas and recurring text snippets are collected centrally and organised per client or project via tags or dedicated Spaces. Publicly shared notes can serve as lean changelog or status updates, while the REST API enables integration with existing workflows.
 
     At mittwald, **Memos** runs as a self-hosted container in German data centres; notes and content stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes Memos together with a PostgreSQL database — with no usage-based licence or seat costs.
 developer: Memos
@@ -46,8 +48,13 @@ screenshots:
   - bg: background.jpg
     screenshot: screenshot-memos.png
     text:
-      de: Notizen mit Schlagwörtern, Aufgabenlisten und Codeblöcken
-      en: Notes with tags, task lists and code blocks
+      de: Notizen mit Tags, Aufgabenlisten und Spaces in der Zeitleiste
+      en: Notes with tags, task lists and Spaces in the timeline
+  - bg: background.jpg
+    screenshot: screenshot-calendar.png
+    text:
+      de: Notizen im Monatskalender nach Tagen durchsehen
+      en: Browse notes by day in the monthly calendar
 domains:
   main:
     userInput: HOST
@@ -96,8 +103,15 @@ help:
   alerts:
   - status: info
     heading:
-      de: Erstes Konto wird Host
-      en: First account becomes host
+      de: Erstes Konto wird Administrator
+      en: First account becomes administrator
     content:
-      de: Der erste Nutzer, der sich nach der Installation registriert, wird automatisch zum Host (Administrator). Weitere Nutzende können anschließend angelegt werden. Die Selbstregistrierung kannst du danach in den Workspace-Einstellungen deaktivieren.
-      en: The first user to register after installation automatically becomes the host (administrator). Additional users can then be created. You can then disable self-registration in the workspace settings.
+      de: Das erste Konto, das sich nach der Installation registriert, wird automatisch zum Administrator. Weitere Nutzende können anschließend angelegt werden. Die Selbstregistrierung kannst du danach in den Workspace-Einstellungen deaktivieren.
+      en: The first account to register after installation automatically becomes the administrator. Additional users can then be created. You can then disable self-registration in the workspace settings.
+  - status: warning
+    heading:
+      de: Aktualisierung älterer Installationen
+      en: Updating older installations
+    content:
+      de: Seit Version 26.10 setzt Memos voraus, dass eine bestehende Datenbank bereits mit Version 0.31 migriert wurde. Läuft eine ältere Installation noch mit 0.30 oder früher, setze das Image einmalig auf `neosmemo/memos:0.31.0`, starte den Container und stelle danach wieder auf `stable` um.
+      en: Since version 26.10, Memos requires an existing database to have been migrated by version 0.31. If an older installation still runs 0.30 or earlier, set the image to `neosmemo/memos:0.31.0` once, start the container and then switch back to `stable`.
