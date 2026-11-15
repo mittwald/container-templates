@@ -14,7 +14,7 @@ description:
     Zentrale Funktionen:
 
     - Geplante Backups für gängige Datenbanken (u. a. PostgreSQL, MySQL/MariaDB, MongoDB)
-    - Mehrere Zielspeicher: S3-kompatibel, Google Drive, FTP und weitere
+    - Mehrere Zielspeicher: lokal, S3-kompatibel, Azure Blob, NAS, FTP und SFTP
     - Benachrichtigungen über Slack, Discord, Telegram und weitere Kanäle
     - Verwaltung, Zeitpläne und Aufbewahrung zentral über die Weboberfläche
 
@@ -27,7 +27,7 @@ description:
     Key features:
 
     - Scheduled backups for common databases (including PostgreSQL, MySQL/MariaDB, MongoDB)
-    - Multiple target storages: S3-compatible, Google Drive, FTP and more
+    - Multiple target storages: local, S3-compatible, Azure Blob, NAS, FTP and SFTP
     - Notifications via Slack, Discord, Telegram and other channels
     - Management, schedules and retention centrally through the web interface
 
@@ -86,5 +86,5 @@ help:
       de: Konto beim ersten Aufruf einrichten
       en: Set up your account on first access
     content:
-      de: Beim ersten Aufruf der Oberfläche legst du das Administratorkonto an. Ein vergessenes Passwort lässt sich per CLI zurücksetzen (`docker exec … databasus --new-password="…" --email="admin"`).
-      en: On first access to the interface you create the administrator account. A forgotten password can be reset via the CLI (`docker exec … databasus --new-password="…" --email="admin"`).
+      de: 'Beim ersten Aufruf der Oberfläche legst du das Administratorkonto an. Ein vergessenes Passwort lässt sich im Container per CLI zurücksetzen: `databasus --list-admins` zeigt die E-Mail-Adressen der Administratoren, `databasus --new-password="…" --email="<E-Mail-Adresse>"` setzt ein neues Passwort.'
+      en: 'On first access to the interface you create the administrator account. A forgotten password can be reset via the CLI inside the container: `databasus --list-admins` shows the administrators'' email addresses, `databasus --new-password="…" --email="<email address>"` sets a new password.'
