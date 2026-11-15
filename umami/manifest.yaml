@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Umami
   en: Umami
-version: "latest"
+version: "3.x.x"
 type: standalone
 tagline:
   de: Datenschutzfreundliche Web-Analytics
@@ -17,6 +17,7 @@ description:
     - Benutzerdefinierte Events und Conversion-Ziele
     - Getrennte Auswertung beliebig vieler Websites in einer Installation
     - Öffentlich teilbare Dashboards und abgestufte Zugriffsrechte für Teammitglieder
+    - Erfassung von JavaScript-Fehlern im Browser und Zwei-Faktor-Anmeldung
 
     Für **Agenturen** ist Umami besonders im Betrieb vieler Kundenprojekte interessant: Sämtliche Kundenseiten laufen über eine zentrale Instanz und lassen sich dort getrennt auswerten und als Reporting weitergeben. Neue Kundenseiten sind in wenigen Minuten angebunden, und abgestufte Zugriffsrechte ermöglichen schreibgeschützte Dashboard-Logins für Kunden. Da Umami ohne Cookie-Banner auskommt, vereinfacht es zugleich die DSGVO-Konformität der betreuten Websites.
 
@@ -30,6 +31,7 @@ description:
     - Custom events and conversion goals
     - Multiple websites analysed separately from one installation
     - Publicly shareable dashboards with granular access rights for team members
+    - Browser JavaScript error tracking and two-factor sign-in
 
     For **agencies**, Umami is particularly useful across many client projects: all sites run through a single central instance, analysed separately and shared as reporting. Granular access rights allow read-only dashboard logins for clients without exposing other projects. Because Umami works without a cookie banner, it also simplifies GDPR compliance for managed websites.
 
@@ -123,5 +125,5 @@ help:
       de: Standardzugangsdaten gesetzt
       en: Default login credentials set
     content:
-      de: Die Zugangsdaten werden für jede Installation standardmäßig gesetzt. Bitte ändere sie sofort nach dem ersten Login.
-      en: The login credentials are set by default for each installation. Please change them immediately after your first login.
+      de: Die Zugangsdaten werden für jede Installation standardmäßig gesetzt. Beim ersten Login verlangt Umami ein neues Passwort, bevor du fortfahren kannst.
+      en: The login credentials are set by default for each installation. On first login, Umami requires a new password before you can continue.
