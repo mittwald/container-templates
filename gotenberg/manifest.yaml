@@ -2,7 +2,7 @@ manifestVersion: 1.0
 name:
   de: Gotenberg
   en: Gotenberg
-version: "8"
+version: "9.x.x"
 type: component
 tagline:
   de: Dokumente per API in PDF umwandeln
@@ -15,12 +15,13 @@ description:
 
     - HTML- und Markdown-zu-PDF (Chromium) mit Kopf-/Fußzeilen und Seitenoptionen
     - Office-zu-PDF über LibreOffice (Word, Excel, PowerPoint u. v. m.)
-    - PDF-Werkzeuge: Zusammenführen, Konvertieren und Metadaten
+    - PDF-Werkzeuge: Zusammenführen, Komprimieren, Schwärzen, Signieren und Formulare füllen
+    - Konvertierung nach PDF/A, PDF/UA und Factur-X samt Prüfung der Konformität
     - Zustandsloser Dienst, horizontal skalierbar, ohne externe Datenbank
 
     Für **Agenturen** dient Gotenberg als zentraler Konvertierungs-Baustein hinter eigenen Anwendungen: Rechnungen, Angebote, Reports oder Exporte aus Kundenanwendungen werden serverseitig zuverlässig als PDF erzeugt. Da der Dienst über eine klare API angesprochen wird, lässt er sich in bestehende Anwendungen, Workflows und Automatisierungen einbinden, ohne Konvertierungslogik in jeder Anwendung zu duplizieren.
 
-    Bei mittwald läuft **Gotenberg** als self-hosted Container in deutschen Rechenzentren; die zu konvertierenden Dokumente verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält den zustandslosen Gotenberg-Dienst – ohne nutzungsabhängige Lizenz- oder Konvertierungskosten.
+    Bei mittwald läuft **Gotenberg** als self-hosted Container in deutschen Rechenzentren; die zu konvertierenden Dokumente verbleiben unter der Kontrolle der Agentur und werden nicht an externe SaaS-Anbieter übertragen, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält den zustandslosen Gotenberg-Dienst in Version 9 – ohne nutzungsabhängige Lizenz- oder Konvertierungskosten.
   en: |
     **Gotenberg** is a self-hosted API service for converting documents to PDF and a building block for automated document generation. Through a unified REST interface, HTML, Markdown and Office documents (Word, Excel, PowerPoint and more) are converted to PDF, and PDF files are merged or transformed — without applications having to embed their own conversion tools.
 
@@ -28,12 +29,13 @@ description:
 
     - HTML and Markdown to PDF (Chromium) with headers/footers and page options
     - Office to PDF via LibreOffice (Word, Excel, PowerPoint and many more)
-    - PDF tools: merge, convert and metadata
+    - PDF tools: merge, compress, redact, sign and fill forms
+    - Conversion to PDF/A, PDF/UA and Factur-X including conformance validation
     - Stateless service, horizontally scalable, without an external database
 
     For **agencies**, Gotenberg serves as a central conversion building block behind their own applications: invoices, quotes, reports or exports from client applications are reliably generated as PDF on the server side. Because the service is accessed through a clear API, it integrates into existing applications, workflows and automations without duplicating conversion logic in every application.
 
-    At mittwald, **Gotenberg** runs as a self-hosted container in German data centres; the documents to be converted stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes the stateless Gotenberg service — with no usage-based licence or conversion costs.
+    At mittwald, **Gotenberg** runs as a self-hosted container in German data centres; the documents to be converted stay under the agency's control and are not transmitted to external SaaS providers, simplifying GDPR compliance. This template includes the stateless Gotenberg service in version 9 — with no usage-based licence or conversion costs.
 developer: Julien Neuhart
 website: https://gotenberg.dev
 repository: https://github.com/gotenberg/gotenberg
@@ -56,3 +58,10 @@ help:
     content:
       de: Gotenberg bringt keine eigene Anmeldung mit. Der Konvertierungsdienst wird deshalb nicht über eine Domain veröffentlicht und ist nur innerhalb des Stacks über den Hostnamen erreichbar. Sprich ihn ausschließlich aus Anwendungen desselben Stacks an.
       en: Gotenberg has no built-in sign-in. The conversion service is therefore not published via a domain and is only reachable inside the stack via its hostname. Address it exclusively from applications in the same stack.
+  - status: info
+    heading:
+      de: API von Gotenberg 9
+      en: Gotenberg 9 API
+    content:
+      de: Dieses Template nutzt Gotenberg 9. Gegenüber Version 8 haben sich Routen und Felder geändert, etwa `/forms/pdfengines/*` zu `/forms/pdf/*` und Nachbearbeitungen wie `merge` oder `pdfa` zu einer `stages`-Liste. Clients, die noch die API von Gotenberg 8 sprechen, erhalten `400` oder `404` und müssen laut Upgrade-Anleitung auf https://gotenberg.dev/docs/getting-started/upgrade angepasst werden.
+      en: This template uses Gotenberg 9. Compared with version 8, routes and fields have changed, for example `/forms/pdfengines/*` to `/forms/pdf/*` and post-processing such as `merge` or `pdfa` to a `stages` list. Clients still speaking the Gotenberg 8 API receive `400` or `404` and need to be adapted according to the upgrade guide at https://gotenberg.dev/docs/getting-started/upgrade.
