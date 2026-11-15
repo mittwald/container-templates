@@ -12,6 +12,10 @@ services:
       - OPENPROJECT_HTTPS=true
       - OPENPROJECT_HOST__NAME=${HOST}
       - OPENPROJECT_HSTS=true
+      # hocuspocus fragt die Berechtigungen direkt unter http://web:8080 ab.
+      - OPENPROJECT_ADDITIONAL__HOST__NAMES=web
+      - OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=wss://${COLLAB_HOST}
+      - OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=${HOCUSPOCUS_SECRET}
       - OPENPROJECT_RAILS__CACHE__STORE=memcache
       - OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211
       - DATABASE_URL=postgres://openproject:${POSTGRES_PASSWORD}@postgres:5432/openproject?pool=20&encoding=unicode&reconnect=true
@@ -52,6 +56,9 @@ services:
       - TZ=Europe/Berlin
       - OPENPROJECT_HTTPS=true
       - OPENPROJECT_HOST__NAME=${HOST}
+      - OPENPROJECT_ADDITIONAL__HOST__NAMES=web
+      - OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=wss://${COLLAB_HOST}
+      - OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET=${HOCUSPOCUS_SECRET}
       - OPENPROJECT_RAILS__CACHE__STORE=memcache
       - OPENPROJECT_CACHE__MEMCACHE__SERVER=cache:11211
       - DATABASE_URL=postgres://openproject:${POSTGRES_PASSWORD}@postgres:5432/openproject?pool=20&encoding=unicode&reconnect=true
@@ -67,6 +74,20 @@ services:
       - OPENPROJECT_MAIL__FROM=${SMTP_FROM}
     volumes:
       - openproject_assets:/var/openproject/assets
+    depends_on:
+      web:
+        condition: service_healthy
+  hocuspocus:
+    # Server fuer die gemeinsame Echtzeit-Bearbeitung im Dokumenten-Editor.
+    # Der Browser verbindet sich per WebSocket ueber eine eigene Domain.
+    image: openproject/hocuspocus:17
+    ports:
+      - "1234:1234"
+    environment:
+      - TZ=Europe/Berlin
+      - SECRET=${HOCUSPOCUS_SECRET}
+      - OPENPROJECT_URL=http://web:8080
+      - OPENPROJECT_HTTPS=true
     depends_on:
       web:
         condition: service_healthy
