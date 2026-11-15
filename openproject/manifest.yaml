@@ -102,8 +102,8 @@ userInputs:
       en: Admin password
     positionMeta: { step: "adminUser", index: 2 }
     description:
-      de: Die Anmeldung erfolgt mit dem Benutzernamen `admin` und diesem Passwort
-      en: Sign-in uses the username `admin` and this password
+      de: Die Anmeldung erfolgt mit dem Benutzernamen „admin“ und diesem Passwort
+      en: Sign-in uses the username "admin" and this password
     format: password
     required: true
     validationSchema: '{ "type": "string", "minLength": 12 }'
