@@ -49,9 +49,9 @@ services:
       - -e
       - |
         const {spawn,execFileSync:x}=require("child_process"),fs=require("fs"),e=process.env,a=process.argv,o={stdio:"inherit"};
-        const keys=["BETTER_AUTH_SECRET","OPENSEO_OPERATOR_SECRET","CRAWL_GATEWAY_SECRET"];
-        fs.writeFileSync("/config/secrets.json",JSON.stringify(Object.fromEntries(keys.map((k)=>[k,e[k]]))),{mode:0o600});
-        const b=x("curl",["-sS","--retry","30","--retry-all-errors","-o","/dev/null","-w","%{http_code}","--aws-sigv4","aws:amz:"+e.AWS_REGION+":s3",
+        const k=["BETTER_AUTH_SECRET","OPENSEO_OPERATOR_SECRET","CRAWL_GATEWAY_SECRET"];
+        fs.writeFileSync("/config/secrets.json",JSON.stringify(Object.fromEntries(k.map((n)=>[n,e[n]]))),{mode:0o600});
+        const b=x("curl",["-sS","--retry","60","--retry-delay","2","--retry-all-errors","-o","/dev/null","-w","%{http_code}","--aws-sigv4","aws:amz:"+e.AWS_REGION+":s3",
           "--user",e.AWS_ACCESS_KEY_ID+":"+e.AWS_SECRET_ACCESS_KEY,"-X","PUT",e.S3_ENDPOINT+"/"+e.CELLD_BUCKET,
           "-H","x-amz-content-sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"]).toString();
         if(!["200","409"].includes(b))throw Error("Bucket initialization failed (HTTP "+b+")");
