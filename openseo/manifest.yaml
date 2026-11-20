@@ -18,11 +18,11 @@ description:
     - Wettbewerbs- und Backlink-Analysen
     - Site-Audits, die eine Website auf technische SEO-Probleme prüfen
     - AI Visibility: Sichtbarkeit einer Marke in Antworten von KI-Assistenten
-    - SEO-Assistent SAM und ein MCP-Server für KI-Agenten wie Claude Code
+    - MCP-Server für KI-Agenten wie Claude Code und der Chat-Assistent SAM (Beta)
 
     Für **Agenturen** eignet sich OpenSEO, um SEO-Analysen für Kundenprojekte ohne teure Lizenzen pro Platz durchzuführen: Projekte bündeln Keywords, Rankings und Audits je Kunde, Teammitglieder werden per Einladung hinzugefügt, und Berichte lassen sich mit Kunden teilen. Über den MCP-Server lassen sich wiederkehrende Auswertungen an KI-Agenten übergeben.
 
-    Bei **mittwald** läuft OpenSEO in deutschen Rechenzentren; Projekte, Keywords und Auswertungen bleiben in der eigenen Umgebung, was die Einhaltung der DSGVO vereinfacht. Das Template enthält die Anwendung samt Laufzeitumgebung, Objektspeicher und Crawl-Gateway und bindet den SEO-Assistenten an das mittwald AI Hosting an. Kosten entstehen nur für die tatsächlich bei DataForSEO abgerufenen Daten.
+    Bei **mittwald** läuft OpenSEO in deutschen Rechenzentren; Projekte, Keywords und Auswertungen bleiben in der eigenen Umgebung, was die Einhaltung der DSGVO vereinfacht. Das Template enthält die Anwendung samt Laufzeitumgebung, Objektspeicher und Crawl-Gateway und bindet die KI-Funktionen wie Prompt-Vorschläge und den Chat-Assistenten an das mittwald AI Hosting an. Kosten entstehen nur für die tatsächlich bei DataForSEO abgerufenen Daten.
   en: |
     **OpenSEO** is a lean search engine optimisation tool and a self-hosted alternative to Semrush or Ahrefs. Instead of a subscription, it uses your own DataForSEO account, which is billed per data actually retrieved. The interface bundles the typical SEO workflows in clear views.
 
@@ -33,11 +33,11 @@ description:
     - Competitor and backlink analysis
     - Site audits that check a website for technical SEO issues
     - AI Visibility: how a brand appears in answers from AI assistants
-    - SEO assistant SAM and an MCP server for AI agents such as Claude Code
+    - MCP server for AI agents such as Claude Code and the chat assistant SAM (beta)
 
     For **agencies**, OpenSEO is suited to running SEO analyses for client projects without expensive per-seat licences: projects bundle keywords, rankings and audits per client, team members join by invitation, and reports can be shared with clients. Via the MCP server, recurring analyses can be handed to AI agents.
 
-    At **mittwald**, OpenSEO runs in German data centres; projects, keywords and analyses stay in your own environment, simplifying GDPR compliance. The template includes the application with its runtime, object storage and crawl gateway and connects the SEO assistant to mittwald AI Hosting. Costs arise only for the data actually retrieved from DataForSEO.
+    At **mittwald**, OpenSEO runs in German data centres; projects, keywords and analyses stay in your own environment, simplifying GDPR compliance. The template includes the application with its runtime, object storage and crawl gateway and connects AI features such as prompt suggestions and the chat assistant to mittwald AI Hosting. Costs arise only for the data actually retrieved from DataForSEO.
 developer: Every App
 website: https://openseo.so
 repository: https://github.com/every-app/open-seo
@@ -47,6 +47,22 @@ license:
   link: https://spdx.org/licenses/MIT.html
 categories:
   - monitoring
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-audit-issues.jpg
+    text:
+      de: Site-Audit mit gefundenen Problemen nach Schweregrad
+      en: Site audit with issues found, grouped by severity
+  - bg: background.jpg
+    screenshot: screenshot-audit-pages.jpg
+    text:
+      de: Gecrawlte Seiten mit Status, Titel, Bildern und Ladezeit
+      en: Crawled pages with status, title, images and load time
+  - bg: background.jpg
+    screenshot: screenshot-sam.jpg
+    text:
+      de: Der Chat-Assistent startet einen Audit und fasst ihn zusammen
+      en: The chat assistant runs an audit and summarises the results
 domains:
   main:
     userInput: HOST
@@ -90,10 +106,13 @@ userInputs:
     label:
       de: AI API-Key
       en: AI API Key
+    description:
+      de: Optional, ohne Key sind der Chat-Assistent und die KI-gestützten Vorschläge deaktiviert
+      en: Optional, without a key the chat assistant and AI-assisted suggestions are disabled
     positionMeta: { step: "ai", index: 1 }
-    required: true
+    required: false
     dataSource: "aiHosting.apiKey"
-    validationSchema: '{ "type": "string", "minLength": 1 }'
+    validationSchema: '{ "type": "string" }'
   - name: "AI_ENDPOINT"
     label:
       de: AI Endpunkt
