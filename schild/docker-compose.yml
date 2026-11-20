@@ -1,0 +1,71 @@
+services:
+  schild:
+    # No floating tag at all (not even latest): the project publishes fixed
+    # versions only, so the current release is pinned and raised by hand.
+    image: ghcr.io/deutschland-schild/schild:0.1.0-alpha.1
+    ports:
+      - "8080:8080"
+      - "8788:8788"
+    environment:
+      - TZ=Europe/Berlin
+      - SCHILD_CONFIG=/config/schild.yaml
+    volumes:
+      - schild_config:/config:ro
+      - schild_data:/var/lib/schild
+    # The platform does not guarantee the start order, so the gateway may
+    # start before the file exists. The image has no shell to wait with;
+    # schild run then exits at once ("open /config/schild.yaml: no such file
+    # or directory") and the restarted container finds the file. The
+    # condition only orders the local dev runner.
+    depends_on:
+      schild-config:
+        condition: service_healthy
+  schild-config:
+    # The image is distroless (no shell) and reads its settings from a YAML
+    # file only, which the platform cannot mount. This companion writes the
+    # file from the deployment values into a shared volume on every start
+    # and then stays alive, because a container that exits counts as failed.
+    # The dashboard listens on its own domain; dashboard.allowed_hosts is
+    # the Host check against DNS rebinding. The ingress reaches the
+    # container from private ranges, so those are the trusted proxies for
+    # X-Forwarded-For; schild refuses 0.0.0.0/0.
+    image: alpine:3
+    command:
+      - sh
+      - -c
+      - |
+        node=$(printf %s "$HOST" | tr 'A-Z' 'a-z' | sed 's/[^a-z0-9]/-/g' | cut -c1-63)
+        cat > /config/schild.yaml <<EOF
+        config_version: 0
+        node_name: $node
+        upstream:
+          url: "$UPSTREAM_URL"
+          site_hosts: ["$HOST"]
+        listen:
+          proxy: "0.0.0.0:8080"
+          dashboard: "0.0.0.0:8788"
+        ingress:
+          trusted_proxies: ["100.64.0.0/10", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+        dashboard:
+          allowed_hosts: ["$DASHBOARD_HOST"]
+        rules:
+          crs:
+            state: $CRS_STATE
+        EOF
+        exec tail -f /dev/null
+    environment:
+      - TZ=Europe/Berlin
+      - HOST=${HOST}
+      - DASHBOARD_HOST=${DASHBOARD_HOST}
+      - UPSTREAM_URL=${UPSTREAM_URL}
+      - CRS_STATE=${CRS_STATE}
+    volumes:
+      - schild_config:/config
+    healthcheck:
+      test: ["CMD", "test", "-s", "/config/schild.yaml"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+volumes:
+  schild_config:
+  schild_data:
