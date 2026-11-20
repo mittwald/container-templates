@@ -12,6 +12,11 @@ services:
     volumes:
       - schild_config:/config:ro
       - schild_data:/var/lib/schild
+    # The platform does not guarantee the start order, so the gateway may
+    # start before the file exists. The image has no shell to wait with;
+    # schild run then exits at once ("open /config/schild.yaml: no such file
+    # or directory") and the restarted container finds the file. The
+    # condition only orders the local dev runner.
     depends_on:
       schild-config:
         condition: service_healthy
