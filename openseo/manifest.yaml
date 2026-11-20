@@ -5,8 +5,8 @@ name:
 version: "0.x.x"
 type: standalone
 tagline:
-  de: SEO-Analysen mit eigenem DataForSEO-Zugang
-  en: SEO analysis with your own DataForSEO account
+  de: SEO-Analysen, Rankings und Site-Audits
+  en: SEO analysis, rankings and site audits
 description:
   de: |
     **OpenSEO** ist ein schlankes Werkzeug für Suchmaschinenoptimierung und eine self-hosted Alternative zu Semrush oder Ahrefs. Statt eines Abonnements nutzt es einen eigenen Zugang zu DataForSEO, der nach tatsächlich abgerufenen Daten abgerechnet wird. Die Oberfläche bündelt die typischen SEO-Arbeitsabläufe in übersichtlichen Ansichten.
@@ -127,11 +127,11 @@ userInputs:
       de: DataForSEO API-Key
       en: DataForSEO API key
     description:
-      de: Der als Base64 bezeichnete Zugang auf der Seite API Access im DataForSEO-Konto
-      en: The credential labelled Base64 on the API Access page of your DataForSEO account
+      de: Der als Base64 bezeichnete Zugang auf der Seite API Access im DataForSEO-Konto. Ohne Zugang sind Keyword-, Ranking- und Backlink-Daten nicht verfügbar, Site-Audits funktionieren trotzdem
+      en: The credential labelled Base64 on the API Access page of your DataForSEO account. Without it, keyword, ranking and backlink data are unavailable; site audits still work
     positionMeta: { step: "common", index: 1 }
-    required: true
-    validationSchema: '{ "type": "string", "minLength": 1 }'
+    required: false
+    validationSchema: '{ "type": "string" }'
   - name: "GOOGLE_CLIENT_ID"
     label:
       de: Google OAuth Client-ID
