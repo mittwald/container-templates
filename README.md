@@ -507,7 +507,7 @@ Vor dem Start prüft der Runner die Docker-Verbindung, die benötigten Host-Port
 | <img src="openclaw/icon.svg" width="24" height="24" style="object-fit:contain"> | [openclaw](openclaw/) | Selbstgehosteter KI-Agent mit Automatisierungen und Messenger-Anbindung |
 | <img src="openproject/icon.svg" width="24" height="24" style="object-fit:contain"> | [openproject](openproject/) | Projektmanagement und Teamarbeit |
 | <img src="opensearch/icon.svg" width="24" height="24" style="object-fit:contain"> | [opensearch](opensearch/) | Verteilte Such- und Analyse-Engine |
-| <img src="openseo/icon.svg" width="24" height="24" style="object-fit:contain"> | [openseo](openseo/) | SEO-Analysen mit eigenem DataForSEO-Zugang |
+| <img src="openseo/icon.svg" width="24" height="24" style="object-fit:contain"> | [openseo](openseo/) | SEO-Analysen, Rankings und Site-Audits |
 | <img src="openwebui/icon.svg" width="24" height="24" style="object-fit:contain"> | [openwebui](openwebui/) | Selbstgehostete Oberfläche für KI-Modelle |
 | <img src="outline/icon.svg" width="24" height="24" style="object-fit:contain"> | [outline](outline/) | Wissensdatenbank für Teams mit Echtzeit-Editor und Volltextsuche |
 | <img src="paperclip/icon.svg" width="24" height="24" style="object-fit:contain"> | [paperclip](paperclip/) | Steuerzentrale für Teams aus KI-Agenten |
