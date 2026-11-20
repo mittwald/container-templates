@@ -107,8 +107,8 @@ userInputs:
       de: AI API-Key
       en: AI API Key
     description:
-      de: Optional, ohne Key sind der Chat-Assistent und die KI-gestützten Vorschläge deaktiviert
-      en: Optional, without a key the chat assistant and AI-assisted suggestions are disabled
+      de: Ohne Key sind der Chat-Assistent und die KI-gestützten Vorschläge deaktiviert
+      en: Without a key, the chat assistant and AI-assisted suggestions are disabled
     positionMeta: { step: "ai", index: 1 }
     required: false
     dataSource: "aiHosting.apiKey"
@@ -137,8 +137,8 @@ userInputs:
       de: Google OAuth Client-ID
       en: Google OAuth client ID
     description:
-      de: Optional, für die Anbindung von Google Search Console und Google Analytics über eine eigene OAuth-App
-      en: Optional, to connect Google Search Console and Google Analytics through your own OAuth app
+      de: Für die Anbindung von Google Search Console und Google Analytics über eine eigene OAuth-App
+      en: To connect Google Search Console and Google Analytics through your own OAuth app
     positionMeta: { step: "common", index: 2 }
     required: false
     validationSchema: '{ "type": "string" }'
