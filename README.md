@@ -659,3 +659,4 @@ Diese Versionen aktualisieren sich nicht über einen floatenden Tag und werden b
 | `paperless` | `apache/tika:3.x.x.x` | Paperless unterstützt Tika 4 nicht |
 | `paperless`, `solidtime` | `gotenberg/gotenberg:8` | Clients nutzen die v8-API |
 | `immich` | vorbereitetes PostgreSQL-Image | fest verdrahtete Extension-Versionen |
+| `openseo` | `rustfs/rustfs` volle Release-Version | vom Upstream mit celld getestete Version, kein Major-Tag |
