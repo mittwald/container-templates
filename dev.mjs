@@ -374,6 +374,8 @@ function defaultUserValue(input) {
     value = "admin@example.test";
   } else if (input.format === "password" || name.includes("PASSWORD")) {
     value = "DevPassword123!";
+  } else if (input.format === "url") {
+    value = "https://example.com";
   } else if (name.endsWith("_USER") || name.endsWith("_USERNAME")) {
     value = "admin";
   } else if (name.endsWith("_DOMAIN")) {

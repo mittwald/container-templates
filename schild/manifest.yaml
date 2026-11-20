@@ -1,0 +1,166 @@
+manifestVersion: 1.0
+name:
+  de: Schild Gateway
+  en: Schild Gateway
+version: "0.1.0-alpha.1"
+type: standalone
+tagline:
+  de: Web Application Firewall und Reverse-Proxy für Websites
+  en: Web application firewall and reverse proxy for websites
+description:
+  de: |
+    **Schild Gateway** ist eine Open-Source-Web-Application-Firewall mit Reverse-Proxy und Dashboard des gemeinnützigen Projekts Deutschland-Schild und eine self-hosted Alternative zu Cloud-Diensten wie Cloudflare WAF oder Sucuri. Das Gateway steht vor einer Website, prüft jede Anfrage mit dem OWASP Core Rule Set und reicht unauffällige Anfragen unverändert an die Anwendung weiter.
+
+    Zentrale Funktionen:
+
+    - WAF auf Basis von Caddy, Coraza und dem OWASP Core Rule Set, ergänzt um virtuelle Patches aus dem CrowdSec Hub
+    - Verhaltensszenarien gegen Login-Brute-Force, Credential Stuffing, Pfad-Scans und aggressives Abrufen sowie Rate-Limits für Login, Passwort-Reset, `xmlrpc.php`, Suche und Formulare
+    - Vorlagen für WordPress, TYPO3, Joomla, Drupal, Nextcloud und Laravel, Regeln für Bots und KI-Crawler, Zugriffsschutz mit Wartungsseite
+    - Dashboard mit Ereignissen, Sperren, Ausnahmen und Zugriffsstatistik; alle Daten bleiben auf dem eigenen Server
+
+    Für **Agenturen** eignet sich Schild als vorgeschalteter Schutz für Kundenwebsites: Angriffe auf Logins und bekannte Schwachstellen werden abgefangen, ohne die Anwendung selbst anzupassen, und Fehlalarme lassen sich je Website über Ausnahmen auflösen.
+
+    Bei mittwald läuft **Schild Gateway** als Container im deutschen Rechenzentrum; Ereignisse und IP-Adressen werden lokal gespeichert und nach einstellbaren Fristen gekürzt, was die Umsetzung der DSGVO erleichtert. Das Template enthält das Gateway mit Dashboard unter eigener Domain und einer aus den Eingaben erzeugten Konfiguration; die Software ist MIT-lizenziert und verursacht keine Lizenzkosten.
+  en: |
+    **Schild Gateway** is an open-source web application firewall with reverse proxy and dashboard by the non-profit project Deutschland-Schild, and a self-hosted alternative to cloud services such as Cloudflare WAF or Sucuri. The gateway sits in front of a website, checks every request against the OWASP Core Rule Set and passes unremarkable requests on to the application unchanged.
+
+    Key features:
+
+    - WAF based on Caddy, Coraza and the OWASP Core Rule Set, extended by virtual patches from the CrowdSec Hub
+    - Behaviour scenarios against login brute force, credential stuffing, path probing and aggressive crawling, plus rate limits for login, password reset, `xmlrpc.php`, search and forms
+    - Presets for WordPress, TYPO3, Joomla, Drupal, Nextcloud and Laravel, rules for bots and AI crawlers, access protection with a maintenance page
+    - Dashboard with events, blocks, exceptions and traffic statistics; all data stays on the agency's own server
+
+    For **agencies**, Schild serves as an upstream shield for client websites: attacks on logins and known vulnerabilities are intercepted without changing the application itself, and false positives are resolved per website through exceptions.
+
+    At mittwald, **Schild Gateway** runs as a container in a German data centre; events and IP addresses are stored locally and truncated after configurable periods, which eases GDPR compliance. The template includes the gateway with a dashboard on its own domain and a configuration generated from the inputs; the software is MIT-licensed and incurs no licence costs.
+developer: Deutschland-Schild
+website: https://deutschland-schild.de
+repository: https://github.com/deutschland-schild/schild
+support: https://github.com/deutschland-schild/schild/issues
+license:
+  name: MIT
+  link: https://spdx.org/licenses/MIT.html
+categories:
+  - security
+screenshots:
+  - bg: background.jpg
+    screenshot: screenshot-traffic.jpg
+    text:
+      de: Zugriffe einer Website mit Kennzahlen und letzten Alarmen
+      en: Traffic of a website with key figures and recent alerts
+  - bg: background.jpg
+    screenshot: screenshot-events.jpg
+    text:
+      de: Gestoppte Anfragen als Vorfälle mit Nummer, Pfad und Herkunft
+      en: Stopped requests as incidents with number, path and origin
+  - bg: background.jpg
+    screenshot: screenshot-rules.jpg
+    text:
+      de: Regelquellen mit eigenem Schalter, dazu Szenarien und Limits
+      en: Rule sources with their own switch, plus scenarios and limits
+domains:
+  main:
+    userInput: HOST
+    service: schild
+    port: 8080
+  dashboard:
+    userInput: DASHBOARD_HOST
+    service: schild
+    port: 8788
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain der Website
+      en: Website domain
+    description:
+      de: Die öffentliche Domain der geschützten Website. Besuchende rufen diese Domain auf, Schild prüft die Anfragen und reicht sie an die Anwendung weiter.
+      en: The public domain of the protected website. Visitors open this domain, Schild checks the requests and passes them on to the application.
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "DASHBOARD_HOST"
+    label:
+      de: Domain des Dashboards
+      en: Dashboard domain
+    description:
+      de: Eigene Domain für das passwortgeschützte Dashboard. Wähle einen Namen, der sich nicht erraten lässt.
+      en: Separate domain for the password-protected dashboard. Choose a name that cannot be guessed.
+    positionMeta: { step: "domain", index: 2 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "UPSTREAM_URL"
+    label:
+      de: Adresse der Anwendung
+      en: Application address
+    description:
+      de: HTTP- oder HTTPS-Adresse ohne Pfad, unter der Schild die zu schützende Anwendung erreicht, zum Beispiel https://app.example.com oder http://10.0.0.5:8080. Die Anwendung muss Anfragen mit der Domain der Website als Host annehmen.
+      en: HTTP or HTTPS address without a path at which Schild reaches the application to protect, for example https://app.example.com or http://10.0.0.5:8080. The application must accept requests with the website domain as host.
+    errorMessage:
+      de: Erwartet wird eine Adresse wie https://app.example.com oder http://10.0.0.5:8080, ohne Pfad
+      en: Expected an address such as https://app.example.com or http://10.0.0.5:8080, without a path
+    positionMeta: { step: "common", index: 1 }
+    required: true
+    format: url
+    validationSchema: '{ "type": "string", "pattern": "^https?://[A-Za-z0-9.-]+(:[0-9]{1,5})?/?$" }'
+  - name: "CRS_STATE"
+    label:
+      de: OWASP Core Rule Set
+      en: OWASP Core Rule Set
+    description:
+      de: Mit „nur erkennen“ protokolliert Schild Treffer des Core Rule Set, ohne Anfragen zu sperren. Für einen vorsichtigen Start bei empfindlichen Anwendungen; im Dashboard jederzeit umschaltbar.
+      en: With "detect only", Schild records Core Rule Set hits without blocking requests. For a careful start with sensitive applications; can be switched in the dashboard at any time.
+    positionMeta: { step: "common", index: 2 }
+    required: true
+    defaultValue: "block"
+    dataType: select
+    options:
+      - { value: "block", label: { de: "Angriffe sperren", en: "Block attacks" } }
+      - { value: "detect", label: { de: "Nur erkennen", en: "Detect only" } }
+    validationSchema: '{ "type": "string", "enum": ["block", "detect"] }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Website
+      en: Website
+    value: https://${domain.main}
+  - key:
+      de: Dashboard
+      en: Dashboard
+    value: https://${domain.dashboard}
+  - key:
+      de: Adresse der Anwendung
+      en: Application address
+    value: ${schild-config.env.UPSTREAM_URL}
+  alerts:
+  - status: info
+    heading:
+      de: Dashboard-Passwort beim ersten Start setzen
+      en: Set the dashboard password on first start
+    content:
+      de: Ein Standardpasswort gibt es nicht. Beim ersten Start schreibt Schild einen Einmal-Code in das Log des Containers `schild` (Feld `setup_code`). Öffne das Dashboard, gib den Code ein und lege damit das Passwort fest.
+      en: There is no default password. On first start, Schild writes a one-time code to the log of the `schild` container (field `setup_code`). Open the dashboard, enter the code and set the password with it.
+  - status: warning
+    heading:
+      de: Dashboard öffentlich erreichbar
+      en: Dashboard publicly reachable
+    content:
+      de: Anders als bei der Standardinstallation ist das Dashboard unter seiner eigenen Domain per HTTPS erreichbar und nur durch das Passwort geschützt. Wähle ein starkes Passwort und eine Domain, die sich nicht erraten lässt.
+      en: Unlike the standard installation, the dashboard is reachable on its own domain over HTTPS and protected by the password only. Choose a strong password and a domain that cannot be guessed.
+  - status: info
+    heading:
+      de: Anwendung hinter Schild betreiben
+      en: Running the application behind Schild
+    content:
+      de: Schild reicht jede Anfrage mit unverändertem `Host`-Header an die Adresse der Anwendung weiter. Die Anwendung muss die Domain der Website als Host annehmen und sollte von außen nicht direkt erreichbar sein, sonst lässt sich der Schutz umgehen. Das Core Rule Set sperrt ab sofort, die Verhaltensszenarien erst nach 14 Tagen Lernzeit.
+      en: Schild passes every request on to the application address with the `Host` header unchanged. The application must accept the website domain as host and should not be reachable directly from outside, otherwise the protection can be bypassed. The Core Rule Set blocks immediately; the behaviour scenarios only after a 14-day learning period.
+  - status: warning
+    heading:
+      de: Alpha-Version
+      en: Alpha version
+    content:
+      de: Schild Gateway ist eine Alpha-Version. Befehle, Konfiguration und Dashboard können sich noch ändern. Das Image ist auf die Version `0.1.0-alpha.1` festgelegt und wird mit dem Template aktualisiert.
+      en: Schild Gateway is an alpha version. Commands, configuration and the dashboard may still change. The image is pinned to version `0.1.0-alpha.1` and is updated together with the template.

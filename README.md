@@ -653,6 +653,7 @@ Diese Versionen aktualisieren sich nicht über einen floatenden Tag und werden b
 |---|---|---|
 | `vaults3` | volle Release-Version | `latest` wird bei jedem Commit gebaut |
 | `yopass` | volle Release-Version | `latest` wird bei jedem Commit gebaut |
+| `schild` | volle Release-Version | das Projekt veröffentlicht nur feste Versions-Tags, kein `latest` |
 | `meilisearch`, `karakeep`, `linkwarden` | Meilisearch auf den Minor | Datenmigration bei jedem Minor |
 | `librechat` | Meilisearch `v1.35` | vom Upstream vorgegeben |
 | `paperless` | `apache/tika:3.x.x.x` | Paperless unterstützt Tika 4 nicht |

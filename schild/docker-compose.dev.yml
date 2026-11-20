@@ -1,0 +1,6 @@
+services:
+  schild-config:
+    environment:
+      UPSTREAM_URL: http://whoami:80
+  whoami:
+    image: traefik/whoami:latest
