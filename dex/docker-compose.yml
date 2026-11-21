@@ -1,0 +1,60 @@
+services:
+  dex:
+    # Dex publishes no floating major tag, and `latest` follows the master
+    # branch. Pinned to the current release instead.
+    image: ghcr.io/dexidp/dex:v2.46.1
+    # Writes the configuration as a gomplate template before every start; the
+    # image's entrypoint renders it, hashing the password with bcrypt. Login
+    # and client therefore always follow the environment variables.
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        cat > /tmp/config.yaml <<'EOF'
+        issuer: https://{{ getenv "DEX_HOST" }}
+        storage:
+          type: sqlite3
+          config:
+            file: /var/dex/dex.db
+        web:
+          http: 0.0.0.0:5556
+        oauth2:
+          skipApprovalScreen: true
+        expiry:
+          idTokens: 1h
+          refreshTokens:
+            validIfNotUsedFor: 720h
+        enablePasswordDB: true
+        staticPasswords:
+          - email: {{ getenv "DEX_ADMIN_EMAIL" | quote }}
+            username: {{ getenv "DEX_ADMIN_USER" | quote }}
+            userID: admin
+            hash: {{ crypto.Bcrypt (getenv "DEX_ADMIN_PASSWORD") | quote }}
+        staticClients:
+          - id: {{ getenv "DEX_CLIENT_ID" | quote }}
+            name: {{ getenv "DEX_CLIENT_ID" | quote }}
+            secret: {{ getenv "DEX_CLIENT_SECRET" | quote }}
+            redirectURIs:
+        {{- range (getenv "DEX_REDIRECT_URIS" | strings.Split ",") }}
+        {{- if strings.TrimSpace . }}
+              - {{ strings.TrimSpace . | quote }}
+        {{- end }}
+        {{- end }}
+        EOF
+        exec docker-entrypoint dex serve /tmp/config.yaml
+    ports:
+      - "5556:5556"
+    environment:
+      - TZ=Europe/Berlin
+      - DEX_HOST=${HOST}
+      - DEX_ADMIN_EMAIL=${ADMIN_EMAIL}
+      - DEX_ADMIN_USER=${ADMIN_USER}
+      - DEX_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - DEX_CLIENT_ID=${CLIENT_ID}
+      - DEX_CLIENT_SECRET=${CLIENT_SECRET}
+      - DEX_REDIRECT_URIS=${REDIRECT_URIS}
+    volumes:
+      - dex_data:/var/dex
+volumes:
+  dex_data:
