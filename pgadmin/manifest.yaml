@@ -1,0 +1,112 @@
+manifestVersion: 1.0
+name:
+  de: pgAdmin
+  en: pgAdmin
+version: "9.x.x"
+type: standalone
+tagline:
+  de: Weboberfläche zur Verwaltung von PostgreSQL-Datenbanken
+  en: Web interface for managing PostgreSQL databases
+description:
+  de: |
+    **pgAdmin** ist die verbreitete Open-Source-Verwaltungsoberfläche für PostgreSQL und eine self-hosted Alternative zu gehosteten Datenbank-Konsolen oder kostenpflichtigen Clients wie DataGrip und TablePlus. Über den Browser lassen sich Datenbanken, Schemas, Tabellen und Rollen verwalten, Abfragen ausführen und Sicherungen erstellen, ohne lokal einen Client zu installieren.
+
+    Zentrale Funktionen:
+
+    - Objekt-Explorer für Datenbanken, Schemas, Tabellen, Indizes und Rollen
+    - Query Tool mit Syntaxhervorhebung, Ausführungsplänen und Datenbearbeitung
+    - Sicherung und Wiederherstellung über `pg_dump` und `pg_restore`
+    - Dashboards zu Sitzungen, Sperren und Auslastung
+    - Mehrere Benutzerkonten mit eigenen gespeicherten Verbindungen
+
+    Für **Agenturen** ist pgAdmin das Werkzeug für die tägliche Arbeit an den PostgreSQL-Datenbanken von Kundenprojekten: Daten prüfen und korrigieren, Schemas vergleichen, langsame Abfragen analysieren oder vor einem Release einen Dump ziehen. Die Instanz läuft im jeweiligen Projekt und erreicht dessen Datenbanken direkt, sodass kein Datenbank-Port nach außen geöffnet und kein SSH-Tunnel eingerichtet werden muss.
+
+    Bei mittwald läuft **pgAdmin** als self-hosted Container in deutschen Rechenzentren; Zugangsdaten, gespeicherte Verbindungen und Abfrageergebnisse bleiben unter der Kontrolle der Agentur, was die Einhaltung der DSGVO vereinfacht. Dieses Template enthält pgAdmin mit eigenem Login und persistentem Speicher für Konfiguration und gespeicherte Verbindungen. Lizenzkosten fallen nicht an.
+  en: |
+    **pgAdmin** is the widely used open-source administration interface for PostgreSQL and a self-hosted alternative to hosted database consoles or paid clients such as DataGrip and TablePlus. Databases, schemas, tables and roles are managed in the browser, queries are run and backups are created without installing a client locally.
+
+    Key features:
+
+    - Object explorer for databases, schemas, tables, indexes and roles
+    - Query tool with syntax highlighting, execution plans and data editing
+    - Backup and restore using `pg_dump` and `pg_restore`
+    - Dashboards for sessions, locks and load
+    - Multiple user accounts, each with their own saved connections
+
+    For **agencies**, pgAdmin is the tool for day-to-day work on the PostgreSQL databases of client projects: checking and correcting data, comparing schemas, analysing slow queries or taking a dump before a release. The instance runs inside the respective project and reaches its databases directly, so no database port has to be opened to the outside and no SSH tunnel has to be set up.
+
+    At mittwald, **pgAdmin** runs as a self-hosted container in German data centres; credentials, saved connections and query results stay under the agency's control, which simplifies GDPR compliance. This template includes pgAdmin with its own login and persistent storage for configuration and saved connections. No licence costs apply.
+developer: The pgAdmin Development Team
+website: https://www.pgadmin.org
+repository: https://github.com/pgadmin-org/pgadmin4
+support: https://www.pgadmin.org/support/
+license:
+  name: PostgreSQL License
+  link: https://spdx.org/licenses/PostgreSQL.html
+categories:
+  - development
+  - database
+domains:
+  main:
+    userInput: HOST
+    service: pgadmin
+    port: 80
+userInputs:
+  - name: "HOST"
+    label:
+      de: Domain
+      en: Domain
+    positionMeta: { step: "domain", index: 1 }
+    required: true
+    dataSource: "ingress.paths"
+    validationSchema: '{ "type": "string", "minLength": 1 }'
+  - name: "ADMIN_EMAIL"
+    label:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    positionMeta: { step: "adminUser", index: 1 }
+    defaultValue: "${user.email}"
+    required: true
+    format: email
+    description:
+      de: Mit dieser Adresse meldest du dich bei pgAdmin an
+      en: You sign in to pgAdmin with this address
+    validationSchema: '{ "type": "string", "format": "email" }'
+  - name: "ADMIN_PASSWORD"
+    label:
+      de: Admin Passwort
+      en: Admin password
+    positionMeta: { step: "adminUser", index: 2 }
+    required: true
+    format: password
+    validationSchema: '{ "type": "string", "minLength": 12 }'
+
+help:
+  technicalDetails:
+  - key:
+      de: Domain
+      en: Domain
+    value: https://${domain.main}
+  - key:
+      de: Admin E-Mail-Adresse
+      en: Admin email address
+    value: ${pgadmin.env.PGADMIN_DEFAULT_EMAIL}
+  - key:
+      de: Admin Passwort
+      en: Admin password
+    value: ${pgadmin.env.PGADMIN_DEFAULT_PASSWORD}
+  alerts:
+  - status: info
+    heading:
+      de: PostgreSQL-Datenbank verbinden
+      en: Connecting a PostgreSQL database
+    content:
+      de: 'pgAdmin startet ohne Verbindungen. Lege unter **Server → Registrieren → Server** eine an: Host, Port `5432`, Benutzer und Passwort der Datenbank. Bei PostgreSQL als Container im selben Projekt ist der Host der Hostname aus dessen Stack-Informationen; bei einer anderen Datenbank übernimmst du den Host aus dem mStudio.'
+      en: 'pgAdmin starts without connections. Add one under **Servers → Register → Server**: host, port `5432`, user and password of the database. For PostgreSQL running as a container in the same project, the host is the hostname from its stack details; for any other database, take the host from mStudio.'
+  - status: info
+    heading:
+      de: Zugangsdaten nach dem ersten Start ändern
+      en: Changing credentials after the first start
+    content:
+      de: pgAdmin legt das Admin-Konto nur beim ersten Start aus E-Mail-Adresse und Passwort an. Ein später in pgAdmin geändertes Passwort erscheint nicht in diesen Stack-Informationen; sie zeigen weiterhin den ursprünglichen Wert. Weitere Benutzer legt der Admin in pgAdmin unter **Benutzerverwaltung** an.
+      en: pgAdmin creates the admin account from the email address and password only on the first start. A password changed later in pgAdmin does not appear in these stack details; they still show the original value. The admin adds further users in pgAdmin under **User Management**.
