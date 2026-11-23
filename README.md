@@ -560,7 +560,7 @@ pnpm test
 
 **Empfohlener Weg:** Den Stack zuerst auf der mittwald-Plattform aufbauen und erst daraus das Template machen. Eine Compose-Datei, die im mStudio bzw. per `mw` bereits läuft und benutzbar ist, wird anschließend nur noch um Manifest, Icon und Screenshots ergänzt. So landen Plattform-Eigenheiten gar nicht erst im Template, statt erst nach dem Merge aufzufallen. Für NocoDB, Outline und Odoo hat dieser Weg in einem Durchgang zu installierbaren Templates geführt.
 
-`pnpm app` zeigt, ob ein Template unter Docker Compose läuft. Die Plattform verhält sich aber in einigen Punkten anders: Init-Container, `$$` in `command`, Argumentlängen und Schreibrechte auf Volumes fallen erst dort auf (siehe [`AGENTS.md`](AGENTS.md)). Gearbeitet wird deshalb in einem eigenen Testprojekt: Compose-Datei deployen, Logs lesen, anpassen, erneut deployen, bis die Anwendung läuft. Das geht mit der [mittwald CLI](https://github.com/mittwald/cli) (`mw`), ohne dass das Template schon im Katalog sein muss:
+`pnpm app` zeigt, ob ein Template unter Docker Compose läuft. Die Plattform verhält sich aber in einigen Punkten anders: Init-Container, `$$` in `command`, Argumentlängen, Mount-Optionen wie `:ro` und Schreibrechte auf Volumes fallen erst dort auf (siehe [`AGENTS.md`](AGENTS.md)). Gearbeitet wird deshalb in einem eigenen Testprojekt: Compose-Datei deployen, Logs lesen, anpassen, erneut deployen, bis die Anwendung läuft. Das geht mit der [mittwald CLI](https://github.com/mittwald/cli) (`mw`), ohne dass das Template schon im Katalog sein muss:
 
 ```bash
 # Einmalig: Testprojekt anlegen, Short-ID und Domain notieren
