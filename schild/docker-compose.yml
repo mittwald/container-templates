@@ -10,7 +10,7 @@ services:
       - TZ=Europe/Berlin
       - SCHILD_CONFIG=/config/schild.yaml
     volumes:
-      - schild_config:/config:ro
+      - schild_config:/config
       - schild_data:/var/lib/schild
     # The platform does not guarantee the start order, so the gateway may
     # start before the file exists. The image has no shell to wait with;
